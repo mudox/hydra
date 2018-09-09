@@ -1,0 +1,118 @@
+{
+  "name": "MudoxKit",
+  "version": "0.1.0",
+  "summary": "My Cocoa (Touch) extension library",
+  "description": "My Cocoa (Touch) extension library.",
+  "homepage": "https://github.com/mudox/mudox-kit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": "Mudox",
+  "source": {
+    "git": "https://github.com/mudox/mudox-kit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "MudoxKit/Core/**/*",
+      "dependencies": {
+        "JacKit": [
+
+        ],
+        "RxSwift": [
+
+        ],
+        "RxCocoa": [
+
+        ],
+        "RxSwiftExt": [
+
+        ]
+      }
+    },
+    {
+      "name": "ActivityCenter",
+      "source_files": "MudoxKit/ActivityCenter/**/*.{swift,h,m}",
+      "dependencies": {
+        "RxSwift": [
+
+        ],
+        "RxCocoa": [
+
+        ]
+      }
+    },
+    {
+      "name": "MBProgressHUD",
+      "source_files": "MudoxKit/MBProgressHUD/**/*.swift",
+      "dependencies": {
+        "MBProgressHUD": [
+
+        ]
+      },
+      "resource_bundles": {
+        "mbp": "MudoxKit/MBProgressHUD/mbp.xcassets"
+      }
+    },
+    {
+      "name": "SVProgressHUD",
+      "source_files": "MudoxKit/SVProgressHUD/**/*",
+      "dependencies": {
+        "SVProgressHUD": [
+
+        ]
+      }
+    },
+    {
+      "name": "NVActivityIndicatorView",
+      "source_files": "MudoxKit/NVActivityIndicatorView/**/*",
+      "dependencies": {
+        "NVActivityIndicatorView": [
+
+        ]
+      }
+    },
+    {
+      "name": "ObjectiveC",
+      "source_files": "MudoxKit/ObjectiveC/**/*"
+    },
+    {
+      "name": "Eureka",
+      "source_files": "MudoxKit/Eureka/**/*",
+      "dependencies": {
+        "Eureka": [
+
+        ]
+      }
+    },
+    {
+      "name": "All",
+      "dependencies": {
+        "MudoxKit/Core": [
+
+        ],
+        "MudoxKit/MBProgressHUD": [
+
+        ],
+        "MudoxKit/SVProgressHUD": [
+
+        ],
+        "MudoxKit/NVActivityIndicatorView": [
+
+        ],
+        "MudoxKit/ObjectiveC": [
+
+        ],
+        "MudoxKit/Eureka": [
+
+        ]
+      }
+    }
+  ]
+}

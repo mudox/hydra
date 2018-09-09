@@ -1,0 +1,71 @@
+{
+  "name": "SocialKit",
+  "version": "0.1.0",
+  "summary": "My all-in-one social SDK library.",
+  "description": "TBD",
+  "homepage": "https://github.com/mudox/social-kit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": "mudox",
+  "source": {
+    "git": "https://github.com/mudox/social-kit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": [
+    "SocialKit/Source/**/*.{h,m,swift}",
+    "SocialKit/Library/**/*.{h,m,swift}"
+  ],
+  "public_header_files": [
+    "SocialKit/Source/**/*.h",
+    "SocialKit/Library/**/*.h"
+  ],
+  "resources": [
+    "SocialKit/Library/**/*.bundle",
+    "SocialKit/Library/**/*.framework"
+  ],
+  "vendored_libraries": "SocialKit/Library/**/*.a",
+  "vendored_frameworks": "SocialKit/Library/**/*.framework",
+  "pod_target_xcconfig": {
+    "OTHER_LDFLAGS": "-all_load"
+  },
+  "frameworks": [
+    "Photos",
+    "ImageIO",
+    "SystemConfiguration",
+    "CoreText",
+    "QuartzCore",
+    "Security",
+    "UIKit",
+    "Foundation",
+    "CoreGraphics",
+    "CoreTelephony",
+    "CoreMotion"
+  ],
+  "libraries": [
+    "stdc++",
+    "sqlite3",
+    "iconv",
+    "c++",
+    "sqlite3",
+    "z"
+  ],
+  "dependencies": {
+    "JacKit": [
+
+    ],
+    "RxSwift": [
+
+    ],
+    "RxCocoa": [
+
+    ],
+    "Result": [
+
+    ]
+  }
+}

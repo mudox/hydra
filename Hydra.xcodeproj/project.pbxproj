@@ -1,0 +1,705 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
+		AD18C8FD41220750295A29A4 /* Pods_HydraTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F27496219A535FA715CD5C /* Pods_HydraTests.framework */; };
+		F487831A21438AA800433D7A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831921438AA800433D7A /* Error.swift */; };
+		F487831C2143A36900433D7A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831B2143A36900433D7A /* Response.swift */; };
+		F487831E2143A37200433D7A /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831D2143A37200433D7A /* Pagination.swift */; };
+		F48783202144244600433D7A /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831F2144244600433D7A /* Authorization.swift */; };
+		F4D6C84B213FFDB20089B645 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C84A213FFDB20089B645 /* Target.swift */; };
+		F4D6C84F213FFF0E0089B645 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C84E213FFF0E0089B645 /* Service.swift */; };
+		F4D6C8512140E9920089B645 /* Dev.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8502140E9920089B645 /* Dev.swift */; };
+		F4D6C8532141AD3E0089B645 /* Grant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8522141AD3E0089B645 /* Grant.swift */; };
+		F4D6C8552141B3130089B645 /* GitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8542141B3130089B645 /* GitHub.swift */; };
+		F4D6C858214267C50089B645 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C857214267C50089B645 /* Extension.swift */; };
+		F4D6C85A214281170089B645 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C859214281170089B645 /* User.swift */; };
+		F4D6C85C214281C80089B645 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C85B214281C80089B645 /* Repository.swift */; };
+		F4D6C8602142CEFB0089B645 /* RateLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C85F2142CEFB0089B645 /* RateLimit.swift */; };
+		F4D6C8622142D35D0089B645 /* ResponsePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8612142D35D0089B645 /* ResponsePayload.swift */; };
+		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
+		F4F85F35213F05A400EFF085 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F33213F05A400EFF085 /* Main.storyboard */; };
+		F4F85F37213F05A600EFF085 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F36213F05A600EFF085 /* Assets.xcassets */; };
+		F4F85F3A213F05A600EFF085 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */; };
+		F4FC130B2142DFAA00EF6BC2 /* GitHubSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC130A2142DFAA00EF6BC2 /* GitHubSpec.swift */; };
+		F4FC130D21430BEA00EF6BC2 /* GitHubServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC130C21430BEA00EF6BC2 /* GitHubServiceSpec.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F4FC13052142DF8600EF6BC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4F85F24213F05A400EFF085 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4F85F2B213F05A400EFF085;
+			remoteInfo = Hydra;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		69F27496219A535FA715CD5C /* Pods_HydraTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydraTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.release.xcconfig"; sourceTree = "<group>"; };
+		C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.release.xcconfig"; sourceTree = "<group>"; };
+		C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.debug.xcconfig"; sourceTree = "<group>"; };
+		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F487831921438AA800433D7A /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		F487831B2143A36900433D7A /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		F487831D2143A37200433D7A /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
+		F487831F2144244600433D7A /* Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
+		F4D6C84A213FFDB20089B645 /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		F4D6C84E213FFF0E0089B645 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		F4D6C8502140E9920089B645 /* Dev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dev.swift; sourceTree = "<group>"; };
+		F4D6C8522141AD3E0089B645 /* Grant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grant.swift; sourceTree = "<group>"; };
+		F4D6C8542141B3130089B645 /* GitHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHub.swift; sourceTree = "<group>"; };
+		F4D6C857214267C50089B645 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		F4D6C859214281170089B645 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F4D6C85B214281C80089B645 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		F4D6C85F2142CEFB0089B645 /* RateLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateLimit.swift; sourceTree = "<group>"; };
+		F4D6C8612142D35D0089B645 /* ResponsePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePayload.swift; sourceTree = "<group>"; };
+		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4F85F2F213F05A400EFF085 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F4F85F34213F05A400EFF085 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F4F85F36213F05A600EFF085 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F4F85F39213F05A600EFF085 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F4F85F3B213F05A600EFF085 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4FC13002142DF8600EF6BC2 /* HydraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4FC13042142DF8600EF6BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4FC130A2142DFAA00EF6BC2 /* GitHubSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSpec.swift; sourceTree = "<group>"; };
+		F4FC130C21430BEA00EF6BC2 /* GitHubServiceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubServiceSpec.swift; sourceTree = "<group>"; };
+		FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hydra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F4F85F29213F05A400EFF085 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FC12FD2142DF8600EF6BC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD18C8FD41220750295A29A4 /* Pods_HydraTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C1BA29E2CBD48CEBD0D4188F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */,
+				69F27496219A535FA715CD5C /* Pods_HydraTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E2B77D9209FABFB707DAFEA3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */,
+				C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */,
+				EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */,
+				9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F4D6C84D213FFEFB0089B645 /* GitHub */ = {
+			isa = PBXGroup;
+			children = (
+				F4D6C8502140E9920089B645 /* Dev.swift */,
+				F487831921438AA800433D7A /* Error.swift */,
+				F4D6C8542141B3130089B645 /* GitHub.swift */,
+				F4D6C84E213FFF0E0089B645 /* Service.swift */,
+				F4D6C84A213FFDB20089B645 /* Target.swift */,
+				F4D6C856214267B90089B645 /* Model */,
+			);
+			path = GitHub;
+			sourceTree = "<group>";
+		};
+		F4D6C856214267B90089B645 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F4D6C857214267C50089B645 /* Extension.swift */,
+				F4D6C8522141AD3E0089B645 /* Grant.swift */,
+				F487831D2143A37200433D7A /* Pagination.swift */,
+				F4D6C85F2142CEFB0089B645 /* RateLimit.swift */,
+				F4D6C85B214281C80089B645 /* Repository.swift */,
+				F487831B2143A36900433D7A /* Response.swift */,
+				F4D6C8612142D35D0089B645 /* ResponsePayload.swift */,
+				F487831F2144244600433D7A /* Authorization.swift */,
+				F4D6C859214281170089B645 /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F4F85F23213F05A400EFF085 = {
+			isa = PBXGroup;
+			children = (
+				F4F85F2E213F05A400EFF085 /* Hydra */,
+				F4FC13012142DF8600EF6BC2 /* HydraTests */,
+				F4F85F2D213F05A400EFF085 /* Products */,
+				E2B77D9209FABFB707DAFEA3 /* Pods */,
+				C1BA29E2CBD48CEBD0D4188F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F4F85F2D213F05A400EFF085 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F4F85F2C213F05A400EFF085 /* Hydra.app */,
+				F4FC13002142DF8600EF6BC2 /* HydraTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F4F85F2E213F05A400EFF085 /* Hydra */ = {
+			isa = PBXGroup;
+			children = (
+				F4F85F2F213F05A400EFF085 /* AppDelegate.swift */,
+				F4F85F33213F05A400EFF085 /* Main.storyboard */,
+				F4D6C84D213FFEFB0089B645 /* GitHub */,
+				F4F85F36213F05A600EFF085 /* Assets.xcassets */,
+				F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */,
+				F4F85F3B213F05A600EFF085 /* Info.plist */,
+			);
+			path = Hydra;
+			sourceTree = "<group>";
+		};
+		F4FC13012142DF8600EF6BC2 /* HydraTests */ = {
+			isa = PBXGroup;
+			children = (
+				F4FC130A2142DFAA00EF6BC2 /* GitHubSpec.swift */,
+				F4FC130C21430BEA00EF6BC2 /* GitHubServiceSpec.swift */,
+				F4FC13042142DF8600EF6BC2 /* Info.plist */,
+			);
+			path = HydraTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F4F85F2B213F05A400EFF085 /* Hydra */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4F85F3E213F05A600EFF085 /* Build configuration list for PBXNativeTarget "Hydra" */;
+			buildPhases = (
+				B817F5B2D3941DE5797CAF71 /* [CP] Check Pods Manifest.lock */,
+				F4F85F28213F05A400EFF085 /* Sources */,
+				F4F85F29213F05A400EFF085 /* Frameworks */,
+				F4F85F2A213F05A400EFF085 /* Resources */,
+				F85652BF1275A4089257DC84 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hydra;
+			productName = Hydra;
+			productReference = F4F85F2C213F05A400EFF085 /* Hydra.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F4FC12FF2142DF8600EF6BC2 /* HydraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4FC13072142DF8600EF6BC2 /* Build configuration list for PBXNativeTarget "HydraTests" */;
+			buildPhases = (
+				A4AEDAB362A7C06CEFC65CD1 /* [CP] Check Pods Manifest.lock */,
+				F4FC12FC2142DF8600EF6BC2 /* Sources */,
+				F4FC12FD2142DF8600EF6BC2 /* Frameworks */,
+				F4FC12FE2142DF8600EF6BC2 /* Resources */,
+				70FE1360AFD039F03AC14567 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4FC13062142DF8600EF6BC2 /* PBXTargetDependency */,
+			);
+			name = HydraTests;
+			productName = HydraTests;
+			productReference = F4FC13002142DF8600EF6BC2 /* HydraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F4F85F24213F05A400EFF085 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = Mudox;
+				TargetAttributes = {
+					F4F85F2B213F05A400EFF085 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					F4FC12FF2142DF8600EF6BC2 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = F4F85F2B213F05A400EFF085;
+					};
+				};
+			};
+			buildConfigurationList = F4F85F27213F05A400EFF085 /* Build configuration list for PBXProject "Hydra" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F4F85F23213F05A400EFF085;
+			productRefGroup = F4F85F2D213F05A400EFF085 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F4F85F2B213F05A400EFF085 /* Hydra */,
+				F4FC12FF2142DF8600EF6BC2 /* HydraTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F4F85F2A213F05A400EFF085 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4F85F3A213F05A600EFF085 /* LaunchScreen.storyboard in Resources */,
+				F4F85F37213F05A600EFF085 /* Assets.xcassets in Resources */,
+				F4F85F35213F05A400EFF085 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FC12FE2142DF8600EF6BC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		70FE1360AFD039F03AC14567 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SocialKit/SocialKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxNimble/RxNimble.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocialKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxNimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A4AEDAB362A7C06CEFC65CD1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HydraTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B817F5B2D3941DE5797CAF71 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Hydra-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F85652BF1275A4089257DC84 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Hydra/Pods-Hydra-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Action/Action.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
+				"${BUILT_PRODUCTS_DIR}/MudoxKit/MudoxKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
+				"${BUILT_PRODUCTS_DIR}/SocialKit/SocialKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftRichString/SwiftRichString.framework",
+				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Action.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MudoxKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocialKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRichString.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hydra/Pods-Hydra-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F4F85F28213F05A400EFF085 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4D6C858214267C50089B645 /* Extension.swift in Sources */,
+				F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */,
+				F4D6C84F213FFF0E0089B645 /* Service.swift in Sources */,
+				F487831E2143A37200433D7A /* Pagination.swift in Sources */,
+				F4D6C84B213FFDB20089B645 /* Target.swift in Sources */,
+				F487831A21438AA800433D7A /* Error.swift in Sources */,
+				F4D6C85A214281170089B645 /* User.swift in Sources */,
+				F4D6C8512140E9920089B645 /* Dev.swift in Sources */,
+				F4D6C8602142CEFB0089B645 /* RateLimit.swift in Sources */,
+				F48783202144244600433D7A /* Authorization.swift in Sources */,
+				F4D6C8532141AD3E0089B645 /* Grant.swift in Sources */,
+				F4D6C8622142D35D0089B645 /* ResponsePayload.swift in Sources */,
+				F4D6C8552141B3130089B645 /* GitHub.swift in Sources */,
+				F487831C2143A36900433D7A /* Response.swift in Sources */,
+				F4D6C85C214281C80089B645 /* Repository.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FC12FC2142DF8600EF6BC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4FC130B2142DFAA00EF6BC2 /* GitHubSpec.swift in Sources */,
+				F4FC130D21430BEA00EF6BC2 /* GitHubServiceSpec.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F4FC13062142DF8600EF6BC2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4F85F2B213F05A400EFF085 /* Hydra */;
+			targetProxy = F4FC13052142DF8600EF6BC2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F4F85F33213F05A400EFF085 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4F85F34213F05A400EFF085 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4F85F39213F05A600EFF085 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F4F85F3C213F05A600EFF085 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F4F85F3D213F05A600EFF085 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F4F85F3F213F05A600EFF085 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = Hydra/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F4F85F40213F05A600EFF085 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = Hydra/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F4FC13082142DF8600EF6BC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = HydraTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.HydraTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hydra.app/Hydra";
+			};
+			name = Debug;
+		};
+		F4FC13092142DF8600EF6BC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = HydraTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.HydraTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hydra.app/Hydra";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F4F85F27213F05A400EFF085 /* Build configuration list for PBXProject "Hydra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4F85F3C213F05A600EFF085 /* Debug */,
+				F4F85F3D213F05A600EFF085 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4F85F3E213F05A600EFF085 /* Build configuration list for PBXNativeTarget "Hydra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4F85F3F213F05A600EFF085 /* Debug */,
+				F4F85F40213F05A600EFF085 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4FC13072142DF8600EF6BC2 /* Build configuration list for PBXNativeTarget "HydraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4FC13082142DF8600EF6BC2 /* Debug */,
+				F4FC13092142DF8600EF6BC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F4F85F24213F05A400EFF085 /* Project object */;
+}

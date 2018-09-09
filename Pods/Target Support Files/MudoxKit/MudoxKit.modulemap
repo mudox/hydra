@@ -1,0 +1,6 @@
+framework module MudoxKit {
+  umbrella header "MudoxKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

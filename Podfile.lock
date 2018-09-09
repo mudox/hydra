@@ -1,0 +1,158 @@
+PODS:
+  - Action (3.6.0):
+    - RxCocoa (~> 4.2.0)
+    - RxSwift (~> 4.2.0)
+  - Alamofire (4.7.3)
+  - CocoaLumberjack/Default (3.3.0)
+  - CocoaLumberjack/Swift (3.3.0):
+    - CocoaLumberjack/Default
+  - Differentiator (3.0.2)
+  - JacKit (1.0):
+    - CocoaLumberjack/Swift (~> 3.3.0)
+  - MBProgressHUD (1.1.0)
+  - Moya/Core (11.0.2):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Moya/RxSwift (11.0.2):
+    - Moya/Core
+    - RxSwift (~> 4.0)
+  - MudoxKit (0.1.0):
+    - MudoxKit/Core (= 0.1.0)
+  - MudoxKit/ActivityCenter (0.1.0):
+    - RxCocoa
+    - RxSwift
+  - MudoxKit/Core (0.1.0):
+    - JacKit
+    - RxCocoa
+    - RxSwift
+    - RxSwiftExt
+  - MudoxKit/MBProgressHUD (0.1.0):
+    - MBProgressHUD
+  - Nimble (7.3.0)
+  - OHHTTPStubs (6.1.0):
+    - OHHTTPStubs/Default (= 6.1.0)
+  - OHHTTPStubs/Core (6.1.0)
+  - OHHTTPStubs/Default (6.1.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (6.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (6.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (6.1.0)
+  - Quick (1.3.1)
+  - Result (3.2.4)
+  - RxBlocking (4.2.0):
+    - RxSwift (~> 4.0)
+  - RxCocoa (4.2.0):
+    - RxSwift (~> 4.0)
+  - RxDataSources (3.0.2):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - RxNimble (4.1.0):
+    - Nimble (~> 7.0)
+    - RxBlocking (~> 4.0)
+    - RxSwift (~> 4.0)
+  - RxSwift (4.2.0)
+  - RxSwiftExt (3.3.0):
+    - RxSwiftExt/Core (= 3.3.0)
+  - RxSwiftExt/Core (3.3.0):
+    - RxSwift (~> 4.0)
+  - RxTest (4.2.0):
+    - RxSwift (~> 4.0)
+  - SocialKit (0.1.0):
+    - JacKit
+    - Result
+    - RxCocoa
+    - RxSwift
+  - SwiftRichString (2.0.4)
+  - Then (2.3.0)
+
+DEPENDENCIES:
+  - Action
+  - JacKit (from `/Users/mudox/Develop/Apple/Frameworks/JacKit/`)
+  - Moya/RxSwift
+  - MudoxKit (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit/`)
+  - MudoxKit/ActivityCenter (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit/`)
+  - MudoxKit/MBProgressHUD (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit/`)
+  - Nimble
+  - OHHTTPStubs
+  - Quick
+  - RxBlocking
+  - RxCocoa
+  - RxDataSources
+  - RxNimble
+  - RxSwift
+  - RxSwiftExt (from `https://github.com/RxSwiftCommunity/RxSwiftExt.git`, tag `3.3.0`)
+  - RxTest
+  - SocialKit (from `/Users/mudox/Develop/Apple/Frameworks/SocialKit/`)
+  - SwiftRichString
+  - Then
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Action
+    - Alamofire
+    - CocoaLumberjack
+    - Differentiator
+    - MBProgressHUD
+    - Moya
+    - Nimble
+    - OHHTTPStubs
+    - Quick
+    - Result
+    - RxBlocking
+    - RxCocoa
+    - RxDataSources
+    - RxNimble
+    - RxSwift
+    - RxTest
+    - SwiftRichString
+    - Then
+
+EXTERNAL SOURCES:
+  JacKit:
+    :path: "/Users/mudox/Develop/Apple/Frameworks/JacKit/"
+  MudoxKit:
+    :path: "/Users/mudox/Develop/Apple/Frameworks/MudoxKit/"
+  RxSwiftExt:
+    :git: https://github.com/RxSwiftCommunity/RxSwiftExt.git
+    :tag: 3.3.0
+  SocialKit:
+    :path: "/Users/mudox/Develop/Apple/Frameworks/SocialKit/"
+
+CHECKOUT OPTIONS:
+  RxSwiftExt:
+    :git: https://github.com/RxSwiftCommunity/RxSwiftExt.git
+    :tag: 3.3.0
+
+SPEC CHECKSUMS:
+  Action: 3d9486d3da02b572b0a034b6c49ac4c3fbcc8b63
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
+  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  JacKit: b0038a8a0acaaaa1117e14a0276cabcf6b4c3d10
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
+  Moya: a725035953bc1c0eb1be505ab903984501d82440
+  MudoxKit: db25b2ca044fe4d56628ebead8104f74a2bc9561
+  Nimble: c8d6a1f463701921c46de965c673e13cafa09196
+  OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
+  Quick: d17304d58d0d169dd0bd1c6e5c28e3318de32a1a
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  RxBlocking: e339d8a6e752e25ade95ff858466c55436668f59
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
+  RxNimble: e5a34bf3b18d85406fc2a6e2cbc73aa2b4a858f0
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
+  RxSwiftExt: 81afb48ab0602f503147417baeb3989d64c7687d
+  RxTest: 8da864c0ee47534f586ff18fb0c7e5b2f1fe5023
+  SocialKit: 293a4dfd034e688f7e2f136fd36eac8bf58d7779
+  SwiftRichString: 2905437b6eb14a24e2e42f65ecaea582a8bcf6b8
+  Then: ee21c97b85ff6062b9b0080c9abb1eea46743345
+
+PODFILE CHECKSUM: 1e9a3f412cbc0639894e323d2eda9f92df848e4e
+
+COCOAPODS: 1.5.3
