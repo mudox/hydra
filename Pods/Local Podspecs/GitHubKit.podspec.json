@@ -1,0 +1,39 @@
+{
+  "name": "GitHubKit",
+  "version": "0.1.0",
+  "summary": "Yet another Swift implementation of GitHub API v3 (RESTful)",
+  "description": "Yet another Swift implementation of GitHub API v3 (RESTful).",
+  "homepage": "https://github.com/mudox/GitHubKit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "mudox": "imudox@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/mudox/GitHubKit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "GitHubKit/Source/**/*",
+  "dependencies": {
+    "JacKit": [
+
+    ],
+    "Then": [
+
+    ],
+    "Moya/RxSwift": [
+
+    ],
+    "RxSwift": [
+
+    ],
+    "RxCocoa": [
+
+    ]
+  }
+}

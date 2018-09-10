@@ -3,6 +3,7 @@ def my_pods
   mudoxKitPath  = basePath + 'MudoxKit/'
   socialKitPath = basePath + 'SocialKit/'
   jacKitPath    = basePath + 'JacKit/'
+  githubKitPath = basePath + 'GitHubKit/'
 
   # JacKit    - Logging framwork
   pod 'JacKit',                     path: jacKitPath
@@ -14,6 +15,9 @@ def my_pods
 
   # SocialKit - Social platform integration
   pod 'SocialKit',                  path: socialKitPath
+
+  # GitHub API v3 Swift Interface
+  pod 'GitHubKit',                  path: githubKitPath
 end
 
 def rx_pods
@@ -84,6 +88,8 @@ end
 
 def swift_pods
   pod 'Then'
+
+  pod 'SwiftLint'
 end
 
 #################################################

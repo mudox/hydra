@@ -9,26 +9,10 @@
 /* Begin PBXBuildFile section */
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
 		AD18C8FD41220750295A29A4 /* Pods_HydraTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F27496219A535FA715CD5C /* Pods_HydraTests.framework */; };
-		F487831A21438AA800433D7A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831921438AA800433D7A /* Error.swift */; };
-		F487831C2143A36900433D7A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831B2143A36900433D7A /* Response.swift */; };
-		F487831E2143A37200433D7A /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831D2143A37200433D7A /* Pagination.swift */; };
-		F48783202144244600433D7A /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487831F2144244600433D7A /* Authorization.swift */; };
-		F4D6C84B213FFDB20089B645 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C84A213FFDB20089B645 /* Target.swift */; };
-		F4D6C84F213FFF0E0089B645 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C84E213FFF0E0089B645 /* Service.swift */; };
-		F4D6C8512140E9920089B645 /* Dev.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8502140E9920089B645 /* Dev.swift */; };
-		F4D6C8532141AD3E0089B645 /* Grant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8522141AD3E0089B645 /* Grant.swift */; };
-		F4D6C8552141B3130089B645 /* GitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8542141B3130089B645 /* GitHub.swift */; };
-		F4D6C858214267C50089B645 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C857214267C50089B645 /* Extension.swift */; };
-		F4D6C85A214281170089B645 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C859214281170089B645 /* User.swift */; };
-		F4D6C85C214281C80089B645 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C85B214281C80089B645 /* Repository.swift */; };
-		F4D6C8602142CEFB0089B645 /* RateLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C85F2142CEFB0089B645 /* RateLimit.swift */; };
-		F4D6C8622142D35D0089B645 /* ResponsePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6C8612142D35D0089B645 /* ResponsePayload.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
 		F4F85F35213F05A400EFF085 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F33213F05A400EFF085 /* Main.storyboard */; };
 		F4F85F37213F05A600EFF085 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F36213F05A600EFF085 /* Assets.xcassets */; };
 		F4F85F3A213F05A600EFF085 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */; };
-		F4FC130B2142DFAA00EF6BC2 /* GitHubSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC130A2142DFAA00EF6BC2 /* GitHubSpec.swift */; };
-		F4FC130D21430BEA00EF6BC2 /* GitHubServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC130C21430BEA00EF6BC2 /* GitHubServiceSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,20 +31,6 @@
 		C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.release.xcconfig"; sourceTree = "<group>"; };
 		C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.debug.xcconfig"; sourceTree = "<group>"; };
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
-		F487831921438AA800433D7A /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		F487831B2143A36900433D7A /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
-		F487831D2143A37200433D7A /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
-		F487831F2144244600433D7A /* Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
-		F4D6C84A213FFDB20089B645 /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
-		F4D6C84E213FFF0E0089B645 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		F4D6C8502140E9920089B645 /* Dev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dev.swift; sourceTree = "<group>"; };
-		F4D6C8522141AD3E0089B645 /* Grant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grant.swift; sourceTree = "<group>"; };
-		F4D6C8542141B3130089B645 /* GitHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHub.swift; sourceTree = "<group>"; };
-		F4D6C857214267C50089B645 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		F4D6C859214281170089B645 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F4D6C85B214281C80089B645 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		F4D6C85F2142CEFB0089B645 /* RateLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateLimit.swift; sourceTree = "<group>"; };
-		F4D6C8612142D35D0089B645 /* ResponsePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePayload.swift; sourceTree = "<group>"; };
 		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F85F2F213F05A400EFF085 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4F85F34213F05A400EFF085 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -69,8 +39,6 @@
 		F4F85F3B213F05A600EFF085 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4FC13002142DF8600EF6BC2 /* HydraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FC13042142DF8600EF6BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4FC130A2142DFAA00EF6BC2 /* GitHubSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSpec.swift; sourceTree = "<group>"; };
-		F4FC130C21430BEA00EF6BC2 /* GitHubServiceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubServiceSpec.swift; sourceTree = "<group>"; };
 		FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hydra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -114,35 +82,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		F4D6C84D213FFEFB0089B645 /* GitHub */ = {
-			isa = PBXGroup;
-			children = (
-				F4D6C8502140E9920089B645 /* Dev.swift */,
-				F487831921438AA800433D7A /* Error.swift */,
-				F4D6C8542141B3130089B645 /* GitHub.swift */,
-				F4D6C84E213FFF0E0089B645 /* Service.swift */,
-				F4D6C84A213FFDB20089B645 /* Target.swift */,
-				F4D6C856214267B90089B645 /* Model */,
-			);
-			path = GitHub;
-			sourceTree = "<group>";
-		};
-		F4D6C856214267B90089B645 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				F4D6C857214267C50089B645 /* Extension.swift */,
-				F4D6C8522141AD3E0089B645 /* Grant.swift */,
-				F487831D2143A37200433D7A /* Pagination.swift */,
-				F4D6C85F2142CEFB0089B645 /* RateLimit.swift */,
-				F4D6C85B214281C80089B645 /* Repository.swift */,
-				F487831B2143A36900433D7A /* Response.swift */,
-				F4D6C8612142D35D0089B645 /* ResponsePayload.swift */,
-				F487831F2144244600433D7A /* Authorization.swift */,
-				F4D6C859214281170089B645 /* User.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		F4F85F23213F05A400EFF085 = {
 			isa = PBXGroup;
 			children = (
@@ -168,7 +107,6 @@
 			children = (
 				F4F85F2F213F05A400EFF085 /* AppDelegate.swift */,
 				F4F85F33213F05A400EFF085 /* Main.storyboard */,
-				F4D6C84D213FFEFB0089B645 /* GitHub */,
 				F4F85F36213F05A600EFF085 /* Assets.xcassets */,
 				F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */,
 				F4F85F3B213F05A600EFF085 /* Info.plist */,
@@ -179,8 +117,6 @@
 		F4FC13012142DF8600EF6BC2 /* HydraTests */ = {
 			isa = PBXGroup;
 			children = (
-				F4FC130A2142DFAA00EF6BC2 /* GitHubSpec.swift */,
-				F4FC130C21430BEA00EF6BC2 /* GitHubServiceSpec.swift */,
 				F4FC13042142DF8600EF6BC2 /* Info.plist */,
 			);
 			path = HydraTests;
@@ -198,6 +134,7 @@
 				F4F85F29213F05A400EFF085 /* Frameworks */,
 				F4F85F2A213F05A400EFF085 /* Resources */,
 				F85652BF1275A4089257DC84 /* [CP] Embed Pods Frameworks */,
+				F497DD88214599BF00F3941E /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -363,6 +300,20 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F497DD88214599BF00F3941E /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "lint() {\n  if which swiftlint >/dev/null; then\n    \"${PODS_ROOT}/SwiftLint/swiftlint\"\n  else\n    echo \"warning: SwiftLint not installed\"\n  fi\n}\nlint";
+		};
 		F85652BF1275A4089257DC84 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -374,6 +325,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/GitHubKit/GitHubKit.framework",
 				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
@@ -393,6 +345,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GitHubKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
@@ -418,21 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4D6C858214267C50089B645 /* Extension.swift in Sources */,
 				F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */,
-				F4D6C84F213FFF0E0089B645 /* Service.swift in Sources */,
-				F487831E2143A37200433D7A /* Pagination.swift in Sources */,
-				F4D6C84B213FFDB20089B645 /* Target.swift in Sources */,
-				F487831A21438AA800433D7A /* Error.swift in Sources */,
-				F4D6C85A214281170089B645 /* User.swift in Sources */,
-				F4D6C8512140E9920089B645 /* Dev.swift in Sources */,
-				F4D6C8602142CEFB0089B645 /* RateLimit.swift in Sources */,
-				F48783202144244600433D7A /* Authorization.swift in Sources */,
-				F4D6C8532141AD3E0089B645 /* Grant.swift in Sources */,
-				F4D6C8622142D35D0089B645 /* ResponsePayload.swift in Sources */,
-				F4D6C8552141B3130089B645 /* GitHub.swift in Sources */,
-				F487831C2143A36900433D7A /* Response.swift in Sources */,
-				F4D6C85C214281C80089B645 /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,8 +379,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4FC130B2142DFAA00EF6BC2 /* GitHubSpec.swift in Sources */,
-				F4FC130D21430BEA00EF6BC2 /* GitHubServiceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,10 +534,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
 				INFOPLIST_FILE = Hydra/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -616,10 +550,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
 				INFOPLIST_FILE = Hydra/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -635,11 +566,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
 				INFOPLIST_FILE = HydraTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.HydraTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -656,11 +583,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
 				INFOPLIST_FILE = HydraTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.HydraTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
