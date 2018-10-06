@@ -41,7 +41,7 @@ import CoreGraphics
 	public typealias Font = NSFont
 	public typealias FontDescriptor = NSFontDescriptor
 	public typealias SymbolicTraits = NSFontDescriptor.SymbolicTraits
-	public typealias LineBreak = NSParagraphStyle.LineBreakMode
+	public typealias LineBreak = NSLineBreakMode
 
 	let FontDescriptorFeatureSettingsAttribute = NSFontDescriptor.AttributeName.featureSettings
 	let FontFeatureTypeIdentifierKey = NSFontDescriptor.FeatureKey.typeIdentifier
@@ -54,7 +54,7 @@ import CoreGraphics
 	public typealias Image = UIImage
 	public typealias Font = UIFont
 	public typealias FontDescriptor = UIFontDescriptor
-	public typealias SymbolicTraits = UIFontDescriptorSymbolicTraits
+	public typealias SymbolicTraits = UIFontDescriptor.SymbolicTraits
 	public typealias LineBreak = NSLineBreakMode
 
 	let FontDescriptorFeatureSettingsAttribute = UIFontDescriptor.AttributeName.featureSettings

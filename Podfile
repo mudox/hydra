@@ -26,8 +26,9 @@ def rx_pods
   pod 'RxCocoa'
 
   # Common advanced extensions
-  pod 'Action'
-  pod 'RxSwiftExt', git: 'https://github.com/RxSwiftCommunity/RxSwiftExt.git', tag: '3.3.0'
+  #pod 'Action'
+  #pod 'RxSwiftExt', git: 'https://github.com/RxSwiftCommunity/RxSwiftExt.git', tag: '3.3.0'
+  pod 'RxSwiftExt'
 
   # Data binding
   pod 'RxDataSources'
@@ -106,13 +107,13 @@ target 'Hydra' do
   networking_pods
   swift_pods
 
-  target 'HydraTests' do
-    inherit! :search_paths
+  #target 'HydraTests' do
+    #inherit! :search_paths
 
-    testing_pods
+    #testing_pods
 
-    basePath      = '/Users/mudox/Develop/Apple/Frameworks/'
-    socialKitPath = basePath + 'SocialKit/'
-    pod 'SocialKit', path: socialKitPath
-  end
+    #basePath      = '/Users/mudox/Develop/Apple/Frameworks/'
+    #socialKitPath = basePath + 'SocialKit/'
+    #pod 'SocialKit', path: socialKitPath
+  #end
 end

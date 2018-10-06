@@ -18,12 +18,12 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "GitHubKit/Source/**/*",
+  "source_files": "GitHubKit/**/*.swift",
   "dependencies": {
     "JacKit": [
 
     ],
-    "Then": [
+    "RxAlamofire": [
 
     ],
     "Moya/RxSwift": [
@@ -34,6 +34,18 @@
     ],
     "RxCocoa": [
 
+    ],
+    "SSZipArchive": [
+
+    ],
+    "Yams": [
+
+    ],
+    "Kanna": [
+
     ]
+  },
+  "pod_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": "$(SDKROOT)/usr/include/libxml2"
   }
 }
