@@ -93,6 +93,10 @@ def swift_pods
   pod 'SwiftLint'
 end
 
+def data_pods
+  pod 'SwiftyUserDefaults', '4.0.0-alpha.1'
+end
+
 #################################################
 #  ----------------- Podfile -----------------  #
 #################################################
@@ -103,6 +107,7 @@ use_frameworks!
 target 'Hydra' do
   my_pods
   rx_pods
+  data_pods
   ui_pods
   networking_pods
   swift_pods

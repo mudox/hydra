@@ -60,6 +60,7 @@ PODS:
   - SSZipArchive (2.1.4)
   - SwiftLint (0.27.0)
   - SwiftRichString (2.0.5)
+  - SwiftyUserDefaults (4.0.0-alpha.1)
   - Then (2.4.0)
   - Yams (1.0.1)
 
@@ -77,6 +78,7 @@ DEPENDENCIES:
   - SocialKit (from `/Users/mudox/Develop/Apple/Frameworks/SocialKit/`)
   - SwiftLint
   - SwiftRichString
+  - SwiftyUserDefaults (= 4.0.0-alpha.1)
   - Then
 
 SPEC REPOS:
@@ -96,6 +98,7 @@ SPEC REPOS:
     - SSZipArchive
     - SwiftLint
     - SwiftRichString
+    - SwiftyUserDefaults
     - Then
     - Yams
 
@@ -129,9 +132,10 @@ SPEC CHECKSUMS:
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftRichString: a3ebe72b13db2e1b917cdbb6b44d817254a7ff73
+  SwiftyUserDefaults: cebe0ff9472f52699772a514b6f7155861d8069b
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 504f1508ad4e3c3c5823ae6b66a277e6d63b2aff
+PODFILE CHECKSUM: b1b94ca56740a4f03960a1481eb571f586bd56c5
 
 COCOAPODS: 1.5.3
