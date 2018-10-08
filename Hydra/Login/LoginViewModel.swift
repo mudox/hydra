@@ -3,10 +3,10 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+import JacKit
 import MudoxKit
 
-import JacKit
-fileprivate let jack = Jack().set(level: .verbose)
+import GitHubKit
 
 // MARK: - Protocols
 
@@ -17,14 +17,16 @@ protocol LoginViewModelInput {
 }
 
 protocol LoginViewModelOutput {
-  var hud: PublishRelay<MBPCommand> { get }
-  var isLoginButtonEnabled: BehaviorRelay<Bool> { get }
-
+  var hud: Driver<MBPCommand> { get }
+  var isLoginButtonEnabled: Driver<Bool> { get }
 }
 
 protocol LoginViewModelType: LoginViewModelInput, LoginViewModelOutput {
-  var input: LoginViewModelInput { get }
-  var output: LoginViewModelOutput { get }
+  init(
+    loginService: LoginService,
+    githubService: GitHubKit.GitHubService,
+    credentialService: CredentialService
+  )
 }
 
 extension LoginViewModelType {
@@ -40,6 +42,8 @@ class LoginViewModel: LoginViewModelType {
     case weakSelf
   }
 
+  let disposeBag = DisposeBag()
+
   // MARK: Input
 
   let username = BehaviorRelay<String>(value: "")
@@ -48,18 +52,32 @@ class LoginViewModel: LoginViewModelType {
 
   // MARK: Output
 
-  let hud = PublishRelay<MBPCommand>()
-  let isLoginButtonEnabled = BehaviorRelay<Bool>(value: false)
+  private var hudRelay = BehaviorRelay<MBPCommand>(value: .hide())
+  var hud: Driver<MBPCommand> {
+    return hudRelay.asDriver()
+  }
 
-  // MARK: - Properties
+  private var isLoginButtonEnabledRelay = BehaviorRelay<Bool>(value: false)
+  var isLoginButtonEnabled: Driver<Bool> {
+    return isLoginButtonEnabledRelay.asDriver()
+  }
 
-  let disposeBag = DisposeBag()
+  // MARK: - Dependencies
+
   let loginService: LoginService
+  let githubService: GitHubService
+  let credentialService: CredentialService
 
   // MARK: - Life cycle
 
-  init(loginService: LoginService) {
+  required init(
+    loginService: LoginService,
+    githubService: GitHubKit.GitHubService,
+    credentialService: CredentialService
+  ) {
     self.loginService = loginService
+    self.githubService = githubService
+    self.credentialService = credentialService
     bind()
   }
 
@@ -73,9 +91,20 @@ class LoginViewModel: LoginViewModelType {
         let isPasswordValid = self.loginService.validate(password: password)
         return isUsernameValid && isPasswordValid
       }
-      .bind(to: isLoginButtonEnabled)
+      .bind(to: isLoginButtonEnabledRelay)
       .disposed(by: disposeBag)
 
     // login
+//    githubService
+//      .authorize()
+//      .do(onSuccess: { [weak self] response in
+//        guard let `self` = self else {
+//          Jack("LoginViewModel.login").warn("Weak self gone")
+//          return
+//        }
+//        let authorization = response.payload
+//        self.credentialService.
+//
+//      })
   }
 }

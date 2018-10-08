@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
 		F45C49512167D06400BC0576 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45C49502167D06400BC0576 /* Login.storyboard */; };
-		F45C49532167E65200BC0576 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45C49522167E65200BC0576 /* User.swift */; };
+		F45C49532167E65200BC0576 /* CredentialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45C49522167E65200BC0576 /* CredentialService.swift */; };
 		F46C688D215A43400090B4AF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C6888215A43400090B4AF /* LoginViewController.swift */; };
 		F46C688E215A43400090B4AF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C6889215A43400090B4AF /* LoginViewModel.swift */; };
 		F46C6891215A43400090B4AF /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C688C215A43400090B4AF /* LoginService.swift */; };
+		F48779482169F1CC00C027A9 /* DefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48779472169F1CC00C027A9 /* DefaultKeys.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
 		F4F85F35213F05A400EFF085 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F33213F05A400EFF085 /* Main.storyboard */; };
 		F4F85F37213F05A600EFF085 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F36213F05A600EFF085 /* Assets.xcassets */; };
@@ -26,10 +27,11 @@
 		C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.debug.xcconfig"; sourceTree = "<group>"; };
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F45C49502167D06400BC0576 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
-		F45C49522167E65200BC0576 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F45C49522167E65200BC0576 /* CredentialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialService.swift; sourceTree = "<group>"; };
 		F46C6888215A43400090B4AF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F46C6889215A43400090B4AF /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F46C688C215A43400090B4AF /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		F48779472169F1CC00C027A9 /* DefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultKeys.swift; sourceTree = "<group>"; };
 		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F85F2F213F05A400EFF085 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4F85F34213F05A400EFF085 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -77,7 +79,7 @@
 			children = (
 				F45C49502167D06400BC0576 /* Login.storyboard */,
 				F46C688C215A43400090B4AF /* LoginService.swift */,
-				F45C49522167E65200BC0576 /* User.swift */,
+				F45C49522167E65200BC0576 /* CredentialService.swift */,
 				F46C6888215A43400090B4AF /* LoginViewController.swift */,
 				F46C6889215A43400090B4AF /* LoginViewModel.swift */,
 			);
@@ -106,6 +108,7 @@
 		F4F85F2E213F05A400EFF085 /* Hydra */ = {
 			isa = PBXGroup;
 			children = (
+				F48779472169F1CC00C027A9 /* DefaultKeys.swift */,
 				F46C6887215A43400090B4AF /* Login */,
 				F4F85F2F213F05A400EFF085 /* AppDelegate.swift */,
 				F4F85F33213F05A400EFF085 /* Main.storyboard */,
@@ -252,7 +255,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/SocialKit/SocialKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftRichString/SwiftRichString.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
 				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
 				"${BUILT_PRODUCTS_DIR}/Yams/Yams.framework",
 			);
@@ -275,7 +278,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocialKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRichString.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Yams.framework",
 			);
@@ -294,8 +297,9 @@
 				F46C688E215A43400090B4AF /* LoginViewModel.swift in Sources */,
 				F46C688D215A43400090B4AF /* LoginViewController.swift in Sources */,
 				F46C6891215A43400090B4AF /* LoginService.swift in Sources */,
-				F45C49532167E65200BC0576 /* User.swift in Sources */,
+				F45C49532167E65200BC0576 /* CredentialService.swift in Sources */,
 				F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */,
+				F48779482169F1CC00C027A9 /* DefaultKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

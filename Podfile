@@ -84,7 +84,7 @@ def ui_pods
   # pod 'iCarousel'
   # pod 'Eureka'
   # pod 'IQKeyboardManagerSwift'
-  pod 'SwiftRichString'
+  # pod 'SwiftRichString'
 end
 
 def swift_pods

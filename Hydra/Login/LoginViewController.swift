@@ -1,10 +1,14 @@
-import RxCocoa
-import RxSwift
 import UIKit
 
-import MudoxKit
+import RxCocoa
+import RxSwift
+
+import Then
 
 import JacKit
+import MudoxKit
+
+import GitHubKit
 
 private let jack = Jack().set(level: .verbose)
 
@@ -48,18 +52,26 @@ private extension LoginViewController {
   }
 
   func createModel() {
-    model = LoginViewModel(loginService: LoginService())
+    model = LoginViewModel(
+      loginService: LoginService(),
+      githubService: GitHubService(),
+      credentialService: CredentialService()
+    )
   }
 
   func bindToModel() {
     disposeBag.insert(
       usernameField.rx.text.orEmpty.bind(to: model.input.username),
       passwordField.rx.text.orEmpty.bind(to: model.input.password),
-      loginButton.rx.tap.bind(to: model.loginTap)
+      loginButton.rx.tap.bind(to: model.input.loginTap)
     )
   }
 
   func bindFromModel() {
+    disposeBag.insert (
+      model.output.hud.drive(view.mbp.hud),
+      model.output.isLoginButtonEnabled.drive(loginButton.rx.isEnabled)
+    )
   }
 
 }
