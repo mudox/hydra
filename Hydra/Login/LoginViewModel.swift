@@ -6,7 +6,7 @@ import RxSwift
 import JacKit
 import MudoxKit
 
-import GitHubKit
+import GitHub
 
 // MARK: - Protocols
 
@@ -24,7 +24,7 @@ protocol LoginViewModelOutput {
 protocol LoginViewModelType: LoginViewModelInput, LoginViewModelOutput {
   init(
     loginService: LoginService,
-    githubService: GitHubKit.GitHubService,
+    githubService: GitHub.Service,
     credentialService: CredentialService
   )
 }
@@ -65,14 +65,14 @@ class LoginViewModel: LoginViewModelType {
   // MARK: - Dependencies
 
   let loginService: LoginService
-  let githubService: GitHubService
+  let githubService: GitHub.Service
   let credentialService: CredentialService
 
   // MARK: - Life cycle
 
   required init(
     loginService: LoginService,
-    githubService: GitHubKit.GitHubService,
+    githubService: GitHub.Service,
     credentialService: CredentialService
   ) {
     self.loginService = loginService

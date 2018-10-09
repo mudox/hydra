@@ -8,7 +8,7 @@ import Then
 import JacKit
 import MudoxKit
 
-import GitHubKit
+import GitHub
 
 private let jack = Jack().set(level: .verbose)
 
@@ -54,8 +54,8 @@ private extension LoginViewController {
   func createModel() {
     model = LoginViewModel(
       loginService: LoginService(),
-      githubService: GitHubService(),
-      credentialService: CredentialService()
+      githubService: GitHub.Service(credentialService: CredentialService.shared),
+      credentialService: CredentialService.shared
     )
   }
 

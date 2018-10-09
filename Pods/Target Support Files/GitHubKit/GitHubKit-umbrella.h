@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double GitHubKitVersionNumber;
-FOUNDATION_EXPORT const unsigned char GitHubKitVersionString[];
+FOUNDATION_EXPORT double GitHubVersionNumber;
+FOUNDATION_EXPORT const unsigned char GitHubVersionString[];
 

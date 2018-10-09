@@ -1,4 +1,4 @@
-framework module GitHubKit {
+framework module GitHub {
   umbrella header "GitHubKit-umbrella.h"
 
   export *

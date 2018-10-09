@@ -79,7 +79,6 @@
 			children = (
 				F45C49502167D06400BC0576 /* Login.storyboard */,
 				F46C688C215A43400090B4AF /* LoginService.swift */,
-				F45C49522167E65200BC0576 /* CredentialService.swift */,
 				F46C6888215A43400090B4AF /* LoginViewController.swift */,
 				F46C6889215A43400090B4AF /* LoginViewModel.swift */,
 			);
@@ -109,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				F48779472169F1CC00C027A9 /* DefaultKeys.swift */,
+				F45C49522167E65200BC0576 /* CredentialService.swift */,
 				F46C6887215A43400090B4AF /* Login */,
 				F4F85F2F213F05A400EFF085 /* AppDelegate.swift */,
 				F4F85F33213F05A400EFF085 /* Main.storyboard */,
@@ -241,7 +241,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
-				"${BUILT_PRODUCTS_DIR}/GitHubKit/GitHubKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GitHubKit/GitHub.framework",
 				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
@@ -264,7 +264,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GitHubKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GitHub.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
@@ -450,7 +450,10 @@
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
 				INFOPLIST_FILE = Hydra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -467,7 +470,10 @@
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
 				INFOPLIST_FILE = Hydra/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
