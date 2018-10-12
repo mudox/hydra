@@ -1,7 +1,7 @@
 {
   "name": "GitHubKit",
   "module_name": "GitHub",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "summary": "Yet another Swift implementation of GitHub API v3 (RESTful)",
   "description": "Yet another Swift implementation of GitHub API v3 (RESTful).",
   "homepage": "https://github.com/mudox/GitHubKit",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "https://github.com/mudox/GitHubKit.git",
-    "tag": "0.1.0"
+    "tag": "0.2.0"
   },
   "platforms": {
     "ios": "9.0"

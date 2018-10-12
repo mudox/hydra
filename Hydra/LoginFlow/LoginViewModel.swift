@@ -8,6 +8,8 @@ import MudoxKit
 
 import GitHub
 
+private let jack = Jack("Hydra.LoginViewModel")
+
 // MARK: - Protocols
 
 protocol LoginViewModelInput {
@@ -24,8 +26,8 @@ protocol LoginViewModelOutput {
 protocol LoginViewModelType: LoginViewModelInput, LoginViewModelOutput {
   init(
     loginService: LoginService,
-    githubService: GitHub.Service,
-    credentialService: CredentialService
+    credentialService: GitHub.CredentialServiceType,
+    githubService: GitHub.Service
   )
 }
 
@@ -40,6 +42,7 @@ class LoginViewModel: LoginViewModelType {
 
   enum Error: Swift.Error {
     case weakSelf
+    case credential(String)
   }
 
   let disposeBag = DisposeBag()
@@ -65,26 +68,27 @@ class LoginViewModel: LoginViewModelType {
   // MARK: - Dependencies
 
   let loginService: LoginService
+  let credentialService: GitHub.CredentialServiceType
   let githubService: GitHub.Service
-  let credentialService: CredentialService
 
   // MARK: - Life cycle
 
   required init(
     loginService: LoginService,
-    githubService: GitHub.Service,
-    credentialService: CredentialService
+    credentialService: GitHub.CredentialServiceType,
+    githubService: GitHub.Service
   ) {
     self.loginService = loginService
-    self.githubService = githubService
     self.credentialService = credentialService
+    self.githubService = githubService
     bind()
   }
 
   func bind() {
+    let userInput = Observable.combineLatest(username, password).share()
+
     // isLoginButtonEnabled
-    Observable
-      .combineLatest(username, password)
+    userInput
       .map { [weak self] username, password -> Bool in
         guard let self = self else { throw Error.weakSelf }
         let isUsernameValid = self.loginService.validate(username: username)
@@ -94,17 +98,31 @@ class LoginViewModel: LoginViewModelType {
       .bind(to: isLoginButtonEnabledRelay)
       .disposed(by: disposeBag)
 
-    // login
-//    githubService
-//      .authorize()
-//      .do(onSuccess: { [weak self] response in
-//        guard let `self` = self else {
-//          Jack("LoginViewModel.login").warn("Weak self gone")
-//          return
-//        }
-//        let authorization = response.payload
-//        self.credentialService.
-//
-//      })
-  }
+    loginTap
+      .withLatestFrom(userInput)
+      .map { [weak self] username, password -> GitHub.AuthParameter in
+        guard let self = self else { throw Error.weakSelf }
+
+        let user = (name: username, password: password)
+
+        guard let app = self.credentialService.app else {
+          throw Error.credential("need an GitHub OAuth app key & secret")
+        }
+
+        let scope: GitHub.AuthScope = [.user, .repository, .organization, .notification, .gist]
+        return GitHub.AuthParameter(user: user, app: app, scope: scope, note: "Hydra login")
+      }
+      .flatMap(githubService.authorize)
+      .subscribe(
+        onNext: { _ in
+          jack.descendant("bind.login.onNext").info("login succeeded")
+        },
+        onError: { error in
+          jack.descendant("bind.login.onError").error("login failed with \(error)")
+        }
+      )
+      .disposed(by: disposeBag)
+
+  } // bind()
+
 }

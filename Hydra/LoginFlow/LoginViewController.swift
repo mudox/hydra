@@ -54,8 +54,8 @@ private extension LoginViewController {
   func createModel() {
     model = LoginViewModel(
       loginService: LoginService(),
-      githubService: GitHub.Service(credentialService: CredentialService.shared),
-      credentialService: CredentialService.shared
+      credentialService: CredentialService.shared,
+      githubService: GitHub.Service(credentialService: CredentialService.shared)
     )
   }
 
