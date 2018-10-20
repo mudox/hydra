@@ -9,6 +9,9 @@ analyzer_rules:
   - unused_import
   - unused_private_declaration
 
+disabled_rules:
+  - opening_brace
+
 opt_in_rules:
   - anyobject_protocol
   - array_init
@@ -58,12 +61,17 @@ opt_in_rules:
 number_separator:
   minimum_length: 5
 
+identifier_name:
+  excluded:
+    - vc
+
+
 #file_name:
-  #excluded:
-    #- main.swift
-    #- LinuxMain.swift
-    #- TestHelpers.swift
-    #- shim.swift
-    #- AutomaticRuleTests.generated.swift
+#excluded:
+#- main.swift
+#- LinuxMain.swift
+#- TestHelpers.swift
+#- shim.swift
+#- AutomaticRuleTests.generated.swift
 
 severity: error
