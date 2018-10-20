@@ -4,7 +4,7 @@ import GitHub
 
 import JacKit
 
-private let jack = Jack("CredentialService")
+private let jack = Jack("CredentialService").set(options: .short)
 
 class CredentialService: GitHub.CredentialServiceType {
 
@@ -14,7 +14,7 @@ class CredentialService: GitHub.CredentialServiceType {
 
   private init() {}
 
-  // MARK: - CredentialService
+  // MARK: - GitHub.CredentialServiceType
 
   var app: (key: String, secret: String)? = (
     key: "46cfca605f029f4fdb3e",

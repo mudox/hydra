@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
 
   var model: LoginViewModel!
 
+  var flow: LoginFlow!
+
   // MARK: Outlets
 
   @IBOutlet private var usernameField: UITextField!
@@ -40,26 +42,26 @@ class LoginViewController: UIViewController {
 private extension LoginViewController {
 
   func setupView() {
+
   }
 
   func bindView() {
+
   }
 
   func setupModel() {
     createModel()
-    bindToModel()
-    bindFromModel()
+    viewToModel()
+    modelToView()
   }
 
   func createModel() {
-    model = LoginViewModel(
-      loginService: LoginService(),
-      credentialService: CredentialService.shared,
-      githubService: GitHub.Service(credentialService: CredentialService.shared)
-    )
+    let githubService = GitHub.Service(credentialService: CredentialService.shared)
+    let loginService = LoginService(githubService: githubService)
+    model = LoginViewModel(flow: flow, loginService: loginService)
   }
 
-  func bindToModel() {
+  func viewToModel() {
     disposeBag.insert(
       usernameField.rx.text.orEmpty.bind(to: model.input.username),
       passwordField.rx.text.orEmpty.bind(to: model.input.password),
@@ -67,8 +69,8 @@ private extension LoginViewController {
     )
   }
 
-  func bindFromModel() {
-    disposeBag.insert (
+  func modelToView() {
+    disposeBag.insert(
       model.output.hud.drive(view.mbp.hud),
       model.output.isLoginButtonEnabled.drive(loginButton.rx.isEnabled)
     )

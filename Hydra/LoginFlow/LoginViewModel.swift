@@ -25,9 +25,8 @@ protocol LoginViewModelOutput {
 
 protocol LoginViewModelType: LoginViewModelInput, LoginViewModelOutput {
   init(
-    loginService: LoginService,
-    credentialService: GitHub.CredentialServiceType,
-    githubService: GitHub.Service
+    flow: LoginFlowType,
+    loginService: LoginServiceType
   )
 }
 
@@ -47,13 +46,13 @@ class LoginViewModel: LoginViewModelType {
 
   let disposeBag = DisposeBag()
 
-  // MARK: Input
+  // MARK: - Input
 
   let username = BehaviorRelay<String>(value: "")
   let password = BehaviorRelay<String>(value: "")
   let loginTap = PublishRelay<Void>()
 
-  // MARK: Output
+  // MARK: - Output
 
   private var hudRelay = BehaviorRelay<MBPCommand>(value: .hide())
   var hud: Driver<MBPCommand> {
@@ -67,20 +66,14 @@ class LoginViewModel: LoginViewModelType {
 
   // MARK: - Dependencies
 
-  let loginService: LoginService
-  let credentialService: GitHub.CredentialServiceType
-  let githubService: GitHub.Service
+  let flow: LoginFlowType
+  let loginService: LoginServiceType
 
   // MARK: - Life cycle
 
-  required init(
-    loginService: LoginService,
-    credentialService: GitHub.CredentialServiceType,
-    githubService: GitHub.Service
-  ) {
+  required init(flow: LoginFlowType, loginService: LoginServiceType) {
+    self.flow = flow
     self.loginService = loginService
-    self.credentialService = credentialService
-    self.githubService = githubService
     bind()
   }
 
@@ -100,27 +93,23 @@ class LoginViewModel: LoginViewModelType {
 
     loginTap
       .withLatestFrom(userInput)
-      .map { [weak self] username, password -> GitHub.AuthParameter in
-        guard let self = self else { throw Error.weakSelf }
-
-        let user = (name: username, password: password)
-
-        guard let app = self.credentialService.app else {
-          throw Error.credential("need an GitHub OAuth app key & secret")
+      .flatMap { [weak self] username, password -> Driver<GitHub.Response<Authorization>> in
+        guard let self = self else {
+          throw CommonError.weakReference("weak self is nil")
         }
 
         let scope: GitHub.AuthScope = [.user, .repository, .organization, .notification, .gist]
-        return GitHub.AuthParameter(user: user, app: app, scope: scope, note: "Hydra login")
+        return self.loginService.login(username: username, password: password, scope: scope, note: nil)
       }
-      .flatMap(githubService.authorize)
-      .subscribe(
-        onNext: { _ in
-          jack.descendant("bind.login.onNext").info("login succeeded")
-        },
+      .do(
         onError: { error in
           jack.descendant("bind.login.onError").error("login failed with \(error)")
         }
       )
+      .take(1)
+      .subscribe(onNext: { [weak self] _ in
+        self?.flow.complete()
+      })
       .disposed(by: disposeBag)
 
   } // bind()

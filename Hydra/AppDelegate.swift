@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
 
-    flow = ApplicationFlow(window: window!)
+    flow = HydraApplicationFlow(window: window!)
     flow.start()
 
     return true
