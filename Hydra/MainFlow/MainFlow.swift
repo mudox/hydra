@@ -1,9 +1,22 @@
 import UIKit
 
-class MainFlow: Flow {
+import RxCocoa
+import RxSwift
 
-  func loadViewController() {
-    viewController = UIViewController()
+import MudoxKit
+
+class MainFlow: BaseFlow {
+
+  var viewController: UIViewController!
+
+  func start() -> Completable {
+    return .create {  _ in
+
+      self.viewController = ViewControllers.create(storyboard: "Main")
+      self.stage.window.rootViewController = self.viewController
+
+      return Disposables.create()
+    }
   }
 
 }
