@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		6638F0BB166B5BD154812A97 /* Pods_HydraTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F27496219A535FA715CD5C /* Pods_HydraTests.framework */; };
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
+		F402F83321852BA1005C605A /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F83221852BA1005C605A /* Actions.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
-		F413E321216DFAAD0024B7F3 /* ApplicationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31F216DED140024B7F3 /* ApplicationFlow.swift */; };
+		F413E321216DFAAD0024B7F3 /* BaseAppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31F216DED140024B7F3 /* BaseAppFlow.swift */; };
 		F413E329216E67C70024B7F3 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E328216E67C70024B7F3 /* MainViewModel.swift */; };
 		F413E32B216E67D80024B7F3 /* MainFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E32A216E67D80024B7F3 /* MainFlow.swift */; };
-		F413E32E216E690A0024B7F3 /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E32D216E690A0024B7F3 /* Flow.swift */; };
+		F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4231FD3217B9D3600B2D748 /* Activity.swift */; };
 		F45C49512167D06400BC0576 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45C49502167D06400BC0576 /* Login.storyboard */; };
 		F45C49532167E65200BC0576 /* CredentialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45C49522167E65200BC0576 /* CredentialService.swift */; };
 		F46C688D215A43400090B4AF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C6888215A43400090B4AF /* LoginViewController.swift */; };
@@ -21,8 +22,8 @@
 		F46C6891215A43400090B4AF /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C688C215A43400090B4AF /* LoginService.swift */; };
 		F4705FCE2174CB0400E50FDD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4705FCD2174CB0400E50FDD /* MainViewController.swift */; };
 		F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48779472169F1CC00C027A9 /* DefaultsKeys.swift */; };
-		F4F338122170B18300DC9638 /* BaseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338112170B18300DC9638 /* BaseFlow.swift */; };
-		F4F338142170BD4100DC9638 /* HydraApplicationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* HydraApplicationFlow.swift */; };
+		F4F338122170B18300DC9638 /* FlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338112170B18300DC9638 /* FlowType.swift */; };
+		F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* AppFlow.swift */; };
 		F4F338242171071100DC9638 /* DefaultsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338232171071100DC9638 /* DefaultsSpec.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
 		F4F85F35213F05A400EFF085 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F33213F05A400EFF085 /* Main.storyboard */; };
@@ -46,11 +47,12 @@
 		C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.release.xcconfig"; sourceTree = "<group>"; };
 		C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.debug.xcconfig"; sourceTree = "<group>"; };
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F402F83221852BA1005C605A /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
-		F413E31F216DED140024B7F3 /* ApplicationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationFlow.swift; sourceTree = "<group>"; };
+		F413E31F216DED140024B7F3 /* BaseAppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppFlow.swift; sourceTree = "<group>"; };
 		F413E328216E67C70024B7F3 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		F413E32A216E67D80024B7F3 /* MainFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlow.swift; sourceTree = "<group>"; };
-		F413E32D216E690A0024B7F3 /* Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
+		F4231FD3217B9D3600B2D748 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		F45C49502167D06400BC0576 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		F45C49522167E65200BC0576 /* CredentialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialService.swift; sourceTree = "<group>"; };
 		F46C6888215A43400090B4AF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -58,8 +60,8 @@
 		F46C688C215A43400090B4AF /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F4705FCD2174CB0400E50FDD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F48779472169F1CC00C027A9 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
-		F4F338112170B18300DC9638 /* BaseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFlow.swift; sourceTree = "<group>"; };
-		F4F338132170BD4100DC9638 /* HydraApplicationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydraApplicationFlow.swift; sourceTree = "<group>"; };
+		F4F338112170B18300DC9638 /* FlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowType.swift; sourceTree = "<group>"; };
+		F4F338132170BD4100DC9638 /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		F4F338192171035700DC9638 /* HydraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F338232171071100DC9638 /* DefaultsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsSpec.swift; sourceTree = "<group>"; };
 		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +117,7 @@
 		F413E327216E679E0024B7F3 /* MainFlow */ = {
 			isa = PBXGroup;
 			children = (
+				F4F85F33213F05A400EFF085 /* Main.storyboard */,
 				F4705FCD2174CB0400E50FDD /* MainViewController.swift */,
 				F413E32A216E67D80024B7F3 /* MainFlow.swift */,
 				F413E328216E67C70024B7F3 /* MainViewModel.swift */,
@@ -127,7 +130,6 @@
 			children = (
 				F4F85F2F213F05A400EFF085 /* AppDelegate.swift */,
 				F4F85F36213F05A600EFF085 /* Assets.xcassets */,
-				F4F85F33213F05A400EFF085 /* Main.storyboard */,
 				F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */,
 				F4F85F3B213F05A600EFF085 /* Info.plist */,
 			);
@@ -149,10 +151,9 @@
 		F4F338102170948500DC9638 /* Flow */ = {
 			isa = PBXGroup;
 			children = (
-				F413E32D216E690A0024B7F3 /* Flow.swift */,
-				F4F338112170B18300DC9638 /* BaseFlow.swift */,
-				F413E31F216DED140024B7F3 /* ApplicationFlow.swift */,
-				F4F338132170BD4100DC9638 /* HydraApplicationFlow.swift */,
+				F4F338112170B18300DC9638 /* FlowType.swift */,
+				F413E31F216DED140024B7F3 /* BaseAppFlow.swift */,
+				F4F338132170BD4100DC9638 /* AppFlow.swift */,
 			);
 			path = Flow;
 			sourceTree = "<group>";
@@ -180,9 +181,11 @@
 		F4F85F2E213F05A400EFF085 /* Hydra */ = {
 			isa = PBXGroup;
 			children = (
-				F4F338102170948500DC9638 /* Flow */,
+				F402F83221852BA1005C605A /* Actions.swift */,
+				F4231FD3217B9D3600B2D748 /* Activity.swift */,
 				F48779472169F1CC00C027A9 /* DefaultsKeys.swift */,
 				F45C49522167E65200BC0576 /* CredentialService.swift */,
+				F4F338102170948500DC9638 /* Flow */,
 				F413E32C216E68260024B7F3 /* App */,
 				F46C6887215A43400090B4AF /* LoginFlow */,
 				F413E327216E679E0024B7F3 /* MainFlow */,
@@ -398,6 +401,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Hydra/Pods-Hydra-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Action/Action.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
@@ -421,6 +425,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Action.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
@@ -462,19 +467,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */,
 				F46C688E215A43400090B4AF /* LoginViewModel.swift in Sources */,
-				F413E321216DFAAD0024B7F3 /* ApplicationFlow.swift in Sources */,
+				F413E321216DFAAD0024B7F3 /* BaseAppFlow.swift in Sources */,
 				F46C688D215A43400090B4AF /* LoginViewController.swift in Sources */,
-				F413E32E216E690A0024B7F3 /* Flow.swift in Sources */,
+				F402F83321852BA1005C605A /* Actions.swift in Sources */,
 				F46C6891215A43400090B4AF /* LoginService.swift in Sources */,
 				F45C49532167E65200BC0576 /* CredentialService.swift in Sources */,
 				F413E329216E67C70024B7F3 /* MainViewModel.swift in Sources */,
 				F4705FCE2174CB0400E50FDD /* MainViewController.swift in Sources */,
 				F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */,
 				F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */,
-				F4F338122170B18300DC9638 /* BaseFlow.swift in Sources */,
+				F4F338122170B18300DC9638 /* FlowType.swift in Sources */,
 				F413E32B216E67D80024B7F3 /* MainFlow.swift in Sources */,
-				F4F338142170BD4100DC9638 /* HydraApplicationFlow.swift in Sources */,
+				F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */,
 				F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -688,7 +694,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -708,7 +714,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

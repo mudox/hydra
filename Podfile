@@ -26,8 +26,7 @@ def rx_pods
   pod 'RxCocoa'
 
   # Common advanced extensions
-  # pod 'Action'
-  # pod 'RxSwiftExt', git: 'https://github.com/RxSwiftCommunity/RxSwiftExt.git', tag: '3.3.0'
+  pod 'Action'
   pod 'RxSwiftExt'
 
   # Data binding
