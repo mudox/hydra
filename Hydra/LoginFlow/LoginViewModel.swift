@@ -1,16 +1,17 @@
-import UIKit
-
+import Action
 import RxCocoa
 import RxSwift
+import RxSwiftExt
+import UIKit
 
 import JacKit
 import MudoxKit
 
 import GitHub
 
-private let jack = Jack("Hydra.LoginViewModel")
+private let jack = Jack("LoginViewModel")
 
-// MARK: - Protocols
+// MARK: Interface
 
 protocol LoginViewModelInput {
   var username: BehaviorRelay<String> { get }
@@ -18,9 +19,13 @@ protocol LoginViewModelInput {
   var loginTap: PublishRelay<Void> { get }
 }
 
+typealias LoginInput = (username: String, password: String)
+
+typealias LoginOutput = GitHub.Service.AuthorizeResponse
+
 protocol LoginViewModelOutput {
-  var hud: Driver<MBPCommand> { get }
-  var isLoginButtonEnabled: Driver<Bool> { get }
+  var hudCommands: Driver<MBPCommand> { get }
+  var loginAction: Action<LoginInput, LoginOutput> { get }
 }
 
 protocol LoginViewModelType: LoginViewModelInput, LoginViewModelOutput {
@@ -35,14 +40,9 @@ extension LoginViewModelType {
   var output: LoginViewModelOutput { return self }
 }
 
-// MARK: - View Model
+// MARK: - Impelementation
 
 class LoginViewModel: LoginViewModelType {
-
-  enum Error: Swift.Error {
-    case weakSelf
-    case credential(String)
-  }
 
   let disposeBag = DisposeBag()
 
@@ -55,63 +55,47 @@ class LoginViewModel: LoginViewModelType {
   // MARK: - Output
 
   private var hudRelay = BehaviorRelay<MBPCommand>(value: .hide())
-  var hud: Driver<MBPCommand> {
+
+  var hudCommands: Driver<MBPCommand> {
     return hudRelay.asDriver()
   }
 
-  private var isLoginButtonEnabledRelay = BehaviorRelay<Bool>(value: false)
-  var isLoginButtonEnabled: Driver<Bool> {
-    return isLoginButtonEnabledRelay.asDriver()
-  }
-
-  // MARK: - Dependencies
-
-  let flow: LoginFlowType
-  let loginService: LoginServiceType
+  var loginAction: Action<LoginInput, LoginOutput>
 
   // MARK: - Life cycle
 
   required init(flow: LoginFlowType, loginService: LoginServiceType) {
-    self.flow = flow
-    self.loginService = loginService
-    bind()
-  }
 
-  func bind() {
-    let userInput = Observable.combineLatest(username, password).share()
+    let inputs = Observable
+      .combineLatest(username, password) { (username: $0, password: $1) }
+      .share()
 
     // isLoginButtonEnabled
-    userInput
-      .map { [weak self] username, password -> Bool in
-        guard let self = self else { throw Error.weakSelf }
-        let isUsernameValid = self.loginService.validate(username: username)
-        let isPasswordValid = self.loginService.validate(password: password)
-        return isUsernameValid && isPasswordValid
-      }
-      .bind(to: isLoginButtonEnabledRelay)
-      .disposed(by: disposeBag)
+    let isInputValid = inputs.map(loginService.validate)
+
+    loginAction = Action(enabledIf: isInputValid, workFactory: { username, password in
+      loginService.login(username: username, password: password)
+    })
 
     loginTap
-      .withLatestFrom(userInput)
-      .flatMap { [weak self] username, password -> Driver<GitHub.Response<Authorization>> in
-        guard let self = self else {
-          throw CommonError.weakReference("weak self is nil")
-        }
-
-        let scope: GitHub.AuthScope = [.user, .repository, .organization, .notification, .gist]
-        return self.loginService.login(username: username, password: password, scope: scope, note: nil)
-      }
-      .do(
-        onError: { error in
-          jack.descendant("bind.login.onError").error("login failed with \(error)")
-        }
-      )
-      .take(1)
-      .subscribe(onNext: { [weak self] _ in
-        self?.flow.complete()
-      })
+      .withLatestFrom(inputs)
+      .bind(to: loginAction.inputs)
       .disposed(by: disposeBag)
 
-  } // bind()
+    loginAction
+      .elements
+      .take(1)
+      .ignoreElements()
+      .subscribe(
+        onCompleted: {
+          flow.complete()
+        },
+        onError: {
+          jack.descendant("init.login").error("failed to login with: \($0)")
+        }
+      )
+      .disposed(by: disposeBag)
+
+  }
 
 }

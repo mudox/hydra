@@ -5,7 +5,11 @@ import RxSwift
 
 import GitHub
 
-protocol LoginFlowType {
+import JacKit
+
+private let jack = Jack("Hydra.LoginFlow")
+
+protocol LoginFlowType: FlowType {
 
   func loginIfNeeded() -> Completable
 
@@ -13,23 +17,18 @@ protocol LoginFlowType {
 
 }
 
-class LoginFlow: LoginFlowType {
+class LoginFlow: BaseFlow, LoginFlowType {
 
   private let credentialService: GitHub.CredentialServiceType
-
-  private let window: UIWindow?
-  private let viewController: UIViewController?
 
   let completionSignal = PublishSubject<Never>()
 
   init(
-    credentialService: GitHub.CredentialServiceType,
-    window: UIWindow? = nil,
-    viewController: UIViewController? = nil
+    stage: FlowStage,
+    credentialService: GitHub.CredentialServiceType
   ) {
     self.credentialService = credentialService
-    self.window = window
-    self.viewController = viewController
+    super.init(stage: stage)
   }
 
   func loginIfNeeded() -> Completable {
@@ -47,7 +46,7 @@ class LoginFlow: LoginFlowType {
     let loginViewController = ViewControllers.create(
       LoginViewController.self,
       storyboard: "Login"
-    ) !! "load `LoginViewController` failed"
+    )
 
     loginViewController.flow = self
 
@@ -57,28 +56,27 @@ class LoginFlow: LoginFlowType {
      *
      */
 
-    switch (window, viewController) {
-    case (let window?, nil):
+    switch stage {
+    case let .window(window):
       window.rootViewController = loginViewController
-    case (nil, let viewController?):
+    case let .viewController(viewController):
       viewController.present(loginViewController, animated: true, completion: nil)
-    default:
-      fatalError("either `self.window` or `self.viewController` should not be nil")
     }
 
     return completionSignal.ignoreElements()
   }
 
   func complete() {
-    switch (window, viewController) {
-    case (_?, nil):
+    jack.descendant("complete").info("logged in", options: .short)
+
+    switch stage {
+    case .window:
       completionSignal.onCompleted()
-    case (nil, let viewController?):
+    case let .viewController(viewController):
       viewController.dismiss(animated: true) {
         self.completionSignal.onCompleted()
       }
-    default:
-      fatalError("either `self.window` or `self.viewController` should not be nil")
     }
   }
+
 }

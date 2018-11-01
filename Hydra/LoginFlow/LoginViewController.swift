@@ -1,5 +1,6 @@
 import UIKit
 
+import Action
 import RxCocoa
 import RxSwift
 
@@ -10,7 +11,7 @@ import MudoxKit
 
 import GitHub
 
-private let jack = Jack().set(level: .verbose)
+private let jack = Jack()
 
 class LoginViewController: UIViewController {
 
@@ -33,7 +34,6 @@ class LoginViewController: UIViewController {
     super.viewDidLoad()
 
     setupView()
-    bindView()
     setupModel()
   }
 
@@ -45,34 +45,22 @@ private extension LoginViewController {
 
   }
 
-  func bindView() {
-
-  }
-
   func setupModel() {
-    createModel()
-    viewToModel()
-    modelToView()
-  }
-
-  func createModel() {
+    // create model
     let githubService = GitHub.Service(credentialService: CredentialService.shared)
     let loginService = LoginService(githubService: githubService)
     model = LoginViewModel(flow: flow, loginService: loginService)
-  }
 
-  func viewToModel() {
+    // model <- view
     disposeBag.insert(
       usernameField.rx.text.orEmpty.bind(to: model.input.username),
       passwordField.rx.text.orEmpty.bind(to: model.input.password),
       loginButton.rx.tap.bind(to: model.input.loginTap)
     )
-  }
 
-  func modelToView() {
+    // model -> view
     disposeBag.insert(
-      model.output.hud.drive(view.mbp.hud),
-      model.output.isLoginButtonEnabled.drive(loginButton.rx.isEnabled)
+      model.output.loginAction.enabled.bind(to: loginButton.rx.isEnabled)
     )
   }
 
