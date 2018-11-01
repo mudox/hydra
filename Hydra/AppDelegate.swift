@@ -5,16 +5,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
-  var flow: ApplicationFlow!
+  var flow: AppFlow!
 
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {
+  )
+    -> Bool
+  {
 
-    flow = HydraApplicationFlow(window: window!)
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.makeKeyAndVisible()
+
+    flow = AppFlow(stage: .window(window!))
     flow.start()
 
     return true
   }
+
 }
