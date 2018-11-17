@@ -20,9 +20,9 @@ def my_pods
     pod 'MudoxKit/MBProgressHUD',     path: basePath + 'MudoxKit'
     pod 'MudoxKit/ActivityCenter',    path: basePath + 'MudoxKit'
 
-    pod 'SocialKit',                  path: basePateh + 'SocialKit'
+    pod 'SocialKit',                  path: basePath + 'SocialKit'
 
-    pod 'GitHubKit',                  path: basePateh + 'GitHubKit'
+    pod 'GitHubKit',                  path: basePath + 'GitHubKit'
   end
 
 end

@@ -234,6 +234,7 @@
 				F4F338162171035700DC9638 /* Frameworks */,
 				F4F338172171035700DC9638 /* Resources */,
 				F1FC7AB9D6F0DDB4B1AE290B /* [CP] Embed Pods Frameworks */,
+				F4CD855021A0B4E600D18B34 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -416,6 +417,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "lint() {\n  LINTER=\"${PODS_ROOT}/SwiftLint/swiftlint\"\n  if which swiftlint >/dev/null; then\n    $LINTER autocorrect\n    $LINTER\n  else\n    echo \"warning: SwiftLint not installed\"\n  fi\n}\nlint\n";
+		};
+		F4CD855021A0B4E600D18B34 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LINTER=\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\nlint() {\nif which swiftlint >/dev/null; then\n  $LINTER autocorrect\n  $LINTER\nelse\n  echo \"warning: SwiftLint not installed\"\nfi\n}\n\nlint\n";
 		};
 		F85652BF1275A4089257DC84 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

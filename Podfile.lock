@@ -103,12 +103,12 @@ PODS:
 
 DEPENDENCIES:
   - Action
-  - GitHubKit (from `/Users/mudox/Develop/Apple/Frameworks/GitHubKit/`)
-  - JacKit (from `/Users/mudox/Develop/Apple/Frameworks/JacKit/`)
+  - GitHubKit (from `/Users/mudox/Develop/Apple/Frameworks/GitHubKit`)
+  - JacKit (from `/Users/mudox/Develop/Apple/Frameworks/JacKit`)
   - Moya/RxSwift
-  - MudoxKit (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit/`)
-  - MudoxKit/ActivityCenter (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit/`)
-  - MudoxKit/MBProgressHUD (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit/`)
+  - MudoxKit (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
+  - MudoxKit/ActivityCenter (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
+  - MudoxKit/MBProgressHUD (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
   - Nimble
   - OHHTTPStubs
   - Quick
@@ -119,7 +119,7 @@ DEPENDENCIES:
   - RxSwift
   - RxSwiftExt
   - RxTest
-  - SocialKit (from `/Users/mudox/Develop/Apple/Frameworks/SocialKit/`)
+  - SocialKit (from `/Users/mudox/Develop/Apple/Frameworks/SocialKit`)
   - SwiftLint
   - SwiftyUserDefaults (= 4.0.0-alpha.1)
   - Then
@@ -154,13 +154,13 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   GitHubKit:
-    :path: "/Users/mudox/Develop/Apple/Frameworks/GitHubKit/"
+    :path: "/Users/mudox/Develop/Apple/Frameworks/GitHubKit"
   JacKit:
-    :path: "/Users/mudox/Develop/Apple/Frameworks/JacKit/"
+    :path: "/Users/mudox/Develop/Apple/Frameworks/JacKit"
   MudoxKit:
-    :path: "/Users/mudox/Develop/Apple/Frameworks/MudoxKit/"
+    :path: "/Users/mudox/Develop/Apple/Frameworks/MudoxKit"
   SocialKit:
-    :path: "/Users/mudox/Develop/Apple/Frameworks/SocialKit/"
+    :path: "/Users/mudox/Develop/Apple/Frameworks/SocialKit"
 
 SPEC CHECKSUMS:
   Action: 2f461c203c480b17aa99b3bb166e4329ecff6908
@@ -193,6 +193,6 @@ SPEC CHECKSUMS:
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: cfc11b42765e2aace037e143cc7ed630258caa7e
+PODFILE CHECKSUM: 3f67b0279d62d6fe8074a0115d0dfb389de6d592
 
 COCOAPODS: 1.5.3
