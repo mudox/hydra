@@ -41,7 +41,7 @@ tmux new-session       \
   -d
 sleep 0.2
 tmux send-keys -t "${window}" "
-vv -O ${session_name}.podspec Demo/Podfile
+vv Podfile
 :tabnew fastlane/Fastfile
 :tabnew .travis.yml
 :tabnew .gitignore
