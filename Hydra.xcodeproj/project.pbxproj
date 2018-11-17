@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6638F0BB166B5BD154812A97 /* Pods_HydraTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F27496219A535FA715CD5C /* Pods_HydraTests.framework */; };
+		66C3EDEDB895A15DBD36BE34 /* Pods_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE590289787F2D6445D52167 /* Pods_Test.framework */; };
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
 		F402F83321852BA1005C605A /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F83221852BA1005C605A /* Actions.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
@@ -44,8 +44,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B0330F6E48FA8390071FF17 /* Pods-Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.release.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.release.xcconfig"; sourceTree = "<group>"; };
 		69F27496219A535FA715CD5C /* Pods_HydraTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydraTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.release.xcconfig"; sourceTree = "<group>"; };
+		B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
+		BE590289787F2D6445D52167 /* Pods_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.release.xcconfig"; sourceTree = "<group>"; };
 		C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.debug.xcconfig"; sourceTree = "<group>"; };
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -67,7 +70,7 @@
 		F4705FCD2174CB0400E50FDD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F48779472169F1CC00C027A9 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
 		F4F338132170BD4100DC9638 /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
-		F4F338192171035700DC9638 /* HydraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4F338192171035700DC9638 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F338232171071100DC9638 /* DefaultsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsSpec.swift; sourceTree = "<group>"; };
 		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F85F2F213F05A400EFF085 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6638F0BB166B5BD154812A97 /* Pods_HydraTests.framework in Frameworks */,
+				66C3EDEDB895A15DBD36BE34 /* Pods_Test.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +106,7 @@
 			children = (
 				FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */,
 				69F27496219A535FA715CD5C /* Pods_HydraTests.framework */,
+				BE590289787F2D6445D52167 /* Pods_Test.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -114,6 +118,8 @@
 				C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */,
 				EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */,
 				9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */,
+				B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */,
+				5B0330F6E48FA8390071FF17 /* Pods-Test.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -189,7 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				F4F85F2C213F05A400EFF085 /* Hydra.app */,
-				F4F338192171035700DC9638 /* HydraTests.xctest */,
+				F4F338192171035700DC9638 /* Test.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,9 +225,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F4F338182171035700DC9638 /* HydraTests */ = {
+		F4F338182171035700DC9638 /* Test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F4F338202171035700DC9638 /* Build configuration list for PBXNativeTarget "HydraTests" */;
+			buildConfigurationList = F4F338202171035700DC9638 /* Build configuration list for PBXNativeTarget "Test" */;
 			buildPhases = (
 				90201CD1B9C91885100DE1D1 /* [CP] Check Pods Manifest.lock */,
 				F4F338152171035700DC9638 /* Sources */,
@@ -234,9 +240,9 @@
 			dependencies = (
 				F4F3381F2171035700DC9638 /* PBXTargetDependency */,
 			);
-			name = HydraTests;
+			name = Test;
 			productName = HydraTests;
-			productReference = F4F338192171035700DC9638 /* HydraTests.xctest */;
+			productReference = F4F338192171035700DC9638 /* Test.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		F4F85F2B213F05A400EFF085 /* Hydra */ = {
@@ -293,7 +299,7 @@
 			projectRoot = "";
 			targets = (
 				F4F85F2B213F05A400EFF085 /* Hydra */,
-				F4F338182171035700DC9638 /* HydraTests */,
+				F4F338182171035700DC9638 /* Test */,
 			);
 		};
 /* End PBXProject section */
@@ -336,7 +342,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HydraTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Test-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -369,7 +375,8 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Test/Pods-Test-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
@@ -382,6 +389,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
@@ -392,7 +400,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Test/Pods-Test-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F497DD88214599BF00F3941E /* SwiftLint */ = {
@@ -428,6 +436,7 @@
 				"${BUILT_PRODUCTS_DIR}/MudoxKit/MudoxKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -452,6 +461,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MudoxKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -525,7 +535,7 @@
 /* Begin XCBuildConfiguration section */
 		F4F338212171035700DC9638 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */;
+			baseConfigurationReference = B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -549,7 +559,7 @@
 		};
 		F4F338222171035700DC9638 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */;
+			baseConfigurationReference = 5B0330F6E48FA8390071FF17 /* Pods-Test.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -729,7 +739,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F4F338202171035700DC9638 /* Build configuration list for PBXNativeTarget "HydraTests" */ = {
+		F4F338202171035700DC9638 /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4F338212171035700DC9638 /* Debug */,

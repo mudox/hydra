@@ -1,23 +1,30 @@
 def my_pods
-  basePath      = '/Users/mudox/Develop/Apple/Frameworks/'
-  mudoxKitPath  = basePath + 'MudoxKit/'
-  socialKitPath = basePath + 'SocialKit/'
-  jacKitPath    = basePath + 'JacKit/'
-  githubKitPath = basePath + 'GitHubKit/'
+  # Travis-CI set `CI` on macOS environment
+  if ENV['CI'] == 'true'
+    pod 'JacKit',  :git  => 'https://github.com/mudox/jac-kit.git'
+    pod 'JacKit',                     :git  => 'https://github.com/mudox/jac-kit.git'
 
-  # JacKit    - Logging framwork
-  pod 'JacKit',                     path: jacKitPath
+    pod 'MudoxKit',                   :git  => 'https://github.com/mudox/mudox-kit.git'
+    pod 'MudoxKit/MBProgressHUD',     :git  => 'https://github.com/mudox/mudox-kit.git'
+    pod 'MudoxKit/ActivityCenter',    :git  => 'https://github.com/mudox/mudox-kit.git'
 
-  # MudoxKit  - Personal developing utility library
-  pod 'MudoxKit',                   path: mudoxKitPath
-  pod 'MudoxKit/MBProgressHUD',     path: mudoxKitPath
-  pod 'MudoxKit/ActivityCenter',    path: mudoxKitPath
+    pod 'SocialKit',                  :git  => 'https://github.com/mudox/social-kit.git'
 
-  # SocialKit - Social platform integration
-  pod 'SocialKit',                  path: socialKitPath
+    pod 'GitHubKit',                  :git  => 'https://github.com/mudox/github-kit.git'
+  else
+    basePath      = '/Users/mudox/Develop/Apple/Frameworks/'
 
-  # GitHub API v3 Swift Interface
-  pod 'GitHubKit',                  path: githubKitPath
+    pod 'JacKit',                     path: basePath + 'JacKit'
+
+    pod 'MudoxKit',                   path: basePath + 'MudoxKit'
+    pod 'MudoxKit/MBProgressHUD',     path: basePath + 'MudoxKit'
+    pod 'MudoxKit/ActivityCenter',    path: basePath + 'MudoxKit'
+
+    pod 'SocialKit',                  path: basePateh + 'SocialKit'
+
+    pod 'GitHubKit',                  path: basePateh + 'GitHubKit'
+  end
+
 end
 
 def rx_pods
@@ -113,7 +120,7 @@ target 'Hydra' do
   networking_pods
   swift_pods
 
-  target 'HydraTests' do
+  target 'Test' do
     inherit! :search_paths
 
     testing_pods

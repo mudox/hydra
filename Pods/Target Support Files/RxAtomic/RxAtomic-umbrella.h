@@ -10,7 +10,8 @@
 #endif
 #endif
 
+#import "RxAtomic.h"
 
-FOUNDATION_EXPORT double Pods_HydraTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_HydraTestsVersionString[];
+FOUNDATION_EXPORT double RxAtomicVersionNumber;
+FOUNDATION_EXPORT const unsigned char RxAtomicVersionString[];
 
