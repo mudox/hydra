@@ -4,7 +4,7 @@ import GitHub
 
 import JacKit
 
-private let jack = Jack("CredentialService").set(options: .short)
+private let jack = Jack("CredentialService").set(format: .short)
 
 class CredentialService: GitHub.CredentialServiceType {
 

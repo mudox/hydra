@@ -7,7 +7,7 @@ import MudoxKit
 
 import SwiftyUserDefaults
 
-private let jack = Jack("AppFlow").set(options: .short)
+private let jack = Jack("AppFlow").set(format: .short)
 
 extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType == Swift.Never {
 

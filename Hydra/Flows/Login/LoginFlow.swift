@@ -67,7 +67,7 @@ class LoginFlow: BaseFlow, LoginFlowType {
   }
 
   func complete() {
-    jack.descendant("complete").info("logged in", options: .short)
+    jack.descendant("complete").info("logged in", format: .short)
 
     switch stage {
     case .window:
