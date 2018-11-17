@@ -25,8 +25,7 @@ Simply put, flow + view model + view controller + view.
 
 ### Network technique stack
 
-- [x] [Alamofire]
-- [x] [RxAlamofire] for simple request case
+- [x] [Alamofire] + [RxAlamofire] for simple request case
 - [x] [Moya] to construct network abstraction layer
 - [x] [RxSwift] to provide reactive interface
 - [x] [GitHubKit] as Swift client of GitHub API
@@ -37,10 +36,21 @@ Simply put, flow + view model + view controller + view.
 - [x] [RxSwiftExt] as complementary library for [RxSwift]
 - [x] [RxDataSources] to drive table views and collection views
 - [x] [RxGesture] to install and use gesture recognizers reactively
-- [ ] [RxRealm] to interact with Realm mobile database reactively
+
+### UI
+
+### Other
+
+- [ ] [SocialKit] for social sharing
+
+### Data Model
+
+- [x] [SwiftyUserDefaults] to access UserDefaults safely
+- [ ] [Realm] + [RxRealm] + [RxRealmDataSources] to construct local data model layer
 
 ### Testing
 
+- [x] [JacKit] for better logging
 - [x] [Quick] + [Nimble] + [RxNimble] to write test cases
 - [x] [RxTest] + [RxBlocking] to test RxSwift observables
 - [x] [OHHTTPStubs] to stub network requests
@@ -92,3 +102,9 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [RxSwiftExt]: https://github.com/RxSwiftCommunity/RxSwiftExt
 [RxRealm]: https://github.com/RxSwiftCommunity/RxRealm
 [Swinject]: https://github.com/Swinject/Swinject
+[SwiftyUserDefaults]: https://github.com/radex/SwiftyUserDefaults
+[Realm]: https://realm.io
+[RxRealm]: https://github.com/RxSwiftCommunity/RxRealm
+[RxRealmDataSources]: https://github.com/RxSwiftCommunity/RxRealmDataSources
+[SocialKit]: https://github.com/mudox/social-kit
+[JacKit]: https://github.com/mudox/jac-kit
