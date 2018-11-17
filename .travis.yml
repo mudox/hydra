@@ -1,0 +1,8 @@
+language: swift
+osx_image: xcode10
+xcode_workspace: Hydra.xcworkspace
+xcode_scheme: Hydra
+xcode_destination: platform=iOS Simulator,OS=10.1,name=iPhone 8
+
+notifications:
+  email: false
