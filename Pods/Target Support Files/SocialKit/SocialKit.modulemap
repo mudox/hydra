@@ -1,6 +1,0 @@
-framework module SocialKit {
-  umbrella header "SocialKit-umbrella.h"
-
-  export *
-  module * { export * }
-}

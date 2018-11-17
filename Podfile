@@ -8,7 +8,7 @@ def my_pods
     pod 'MudoxKit/MBProgressHUD',     :git  => 'https://github.com/mudox/mudox-kit.git'
     pod 'MudoxKit/ActivityCenter',    :git  => 'https://github.com/mudox/mudox-kit.git'
 
-    pod 'SocialKit',                  :git  => 'https://github.com/mudox/social-kit.git'
+    #pod 'SocialKit',                  :git  => 'https://github.com/mudox/social-kit.git'
 
     pod 'GitHubKit',                  :git  => 'https://github.com/mudox/github-kit.git'
   else
@@ -20,7 +20,7 @@ def my_pods
     pod 'MudoxKit/MBProgressHUD',     path: basePath + 'MudoxKit'
     pod 'MudoxKit/ActivityCenter',    path: basePath + 'MudoxKit'
 
-    pod 'SocialKit',                  path: basePath + 'SocialKit'
+    #pod 'SocialKit',                  path: basePath + 'SocialKit'
 
     pod 'GitHubKit',                  path: basePath + 'GitHubKit'
   end

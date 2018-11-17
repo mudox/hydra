@@ -90,11 +90,6 @@ PODS:
   - RxTest (4.4.0):
     - RxAtomic (~> 4.4)
     - RxSwift (~> 4.0)
-  - SocialKit (0.1.0):
-    - JacKit
-    - Result
-    - RxCocoa
-    - RxSwift
   - SSZipArchive (2.1.4)
   - SwiftLint (0.28.0)
   - SwiftyUserDefaults (4.0.0-alpha.1)
@@ -119,7 +114,6 @@ DEPENDENCIES:
   - RxSwift
   - RxSwiftExt
   - RxTest
-  - SocialKit (from `/Users/mudox/Develop/Apple/Frameworks/SocialKit`)
   - SwiftLint
   - SwiftyUserDefaults (= 4.0.0-alpha.1)
   - Then
@@ -159,8 +153,6 @@ EXTERNAL SOURCES:
     :path: "/Users/mudox/Develop/Apple/Frameworks/JacKit"
   MudoxKit:
     :path: "/Users/mudox/Develop/Apple/Frameworks/MudoxKit"
-  SocialKit:
-    :path: "/Users/mudox/Develop/Apple/Frameworks/SocialKit"
 
 SPEC CHECKSUMS:
   Action: 2f461c203c480b17aa99b3bb166e4329ecff6908
@@ -186,13 +178,12 @@ SPEC CHECKSUMS:
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
   RxTest: 19d03286bdc0a3aaea5d61d4cde31fdf4bb8a5ba
-  SocialKit: 293a4dfd034e688f7e2f136fd36eac8bf58d7779
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
   SwiftyUserDefaults: cebe0ff9472f52699772a514b6f7155861d8069b
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 3f67b0279d62d6fe8074a0115d0dfb389de6d592
+PODFILE CHECKSUM: 9ced5a38e4d042307762337dc3c64a53c469781e
 
 COCOAPODS: 1.5.3
