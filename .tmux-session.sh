@@ -45,6 +45,7 @@ vv Podfile
 :tabnew fastlane/Fastfile
 :tabnew .travis.yml
 :tabnew .gitignore
+:tabnew .swiftlint.yml
 :tabnew .tmux-session.sh
 :tabnew README.md
 :tabnew CHANGELOG.md
