@@ -1,14 +1,14 @@
+import UIKit
+
 import Action
 import RxCocoa
 import RxSwift
 import RxSwiftExt
 
-import UIKit
+import GitHub
 
 import JacKit
 import MudoxKit
-
-//import GitHub
 
 private let jack = Jack("TrendingsViewModel")
 

@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "summary": "Yet another Swift implementation of GitHub API v3 (RESTful)",
   "description": "Yet another Swift implementation of GitHub API v3 (RESTful).",
-  "homepage": "https://github.com/mudox/GitHubKit",
+  "homepage": "https://github.com/mudox/github-kit",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -13,13 +13,13 @@
     "mudox": "imudox@gmail.com"
   },
   "source": {
-    "git": "https://github.com/mudox/GitHubKit.git",
+    "git": "https://github.com/mudox/github-kit.git",
     "tag": "0.2.0"
   },
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "GitHubKit/**/*.swift",
+  "source_files": "Source/**/*.swift",
   "dependencies": {
     "JacKit": [
 

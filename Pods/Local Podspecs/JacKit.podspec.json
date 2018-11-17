@@ -1,7 +1,7 @@
 {
   "name": "JacKit",
   "version": "1.0",
-  "summary": "JacKit, my iOS developing logging tool",
+  "summary": "A scope based Swift logger",
   "description": "Wrap CocoaLumberjack to embrace Swift syntax.\nFile based logging level control.\nA HTTP logger to send events to JacServer, so that I can view my logs in a\nTmux window, cleaned up and prettified.",
   "homepage": "https://github.com/mudox/jac-kit",
   "license": {
@@ -16,7 +16,7 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "JacKit/**/*",
+  "source_files": "Source/**/*",
   "dependencies": {
     "CocoaLumberjack/Swift": [
       "~> 3.3.0"

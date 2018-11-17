@@ -20,7 +20,7 @@
   "subspecs": [
     {
       "name": "Core",
-      "source_files": "MudoxKit/Core/**/*",
+      "source_files": "Source/Core/**/*",
       "dependencies": {
         "JacKit": [
 
@@ -38,7 +38,7 @@
     },
     {
       "name": "ActivityCenter",
-      "source_files": "MudoxKit/ActivityCenter/**/*.{swift,h,m}",
+      "source_files": "Source/ActivityCenter/**/*.{swift,h,m}",
       "dependencies": {
         "RxSwift": [
 
@@ -50,19 +50,19 @@
     },
     {
       "name": "MBProgressHUD",
-      "source_files": "MudoxKit/MBProgressHUD/**/*.swift",
+      "source_files": "Source/MBProgressHUD/**/*.swift",
       "dependencies": {
         "MBProgressHUD": [
 
         ]
       },
       "resource_bundles": {
-        "mbp": "MudoxKit/MBProgressHUD/mbp.xcassets"
+        "mbp": "Source/MBProgressHUD/mbp.xcassets"
       }
     },
     {
       "name": "SVProgressHUD",
-      "source_files": "MudoxKit/SVProgressHUD/**/*",
+      "source_files": "Source/SVProgressHUD/**/*",
       "dependencies": {
         "SVProgressHUD": [
 
@@ -71,7 +71,7 @@
     },
     {
       "name": "NVActivityIndicatorView",
-      "source_files": "MudoxKit/NVActivityIndicatorView/**/*",
+      "source_files": "Source/NVActivityIndicatorView/**/*",
       "dependencies": {
         "NVActivityIndicatorView": [
 
@@ -80,11 +80,11 @@
     },
     {
       "name": "ObjectiveC",
-      "source_files": "MudoxKit/ObjectiveC/**/*"
+      "source_files": "Source/ObjectiveC/**/*"
     },
     {
       "name": "Eureka",
-      "source_files": "MudoxKit/Eureka/**/*",
+      "source_files": "Source/Eureka/**/*",
       "dependencies": {
         "Eureka": [
 
