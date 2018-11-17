@@ -10,7 +10,8 @@ before_install:
   - gem install bundler # keep bundler up-to-date
 
 before_script:
-  - pod update JacKit MudoxKit GitHubKit SocialKit # switch to use `:git =>` sources
+  #- pod update JacKit MudoxKit GitHubKit SocialKit # switch to use `:git =>` sources
+  - pod update JacKit MudoxKit GitHubKit # switch to use `:git =>` sources
 
 script:
   - bundle exec fastlane ios test
