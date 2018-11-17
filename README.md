@@ -11,51 +11,53 @@ technologies I learned in community. It uses [GitHubKit] to access GitHub APIs.
 
 ## Technologies
 
-Requirements
+### Requirements
 
 - [x] Xcode 10
 - [x] Swift 4.2
 
-Architecture
+### Architecture
 
 - [x] MVVM with [RxSwift]
 - [x] Flow
 
-Network technique stack
+Simply put, flow + view model + view controller + view.
+
+### Network technique stack
 
 - [x] [Alamofire]
-- [x] [RxAlamofire]
-- [x] [Moya]
+- [x] [RxAlamofire] for simple request case
+- [x] [Moya] to construct network abstraction layer
+- [x] [RxSwift] to provide reactive interface
+- [x] [GitHubKit] as Swift client of GitHub API
+
+### F.R.P (Functional Reactive Programming)
+
 - [x] [RxSwift]
-- [x] [GitHubKit]
+- [x] [RxSwiftExt] as complementary library for [RxSwift]
+- [x] [RxDataSources] to drive table views and collection views
+- [x] [RxGesture] to install and use gesture recognizers reactively
+- [ ] [RxRealm] to interact with Realm mobile database reactively
 
-F.R.P (Functional Reactive Programming)
+### Testing
 
-- [x] [RxSwift]
-- [x] [RxSwiftExt]
-- [x] [RxDataSources]
-- [x] [RxGesture]
-- [ ] [RxRealm]
+- [x] [Quick] + [Nimble] + [RxNimble] to write test cases
+- [x] [RxTest] + [RxBlocking] to test RxSwift observables
+- [x] [OHHTTPStubs] to stub network requests
+- [ ] [Swinject] to inverse dependencies
 
-Testing
+### Code quality
 
-- [x] [Quick] + [Nimble]
-- [x] [RxTest] + [RxBlocking]
-- [x] [RxNimble]
-- [x] [OHHTTPStubs]
+- [x] [SwiftFormat] to prettify Swift code
+- [x] [SwiftLint] to keep code's quality
 
-Code quality
+### CI solution
 
-- [x] [SwiftFormat]
-- [x] [SwiftLint]
-
-CI solution
-
-- [x] [fastlane]
-- [x] [Travis CI]
-- [x] [codecov.io]
-- [x] [Code Climate]
-- [ ] [Danger]
+- [x] [fastlane] to automate development steps
+- [x] [Travis CI] as CI provider
+- [x] [codecov.io] as code coverage service
+- [x] [Code Climate] to keep code maintainability
+- [ ] [Danger] to automate pull request managements and other developing chores
 
 ## Author
 
@@ -89,3 +91,4 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [RxDataSources]: https://github.com/RxSwiftCommunity/RxDataSources
 [RxSwiftExt]: https://github.com/RxSwiftCommunity/RxSwiftExt
 [RxRealm]: https://github.com/RxSwiftCommunity/RxRealm
+[Swinject]: https://github.com/Swinject/Swinject
