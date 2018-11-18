@@ -42,13 +42,16 @@ tmux new-session       \
 sleep 0.2
 tmux send-keys -t "${window}" "
 vv Podfile
-:tabnew fastlane/Fastfile
-:tabnew .travis.yml
-:tabnew .gitignore
-:tabnew .swiftlint.yml
-:tabnew .tmux-session.sh
-:tabnew README.md
-:tabnew CHANGELOG.md
+:tabnew   fastlane/Fastfile
+:tabnew   .travis.yml
+:tabnew   .gitignore
+:tabnew   .tmux-session.sh
+:tabnew   .swiftlint.yml
+:tabnew   .codecov.yml
+:vnew     .codeclimate.yml
+:tabnew   README.md
+:tabnew   CHANGELOG.md
+
 "
 
 #
