@@ -6,8 +6,8 @@
 [![Codecov](https://img.shields.io/codecov/c/github/mudox/hydra.svg)](https://codecov.io/gh/mudox/mudox-kit)
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/mudox/hydra.svg)](https://codeclimate.com/github/mudox/hydra/maintainability)
 
-Hydra is an unofficial iOS client app for GitHub. I use it to practice various
-technologies I learned in community. It uses [GitHubKit] to access GitHub APIs.
+Hydra is an unofficial iOS client app for GitHub. I use it to keep practicing
+various technologies I learned in community.
 
 ## Technologies
 
@@ -32,26 +32,20 @@ Simply put, flow + view model + view controller + view.
 
 ### F.R.P (Functional Reactive Programming)
 
-- [x] [RxSwift]
-- [x] [RxSwiftExt] as complementary library for [RxSwift]
-- [x] [RxDataSources] to drive table views and collection views
+- [x] [RxSwift] the Swift implementation of [ReactiveX]
+- [x] [RxSwiftExt] as extension library for [RxSwift]
+- [x] [RxDataSources] + [RxRealmDataSources] to drive table views and collection views
 - [x] [RxGesture] to install and use gesture recognizers reactively
 
 ### UI
 
-UI Design
-
-[Sketch.app]
-[Principle.app]
-
-### Other
-
-- [ ] [SocialKit] for social sharing
+- [x] [Sketch.app] for static scene & artwork design
+- [ ] [Principle.app] for UI interaction design
 
 ### Data Model
 
 - [x] [SwiftyUserDefaults] to access UserDefaults safely
-- [ ] [Realm] + [RxRealm] + [RxRealmDataSources] to construct local data model layer
+- [ ] [Realm] + [RxRealm] +  to construct local data model layer
 
 ### Testing
 
@@ -73,6 +67,10 @@ UI Design
 - [x] [codecov.io] as code coverage service
 - [x] [Code Climate] to keep code maintainability
 - [ ] [Danger] to automate pull request managements and other developing chores
+
+### Other
+
+- [ ] [SocialKit] for social sharing
 
 ## Author
 
@@ -115,3 +113,4 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [JacKit]: https://github.com/mudox/jac-kit
 [Sketch.app]: https://www.sketchapp.com/com
 [Principle.app]: http://principleformac.com
+[ReactiveX]: http://reactivex.io
