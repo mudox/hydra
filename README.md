@@ -1,9 +1,10 @@
 # Hydra
 
 ![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg)
+[![Swift Version](https://img.shields.io/badge/swift-4.2-F16D39.svg?style=flat)](https://developer.apple.com/swift)
 [![GitHub license](https://img.shields.io/github/license/mudox/hydra.svg)](https://github.com/mudox/hydra/blob/master/LICENSE)
 [![Travis (.com)](https://img.shields.io/travis/com/mudox/hydra.svg)](https://travis-ci.com/mudox/hydra)
-[![Codecov](https://img.shields.io/codecov/c/github/mudox/hydra.svg)](https://codecov.io/gh/mudox/mudox-kit)
+[![codecov](https://codecov.io/gh/mudox/hydra/branch/master/graph/badge.svg)](https://codecov.io/gh/mudox/hydra)
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/mudox/hydra.svg)](https://codeclimate.com/github/mudox/hydra/maintainability)
 
 Hydra is an unofficial iOS client app for GitHub. I use it to keep practicing
@@ -71,6 +72,7 @@ Simply put, flow + view model + view controller + view.
 ### Other
 
 - [ ] [SocialKit] for social sharing
+- [x] [Graffle.app] to draw concept designing charts
 
 ## Author
 
