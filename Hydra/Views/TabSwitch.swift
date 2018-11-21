@@ -34,18 +34,18 @@ class TabSwitchButton: UIButton {
         ])
         setAttributedTitle(attr, for: .normal)
 
-        backgroundColor = .darkGray
+        backgroundColor = .hydraDark
         layer.borderColor = UIColor.clear.cgColor
 
       } else {
         let attr = NSAttributedString(string: title, attributes: [
           .font: UIFont.systemFont(ofSize: 12),
-          .foregroundColor: UIColor.lightGray
+          .foregroundColor: UIColor.hydraGray
         ])
         setAttributedTitle(attr, for: .normal)
 
         backgroundColor = .white
-        layer.borderColor = UIColor.lightGray.cgColor
+        layer.borderColor = UIColor.hydraGray.cgColor
 
       }
     }
