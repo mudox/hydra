@@ -10,36 +10,36 @@ import GitHub
 import JacKit
 import MudoxKit
 
-private let jack = Jack("TrendingsViewModel")
+private let jack = Jack("TrendViewModel")
 
 // MARK: Interface
 
-protocol TrendingsViewModelInput {
+protocol TrendViewModelInput {
 //  var username: BehaviorRelay<String> { get }
 //  var password: BehaviorRelay<String> { get }
-//  var TrendingsTap: PublishRelay<Void> { get }
+//  var TrendTap: PublishRelay<Void> { get }
 }
 
-protocol TrendingsViewModelOutput {
+protocol TrendViewModelOutput {
 //  var hudCommands: Driver<MBPCommand> { get }
-//  var TrendingsAction: Action<TrendingsInput, TrendingsOutput> { get }
+//  var TrendAction: Action<TrendInput, TrendOutput> { get }
 }
 
-protocol TrendingsViewModelType: TrendingsViewModelInput, TrendingsViewModelOutput {
+protocol TrendViewModelType: TrendViewModelInput, TrendViewModelOutput {
   init(
-//    flow: TrendingsFlowType,
-//    TrendingsService: TrendingsServiceType
+//    flow: TrendFlowType,
+//    TrendService: TrendServiceType
   )
 }
 
-extension TrendingsViewModelType {
-  var input: TrendingsViewModelInput { return self }
-  var output: TrendingsViewModelOutput { return self }
+extension TrendViewModelType {
+  var input: TrendViewModelInput { return self }
+  var output: TrendViewModelOutput { return self }
 }
 
 // MARK: - Impelementation
 
-class TrendingsViewModel: TrendingsViewModelType {
+class TrendViewModel: TrendViewModelType {
 
   let disposeBag = DisposeBag()
 
@@ -47,7 +47,7 @@ class TrendingsViewModel: TrendingsViewModelType {
 
 //  let username = BehaviorRelay<String>(value: "")
 //  let password = BehaviorRelay<String>(value: "")
-//  let TrendingsTap = PublishRelay<Void>()
+//  let TrendTap = PublishRelay<Void>()
 
   // MARK: - Output
 
@@ -57,7 +57,7 @@ class TrendingsViewModel: TrendingsViewModelType {
 //    return hudRelay.asDriver()
 //  }
 //
-//  var TrendingsAction: Action<TrendingsInput, TrendingsOutput>
+//  var TrendAction: Action<TrendInput, TrendOutput>
 
   // MARK: - Life cycle
 
