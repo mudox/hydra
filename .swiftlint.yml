@@ -4,6 +4,7 @@ included:
 
 excluded:
   - Pods
+  - Hydra/Views.playground
 
 analyzer_rules:
   - unused_import
