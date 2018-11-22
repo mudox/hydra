@@ -10,6 +10,18 @@
 Hydra is an unofficial iOS client app for GitHub. I use it to keep practicing
 various technologies I learned in community.
 
+## Project Targets
+
+- [x] UI/UX designing process.
+- [x] [MVVM] (with [RxSwift]) architecture.
+- [x] Use [FRP] paradigm as much as possible, use it correctly.
+- [x] Construct solid network abstraction layer ([GitHubKit]) using state-of-arts techniques.
+- [x] Utilize CI automation tools.
+- [x] Get rid of interface builder (no .xib, .storyboard files), full code which is git friendly and good for future maintaining.
+- [ ] Unit tested.
+- [ ] UI tested.
+- [ ] Decent code coverage.
+
 ## Technologies
 
 ### Requirements
@@ -82,6 +94,7 @@ Mudox
 
 Hydra is available under the MIT license. See the LICENSE file for more info.
 
+[FRP]: https://en.wikipedia.org/wiki/Functional_reactive_programming
 [GitHub APIv3]: https://developer.github.com/v3
 [Moya]: https://github.com/Moya/Moya
 [Quick]: https://github.com/Quick/Quick
@@ -116,3 +129,4 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [Sketch.app]: https://www.sketchapp.com/com
 [Principle.app]: http://principleformac.com
 [ReactiveX]: http://reactivex.io
+[MVVM]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel
