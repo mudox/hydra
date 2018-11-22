@@ -11,6 +11,7 @@ analyzer_rules:
   - unused_private_declaration
 
 disabled_rules:
+  - closure_parameter_position
   - opening_brace
 
 opt_in_rules:
