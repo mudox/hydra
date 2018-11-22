@@ -66,6 +66,8 @@ number_separator:
 identifier_name:
   excluded:
     - vc
+    - iv
+    - id
 
 
 #file_name:
