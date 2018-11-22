@@ -1,17 +1,27 @@
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 import SnapKit
+
+import GitHub
 
 class TrendRepositoryCell: UICollectionViewCell {
 
-  private var imageView: UIImageView!
-  private var repoLabel: UILabel!
-  private var ownerLabel: UILabel!
-  private var badge: TrendRankBadge!
+  // MARK: - Subviews
 
-  private var starsLabel: UILabel!
-  private var gainedStarsLabel: UILabel!
-  private var forksLabel: UILabel!
+  fileprivate var imageView: UIImageView!
+  fileprivate var repoLabel: UILabel!
+  fileprivate var ownerLabel: UILabel!
+  fileprivate var badge: TrendRankBadge!
+
+  fileprivate var starsLabel: UILabel!
+  fileprivate var gainedStarsLabel: UILabel!
+  fileprivate var forksLabel: UILabel!
+  fileprivate var contributorsView: ContributorsView!
+
+  // MARK: - Setup
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -21,6 +31,11 @@ class TrendRepositoryCell: UICollectionViewCell {
     setupBadge()
     setupLabels()
     setupCorners()
+  }
+
+  @available(*, unavailable)
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("do not use")
   }
 
   func setupShadow() {
@@ -79,7 +94,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.allowsDefaultTighteningForTruncation = true
     }
 
-    addSubview(repoLabel)
+    contentView.addSubview(repoLabel)
     repoLabel.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
       make.centerY.equalToSuperview().offset(-14)
@@ -102,7 +117,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.allowsDefaultTighteningForTruncation = true
     }
 
-    addSubview(ownerLabel)
+    contentView.addSubview(ownerLabel)
     ownerLabel.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
       make.top.equalTo(repoLabel.snp.bottom).offset(4)
@@ -121,7 +136,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.textAlignment = .left
     }
 
-    addSubview(starsLabel)
+    contentView.addSubview(starsLabel)
     starsLabel.snp.makeConstraints { make in
       make.top.leading.equalToSuperview().inset(margin)
     }
@@ -130,7 +145,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.image = #imageLiteral(resourceName: "Stars Icon")
     }
 
-    addSubview(starsIcon)
+    contentView.addSubview(starsIcon)
     starsIcon.snp.makeConstraints { make in
       make.top.equalToSuperview().offset(margin)
       make.leading.equalTo(starsLabel.snp.trailing).offset(1)
@@ -142,7 +157,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.image = #imageLiteral(resourceName: "Gained Stars Icon")
     }
 
-    addSubview(gainedStarsIcon)
+    contentView.addSubview(gainedStarsIcon)
     gainedStarsIcon.snp.makeConstraints { make in
       make.top.trailing.equalToSuperview().inset(margin)
     }
@@ -154,7 +169,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.textAlignment = .right
     }
 
-    addSubview(gainedStarsLabel)
+    contentView.addSubview(gainedStarsLabel)
     gainedStarsLabel.snp.makeConstraints { make in
       make.top.equalToSuperview().inset(margin)
       make.trailing.equalTo(gainedStarsIcon.snp.leading).offset(-1)
@@ -165,7 +180,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.image = #imageLiteral(resourceName: "Fork Icon")
     }
 
-    addSubview(forksIcon)
+    contentView.addSubview(forksIcon)
     forksIcon.snp.makeConstraints { make in
       make.bottom.trailing.equalToSuperview().inset(margin)
     }
@@ -177,18 +192,41 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.textAlignment = .right
     }
 
-    addSubview(forksLabel)
+    contentView.addSubview(forksLabel)
     forksLabel.snp.makeConstraints { make in
       make.bottom.equalToSuperview().inset(margin)
       make.trailing.equalTo(forksIcon.snp.leading).offset(-1)
     }
 
     // Bottom left - contributors wall
+    contributorsView = ContributorsView()
+    contentView.addSubview(contributorsView)
+    contributorsView.snp.makeConstraints { make in
+     make.leading.bottom.equalToSuperview().inset(margin)
+    }
   }
 
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use")
+}
+
+// MARK: - TrendRepositoryCell.rx.repository
+
+extension Reactive where Base: TrendRepositoryCell {
+
+  var repository: Binder<GitHub.Trending.Repository> {
+    return Binder(base) { cell, repo in
+      cell.starsLabel.text = repo.starsCount.description
+      cell.gainedStarsLabel.text = repo.gainedStarsCount.description
+
+      if let count = repo.forksCount {
+        cell.forksLabel.isHidden = false
+        cell.forksLabel.text = count.description
+      } else {
+        cell.forksLabel.isHidden = true
+      }
+
+      cell.repoLabel.text = repo.name
+      cell.ownerLabel.text = repo.owner
+    }
   }
 
 }
