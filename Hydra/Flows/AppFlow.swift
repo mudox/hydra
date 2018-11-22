@@ -31,17 +31,28 @@ class AppFlow: BaseAppFlow {
 
     resetIfNeeded()
 
-    _ = welcomeIfNeeded
-      .andThen(loginIfNeeded)
-      .andThen(startMainFlow)
-      .subscribe()
+//    _ = welcomeIfNeeded
+//      .andThen(loginIfNeeded)
+//      .andThen(startMainFlow)
+//      .neverComplete()
+
+//    let flow = TrendFlow(stage: stage)
+//    _ = flow.start()
+//      .neverComplete()
+
+    _ = startMainFlow.neverComplete()
+
   }
 
+  /// Reset app states for developing purpose
+  ///
+  /// Reset according to the value of environment variable `RESET_APP`:
+  /// - "all":  reset all app data
   private func resetIfNeeded() {
     #if DEBUG
-      switch ProcessInfo.processInfo.environment["RESET"] {
+      switch ProcessInfo.processInfo.environment["RESET_APP"] {
       case "all":
-        jack.descendant("start").debug("remove all data in UserDefaults database")
+        jack.descendant("start").debug("clear data in UserDefaults")
         Defaults.removeAll()
       default:
         break
@@ -62,7 +73,11 @@ class AppFlow: BaseAppFlow {
   }
 
   var startMainFlow: Completable {
-    let flow = MainFlow(stage: stage)
-    return flow.start()
+    let tabBarController = UITabBarController()
+    stage.window.rootViewController = tabBarController
+
+    // Trend
+    let trendFlow = TrendFlow(stage: .viewController(tabBarController))
+    return trendFlow.start()
   }
 }
