@@ -4,6 +4,8 @@ import RxCocoa
 import RxSwift
 import RxSwiftExt
 
+import MudoxKit
+
 import Then
 
 class TabSwitchButton: UIButton {
@@ -18,6 +20,8 @@ class TabSwitchButton: UIButton {
     layer.cornerRadius = 4
     layer.masksToBounds = true
     layer.borderWidth = 1
+
+    setBackgroundImage(UIImage.mdx.color(.hydraHighlight), for: .highlighted)
   }
 
   @available(*, unavailable, message: "has not been implemented")
@@ -29,7 +33,7 @@ class TabSwitchButton: UIButton {
     didSet {
       if isSelected {
         let attr = NSAttributedString(string: title, attributes: [
-          .font: UIFont.systemFont(ofSize: 12),
+          .font: UIFont.systemFont(ofSize: 15),
           .foregroundColor: UIColor.white
         ])
         setAttributedTitle(attr, for: .normal)
@@ -39,7 +43,7 @@ class TabSwitchButton: UIButton {
 
       } else {
         let attr = NSAttributedString(string: title, attributes: [
-          .font: UIFont.systemFont(ofSize: 12),
+          .font: UIFont.systemFont(ofSize: 15),
           .foregroundColor: UIColor.hydraGray
         ])
         setAttributedTitle(attr, for: .normal)
@@ -56,7 +60,7 @@ class TabSwitch: UIView {
 
   var disposeBag = DisposeBag()
 
-  private var buttons = [TabSwitchButton]()
+  private var buttons: [TabSwitchButton] = []
   private let titles: [String]
 
   private let selectedButtonIndexRelay = BehaviorRelay(value: 0)
@@ -69,7 +73,7 @@ class TabSwitch: UIView {
     self.titles = titles
     super.init(frame: .zero)
 
-    setupButtons()
+    setupView()
     setupBinding()
   }
 
@@ -78,14 +82,29 @@ class TabSwitch: UIView {
     fatalError("init?(coder:) has not been implemented")
   }
 
-  func setupButtons() {
+  func setupView() {
     titles.enumerated().forEach { index, title in
       let button = TabSwitchButton(title: title)
-      button.tag = index
       button.isSelected = (index == 0)
 
       buttons.append(button)
-      addSubview(button)
+    }
+
+    let container = UIStackView(arrangedSubviews: buttons).then {
+      $0.axis = .horizontal
+      $0.distribution = .fillEqually
+      $0.alignment = .fill
+      $0.spacing = 10
+    }
+
+    addSubview(container)
+    container.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+
+    snp.makeConstraints { make in
+      make.width.equalTo(120 * buttons.count + (buttons.count - 1) * 10)
+      make.height.equalTo(26)
     }
   }
 
