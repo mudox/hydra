@@ -81,7 +81,7 @@ def networking_pods
   # pod 'Alamofire'
   # pod 'RxAlamofire'
 
-  pod 'Moya/RxSwift'
+  #pod 'Moya/RxSwift'
 
   # pod 'Kingfisher'
 end
@@ -91,6 +91,9 @@ def ui_pods
   # pod 'Eureka'
   # pod 'IQKeyboardManagerSwift'
   # pod 'SwiftRichString'
+
+  pod 'SwiftHEXColors'
+  pod 'SnapKit'
 end
 
 def swift_pods

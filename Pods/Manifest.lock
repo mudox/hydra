@@ -90,7 +90,9 @@ PODS:
   - RxTest (4.4.0):
     - RxAtomic (~> 4.4)
     - RxSwift (~> 4.0)
+  - SnapKit (4.2.0)
   - SSZipArchive (2.1.4)
+  - SwiftHEXColors (1.1.2)
   - SwiftLint (0.28.0)
   - SwiftyUserDefaults (4.0.0-alpha.1)
   - Then (2.4.0)
@@ -100,7 +102,6 @@ DEPENDENCIES:
   - Action
   - GitHubKit (from `/Users/mudox/Develop/Apple/Frameworks/GitHubKit`)
   - JacKit (from `/Users/mudox/Develop/Apple/Frameworks/JacKit`)
-  - Moya/RxSwift
   - MudoxKit (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
   - MudoxKit/ActivityCenter (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
   - MudoxKit/MBProgressHUD (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
@@ -114,6 +115,8 @@ DEPENDENCIES:
   - RxSwift
   - RxSwiftExt
   - RxTest
+  - SnapKit
+  - SwiftHEXColors
   - SwiftLint
   - SwiftyUserDefaults (= 4.0.0-alpha.1)
   - Then
@@ -140,7 +143,9 @@ SPEC REPOS:
     - RxSwift
     - RxSwiftExt
     - RxTest
+    - SnapKit
     - SSZipArchive
+    - SwiftHEXColors
     - SwiftLint
     - SwiftyUserDefaults
     - Then
@@ -178,12 +183,14 @@ SPEC CHECKSUMS:
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
   RxTest: 19d03286bdc0a3aaea5d61d4cde31fdf4bb8a5ba
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
+  SwiftHEXColors: 7f9f7e6bdce888d821e11749279733e5ddff5f51
   SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
   SwiftyUserDefaults: cebe0ff9472f52699772a514b6f7155861d8069b
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 9ced5a38e4d042307762337dc3c64a53c469781e
+PODFILE CHECKSUM: 1acc506cd979cd6fd89b0aa5813a766b7647e392
 
 COCOAPODS: 1.5.3
