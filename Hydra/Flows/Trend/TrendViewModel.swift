@@ -10,26 +10,34 @@ import GitHub
 import JacKit
 import MudoxKit
 
-private let jack = Jack("TrendViewModel")
+private let jack = Jack().set(format: .short)
+
+protocol TrendServiceType {
+  // swiftlint:disable identifier_name
+  func repositories(of: String, in: Trending.Period) -> Single<[Trending.Repository]>
+  func developers(of: String, in: Trending.Period) -> Single<[Trending.Developer]>
+  // swiftlint:enable identifier_name
+}
+
+extension GitHub.Trending: TrendServiceType {}
 
 // MARK: Interface
 
 protocol TrendViewModelInput {
-//  var username: BehaviorRelay<String> { get }
-//  var password: BehaviorRelay<String> { get }
-//  var TrendTap: PublishRelay<Void> { get }
+  var languageRelay: BehaviorRelay<String> { get }
+  var refreshDayTreding: BehaviorRelay<Void> { get }
+  var refreshWeekTreding: BehaviorRelay<Void> { get }
+  var refreshMonthTreding: BehaviorRelay<Void> { get }
 }
 
 protocol TrendViewModelOutput {
-//  var hudCommands: Driver<MBPCommand> { get }
-//  var TrendAction: Action<TrendInput, TrendOutput> { get }
+  var dayTrending: Action<String, [Trending.Repository]> { get }
+  var weekTrending: Action<String, [Trending.Repository]> { get }
+  var monthTrending: Action<String, [Trending.Repository]> { get }
 }
 
 protocol TrendViewModelType: TrendViewModelInput, TrendViewModelOutput {
-  init(
-//    flow: TrendFlowType,
-//    TrendService: TrendServiceType
-  )
+  init(service: TrendServiceType)
 }
 
 extension TrendViewModelType {
@@ -45,24 +53,44 @@ class TrendViewModel: TrendViewModelType {
 
   // MARK: - Input
 
-//  let username = BehaviorRelay<String>(value: "")
-//  let password = BehaviorRelay<String>(value: "")
-//  let TrendTap = PublishRelay<Void>()
+  var languageRelay = BehaviorRelay<String>(value: "all")
+  var refreshDayTreding = BehaviorRelay<Void>(value: ())
+  var refreshWeekTreding = BehaviorRelay<Void>(value: ())
+  var refreshMonthTreding = BehaviorRelay<Void>(value: ())
 
   // MARK: - Output
 
-//  private var hudRelay = BehaviorRelay<MBPCommand>(value: .hide())
-//
-//  var hudCommands: Driver<MBPCommand> {
-//    return hudRelay.asDriver()
-//  }
-//
-//  var TrendAction: Action<TrendInput, TrendOutput>
+  var dayTrending: Action<String, [Trending.Repository]>
+  var weekTrending: Action<String, [Trending.Repository]>
+  var monthTrending: Action<String, [Trending.Repository]>
 
   // MARK: - Life cycle
 
-  required init() {
+  required init(service: TrendServiceType) {
 
+    dayTrending = Action { language -> Observable<[Trending.Repository]> in
+      service.repositories(of: language, in: .pastDay).asObservable()
+    }
+    refreshDayTreding
+      .withLatestFrom(languageRelay)
+      .bind(to: dayTrending.inputs)
+      .disposed(by: disposeBag)
+
+    weekTrending = Action { language -> Observable<[Trending.Repository]> in
+      service.repositories(of: language, in: .pastWeek).asObservable()
+    }
+    refreshWeekTreding
+      .withLatestFrom(languageRelay)
+      .bind(to: weekTrending.inputs)
+      .disposed(by: disposeBag)
+
+    monthTrending = Action { language -> Observable<[Trending.Repository]> in
+      service.repositories(of: language, in: .pastMonth).asObservable()
+    }
+    refreshMonthTreding
+      .withLatestFrom(languageRelay)
+      .bind(to: monthTrending.inputs)
+      .disposed(by: disposeBag)
   }
 
 }
