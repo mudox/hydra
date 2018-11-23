@@ -12,10 +12,10 @@ various technologies I learned in community.
 
 ## Project Targets
 
-- [x] UI/UX designing process.
+- [x] Practice UI/UX designing tool ([Sketch.app] etc.)
 - [x] [MVVM] (with [RxSwift]) architecture.
 - [x] Use [FRP] paradigm as much as possible, use it correctly.
-- [x] Construct solid network abstraction layer ([GitHubKit]) using state-of-arts techniques.
+- [x] Construct solid network abstraction layer ([GitHubKit]) using state-of-art techniques.
 - [x] Utilize CI automation tools.
 - [x] Get rid of interface builder (no .xib, .storyboard files), full code which is git friendly and good for future maintaining.
 - [ ] Unit tested.
@@ -38,53 +38,53 @@ Simply put, flow + view model + view controller + view.
 
 ### Network technique stack
 
-- [x] [Alamofire] + [RxAlamofire] for simple request case
-- [x] [Moya] to construct network abstraction layer
-- [x] [RxSwift] to provide reactive interface
-- [x] [GitHubKit] as Swift client of GitHub API
+- [x] [Alamofire] + [RxAlamofire] for simple request case.
+- [x] [Moya] to construct network abstraction layer.
+- [x] [RxSwift] to provide reactive interface.
+- [x] [GitHubKit] as Swift client of GitHub API.
 
 ### F.R.P (Functional Reactive Programming)
 
-- [x] [RxSwift] the Swift implementation of [ReactiveX]
-- [x] [RxSwiftExt] as extension library for [RxSwift]
-- [x] [RxDataSources] + [RxRealmDataSources] to drive table views and collection views
-- [x] [RxGesture] to install and use gesture recognizers reactively
+- [x] [RxSwift] the Swift implementation of [ReactiveX].
+- [x] [RxSwiftExt] as extension library for [RxSwift].
+- [x] [RxDataSources] + [RxRealmDataSources] to drive table views and collection views.
+- [x] [RxGesture] to install and use gesture recognizers reactively.
 
 ### UI
 
-- [x] [Sketch.app] for static scene & artwork design
-- [ ] [Principle.app] for UI interaction design
+- [x] [Sketch.app] for static scene & artwork design.
+- [ ] [Principle.app] for UI interaction design.
 
 ### Data Model
 
-- [x] [SwiftyUserDefaults] to access UserDefaults safely
-- [ ] [Realm] + [RxRealm] +  to construct local data model layer
+- [x] [SwiftyUserDefaults] to access UserDefaults type-safely.
+- [ ] [Realm] + [RxRealm] +  to construct local data model layer.
 
 ### Testing
 
-- [x] [JacKit] for better logging
-- [x] [Quick] + [Nimble] + [RxNimble] to write test cases
-- [x] [RxTest] + [RxBlocking] to test RxSwift observables
-- [x] [OHHTTPStubs] to stub network requests
-- [ ] [Swinject] to inverse dependencies
+- [x] [JacKit] for better logging.
+- [x] [Quick] + [Nimble] + [RxNimble] to write test cases.
+- [x] [RxTest] + [RxBlocking] to test RxSwift observables.
+- [x] [OHHTTPStubs] to stub network requests.
+- [ ] [Swinject] to inverse dependencies.
 
 ### Code quality
 
-- [x] [SwiftFormat] to prettify Swift code
-- [x] [SwiftLint] to keep code's quality
+- [x] [SwiftFormat] to prettify Swift code.
+- [x] [SwiftLint] to keep code's quality.
 
 ### CI solution
 
-- [x] [fastlane] to automate development steps
-- [x] [Travis CI] as CI provider
-- [x] [codecov.io] as code coverage service
-- [x] [Code Climate] to keep code maintainability
-- [ ] [Danger] to automate pull request managements and other developing chores
+- [x] [fastlane] to automate development steps.
+- [x] [Travis CI] as CI provider.
+- [x] [codecov.io] as code coverage service.
+- [x] [Code Climate] to keep code maintainability.
+- [ ] [Danger] to automate pull request managements and other developing chores.
 
 ### Other
 
-- [ ] [SocialKit] for social sharing
-- [x] [Graffle.app] to draw concept designing charts
+- [ ] [SocialKit] for social sharing.
+- [x] [Graffle.app] to do concept designing.
 
 ## Author
 
