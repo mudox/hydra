@@ -2,18 +2,24 @@ import UIKit
 
 import SnapKit
 
+import JacKit
+
+private let jack = Jack().set(format: .short)
+
 class TrendRankBadge: UIView {
 
-  let diameter: CGFloat = 20
-  var radius: CGFloat { return diameter / 2 }
+  private let diameter: CGFloat = 20
+  private var radius: CGFloat { return diameter / 2 }
 
-  var rank: UInt = 1 {
+  var rank: Int = 1 {
     didSet {
+      jack.descendant("rank.didSet").assert(rank > 0, "rank should start with 1")
+
       if rank < 10 {
-        rankLabel.isHidden = false
+        isHidden = false
         rankLabel.text = rank.description
       } else {
-        rankLabel.isHidden = true
+        isHidden = true
       }
     }
   }
