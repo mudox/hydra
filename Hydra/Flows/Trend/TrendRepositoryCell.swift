@@ -9,12 +9,14 @@ import GitHub
 
 class TrendRepositoryCell: UICollectionViewCell {
 
+  let margin = 8
+
   // MARK: - Subviews
 
   fileprivate var imageView: UIImageView!
-  fileprivate var repoLabel: UILabel!
+  fileprivate var repositoryLabel: UILabel!
   fileprivate var ownerLabel: UILabel!
-  fileprivate var badge: TrendRankBadge!
+  var badge: TrendRankBadge!
 
   fileprivate var starsLabel: UILabel!
   fileprivate var gainedStarsLabel: UILabel!
@@ -30,7 +32,11 @@ class TrendRepositoryCell: UICollectionViewCell {
     setupImageView()
     setupBadge()
     setupLabels()
-    setupCorners()
+
+    setupTopLeftCorner()
+    setupTopRightCorner()
+    setupBottomRightCorner()
+    setupBottomLeftCorner()
   }
 
   @available(*, unavailable)
@@ -55,7 +61,7 @@ class TrendRepositoryCell: UICollectionViewCell {
   }
 
   func setupImageView() {
-    imageView = UIImageView(image: UIImage(named: "1.jpg")).then {
+    imageView = UIImageView(image: #imageLiteral(resourceName: "1.jpg")).then {
       $0.contentMode = .scaleAspectFill
 
       $0.layer.cornerRadius = 6
@@ -79,7 +85,7 @@ class TrendRepositoryCell: UICollectionViewCell {
 
   func setupLabels() {
     // Repository name label
-    repoLabel = UILabel().then {
+    repositoryLabel = UILabel().then {
       $0.text = "Repository Name"
       $0.textColor = .white
       $0.font = .systemFont(ofSize: 20, weight: .bold)
@@ -94,8 +100,8 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.allowsDefaultTighteningForTruncation = true
     }
 
-    contentView.addSubview(repoLabel)
-    repoLabel.snp.makeConstraints { make in
+    contentView.addSubview(repositoryLabel)
+    repositoryLabel.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
       make.centerY.equalToSuperview().offset(-14)
       make.leading.trailing.equalToSuperview().inset(10)
@@ -120,15 +126,13 @@ class TrendRepositoryCell: UICollectionViewCell {
     contentView.addSubview(ownerLabel)
     ownerLabel.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
-      make.top.equalTo(repoLabel.snp.bottom).offset(4)
+      make.top.equalTo(repositoryLabel.snp.bottom).offset(4)
       make.leading.trailing.equalToSuperview().inset(10)
     }
 
   }
 
-  func setupCorners() {
-    let margin = 8
-    // Top left - stars
+  func setupTopLeftCorner() {
     starsLabel = UILabel().then {
       $0.text = "1383"
       $0.textColor = .white
@@ -151,8 +155,9 @@ class TrendRepositoryCell: UICollectionViewCell {
       make.leading.equalTo(starsLabel.snp.trailing).offset(1)
     }
 
-    // Top right - gained stars
+  }
 
+  func setupTopRightCorner() {
     let gainedStarsIcon = UIImageView().then {
       $0.image = #imageLiteral(resourceName: "Gained Stars Icon")
     }
@@ -175,7 +180,9 @@ class TrendRepositoryCell: UICollectionViewCell {
       make.trailing.equalTo(gainedStarsIcon.snp.leading).offset(-1)
     }
 
-    // Bottom right - gained stars
+  }
+
+  func setupBottomRightCorner() {
     let forksIcon = UIImageView().then {
       $0.image = #imageLiteral(resourceName: "Fork Icon")
     }
@@ -197,36 +204,29 @@ class TrendRepositoryCell: UICollectionViewCell {
       make.bottom.equalToSuperview().inset(margin)
       make.trailing.equalTo(forksIcon.snp.leading).offset(-1)
     }
+  }
 
-    // Bottom left - contributors wall
+  func setupBottomLeftCorner() {
     contributorsView = ContributorsView()
     contentView.addSubview(contributorsView)
     contributorsView.snp.makeConstraints { make in
-     make.leading.bottom.equalToSuperview().inset(margin)
+      make.leading.bottom.equalToSuperview().inset(margin)
     }
   }
 
-}
+  func show(_ repository: Trending.Repository) {
+    starsLabel.text = repository.starsCount.description
+    gainedStarsLabel.text = repository.gainedStarsCount.description
 
-// MARK: - TrendRepositoryCell.rx.repository
-
-extension Reactive where Base: TrendRepositoryCell {
-
-  var repository: Binder<GitHub.Trending.Repository> {
-    return Binder(base) { cell, repo in
-      cell.starsLabel.text = repo.starsCount.description
-      cell.gainedStarsLabel.text = repo.gainedStarsCount.description
-
-      if let count = repo.forksCount {
-        cell.forksLabel.isHidden = false
-        cell.forksLabel.text = count.description
-      } else {
-        cell.forksLabel.isHidden = true
-      }
-
-      cell.repoLabel.text = repo.name
-      cell.ownerLabel.text = repo.owner
+    if let count = repository.forksCount {
+      forksLabel.isHidden = false
+      forksLabel.text = count.description
+    } else {
+      forksLabel.isHidden = true
     }
+
+    repositoryLabel.text = repository.name
+    ownerLabel.text = repository.owner
   }
 
 }
