@@ -5,28 +5,25 @@ import RxSwift
 
 import MudoxKit
 
+import GitHub
+
 protocol TrendingFlowType {
 
-  func start() -> Completable
+  func start(animated: Bool) -> Completable
 
 }
 
 class TrendFlow: BaseFlow, TrendingFlowType {
 
-  func start() -> Completable {
+  func start(animated: Bool = true) -> Completable {
     return .create { _ in
-
-      let viewController = TrendViewController()
-
-      switch self.stage {
-      case let .window(window):
-        window.rootViewController = viewController
-      case let .viewController(viewController):
-        viewController.present(viewController, animated: true)
+      let trendViewController = TrendViewController().then {
+        $0.model = TrendViewModel(service: GitHub.Trending())
       }
 
-      // Never complete
+      self.show(trendViewController, animated: animated)
 
+      // never .complete
       return Disposables.create()
     }
   }
