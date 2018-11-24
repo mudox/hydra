@@ -65,6 +65,8 @@ number_separator:
 
 identifier_name:
   excluded:
+    - x
+    - y
     - vc
     - iv
     - id
