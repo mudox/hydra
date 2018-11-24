@@ -5,23 +5,34 @@ import RxSwift
 
 import SnapKit
 
+import Kingfisher
+
 import GitHub
+import JacKit
+
+private let jack = Jack().set(format: .short)
 
 class TrendRepositoryCell: UICollectionViewCell {
 
   let margin = 8
+
+  var imageIndex: Int = 0 {
+    didSet {
+      imageView.image = UIImage(named: "bg-\(imageIndex)")
+    }
+  }
 
   // MARK: - Subviews
 
   fileprivate var imageView: UIImageView!
   fileprivate var repositoryLabel: UILabel!
   fileprivate var ownerLabel: UILabel!
-  var badge: TrendRankBadge!
+  fileprivate var badge: TrendRankBadge!
 
   fileprivate var starsLabel: UILabel!
   fileprivate var gainedStarsLabel: UILabel!
   fileprivate var forksLabel: UILabel!
-  fileprivate var contributorsView: ContributorsView!
+  var contributorsView: ContributorsView!
 
   // MARK: - Setup
 
@@ -61,7 +72,7 @@ class TrendRepositoryCell: UICollectionViewCell {
   }
 
   func setupImageView() {
-    imageView = UIImageView(image: #imageLiteral(resourceName: "1.jpg")).then {
+    imageView = UIImageView().then {
       $0.contentMode = .scaleAspectFill
 
       $0.layer.cornerRadius = 6
@@ -214,7 +225,7 @@ class TrendRepositoryCell: UICollectionViewCell {
     }
   }
 
-  func show(_ repository: Trending.Repository) {
+  func show(repository: Trending.Repository, rank: Int, backgroundImageIndex index: Int) {
     starsLabel.text = repository.starsCount.description
     gainedStarsLabel.text = repository.gainedStarsCount.description
 
@@ -227,6 +238,28 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     repositoryLabel.text = repository.name
     ownerLabel.text = repository.owner
+    badge.rank = rank
+    imageIndex = index
+
+    repository.contributors.enumerated().forEach { index, contributor in
+      guard index < contributorsView.avatarViews.count else {
+        jack.function().error("contributor index \(index) exceeds number of contributor badges, skip loading image")
+        return
+      }
+
+      let url = contributor.avatar
+      contributorsView.avatarViews[index].kf.setImage(
+        with: url,
+        options: [.transition(.fade(0.2))]
+      )
+    }
+  }
+
+  func cleanup() {
+    contributorsView.avatarViews.forEach {
+      $0.kf.cancelDownloadTask()
+      $0.image = nil
+    }
   }
 
 }

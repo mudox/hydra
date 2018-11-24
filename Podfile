@@ -83,7 +83,7 @@ def networking_pods
 
   #pod 'Moya/RxSwift'
 
-  # pod 'Kingfisher'
+  pod 'Kingfisher'
 end
 
 def ui_pods
