@@ -157,7 +157,8 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.image = #imageLiteral(resourceName: "Stars Icon")
     }
 
-    let stackView = UIStackView(arrangedSubviews: [starsIcon, starsLabel]).then {
+    let views  = [starsIcon, starsLabel!]
+    let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
       $0.distribution = .fill
       $0.alignment = .center
@@ -176,11 +177,6 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.image = #imageLiteral(resourceName: "Gained Stars Icon")
     }
 
-    contentView.addSubview(gainedStarsIcon)
-    gainedStarsIcon.snp.makeConstraints { make in
-      make.top.trailing.equalToSuperview().inset(margin)
-    }
-
     gainedStarsLabel = UILabel().then {
       $0.text = "283"
       $0.textColor = .white
@@ -188,10 +184,17 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.textAlignment = .right
     }
 
-    contentView.addSubview(gainedStarsLabel)
-    gainedStarsLabel.snp.makeConstraints { make in
-      make.top.equalToSuperview().inset(margin)
-      make.trailing.equalTo(gainedStarsIcon.snp.leading).offset(-1)
+    let views = [gainedStarsLabel!, gainedStarsIcon]
+    let stackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .horizontal
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 2
+    }
+
+    contentView.addSubview(stackView)
+    stackView.snp.makeConstraints { make in
+      make.top.trailing.equalToSuperview().inset(margin)
     }
 
   }
@@ -201,11 +204,6 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.image = #imageLiteral(resourceName: "Fork Icon")
     }
 
-    contentView.addSubview(forksIcon)
-    forksIcon.snp.makeConstraints { make in
-      make.bottom.trailing.equalToSuperview().inset(margin)
-    }
-
     forksLabel = UILabel().then {
       $0.text = "87"
       $0.textColor = .white
@@ -213,10 +211,17 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.textAlignment = .right
     }
 
-    contentView.addSubview(forksLabel)
-    forksLabel.snp.makeConstraints { make in
-      make.bottom.equalToSuperview().inset(margin)
-      make.trailing.equalTo(forksIcon.snp.leading).offset(-1)
+    let views = [forksLabel!, forksIcon]
+    let stackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .horizontal
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 2
+    }
+
+    contentView.addSubview(stackView)
+    stackView.snp.makeConstraints { make in
+      make.bottom.trailing.equalToSuperview().inset(margin)
     }
   }
 
@@ -234,7 +239,8 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.textAlignment = .left
     }
 
-    let stackView = UIStackView(arrangedSubviews: [languageColorView, languageLabel]).then {
+    let views = [languageColorView!, languageLabel!]
+    let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
       $0.distribution = .fill
       $0.alignment = .center
