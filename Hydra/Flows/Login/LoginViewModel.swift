@@ -11,6 +11,10 @@ import GitHub
 
 private let jack = Jack("LoginViewModel")
 
+typealias LoginInput = (username: String, password: String)
+
+typealias LoginOutput = GitHub.Service.AuthorizeResponse
+
 // MARK: Interface
 
 protocol LoginViewModelInput {
@@ -18,10 +22,6 @@ protocol LoginViewModelInput {
   var password: BehaviorRelay<String> { get }
   var loginTap: PublishRelay<Void> { get }
 }
-
-typealias LoginInput = (username: String, password: String)
-
-typealias LoginOutput = GitHub.Service.AuthorizeResponse
 
 protocol LoginViewModelOutput {
   var hudCommands: Driver<MBPCommand> { get }
