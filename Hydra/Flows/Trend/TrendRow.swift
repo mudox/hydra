@@ -1,21 +1,81 @@
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 import SnapKit
 
 class TrendRow: UIView {
 
-  let label = UILabel().then {
-    $0.font = .systemFont(ofSize: 16)
-    $0.textColor = .hydraDark
+  var disposeBag = DisposeBag()
+
+  var label: UILabel!
+  var pageControl: TrendPageControl!
+  var collectionView: UICollectionView!
+
+  @available(*, unavailable)
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("do not use it")
   }
 
-  let collectionView: UICollectionView = {
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+
+    setupLabel()
+    setupPageControl()
+    setupCollectionView()
+
+    collectionView.rx.didScroll
+      .bind(onNext: { [unowned self] in
+        let pageWidth = self.collectionView.bounds.width
+        let totalWidth = self.collectionView.contentSize.width
+
+        let fullDistance = totalWidth - pageWidth
+        guard fullDistance > 0 else {
+          self.pageControl.currentIndex = 0
+          return
+        }
+
+        var x = self.collectionView.contentOffset.x
+        x = max(0, x)
+
+        var index = Int(x * 25 / (totalWidth - pageWidth))
+        index = min(24, index)
+
+        self.pageControl.currentIndex = index
+      })
+      .disposed(by: disposeBag)
+  }
+
+  func setupLabel() {
+    label = UILabel().then {
+      $0.font = .systemFont(ofSize: 16)
+      $0.textColor = .hydraDark
+    }
+
+    addSubview(label)
+    label.snp.makeConstraints { make in
+      make.top.equalToSuperview()
+      make.leading.equalToSuperview().offset(17)
+    }
+  }
+
+  func setupPageControl() {
+    pageControl = TrendPageControl()
+    addSubview(pageControl)
+    pageControl.snp.makeConstraints { make in
+      make.trailing.equalToSuperview().inset(22)
+      make.centerY.equalTo(label)
+    }
+  }
+
+  func setupCollectionView() {
     let layout = UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
       $0.minimumLineSpacing = 10
     }
 
-    return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
       $0.backgroundColor = .clear
 
       $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -26,16 +86,6 @@ class TrendRow: UIView {
 
       $0.register(TrendRepositoryCell.self, forCellWithReuseIdentifier: "cell")
     }
-  }()
-
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-
-    addSubview(label)
-    label.snp.makeConstraints { make in
-      make.top.equalToSuperview()
-      make.leading.equalToSuperview().offset(17)
-    }
 
     addSubview(collectionView)
     collectionView.snp.makeConstraints { make in
@@ -43,11 +93,6 @@ class TrendRow: UIView {
       make.bottom.equalToSuperview().inset(10)
       make.leading.trailing.equalToSuperview()
     }
-  }
-
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use it")
   }
 
 }

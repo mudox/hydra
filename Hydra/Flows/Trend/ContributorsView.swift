@@ -9,7 +9,7 @@ class ContributorsView: UIView {
   let diameter: CGFloat = 12
   var radius: CGFloat { return diameter / 2 }
 
-  private var avatarViews: [UIImageView]!
+  var avatarViews: [UIImageView]!
 
   init() {
     super.init(frame: .zero)
