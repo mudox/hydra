@@ -223,7 +223,6 @@ class TrendViewController: UIViewController {
 
       case let .hide(cell):
         occupiedIndexes.remove(cell.imageIndex)
-        cell.cleanup()
       }
     }
     .subscribe()

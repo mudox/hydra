@@ -32,7 +32,8 @@ class TrendRepositoryCell: UICollectionViewCell {
   fileprivate var starsLabel: UILabel!
   fileprivate var gainedStarsLabel: UILabel!
   fileprivate var forksLabel: UILabel!
-  var contributorsView: ContributorsView!
+  fileprivate var languageLabel: UILabel!
+  fileprivate var languageColorView: UIView!
 
   // MARK: - Setup
 
@@ -41,7 +42,7 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     tintColor = .white
 
-//    setupShadow()
+    setupShadow()
     setupImageView()
     setupBadge()
     setupLabels()
@@ -152,19 +153,20 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.textAlignment = .left
     }
 
-    contentView.addSubview(starsLabel)
-    starsLabel.snp.makeConstraints { make in
-      make.top.leading.equalToSuperview().inset(margin)
-    }
-
     let starsIcon = UIImageView().then {
       $0.image = #imageLiteral(resourceName: "Stars Icon")
     }
 
-    contentView.addSubview(starsIcon)
-    starsIcon.snp.makeConstraints { make in
-      make.top.equalToSuperview().offset(margin)
-      make.leading.equalTo(starsLabel.snp.trailing).offset(1)
+    let stackView = UIStackView(arrangedSubviews: [starsIcon, starsLabel]).then {
+      $0.axis = .horizontal
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 2
+    }
+
+    contentView.addSubview(stackView)
+    stackView.snp.makeConstraints { make in
+      make.top.leading.equalToSuperview().offset(margin)
     }
 
   }
@@ -219,18 +221,53 @@ class TrendRepositoryCell: UICollectionViewCell {
   }
 
   func setupBottomLeftCorner() {
-    contributorsView = ContributorsView()
-    contentView.addSubview(contributorsView)
-    contributorsView.snp.makeConstraints { make in
+    languageColorView = UIView().then {
+      $0.layer.cornerRadius = 5
+      $0.layer.borderWidth = 0.7
+      $0.layer.borderColor = UIColor.white.cgColor
+      $0.backgroundColor = .clear
+    }
+
+    languageLabel = UILabel().then {
+      $0.textColor = .white
+      $0.font = .systemFont(ofSize: 10)
+      $0.textAlignment = .left
+    }
+
+    let stackView = UIStackView(arrangedSubviews: [languageColorView, languageLabel]).then {
+      $0.axis = .horizontal
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 2
+    }
+    languageColorView.snp.makeConstraints { make in
+      make.size.equalTo(10)
+    }
+
+    contentView.addSubview(stackView)
+    stackView.snp.makeConstraints { make in
       make.leading.bottom.equalToSuperview().inset(margin)
     }
   }
 
   func show(repository: Trending.Repository, rank: Int) {
-    // Labels at 3 corners
+    // Stars counts
     starsLabel.text = repository.starsCount.description
     gainedStarsLabel.text = repository.gainedStarsCount.description
 
+    // Language color & name
+    if let language = repository.language {
+      languageLabel.text = language.name
+
+      if let color = UIColor(hexString: language.color) {
+        languageColorView.isHidden = false
+        languageColorView.backgroundColor = color
+      } else {
+        languageColorView.isHidden = true
+      }
+    }
+
+    // Forks count
     if let count = repository.forksCount {
       forksLabel.isHidden = false
       forksLabel.text = count.description
@@ -242,28 +279,8 @@ class TrendRepositoryCell: UICollectionViewCell {
     repositoryLabel.text = repository.name
     ownerLabel.text = repository.owner
 
+    // Rank badge
     badge.rank = rank
-
-    // Contributor avatars
-    repository.contributors.enumerated().forEach { index, contributor in
-      guard index < contributorsView.avatarViews.count else {
-        jack.function().error("contributor index \(index) exceeds number of contributor badges, skip loading image")
-        return
-      }
-
-      let url = contributor.avatar
-      contributorsView.avatarViews[index].kf.setImage(
-        with: url,
-        options: [.transition(.fade(0.2))]
-      )
-    }
-  }
-
-  func cleanup() {
-    contributorsView.avatarViews.forEach {
-      $0.kf.cancelDownloadTask()
-      $0.image = nil
-    }
   }
 
 }
