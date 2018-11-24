@@ -8,60 +8,17 @@ import MudoxKit
 
 import Then
 
-class TabSwitchButton: UIButton {
-
-  let title: String
-
-  init(title: String) {
-    self.title = title
-
-    super.init(frame: .zero)
-
-    layer.cornerRadius = 4
-    layer.masksToBounds = true
-    layer.borderWidth = 1
-
-    setBackgroundImage(UIImage.mdx.color(.hydraHighlight), for: .highlighted)
-  }
-
-  @available(*, unavailable, message: "has not been implemented")
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  override var isSelected: Bool {
-    didSet {
-      if isSelected {
-        let attr = NSAttributedString(string: title, attributes: [
-          .font: UIFont.systemFont(ofSize: 15),
-          .foregroundColor: UIColor.white
-        ])
-        setAttributedTitle(attr, for: .normal)
-
-        backgroundColor = .hydraDark
-        layer.borderColor = UIColor.clear.cgColor
-
-      } else {
-        let attr = NSAttributedString(string: title, attributes: [
-          .font: UIFont.systemFont(ofSize: 15),
-          .foregroundColor: UIColor.hydraGray
-        ])
-        setAttributedTitle(attr, for: .normal)
-
-        backgroundColor = .white
-        layer.borderColor = UIColor.hydraGray.cgColor
-
-      }
-    }
-  }
-}
-
 class TabSwitch: UIView {
+
+  let buttonWidth = 140
+  let height = 26
+  let gap = 10
 
   var disposeBag = DisposeBag()
 
-  private var buttons: [TabSwitchButton] = []
   private let titles: [String]
+  private var buttons: [UIButton]!
+  private var underline: UIView!
 
   private let selectedButtonIndexRelay = BehaviorRelay(value: 0)
 
@@ -83,32 +40,59 @@ class TabSwitch: UIView {
   }
 
   func setupView() {
-    titles.enumerated().forEach { index, title in
-      let button = TabSwitchButton(title: title)
+    // Buttons
+    buttons = []
+    titles.enumerated().forEach { index, _ in
+      let button = makeButton(title: titles[index])
       button.isSelected = (index == 0)
-
       buttons.append(button)
     }
 
-    let container = UIStackView(arrangedSubviews: buttons).then {
+    // Stack View
+    let stackView = UIStackView(arrangedSubviews: buttons).then {
       $0.axis = .horizontal
       $0.distribution = .fillEqually
       $0.alignment = .fill
       $0.spacing = 10
     }
 
-    addSubview(container)
-    container.snp.makeConstraints { make in
+    addSubview(stackView)
+    stackView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
     }
 
     snp.makeConstraints { make in
-      make.width.equalTo(120 * buttons.count + (buttons.count - 1) * 10)
+      make.width.equalTo(buttonWidth * buttons.count + (buttons.count - 1) * gap)
       make.height.equalTo(26)
+    }
+
+    // Underline View
+    underline = UIView().then {
+      $0.isUserInteractionEnabled = false
+      $0.backgroundColor = .hydraDark
+      $0.layer.cornerRadius = 1
+    }
+    addSubview(underline)
+    underline.snp.makeConstraints { make in
+      make.size.equalTo(CGSize(width: 20, height: 2))
+      make.top.equalTo(stackView.snp.bottom)
+      make.centerX.equalTo(buttonWidth / 2)
+    }
+  }
+
+  func makeButton(title: String) -> UIButton {
+    return UIButton(type: .custom).then {
+      // Title
+      $0.setTitle(title, for: .normal)
+      $0.titleLabel?.font = .systemFont(ofSize: 14)
+      $0.setTitleColor(.hydraDark, for: .selected)
+      $0.setTitleColor(.hydraHighlight, for: .highlighted)
+      $0.setTitleColor(.hydraGray, for: .normal)
     }
   }
 
   func setupBinding() {
+    // Button taps drive selecection relay
     buttons.enumerated().forEach { index, button in
       button.rx.tap
         .map { _ in index }
@@ -116,12 +100,35 @@ class TabSwitch: UIView {
         .disposed(by: disposeBag)
     }
 
+    // Selection change buttons appearance
     selectedButtonIndexRelay
       .pairwise()
       .bind(onNext: { [weak self] old, new in
         guard let self = self else { return }
         self.buttons[old].isSelected = false
         self.buttons[new].isSelected = true
+      })
+      .disposed(by: disposeBag)
+
+    // Selection drive underline move with spring animation
+    selectedButtonIndexRelay
+      .bind(onNext: { [weak self] newIndex in
+        guard let self = self else { return }
+
+        UIView.animate(
+          withDuration: 0.25,
+          delay: 0,
+          usingSpringWithDamping: 0.5,
+          initialSpringVelocity: 2,
+          options: [],
+          animations: { [weak self] in
+            guard let self = self else { return }
+            self.underline.snp.updateConstraints { make in
+              make.centerX.equalTo((self.buttonWidth / 2) + (self.gap + self.buttonWidth) * newIndex)
+            }
+            self.layoutIfNeeded()
+          }
+        )
       })
       .disposed(by: disposeBag)
   }
