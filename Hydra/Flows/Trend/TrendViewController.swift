@@ -20,8 +20,10 @@ class TrendViewController: UIViewController {
   // MARK: - Subviews
 
   var tabSwitch: TabSwitch!
+
   var searchBar: UISearchBar!
   var languageLabel: UILabel!
+
   var dayRow: TrendRow!
   var weekRow: TrendRow!
   var monthRow: TrendRow!
@@ -33,6 +35,7 @@ class TrendViewController: UIViewController {
 
     setupView()
     setupModel()
+    setupCellDisplayingEvents()
   }
 
   func setupView() {
@@ -83,21 +86,6 @@ class TrendViewController: UIViewController {
 
   }
 
-  var randomImageIndex: Int {
-    var usedIndexes = [Int]()
-
-    // swiftlint:disable force_cast
-    usedIndexes.append(contentsOf: dayRow.collectionView.visibleCells.map { ($0 as! TrendRepositoryCell).imageIndex })
-    usedIndexes.append(contentsOf: weekRow.collectionView.visibleCells.map { ($0 as! TrendRepositoryCell).imageIndex })
-    usedIndexes.append(contentsOf: monthRow.collectionView.visibleCells.map { ($0 as! TrendRepositoryCell).imageIndex })
-    // swiftlint:enable force_cast
-
-    var pool = Set(0 ..< 19)
-    pool.subtract(Set(usedIndexes))
-
-    return pool.randomElement() ?? 0
-  }
-
   func setupRows() {
     dayRow = TrendRow().then {
       $0.label.text = "Today"
@@ -144,8 +132,7 @@ class TrendViewController: UIViewController {
 
       cell.show(
         repository: repository,
-        rank: index + 1,
-        backgroundImageIndex: self.randomImageIndex
+        rank: index + 1
       )
 
       return cell
@@ -153,7 +140,6 @@ class TrendViewController: UIViewController {
   }()
 
   func setupModel() {
-
     let day = model.output.dayTrending
     let week = model.output.weekTrending
     let month = model.output.monthTrending
@@ -199,7 +185,51 @@ class TrendViewController: UIViewController {
     month.elements
       .bind(to: monthRow.collectionView.rx.items)(setupCell)
       .disposed(by: disposeBag)
+
   }
+
+  enum CellDisplayEvent {
+    case show(TrendRepositoryCell)
+    case hide(TrendRepositoryCell)
+  }
+
+  func setupCellDisplayingEvents() {
+    let displayEvents = Observable.merge([
+      // swiftlint:disable force_cast
+      dayRow.collectionView.rx.willDisplayCell.map { CellDisplayEvent.show($0.cell as! TrendRepositoryCell) },
+      dayRow.collectionView.rx.didEndDisplayingCell.map { CellDisplayEvent.hide($0.cell as! TrendRepositoryCell) },
+      weekRow.collectionView.rx.willDisplayCell.map { CellDisplayEvent.show($0.cell as! TrendRepositoryCell) },
+      weekRow.collectionView.rx.didEndDisplayingCell.map { CellDisplayEvent.hide($0.cell as! TrendRepositoryCell) },
+      monthRow.collectionView.rx.willDisplayCell.map { CellDisplayEvent.show($0.cell as! TrendRepositoryCell) },
+      monthRow.collectionView.rx.didEndDisplayingCell.map { CellDisplayEvent.hide($0.cell as! TrendRepositoryCell) }
+      // swiftlint:enable force_cast
+    ])
+
+    displayEvents.scan(into: Set<Int>()) { occupiedIndexes, event in
+      switch event {
+
+      case let .show(cell):
+        var pool = Set(0 ..< 19) // Magic number here!!!
+        pool.subtract(occupiedIndexes)
+
+        if let index = pool.randomElement() {
+          occupiedIndexes.insert(index)
+          cell.imageIndex = index
+        } else {
+          jack.function().error("pool should not be empty")
+          occupiedIndexes.insert(0)
+          cell.imageIndex = 0
+        }
+
+      case let .hide(cell):
+        occupiedIndexes.remove(cell.imageIndex)
+        cell.cleanup()
+      }
+    }
+    .subscribe()
+    .disposed(by: disposeBag)
+  }
+
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -214,17 +244,8 @@ extension TrendViewController: UICollectionViewDelegateFlowLayout {
     -> CGSize
   {
     let height = dayRow.collectionView.bounds.height
-    let width = height / 120 * 190
+    let width = height / 120 * 190 // !!!: magic number
     return CGSize(width: width, height: height)
-  }
-
-  func collectionView(
-    _ collectionView: UICollectionView,
-    didEndDisplaying cell: UICollectionViewCell,
-    forItemAt indexPath: IndexPath
-  )
-  {
-    (cell as? TrendRepositoryCell)?.cleanup()
   }
 
 }

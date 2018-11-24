@@ -18,7 +18,7 @@ class TrendRepositoryCell: UICollectionViewCell {
 
   var imageIndex: Int = 0 {
     didSet {
-      imageView.image = UIImage(named: "bg-\(imageIndex)")
+      imageView.image = UIImage(named: "blurred-bg-\(imageIndex)")
     }
   }
 
@@ -39,7 +39,9 @@ class TrendRepositoryCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
 
-    setupShadow()
+    tintColor = .white
+
+//    setupShadow()
     setupImageView()
     setupBadge()
     setupLabels()
@@ -68,7 +70,6 @@ class TrendRepositoryCell: UICollectionViewCell {
       // rasterization somehow blur all content above
       $0.shouldRasterize = false
     }
-
   }
 
   func setupImageView() {
@@ -225,7 +226,8 @@ class TrendRepositoryCell: UICollectionViewCell {
     }
   }
 
-  func show(repository: Trending.Repository, rank: Int, backgroundImageIndex index: Int) {
+  func show(repository: Trending.Repository, rank: Int) {
+    // Labels at 3 corners
     starsLabel.text = repository.starsCount.description
     gainedStarsLabel.text = repository.gainedStarsCount.description
 
@@ -236,11 +238,13 @@ class TrendRepositoryCell: UICollectionViewCell {
       forksLabel.isHidden = true
     }
 
+    // Title and author
     repositoryLabel.text = repository.name
     ownerLabel.text = repository.owner
-    badge.rank = rank
-    imageIndex = index
 
+    badge.rank = rank
+
+    // Contributor avatars
     repository.contributors.enumerated().forEach { index, contributor in
       guard index < contributorsView.avatarViews.count else {
         jack.function().error("contributor index \(index) exceeds number of contributor badges, skip loading image")
