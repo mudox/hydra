@@ -19,14 +19,18 @@ class ContributorsView: UIView {
       make.height.equalTo(diameter)
     }
 
-    avatarViews = (0..<5).map { _ in makeAvatarView() }
+    avatarViews = (0 ..< 5).map { _ in makeAvatarView() }
 
     let stackView = UIStackView(arrangedSubviews: avatarViews).then {
       $0.axis = .horizontal
       $0.distribution = .fillEqually
       $0.alignment = .fill
-      $0.spacing = -2
+      $0.spacing = -3
     }
+
+    // Adjust z-order
+    avatarViews.reversed().forEach(stackView.bringSubviewToFront)
+
     addSubview(stackView)
     stackView.snp.makeConstraints { make in
       make.leading.top.bottom.equalToSuperview()
@@ -43,13 +47,11 @@ class ContributorsView: UIView {
     return UIImageView().then { iv in
       iv.layer.do {
         $0.cornerRadius = 6
-        $0.borderColor = UIColor.white.cgColor
-        $0.borderWidth = 1
         $0.masksToBounds = true
       }
-      iv.backgroundColor = .hydraHighlight
+      iv.backgroundColor = .clear
       iv.snp.makeConstraints { make in
-       make.size.equalTo(CGSize(width: diameter, height: diameter))
+        make.size.equalTo(CGSize(width: diameter, height: diameter))
       }
     }
   }
