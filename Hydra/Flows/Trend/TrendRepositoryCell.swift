@@ -16,9 +16,13 @@ class TrendRepositoryCell: UICollectionViewCell {
 
   let margin = 8
 
-  var imageIndex: Int = 0 {
+  var imageIndex: Int? {
     didSet {
-      imageView.image = UIImage(named: "blurred-bg-\(imageIndex)")
+      if let index = imageIndex {
+        imageView.image = UIImage(named: "blurred-bg-\(index)")
+      } else {
+        imageView.image = nil
+      }
     }
   }
 
@@ -44,7 +48,7 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     setupShadow()
     setupImageView()
-    setupBadge()
+    setupBadge(hasShadow: false)
     setupLabels()
 
     setupTopLeftCorner()
@@ -60,15 +64,16 @@ class TrendRepositoryCell: UICollectionViewCell {
 
   func setupShadow() {
     layer.do {
+      // Shape
       $0.cornerRadius = 6
       $0.masksToBounds = false
 
+      // Shadow
       $0.shadowOffset = UI.shadowOffset
-      $0.shadowOpacity = UI.shadowOpacity
       $0.shadowRadius = UI.shadowRadius
       $0.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 6).cgPath
 
-      // rasterization somehow blur all content above
+      // Rasterization somehow blur all content above
       $0.shouldRasterize = false
     }
   }
@@ -87,7 +92,7 @@ class TrendRepositoryCell: UICollectionViewCell {
     }
   }
 
-  func setupBadge() {
+  func setupBadge(hasShadow: Bool) {
     badge = TrendRankBadge()
     contentView.addSubview(badge)
     badge.snp.makeConstraints { make in
@@ -157,7 +162,7 @@ class TrendRepositoryCell: UICollectionViewCell {
       $0.image = #imageLiteral(resourceName: "Stars Icon")
     }
 
-    let views  = [starsIcon, starsLabel!]
+    let views = [starsIcon, starsLabel!]
     let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
       $0.distribution = .fill
@@ -205,7 +210,6 @@ class TrendRepositoryCell: UICollectionViewCell {
     }
 
     forksLabel = UILabel().then {
-      $0.text = "87"
       $0.textColor = .white
       $0.font = .systemFont(ofSize: 10)
       $0.textAlignment = .right
@@ -221,7 +225,8 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.bottom.trailing.equalToSuperview().inset(margin)
+      make.bottom.equalToSuperview().inset(margin)
+      make.trailing.equalToSuperview().inset(margin + 1)
     }
   }
 
@@ -256,7 +261,49 @@ class TrendRepositoryCell: UICollectionViewCell {
     }
   }
 
+  // MARK: - Show States
+
+  var isLoading = true
+
+  func showState(_ state: TrendState) {
+    switch state {
+    case .loadingRepository:
+      isLoading = true
+      showLoading()
+    case let .repository(repository, rank: rank):
+      isLoading = false
+      show(repository: repository, rank: rank)
+    default:
+      jack.failure("can not show this kind of state: \(state)")
+    }
+  }
+
+  func showLoading() {
+    // Hide shadows
+    layer.shadowOpacity = 0
+
+    // 4 corners
+    starsLabel.text = ""
+    gainedStarsLabel.text = ""
+    forksLabel.text = ""
+    languageLabel.text = ""
+    languageColorView.backgroundColor = .white
+
+    // Title and author
+    repositoryLabel.text = ""
+    ownerLabel.textColor = .lightGray
+    ownerLabel.text = "Loading"
+
+    backgroundColor = .groupTableViewBackground
+
+    // Rank badge
+    badge.showLoading()
+  }
+
   func show(repository: Trending.Repository, rank: Int) {
+    // Show shadows
+    layer.shadowOpacity = UI.shadowOpacity
+
     // Stars counts
     starsLabel.text = repository.starsCount.description
     gainedStarsLabel.text = repository.gainedStarsCount.description
@@ -283,10 +330,11 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     // Title and author
     repositoryLabel.text = repository.name
+    ownerLabel.textColor = .white
     ownerLabel.text = repository.owner
 
     // Rank badge
-    badge.rank = rank
+    badge.showRank(rank)
   }
 
 }

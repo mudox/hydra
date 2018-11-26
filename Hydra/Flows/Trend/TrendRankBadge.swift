@@ -1,5 +1,6 @@
 import UIKit
 
+import NVActivityIndicatorView
 import SnapKit
 
 import JacKit
@@ -11,23 +12,11 @@ class TrendRankBadge: UIView {
   private let diameter: CGFloat = 20
   private var radius: CGFloat { return diameter / 2 }
 
-  var rank: Int = 1 {
-    didSet {
-      jack.descendant("rank.didSet").assert(rank > 0, "rank should start with 1")
+  var rankLabel: UILabel!
+  var indicator: NVActivityIndicatorView!
 
-      if rank < 10 {
-        isHidden = false
-        rankLabel.text = rank.description
-      } else {
-        isHidden = true
-      }
-    }
-  }
-
-  private var rankLabel: UILabel!
-
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init() {
+    super.init(frame: .zero)
 
     backgroundColor = .hydraHighlight
 
@@ -43,7 +32,6 @@ class TrendRankBadge: UIView {
       $0.shouldRasterize = false // rasterization somehow blur all content above
 
       $0.shadowOffset = UI.shadowOffset
-      $0.shadowOpacity = UI.shadowOpacity
       $0.shadowRadius = UI.shadowRadius
       $0.shadowPath = UIBezierPath(ovalIn: CGRect(x: -1, y: -1, width: diameter + 1, height: diameter + 1)).cgPath
     }
@@ -66,11 +54,59 @@ class TrendRankBadge: UIView {
       make.center.equalTo(self)
     }
 
+    // Loading indicator
+    indicator = NVActivityIndicatorView(frame: .zero, type: .ballScaleMultiple, color: .white)
+    addSubview(indicator)
+    indicator.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+      make.size.equalToSuperview().inset(4)
+    }
+
   }
 
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
     fatalError("do not use it")
+  }
+
+  func showLoading() {
+    // Badge
+    isHidden = false
+    backgroundColor = .lightGray
+    layer.shadowOpacity = 0
+    layer.borderWidth = 2.5
+    transform = .init(scaleX: 1.15, y: 1.15)
+
+    // Indicator
+    indicator.startAnimating()
+
+    // Rank Label
+    rankLabel.isHidden = true
+
+  }
+
+  func showRank(_ rank: Int) {
+    jack.descendant("rank.didSet").assert(rank > 0, "rank should >= 1")
+
+    // Hide for rank after 9
+    if rank > 9 {
+      isHidden = true
+      return
+    }
+
+    // Badge
+    isHidden = false
+    backgroundColor = .hydraHighlight
+    layer.shadowOpacity = UI.shadowOpacity
+    layer.borderWidth = 1
+    transform = .identity
+
+    // Indicator
+    indicator.stopAnimating()
+
+    // Rank label
+    rankLabel.isHidden = false
+    rankLabel.text = rank.description
   }
 
 }
