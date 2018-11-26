@@ -92,6 +92,7 @@ def ui_pods
   # pod 'IQKeyboardManagerSwift'
   # pod 'SwiftRichString'
 
+  pod 'NVActivityIndicatorView'
   pod 'SwiftHEXColors'
   pod 'SnapKit'
 end

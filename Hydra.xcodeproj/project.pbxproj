@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		66C3EDEDB895A15DBD36BE34 /* Pods_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE590289787F2D6445D52167 /* Pods_Test.framework */; };
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
+		F40C238321AC6D2C006FA060 /* TrendDeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
 		F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4231FD3217B9D3600B2D748 /* Activity.swift */; };
 		F4349CE321A8734000628D8D /* Play.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4349CE221A8734000628D8D /* Play.storyboard */; };
@@ -25,7 +26,7 @@
 		F46C688E215A43400090B4AF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C6889215A43400090B4AF /* LoginViewModel.swift */; };
 		F46C6891215A43400090B4AF /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C688C215A43400090B4AF /* LoginService.swift */; };
 		F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48779472169F1CC00C027A9 /* DefaultsKeys.swift */; };
-		F49A1C5D21A66A440045E74B /* TrendRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5C21A66A440045E74B /* TrendRow.swift */; };
+		F49A1C5D21A66A440045E74B /* TrendSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5C21A66A440045E74B /* TrendSection.swift */; };
 		F49A1C5F21A6CBA80045E74B /* TrendRankBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */; };
 		F49A1C6121A6CDB60045E74B /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6021A6CDB60045E74B /* UI.swift */; };
 		F49A1C6321A730BD0045E74B /* ContributorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6221A730BD0045E74B /* ContributorsView.swift */; };
@@ -55,6 +56,7 @@
 		C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.release.xcconfig"; sourceTree = "<group>"; };
 		C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.debug.xcconfig"; sourceTree = "<group>"; };
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendDeveloperCell.swift; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F4231FD3217B9D3600B2D748 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		F4349CE221A8734000628D8D /* Play.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Play.storyboard; sourceTree = "<group>"; };
@@ -71,7 +73,7 @@
 		F46C6889215A43400090B4AF /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F46C688C215A43400090B4AF /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F48779472169F1CC00C027A9 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
-		F49A1C5C21A66A440045E74B /* TrendRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRow.swift; sourceTree = "<group>"; };
+		F49A1C5C21A66A440045E74B /* TrendSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendSection.swift; sourceTree = "<group>"; };
 		F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRankBadge.swift; sourceTree = "<group>"; };
 		F49A1C6021A6CDB60045E74B /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F49A1C6221A730BD0045E74B /* ContributorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorsView.swift; sourceTree = "<group>"; };
@@ -167,7 +169,8 @@
 				F4349CE421A873D000628D8D /* TrendPageControl.swift */,
 				F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */,
 				F43F584821A6273100416A45 /* TrendRepositoryCell.swift */,
-				F49A1C5C21A66A440045E74B /* TrendRow.swift */,
+				F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */,
+				F49A1C5C21A66A440045E74B /* TrendSection.swift */,
 				F456A01E218C956E00047369 /* TrendViewController.swift */,
 				F456A01C218C956E00047369 /* TrendViewModel.swift */,
 			);
@@ -462,6 +465,7 @@
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/MudoxKit/MudoxKit.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
@@ -489,6 +493,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MudoxKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
@@ -530,7 +535,7 @@
 				F49A1C6321A730BD0045E74B /* ContributorsView.swift in Sources */,
 				F49A1C6121A6CDB60045E74B /* UI.swift in Sources */,
 				F45C49532167E65200BC0576 /* CredentialService.swift in Sources */,
-				F49A1C5D21A66A440045E74B /* TrendRow.swift in Sources */,
+				F49A1C5D21A66A440045E74B /* TrendSection.swift in Sources */,
 				F43F584421A5D1EE00416A45 /* UIColor+Hydra.swift in Sources */,
 				F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */,
 				F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */,
@@ -539,6 +544,7 @@
 				F456A020218C956E00047369 /* TrendFlow.swift in Sources */,
 				F456A01F218C956E00047369 /* TrendViewModel.swift in Sources */,
 				F456A021218C956E00047369 /* TrendViewController.swift in Sources */,
+				F40C238321AC6D2C006FA060 /* TrendDeveloperCell.swift in Sources */,
 				F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */,
 				F43F584921A6273100416A45 /* TrendRepositoryCell.swift in Sources */,
 				F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */,
