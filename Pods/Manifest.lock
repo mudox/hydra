@@ -40,6 +40,9 @@ PODS:
   - MudoxKit/MBProgressHUD (0.1.0):
     - MBProgressHUD
   - Nimble (7.3.1)
+  - NVActivityIndicatorView (4.4.0):
+    - NVActivityIndicatorView/Presenter (= 4.4.0)
+  - NVActivityIndicatorView/Presenter (4.4.0)
   - OHHTTPStubs (6.1.0):
     - OHHTTPStubs/Default (= 6.1.0)
   - OHHTTPStubs/Core (6.1.0)
@@ -108,6 +111,7 @@ DEPENDENCIES:
   - MudoxKit/ActivityCenter (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
   - MudoxKit/MBProgressHUD (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
   - Nimble
+  - NVActivityIndicatorView
   - OHHTTPStubs
   - Quick
   - RxBlocking
@@ -134,6 +138,7 @@ SPEC REPOS:
     - MBProgressHUD
     - Moya
     - Nimble
+    - NVActivityIndicatorView
     - OHHTTPStubs
     - Quick
     - Result
@@ -175,6 +180,7 @@ SPEC CHECKSUMS:
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   MudoxKit: 749f870d10e48e43a769d608db49512f291b0dc8
   Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
+  NVActivityIndicatorView: ec7440a57af2450319d3a4181cca7da6fc127064
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
@@ -195,6 +201,6 @@ SPEC CHECKSUMS:
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 68a0610f693efcfeed309e779ad485d673dbc57d
+PODFILE CHECKSUM: b2dae291566e4d7b26a63fef23755c0bce9615c5
 
 COCOAPODS: 1.5.3
