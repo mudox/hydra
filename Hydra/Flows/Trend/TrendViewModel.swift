@@ -101,11 +101,19 @@ private func trend(
 )
   -> Driver<TrendSectionState>
 {
+  let activity: Activity
+  switch period {
+  case .today: activity = .todayTrend
+  case .thisWeek: activity = .thisWeekTrend
+  case .thisMonth: activity = .thisMonthTrend
+  }
+
   return input
     .flatMapLatest { input -> Driver<TrendSectionState> in
       switch input.kind {
       case .repositories:
         return service.repositories(of: input.language, for: period)
+          .trackActivity(activity)
           .map(TrendSectionState.repositories)
           .asObservable()
           .startWith(TrendSectionState.loadingRepositories)
@@ -114,6 +122,7 @@ private func trend(
           }
       case .developers:
         return service.developers(of: input.language, for: period)
+          .trackActivity(activity)
           .map(TrendSectionState.developers)
           .asObservable()
           .startWith(TrendSectionState.loadingDevelopers)
