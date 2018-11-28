@@ -64,7 +64,7 @@ Simply put, flow + view model + view controller + view.
 
 ### UI
 
-- [ ] [Kingfisher] + [RxKingfisher] to manage images.
+- [x] [Kingfisher] + [RxKingfisher] to manage images.
 
 ### Testing
 
