@@ -100,7 +100,7 @@ class TrendDeveloperCell: TrendBaseCell {
 
   // MARK: - Show States
 
-  func showState(_ state: TrendCellState) {
+  func show(state: TrendCellState) {
     switch state {
     case .loadingDeveloper:
       showLoading()
@@ -183,6 +183,8 @@ class TrendDeveloperCell: TrendBaseCell {
 
   }
 
+  // MARK: - Image Task
+  
   var avatarImageTask = RetrieveImageTask.empty
 
   override func prepareForReuse() {

@@ -262,7 +262,7 @@ class TrendRepositoryCell: TrendBaseCell {
 
 extension TrendRepositoryCell {
 
-  func showState(_ state: TrendCellState) {
+  func show(state: TrendCellState) {
     switch state {
     case .loadingRepository:
       showLoading()
