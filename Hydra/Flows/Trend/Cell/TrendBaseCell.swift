@@ -14,9 +14,9 @@ class TrendBaseCell: UICollectionViewCell {
 
   var badge: TrendRankBadge!
 
-  var tipLabel: UILabel!
-  var retryButton = RetryButton()
-  var errorStackView: UIStackView!
+  private var tipLabel: UILabel!
+  private var retryButton = RetryButton()
+  private var errorStackView: UIStackView!
 
   // MARK: - Setup
 
@@ -93,6 +93,9 @@ class TrendBaseCell: UICollectionViewCell {
     // Self
     backgroundColor = .white
 
+    // Center
+    errorStackView.isHidden = true
+
     // Badge
     badge.show(rank: rank)
   }
@@ -102,8 +105,7 @@ class TrendBaseCell: UICollectionViewCell {
     backgroundColor = .emptyLight
 
     // Center
-    tipLabel.text = "Loading"
-    retryButton.isHidden = true
+    errorStackView.isHidden = true
 
     // Badge
     badge.showLoading()

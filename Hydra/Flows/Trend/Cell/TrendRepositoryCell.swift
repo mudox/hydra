@@ -210,7 +210,7 @@ class TrendRepositoryCell: TrendBaseCell {
     }
   }
 
-// MARK: - Show States
+  // MARK: - Show States
 
   func show(state: TrendCellState) {
     switch state {
@@ -242,8 +242,22 @@ class TrendRepositoryCell: TrendBaseCell {
     languageBadge.backgroundColor = .white
 
     // Center
-    centerStackView.isHidden = true
-    errorStackView.isHidden = false
+    centerStackView.isHidden = false
+    repositoryLabel.do {
+      $0.textColor = .emptyDark
+      $0.backgroundColor = .emptyDark
+      $0.transform = .init(scaleX: 0.6, y: 0.6)
+      $0.layer.cornerRadius = 2
+      $0.layer.masksToBounds = true
+    }
+    ownerLabel.do {
+      $0.textColor = .emptyDark
+      $0.backgroundColor = .emptyDark
+      $0.transform = .init(scaleX: 0.6, y: 0.7)
+      $0.transform = $0.transform.translatedBy(x: 0, y: -5)
+      $0.layer.cornerRadius = 2
+      $0.layer.masksToBounds = true
+    }
   }
 
   override func show(error: Error) {
@@ -272,10 +286,11 @@ class TrendRepositoryCell: TrendBaseCell {
   func show(repository: Trending.Repository, rank: Int) {
     show(rank: rank)
 
-    // Corners
+    // Stars
     starsLabel.text = repository.starsCount.description
     starsIcon.tintColor = .dark
 
+    // Gained Stars
     gainedStarsLabel.text = repository.gainedStarsCount.description
     gainedStarsIcon.tintColor = .dark
 
@@ -302,11 +317,20 @@ class TrendRepositoryCell: TrendBaseCell {
 
     // Center
     centerStackView.isHidden = false
-    errorStackView.isHidden = true
-
-    repositoryLabel.text = repository.name
-    ownerLabel.text = repository.owner
-
+    repositoryLabel.do {
+      $0.text = repository.name
+      $0.textColor = .dark
+      $0.backgroundColor = .clear
+      $0.transform = .identity
+      $0.layer.cornerRadius = 0
+    }
+    ownerLabel.do {
+      $0.text = repository.owner
+      $0.textColor = .dark
+      $0.backgroundColor = .clear
+      $0.transform = .identity
+      $0.layer.cornerRadius = 0
+    }
   }
 
 }

@@ -121,9 +121,6 @@ class TrendDeveloperCell: TrendBaseCell {
     avatarView.tintColor = .emptyDark
 
     // Labels
-    errorStackView.isHidden = true
-
-    centerStackView.isHidden = false
     nameLabel.do {
       $0.textColor = .emptyDark
       $0.backgroundColor = .emptyDark
@@ -150,9 +147,6 @@ class TrendDeveloperCell: TrendBaseCell {
 
     // Center
     centerStackView.isHidden = true
-
-    errorStackView.isHidden = false
-    retryButton.isHidden = false
   }
 
   func show(developer: Trending.Developer, rank: Int) {
@@ -180,8 +174,6 @@ class TrendDeveloperCell: TrendBaseCell {
       $0.transform = .identity
       $0.layer.cornerRadius = 0
     }
-
-    errorStackView.isHidden = true
   }
 
   // MARK: - Image Task
