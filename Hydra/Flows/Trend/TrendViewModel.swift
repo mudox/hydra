@@ -35,6 +35,10 @@ extension GitHub.Trending: TrendServiceType {}
 protocol TrendViewModelInput {
   var trendKind: BehaviorRelay<TrendKind> { get }
   var language: BehaviorRelay<String> { get }
+
+  var refreshToday: PublishRelay<Void> { get }
+  var refreshThisWeek: PublishRelay<Void> { get }
+  var refreshThisMonth: PublishRelay<Void> { get }
 }
 
 protocol TrendViewModelOutput {
