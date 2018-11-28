@@ -182,19 +182,22 @@ class TrendViewController: UIViewController {
       .drive(todaySection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
-    output.thisWeekTrend
-      .map { $0.cellStates }
-      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
-      .disposed(by: disposeBag)
+//    output.thisWeekTrend
+//      .map { $0.cellStates }
+//      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
+//      .disposed(by: disposeBag)
 
 //    output.thisMonthTrend
 //      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
 //      .disposed(by: disposeBag)
 
-    let error = TrendCellState.errorLoadingDeveloper(Trending.Error.isDissecting)
-    let errors = [TrendCellState](repeating: error, count: 3)
-    let fake = Driver<[TrendCellState]>.just(errors)
-    fake
+    TrendSectionState.fakeErrorLoadingRepositoriesDriver
+      .map { $0.cellStates }
+      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
+      .disposed(by: disposeBag)
+
+    TrendSectionState.fakeLoadingRepositoriesDriver
+      .map { $0.cellStates }
       .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
