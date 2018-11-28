@@ -79,7 +79,7 @@ class TrendBaseCell: UICollectionViewCell {
       $0.axis = .vertical
       $0.distribution = .fill
       $0.alignment = .center
-      $0.spacing = 14
+      $0.spacing = 12
     }
 
     contentView.addSubview(errorStackView)
@@ -117,7 +117,14 @@ class TrendBaseCell: UICollectionViewCell {
 
     // Center
     errorStackView.isHidden = false
-    tipLabel.text = "Loading Error"
+    switch error {
+    case Trending.Error.isDissecting:
+      tipLabel.text = "Server  "
+    case Trending.Error.htmlParsing:
+      tipLabel.text = "Internal Error"
+    default:
+      tipLabel.text = "Loading Error"
+    }
     retryButton.isHidden = false
 
     // Badge
