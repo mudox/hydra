@@ -3,6 +3,7 @@ import UIKit
 import Action
 import RxCocoa
 import RxSwift
+
 import RxSwiftExt
 
 import GitHub
@@ -12,27 +13,14 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-enum TrendKind {
+enum TrendKind: Int {
   case repositories
   case developers
 }
 
-struct TrendActionInput {
+private struct TrendUserInput {
   let kind: TrendKind
   let language: String
-  let period: Trending.Period
-}
-
-// MARK: -
-
-enum TrendState {
-  case loadingRepository
-  case repository(Trending.Repository, rank: Int)
-  case errorLoadingRepository(Error)
-
-  case loadingDeveloper
-  case developer(Trending.Developer, rank: Int)
-  case errorLoadingDeveloper(Error)
 }
 
 protocol TrendServiceType {
@@ -47,13 +35,12 @@ extension GitHub.Trending: TrendServiceType {}
 protocol TrendViewModelInput {
   var trendKind: BehaviorRelay<TrendKind> { get }
   var language: BehaviorRelay<String> { get }
-  var period: BehaviorRelay<Trending.Period> { get }
 }
 
 protocol TrendViewModelOutput {
-  var dayTrend: Driver<[TrendState]> { get }
-  var weekTrend: Driver<[TrendState]> { get }
-  var monthTrend: Driver<[TrendState]> { get }
+  var todayTrend: Driver<[TrendCellState]> { get }
+  var thisWeekTrend: Driver<[TrendCellState]> { get }
+  var thisMonthTrend: Driver<[TrendCellState]> { get }
 }
 
 protocol TrendViewModelType: TrendViewModelInput, TrendViewModelOutput {
@@ -75,83 +62,69 @@ class TrendViewModel: TrendViewModelType {
 
   var trendKind = BehaviorRelay<TrendKind>(value: .repositories)
   var language = BehaviorRelay<String>(value: "all")
-  var period = BehaviorRelay<Trending.Period>(value: Trending.Period.today)
+
+  var refreshToday = PublishRelay<Void>()
+  var refreshThisWeek = PublishRelay<Void>()
+  var refreshThisMonth = PublishRelay<Void>()
 
   // MARK: - Output
 
-  var dayTrend: Driver<[TrendState]>
-  var weekTrend: Driver<[TrendState]>
-  var monthTrend: Driver<[TrendState]>
+  var todayTrend: Driver<[TrendCellState]>
+  var thisWeekTrend: Driver<[TrendCellState]>
+  var thisMonthTrend: Driver<[TrendCellState]>
 
-  // MARK: - Private Properties
-
-  typealias TrendAction = Action<TrendActionInput, [TrendState]>
-
-  private let dayAction: TrendAction
-  private let weekAction: TrendAction
-  private let monthAction: TrendAction
-
-  // MARK: -
+  // MARK: - Binding
 
   required init(service: TrendServiceType) {
-
-    let input = Observable.combineLatest(
-      trendKind, language, period.skip(1),
-      resultSelector: TrendActionInput.init
+    let userInput = Driver.combineLatest(
+      trendKind.asDriver(), language.asDriver(),
+      resultSelector: TrendUserInput.init
     )
+    .do(onNext: {
+      jack.debug("kind: \($0.kind), language: \($0.language)")
+    })
 
-    // Day
-    dayAction = trendAction(for: .today, service: service)
-    input.filter { $0.period == .today }
-      .bind(to: dayAction.inputs)
-      .disposed(by: disposeBag)
-    dayTrend = dayAction.elements.asDriver { _ in
-      jack.function().failure("should not fail")
-      return .empty()
-    }
-
-    // Week
-    weekAction = trendAction(for: .thisWeek, service: service)
-    input.filter { $0.period == .thisWeek }
-      .bind(to: weekAction.inputs)
-      .disposed(by: disposeBag)
-    weekTrend = weekAction.elements.asDriver { _ in
-      jack.function().failure("should not fail")
-      return .empty()
-    }
-
-    // Month
-    monthAction = trendAction(for: .thisMonth, service: service)
-    input.filter { $0.period == .thisMonth }
-      .bind(to: monthAction.inputs)
-      .disposed(by: disposeBag)
-    monthTrend = monthAction.elements.asDriver { _ in
-      jack.function().failure("should not fail")
-      return .empty()
-    }
-
-    // Initial load
-    period.accept(.today)
-    period.accept(.thisWeek)
-    period.accept(.thisMonth)
+    todayTrend = trend(with: userInput, for: .today, service: service)
+    thisWeekTrend = trend(with: userInput, for: .thisWeek, service: service)
+    thisMonthTrend = trend(with: userInput, for: .thisMonth, service: service)
   }
 
 }
 
-private func trendAction(for period: Trending.Period, service: TrendServiceType) -> TrendViewModel.TrendAction {
-  return TrendViewModel.TrendAction { input -> Observable<[TrendState]> in
-    switch input.kind {
-    case .repositories:
-      return service.repositories(of: input.language, for: period)
-        .map { $0.enumerated().map { TrendState.repository($1, rank: $0 + 1) } }
-        .asObservable()
-        .startWith([TrendState](repeating: .loadingRepository, count: 4))
-    case .developers:
-      return service.developers(of: input.language, for: period)
-        .map { $0.enumerated().map { TrendState.developer($1, rank: $0 + 1) } }
-        .asObservable()
-        .startWith([TrendState](repeating: .loadingDeveloper, count: 4))
+// MARK: - Helpers
+
+private func trend(
+  with input: Driver<TrendUserInput>,
+  for period: Trending.Period,
+  service: TrendServiceType
+)
+  -> Driver<[TrendCellState]>
+{
+  return input
+    .flatMapLatest { input -> Driver<[TrendCellState]> in
+      switch input.kind {
+      case .repositories:
+        return service.repositories(of: input.language, for: period)
+          .map { $0.enumerated().map { TrendCellState.repository($1, rank: $0 + 1) } }
+          .asObservable()
+          .startWith([TrendCellState](repeating: .loadingRepository, count: 4))
+          .asDriver { error in
+            jack.descendant("trend(for:\(period)").failure("error: \(error)")
+            return .empty()
+          }
+      case .developers:
+        return service.developers(of: input.language, for: period)
+          .do(onSuccess: {
+            jack.debug("developers count: \($0.count)")
+          })
+          .map { $0.enumerated().map { TrendCellState.developer($1, rank: $0 + 1) } }
+          .asObservable()
+          .startWith([TrendCellState](repeating: .loadingDeveloper, count: 4))
+          .asDriver { error in
+            jack.descendant("trend(for:\(period)").failure("error: \(error)")
+            return .empty()
+          }
+      }
     }
-  }
 
 }
