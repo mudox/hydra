@@ -18,7 +18,7 @@ class TrendRankBadge: UIView {
   init() {
     super.init(frame: .zero)
 
-    backgroundColor = .hydraHighlight
+    backgroundColor = .highlight
 
     // Layer
     layer.do {
@@ -29,8 +29,10 @@ class TrendRankBadge: UIView {
 
       // Drop shadow
       $0.masksToBounds = false
-      $0.shouldRasterize = false // rasterization somehow blur all content above
+      $0.shouldRasterize = true
+      $0.rasterizationScale = UIScreen.main.scale
 
+      $0.shadowColor = UI.shadowColor.cgColor
       $0.shadowOffset = UI.shadowOffset
       $0.shadowRadius = UI.shadowRadius
       $0.shadowPath = UIBezierPath(ovalIn: CGRect(x: -1, y: -1, width: diameter + 1, height: diameter + 1)).cgPath
@@ -55,11 +57,15 @@ class TrendRankBadge: UIView {
     }
 
     // Loading indicator
-    indicator = NVActivityIndicatorView(frame: .zero, type: .ballScaleMultiple, color: .white)
+    indicator = NVActivityIndicatorView(
+      frame: .zero,
+      type: .ballScaleRippleMultiple,
+      color: .white
+    )
     addSubview(indicator)
     indicator.snp.makeConstraints { make in
       make.center.equalToSuperview()
-      make.size.equalToSuperview().inset(4)
+      make.size.equalToSuperview().inset(2.5)
     }
 
   }
@@ -96,7 +102,7 @@ class TrendRankBadge: UIView {
 
     // Badge
     isHidden = false
-    backgroundColor = .hydraHighlight
+    backgroundColor = .highlight
     layer.shadowOpacity = UI.shadowOpacity
     layer.borderWidth = 1
     transform = .identity
