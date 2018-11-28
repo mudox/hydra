@@ -13,8 +13,8 @@ import GitHub
 private let jack = Jack().set(format: .short)
 
 extension String {
-  static let trendRepositoryCellID = "trendRepositoryCell"
-  static let trendDeveloperCellID = "trendDeveloperCell"
+  static let trendRepositoryCellIdentifier = "trendRepositoryCell"
+  static let trendDeveloperCellIdentifier = "trendDeveloperCell"
 }
 
 class TrendViewController: UIViewController {
@@ -29,27 +29,30 @@ class TrendViewController: UIViewController {
   var searchBar: UISearchBar!
   var languageLabel: UILabel!
 
-  var daySection: Section!
-  var weekSection: Section!
-  var monthSection: Section!
+  var todaySection: TrendSectionView!
+  var thisWeekSection: TrendSectionView!
+  var thisMonthSection: TrendSectionView!
 
-  // MARK: - View
+  // MARK: - Life Circle
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     setupView()
-    setupModel()
-    handleCellDisplayingEvents()
+
+    bindToModel()
+    bindFromModel()
   }
 
+  // MARK: - View
+
   func setupView() {
-    view.backgroundColor = .white
+    view.backgroundColor = .backDark
 
     // Tab bar
     tabBarItem.image = #imageLiteral(resourceName: "Trend")
     tabBarItem.title = "Trend"
-    tabBarController?.tabBar.tintColor = .hydraHighlight
+    tabBarController?.tabBar.tintColor = .highlight
 
     setupTabSwitch()
     setupSearchBar()
@@ -80,8 +83,8 @@ class TrendViewController: UIViewController {
 
     languageLabel = UILabel().then {
       $0.text = "All Languages"
-      $0.textColor = .hydraDark
-      $0.font = .systemFont(ofSize: 16)
+      $0.textColor = .dark
+      $0.font = .text
       $0.textAlignment = .center
     }
 
@@ -93,22 +96,22 @@ class TrendViewController: UIViewController {
   }
 
   func setupSections() {
-    daySection = Section().then {
+    todaySection = TrendSectionView().then {
       $0.label.text = "Today"
       $0.collectionView.delegate = self
     }
 
-    weekSection = Section().then {
+    thisWeekSection = TrendSectionView().then {
       $0.label.text = "This Week"
       $0.collectionView.delegate = self
     }
 
-    monthSection = Section().then {
+    thisMonthSection = TrendSectionView().then {
       $0.label.text = "This Month"
       $0.collectionView.delegate = self
     }
 
-    let sectionsStackView = UIStackView(arrangedSubviews: [daySection, weekSection, monthSection]).then {
+    let sectionsStackView = UIStackView(arrangedSubviews: [todaySection, thisWeekSection, thisMonthSection]).then {
       $0.axis = .vertical
       $0.distribution = .fillEqually
       $0.alignment = .fill
@@ -125,12 +128,12 @@ class TrendViewController: UIViewController {
 
   }
 
-  // MARK: - View Model
+  // MARK: - Model
 
-  func setupTrendRepositoryCell(
+  func setupTrendCell(
     view: UICollectionView,
     index: Int,
-    state: TrendState
+    state: TrendCellState
   )
     -> UICollectionViewCell
   {
@@ -139,93 +142,77 @@ class TrendViewController: UIViewController {
     switch state {
     case .loadingRepository, .repository, .errorLoadingRepository:
       let cell = view.dequeueReusableCell(
-        withReuseIdentifier: .trendRepositoryCellID, for: indexPath
+        withReuseIdentifier: .trendRepositoryCellIdentifier, for: indexPath
         // swiftlint:disable:next force_cast
       ) as! TrendRepositoryCell
       cell.showState(state)
       return cell
     case .loadingDeveloper, .developer, .errorLoadingDeveloper:
-      fatalError("Not yet implemented")
+      let cell = view.dequeueReusableCell(
+        withReuseIdentifier: .trendDeveloperCellIdentifier, for: indexPath
+        // swiftlint:disable:next force_cast
+      ) as! TrendDeveloperCell
+      cell.showState(state)
+      return cell
     }
   }
 
-  func setupModel() {
+  func bindToModel() {
+    let input = model.input
+
+    // Tab switch -> trend kind
+
+    tabSwitch.selectedIndex
+      .map { TrendKind(rawValue: $0)! }
+      .drive(input.trendKind)
+      .disposed(by: disposeBag)
+
+    // Language search bar -> language (fake)
+
+    input.language.accept("all")
+  }
+
+  func bindFromModel() {
     let output = model.output
 
-    output.dayTrend
-//      .filter { states in
-//        switch states.first! {
-//        case .loadingRepository:
-//          return true
-//        default:
-//          return false
-//        }
-//      }
-      .drive(daySection.collectionView.rx.items)(setupTrendRepositoryCell)
+    // Drive collection views
+
+    output.todayTrend
+      .drive(todaySection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
-    output.weekTrend
-      .drive(weekSection.collectionView.rx.items)(setupTrendRepositoryCell)
+    output.thisWeekTrend
+      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
-    output.monthTrend
-      .drive(monthSection.collectionView.rx.items)(setupTrendRepositoryCell)
+    output.thisMonthTrend
+      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
-  }
 
-  enum CellDisplayEvent {
-    case show(TrendRepositoryCell)
-    case hide(TrendRepositoryCell)
+    // Reset scrolling position on reloading
 
-    var cell: TrendRepositoryCell {
-      switch self {
-      case let .show(cell):
-        return cell
-      case let .hide(cell):
-        return cell
+    let reset = { (view: TrendSectionView) -> ([TrendCellState]) -> Void in
+      { _ in
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        view.collectionView.scrollRectToVisible(rect, animated: false)
       }
     }
-  }
 
-  func handleCellDisplayingEvents() {
-    let displayEvents = Observable.merge([
-      // swiftlint:disable force_cast
-      daySection.collectionView.rx.willDisplayCell.map { CellDisplayEvent.show($0.cell as! TrendRepositoryCell) },
-      daySection.collectionView.rx.didEndDisplayingCell.map { CellDisplayEvent.hide($0.cell as! TrendRepositoryCell) },
-      weekSection.collectionView.rx.willDisplayCell.map { CellDisplayEvent.show($0.cell as! TrendRepositoryCell) },
-      weekSection.collectionView.rx.didEndDisplayingCell.map { CellDisplayEvent.hide($0.cell as! TrendRepositoryCell) },
-      monthSection.collectionView.rx.willDisplayCell.map { CellDisplayEvent.show($0.cell as! TrendRepositoryCell) },
-      monthSection.collectionView.rx.didEndDisplayingCell.map { CellDisplayEvent.hide($0.cell as! TrendRepositoryCell) }
-      // swiftlint:enable force_cast
-    ])
+    output.todayTrend
+      .filter([TrendCellState].isLoading)
+      .drive(onNext: reset(todaySection))
+      .disposed(by: disposeBag)
 
-    displayEvents.scan(into: Set<Int>()) { occupiedIndexes, event in
-      switch event {
-      case let .show(cell):
-        if cell.isLoading {
-          cell.imageIndex = nil
-        } else {
-          var pool = Set(0 ..< 19) // Magic number here!!!
-          pool.subtract(occupiedIndexes)
+    output.thisWeekTrend
+      .filter([TrendCellState].isLoading)
+      .drive(onNext: reset(thisWeekSection))
+      .disposed(by: disposeBag)
 
-          if let index = pool.randomElement() {
-            occupiedIndexes.insert(index)
-            cell.imageIndex = index
-          } else {
-            jack.function().error("pool should not be empty")
-            occupiedIndexes.insert(0)
-            cell.imageIndex = 0
-          }
-        }
-      case let .hide(cell):
-        if let index = cell.imageIndex {
-          occupiedIndexes.remove(index)
-          cell.imageIndex = nil
-        }
-      }
-    }
-    .subscribe()
-    .disposed(by: disposeBag)
+    output.thisMonthTrend
+      .filter([TrendCellState].isLoading)
+      .drive(onNext: reset(thisMonthSection))
+      .disposed(by: disposeBag)
+
   }
 
 }
