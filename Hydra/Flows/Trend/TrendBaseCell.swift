@@ -5,8 +5,6 @@ import RxSwift
 
 import SnapKit
 
-import Kingfisher
-
 import GitHub
 import JacKit
 
@@ -55,7 +53,7 @@ class TrendBaseCell: UICollectionViewCell {
     backgroundColor = .white
 
     // Badge
-    badge.showRank(rank)
+    badge.show(rank: rank)
   }
 
   func showLoading() {
