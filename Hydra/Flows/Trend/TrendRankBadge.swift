@@ -9,45 +9,55 @@ private let jack = Jack().set(format: .short)
 
 class TrendRankBadge: UIView {
 
-  private let diameter: CGFloat = 20
-  private var radius: CGFloat { return diameter / 2 }
+  private let innerDiameter: CGFloat = 18
+  private let borderWidth: CGFloat = 3
+
+  private var innerRadius: CGFloat { return innerDiameter / 2 }
+  private var outerRadius: CGFloat  { return innerRadius + borderWidth }
+  private var outerDiameter: CGFloat  { return outerRadius * 2 }
 
   var rankLabel: UILabel!
+  var contentView: UIView!
   var indicator: NVActivityIndicatorView!
 
   init() {
     super.init(frame: .zero)
 
-    backgroundColor = .highlight
+    setupView()
+  }
 
-    // Layer
-    layer.do {
-      // Shape
-      $0.borderColor = UIColor.white.cgColor
-      $0.borderWidth = 1
-      $0.cornerRadius = radius
+  @available(*, unavailable)
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("do not use it")
+  }
 
-      // Drop shadow
-      $0.masksToBounds = false
-      $0.shouldRasterize = true
-      $0.rasterizationScale = UIScreen.main.scale
-
-      $0.shadowColor = UI.shadowColor.cgColor
-      $0.shadowOffset = UI.shadowOffset
-      $0.shadowRadius = UI.shadowRadius
-      $0.shadowPath = UIBezierPath(ovalIn: CGRect(x: -1, y: -1, width: diameter + 1, height: diameter + 1)).cgPath
-    }
+  func setupView() {
+    // Self to mimic border
+    backgroundColor = .backDark
+    layer.cornerRadius = outerRadius
 
     // Fixed size
     snp.makeConstraints { make in
-      make.size.equalTo(CGSize(width: diameter, height: diameter))
+      make.size.equalTo(outerDiameter)
+    }
+
+    // Content view
+    contentView = UIView().then {
+      $0.backgroundColor = .highlight
+      $0.layer.cornerRadius = innerRadius
+    }
+
+    addSubview(contentView)
+    contentView.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+      make.size.equalTo(innerDiameter)
     }
 
     // Rank label
     rankLabel = UILabel().then {
       $0.text = "1"
       $0.textColor = .white
-      $0.font = UIFont(name: "American Typewriter", size: 14)
+      $0.font = UIFont(name: "American Typewriter", size: 12)
       $0.textAlignment = .center
     }
 
@@ -62,37 +72,46 @@ class TrendRankBadge: UIView {
       type: .ballScaleRippleMultiple,
       color: .white
     )
+
     addSubview(indicator)
     indicator.snp.makeConstraints { make in
       make.center.equalToSuperview()
-      make.size.equalToSuperview().inset(2.5)
+      make.size.equalTo(innerDiameter - 1)
     }
 
   }
 
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use it")
-  }
-
   func showLoading() {
-    // Badge
+    // Self
     isHidden = false
-    backgroundColor = .lightGray
-    layer.shadowOpacity = 0
-    layer.borderWidth = 2.5
-    transform = .init(scaleX: 1.15, y: 1.15)
+
+    // Content view
+    contentView.backgroundColor = .emptyDark
 
     // Indicator
     indicator.startAnimating()
 
     // Rank Label
     rankLabel.isHidden = true
-
   }
 
-  func showRank(_ rank: Int) {
-    jack.descendant("rank.didSet").assert(rank > 0, "rank should >= 1")
+  func showError() {
+    // Self
+    isHidden = false
+
+    // Content view
+    contentView.backgroundColor = .emptyDark
+
+    // Indicator
+    indicator.stopAnimating()
+
+    // Rank Label
+    rankLabel.isHidden = false
+    rankLabel.text = "!"
+  }
+
+  func show(rank: Int) {
+    jack.descendant("rank.didSet").assert(rank > 0, "invalid rank (\(rank)), should >= 1")
 
     // Hide for rank after 9
     if rank > 9 {
@@ -102,10 +121,9 @@ class TrendRankBadge: UIView {
 
     // Badge
     isHidden = false
-    backgroundColor = .highlight
-    layer.shadowOpacity = UI.shadowOpacity
-    layer.borderWidth = 1
-    transform = .identity
+
+    // Content view
+    contentView.backgroundColor = .highlight
 
     // Indicator
     indicator.stopAnimating()
