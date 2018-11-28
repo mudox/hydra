@@ -10,11 +10,11 @@ import Then
 
 class TabSwitch: UIView {
 
-  let buttonWidth = 140
-  let height = 26
-  let gap = 10
+  private let buttonWidth = 140
+  private let height = 26
+  private let gap = 10
 
-  var disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
 
   private let titles: [String]
   private var buttons: [UIButton]!
@@ -22,7 +22,7 @@ class TabSwitch: UIView {
 
   private let selectedButtonIndexRelay = BehaviorRelay(value: 0)
 
-  var selectedButtonIndexDriver: Driver<Int> {
+  var selectedIndex: Driver<Int> {
     return selectedButtonIndexRelay.asDriver()
   }
 
@@ -69,7 +69,7 @@ class TabSwitch: UIView {
     // Underline View
     underline = UIView().then {
       $0.isUserInteractionEnabled = false
-      $0.backgroundColor = .hydraDark
+      $0.backgroundColor = .dark
       $0.layer.cornerRadius = 1
     }
     addSubview(underline)
@@ -84,10 +84,10 @@ class TabSwitch: UIView {
     return UIButton(type: .custom).then {
       // Title
       $0.setTitle(title, for: .normal)
-      $0.titleLabel?.font = .systemFont(ofSize: 14)
-      $0.setTitleColor(.hydraDark, for: .selected)
-      $0.setTitleColor(.hydraHighlight, for: .highlighted)
-      $0.setTitleColor(.hydraGray, for: .normal)
+      $0.titleLabel?.font = .text
+      $0.setTitleColor(.dark, for: .selected)
+      $0.setTitleColor(.highlight, for: .highlighted)
+      $0.setTitleColor(.light, for: .normal)
     }
   }
 
