@@ -10,7 +10,7 @@ private let jack = Jack().set(format: .short)
 class TrendRankBadge: UIView {
 
   private let innerDiameter: CGFloat = 18
-  private let borderWidth: CGFloat = 3
+  private let borderWidth: CGFloat = 4
 
   private var innerRadius: CGFloat { return innerDiameter / 2 }
   private var outerRadius: CGFloat  { return innerRadius + borderWidth }
@@ -76,7 +76,7 @@ class TrendRankBadge: UIView {
     addSubview(indicator)
     indicator.snp.makeConstraints { make in
       make.center.equalToSuperview()
-      make.size.equalTo(innerDiameter - 1)
+      make.size.equalTo(innerDiameter + 1)
     }
 
   }

@@ -16,10 +16,10 @@ class TrendDeveloperCell: TrendBaseCell {
 
   // MARK: - Subviews
 
-  fileprivate var avatarView: UIImageView!
-
-  fileprivate var nameLabel: UILabel!
-  fileprivate var repositoryLabel: UILabel!
+  private var avatarView: UIImageView!
+  private var nameLabel: UILabel!
+  private var repositoryLabel: UILabel!
+  private var centerStackView: UIStackView!
 
   // MARK: - Setup
 
@@ -29,7 +29,7 @@ class TrendDeveloperCell: TrendBaseCell {
     setupAvatarView()
     setupNameLabel()
     setupRepositoryLabel()
-    setupStackView()
+    setupCenterStackView()
 
   }
 
@@ -82,17 +82,17 @@ class TrendDeveloperCell: TrendBaseCell {
     }
   }
 
-  func setupStackView() {
+  func setupCenterStackView() {
     let views: [UIView] = [avatarView, nameLabel, repositoryLabel]
-    let stackView = UIStackView(arrangedSubviews: views).then {
+    centerStackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .vertical
       $0.distribution = .fill
       $0.alignment = .center
       $0.spacing = 6
     }
 
-    contentView.addSubview(stackView)
-    stackView.snp.makeConstraints { make in
+    contentView.addSubview(centerStackView)
+    centerStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
       make.width.lessThanOrEqualToSuperview().inset(UI.margin)
     }
@@ -121,40 +121,38 @@ class TrendDeveloperCell: TrendBaseCell {
     avatarView.tintColor = .emptyDark
 
     // Labels
+    errorStackView.isHidden = true
+
+    centerStackView.isHidden = false
     nameLabel.do {
       $0.textColor = .emptyDark
       $0.backgroundColor = .emptyDark
-      $0.transform = .init(scaleX: 0.5, y: 0.6)
+      $0.transform = .init(scaleX: 0.6, y: 0.6)
+      $0.layer.cornerRadius = 2
+      $0.layer.masksToBounds = true
     }
-
     repositoryLabel.do {
       $0.textColor = .emptyDark
       $0.backgroundColor = .emptyDark
-      $0.transform = .init(scaleX: 0.5, y: 0.5)
+      $0.transform = .init(scaleX: 0.6, y: 0.7)
+      $0.transform = $0.transform.translatedBy(x: 0, y: -5)
+      $0.layer.cornerRadius = 2
+      $0.layer.masksToBounds = true
     }
   }
 
-  func show(error: Error) {
-    badge.showError()
-
-    backgroundColor = .emptyLight
+  override func show(error: Error) {
+    super.show(error: error)
 
     // Avatar View
     avatarView.image = [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!
     avatarView.tintColor = .emptyDark
 
-    // Labels
-    nameLabel.do {
-      $0.textColor = .emptyDark
-      $0.backgroundColor = .emptyDark
-      $0.transform = .init(scaleX: 0.5, y: 0.6)
-    }
+    // Center
+    centerStackView.isHidden = true
 
-    repositoryLabel.do {
-      $0.textColor = .emptyDark
-      $0.backgroundColor = .emptyDark
-      $0.transform = .init(scaleX: 0.5, y: 0.5)
-    }
+    errorStackView.isHidden = false
+    retryButton.isHidden = false
   }
 
   func show(developer: Trending.Developer, rank: Int) {
@@ -167,24 +165,27 @@ class TrendDeveloperCell: TrendBaseCell {
     )
 
     // Developer name and repository name
+    centerStackView.isHidden = true
     nameLabel.do {
-      $0.textColor = .dark
-      $0.backgroundColor = .clear
       $0.text = developer.name
-      $0.transform = .identity
-    }
-
-    repositoryLabel.do {
       $0.textColor = .dark
       $0.backgroundColor = .clear
-      $0.text = developer.repositoryName
       $0.transform = .identity
+      $0.layer.cornerRadius = 0
+    }
+    repositoryLabel.do {
+      $0.text = developer.repositoryName
+      $0.textColor = .dark
+      $0.backgroundColor = .clear
+      $0.transform = .identity
+      $0.layer.cornerRadius = 0
     }
 
+    errorStackView.isHidden = true
   }
 
   // MARK: - Image Task
-  
+
   var avatarImageTask = RetrieveImageTask.empty
 
   override func prepareForReuse() {

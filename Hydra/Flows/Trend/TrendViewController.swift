@@ -142,17 +142,17 @@ class TrendViewController: UIViewController {
     switch state {
     case .loadingRepository, .repository, .errorLoadingRepository:
       let cell = view.dequeueReusableCell(
-        withReuseIdentifier: .trendRepositoryCellIdentifier, for: indexPath
-        // swiftlint:disable:next force_cast
-      ) as! TrendRepositoryCell
-      cell.showState(state)
+        withReuseIdentifier: .trendRepositoryCellIdentifier,
+        for: indexPath
+        ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
+      cell.show(state: state)
       return cell
     case .loadingDeveloper, .developer, .errorLoadingDeveloper:
       let cell = view.dequeueReusableCell(
-        withReuseIdentifier: .trendDeveloperCellIdentifier, for: indexPath
-        // swiftlint:disable:next force_cast
-      ) as! TrendDeveloperCell
-      cell.showState(state)
+        withReuseIdentifier: .trendDeveloperCellIdentifier,
+        for: indexPath
+      ) as! TrendDeveloperCell // swiftlint:disable:this force_cast
+      cell.show(state: state)
       return cell
     }
   }
@@ -191,12 +191,12 @@ class TrendViewController: UIViewController {
 //      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
 //      .disposed(by: disposeBag)
 
-    TrendSectionState.fakeErrorLoadingRepositoriesDriver
+    TrendSectionState.fakeErrorLoadingDevelopersDriver
       .map { $0.cellStates }
       .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
-    TrendSectionState.fakeLoadingRepositoriesDriver
+    TrendSectionState.fakeLoadingDevelopersDriver
       .map { $0.cellStates }
       .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
