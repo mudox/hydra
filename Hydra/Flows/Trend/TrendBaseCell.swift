@@ -49,6 +49,7 @@ class TrendBaseCell: UICollectionViewCell {
     }
   }
 
+  @objc dynamic
   func show(rank: Int) {
     backgroundColor = .white
 
@@ -56,6 +57,7 @@ class TrendBaseCell: UICollectionViewCell {
     badge.show(rank: rank)
   }
 
+  @objc dynamic
   func showLoading() {
     backgroundColor = .emptyLight
 

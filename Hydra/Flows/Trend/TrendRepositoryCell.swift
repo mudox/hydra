@@ -16,33 +16,43 @@ class TrendRepositoryCell: TrendBaseCell {
 
   // MARK: - Subviews
 
-  fileprivate var repositoryLabel: UILabel!
-  fileprivate var ownerLabel: UILabel!
+  private var contentStackView: UIStackView!
+  private var tipStackView: UIStackView!
 
-  fileprivate var starsLabel: UILabel!
-  fileprivate var starsIcon: UIImageView!
+  private var repositoryLabel: UILabel!
+  private var ownerLabel: UILabel!
 
-  fileprivate var gainedStarsLabel: UILabel!
-  fileprivate var gainedStarsIcon: UIImageView!
+  private var tipLabel: UILabel!
+  private var retryButton: UIButton!
 
-  fileprivate var forksLabel: UILabel!
-  fileprivate var forksIcon: UIImageView!
+  private var starsLabel: UILabel!
+  private var starsIcon: UIImageView!
 
-  fileprivate var languageLabel: UILabel!
-  fileprivate var languageBadge: UIView!
+  private var gainedStarsLabel: UILabel!
+  private var gainedStarsIcon: UIImageView!
 
-  // Currently unused
-  fileprivate var tipLabel: UILabel!
+  private var forksLabel: UILabel!
+  private var forksIcon: UIImageView!
+
+  private var languageLabel: UILabel!
+  private var languageBadge: UIView!
 
   // MARK: - Setup
 
   override init(frame: CGRect) {
     super.init(frame: frame)
 
+    // Center
     setupRepositoryLabel()
     setupOwnerLabel()
-    setupTipLabel()
 
+    setupTipLabel()
+    setupRetryButton()
+
+    setupContentStackView()
+    setupTipStackView()
+
+    // Corners
     setupTopLeftCorner()
     setupTopRightCorner()
     setupBottomRightCorner()
@@ -65,12 +75,6 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.allowsDefaultTighteningForTruncation = true
     }
 
-    contentView.addSubview(repositoryLabel)
-    repositoryLabel.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.centerY.equalToSuperview().offset(-14)
-      make.leading.trailing.equalToSuperview().inset(10)
-    }
   }
 
   func setupOwnerLabel() {
@@ -87,13 +91,6 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.adjustsFontSizeToFitWidth = true
       $0.minimumScaleFactor = 0.7
       $0.allowsDefaultTighteningForTruncation = true
-    }
-
-    contentView.addSubview(ownerLabel)
-    ownerLabel.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.top.equalTo(repositoryLabel.snp.bottom).offset(4)
-      make.leading.trailing.equalToSuperview().inset(10)
     }
   }
 
@@ -112,12 +109,42 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.minimumScaleFactor = 0.7
       $0.allowsDefaultTighteningForTruncation = true
     }
+  }
 
-    contentView.addSubview(tipLabel)
-    tipLabel.snp.makeConstraints { make in
-      make.center.equalToSuperview()
+  func setupRetryButton() {
+    retryButton = RetryButton()
+  }
+
+  func setupContentStackView() {
+    let views: [UIView] = [repositoryLabel, ownerLabel]
+    contentStackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 6
     }
 
+    contentView.addSubview(contentStackView)
+    contentStackView.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+      make.size.lessThanOrEqualToSuperview().inset(UI.margin)
+    }
+  }
+
+  func setupTipStackView() {
+    let views: [UIView] = [tipLabel, retryButton]
+    tipStackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 12
+    }
+
+    contentView.addSubview(tipStackView)
+    tipStackView.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+      make.size.lessThanOrEqualToSuperview().inset(UI.margin)
+    }
   }
 
   func setupTopLeftCorner() {
@@ -203,8 +230,6 @@ class TrendRepositoryCell: TrendBaseCell {
   func setupBottomLeftCorner() {
     languageBadge = UIView().then {
       $0.layer.cornerRadius = 5
-      $0.layer.borderWidth = 0.7
-      $0.layer.borderColor = UIColor.white.cgColor
       $0.backgroundColor = .clear
     }
 
@@ -231,7 +256,11 @@ class TrendRepositoryCell: TrendBaseCell {
     }
   }
 
-  // MARK: - Show States
+}
+
+// MARK: - Show States
+
+extension TrendRepositoryCell {
 
   func showState(_ state: TrendCellState) {
     switch state {
@@ -239,6 +268,8 @@ class TrendRepositoryCell: TrendBaseCell {
       showLoading()
     case let .repository(repository, rank: rank):
       show(repository: repository, rank: rank)
+    case let .errorLoadingRepository(error):
+      show(error: error)
     default:
       jack.function().failure("can not show this kind of state: \(state)")
     }
@@ -260,13 +291,45 @@ class TrendRepositoryCell: TrendBaseCell {
     languageLabel.text = ""
     languageBadge.backgroundColor = .white
 
-    // Labels
-    repositoryLabel.isHidden = true
-    ownerLabel.isHidden = true
+    // Center
+    contentStackView.isHidden = true
+    tipStackView.isHidden = false
+
     tipLabel.do {
       $0.text = "Loading"
-      $0.isHidden = false
     }
+    retryButton.isHidden = true
+  }
+
+  func show(error: Error) {
+    // Self
+    backgroundColor = .emptyLight
+
+    // Corners
+    starsLabel.text = ""
+    starsIcon.tintColor = .white
+
+    gainedStarsLabel.text = ""
+    gainedStarsIcon.tintColor = .white
+
+    forksLabel.text = ""
+    forksIcon.tintColor = .white
+
+    languageLabel.text = ""
+    languageBadge.backgroundColor = .white
+
+    // Center
+    contentStackView.isHidden = true
+    tipStackView.isHidden = false
+
+    tipLabel.do {
+      $0.text = "Loading Error"
+    }
+
+    retryButton.isHidden = false
+
+    // Badge
+    badge.showError()
   }
 
   func show(repository: Trending.Repository, rank: Int) {
@@ -300,18 +363,13 @@ class TrendRepositoryCell: TrendBaseCell {
       forksLabel.isHidden = true
     }
 
-    // Center labels
-    repositoryLabel.do {
-      $0.isHidden = false
-      $0.text = repository.name
-    }
-    ownerLabel.do {
-      $0.isHidden = false
-      $0.text = repository.owner
-    }
-    tipLabel.do {
-      $0.isHidden = true
-    }
+    // Center
+    contentStackView.isHidden = false
+    tipStackView.isHidden = true
+
+    repositoryLabel.text = repository.name
+    ownerLabel.text = repository.owner
+
   }
 
 }
