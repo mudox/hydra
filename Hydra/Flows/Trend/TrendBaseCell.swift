@@ -39,15 +39,6 @@ class TrendBaseCell: UICollectionViewCell {
       // Shape
       $0.cornerRadius = UI.cornerRadius
       $0.masksToBounds = false
-
-      // Shadow
-      $0.shadowColor = UI.shadowColor.cgColor
-      $0.shadowOffset = UI.shadowOffset
-      $0.shadowRadius = UI.shadowRadius
-      $0.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 6).cgPath
-
-      $0.shouldRasterize = true
-      $0.rasterizationScale = UIScreen.main.scale
     }
   }
 
@@ -63,18 +54,12 @@ class TrendBaseCell: UICollectionViewCell {
   func show(rank: Int) {
     backgroundColor = .white
 
-    // Show shadow
-    layer.shadowOpacity = UI.shadowOpacity
-
     // Badge
     badge.showRank(rank)
   }
 
   func showLoading() {
     backgroundColor = .emptyLight
-
-    // Hide shadow
-    layer.shadowOpacity = 0
 
     // Badge
     badge.showLoading()
