@@ -11,6 +11,7 @@ analyzer_rules:
   - unused_private_declaration
 
 disabled_rules:
+  - explicit_init
   - closure_parameter_position
   - opening_brace
 
