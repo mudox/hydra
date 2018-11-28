@@ -36,15 +36,15 @@ class TrendPageControl: UIView {
   }
 
   func reset(dotAt index: Int) {
-    set(dotAt: index, color: .hydraGray, size: dotSize)
+    set(dotAt: index, color: .light, size: dotSize)
   }
 
   func lowlight(dotAt index: Int) {
-    set(dotAt: index, color: .hydraHighlight, size: dotSize + 1)
+    set(dotAt: index, color: .highlight, size: dotSize + 1)
   }
 
   func highlight(dotAt index: Int) {
-    set(dotAt: index, color: .hydraHighlight, size: dotSize + 2)
+    set(dotAt: index, color: .highlight, size: dotSize + 2)
   }
 
   var currentIndex: Int = 0 {
@@ -78,7 +78,7 @@ class TrendPageControl: UIView {
 
     dots = (0 ..< numberOfPages).map { _ in
       UIView().then {
-        $0.backgroundColor = .hydraGray
+        $0.backgroundColor = .light
         $0.layer.cornerRadius = CGFloat(dotSize) / 2
 
         $0.snp.makeConstraints { make in
