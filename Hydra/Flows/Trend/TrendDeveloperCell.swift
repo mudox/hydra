@@ -88,7 +88,7 @@ class TrendDeveloperCell: TrendBaseCell {
       $0.axis = .vertical
       $0.distribution = .fill
       $0.alignment = .center
-      $0.spacing = 4
+      $0.spacing = 6
     }
 
     contentView.addSubview(stackView)
@@ -106,13 +106,38 @@ class TrendDeveloperCell: TrendBaseCell {
       showLoading()
     case let .developer(developer, rank: rank):
       show(developer: developer, rank: rank)
+    case let .errorLoadingDeveloper(error):
+      show(error: error)
     default:
-      jack.failure("can not show this kind of state: \(state)")
+      jack.function().failure("unexpected state: \(state)")
     }
   }
 
   override func showLoading() {
     super.showLoading()
+
+    // Avatar View
+    avatarView.image = [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!
+    avatarView.tintColor = .emptyDark
+
+    // Labels
+    nameLabel.do {
+      $0.textColor = .emptyDark
+      $0.backgroundColor = .emptyDark
+      $0.transform = .init(scaleX: 0.5, y: 0.6)
+    }
+
+    repositoryLabel.do {
+      $0.textColor = .emptyDark
+      $0.backgroundColor = .emptyDark
+      $0.transform = .init(scaleX: 0.5, y: 0.5)
+    }
+  }
+
+  func show(error: Error) {
+    badge.showError()
+
+    backgroundColor = .emptyLight
 
     // Avatar View
     avatarView.image = [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!
