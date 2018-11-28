@@ -178,20 +178,29 @@ class TrendViewController: UIViewController {
     // Drive collection views
 
     output.todayTrend
+      .map { $0.cellStates }
       .drive(todaySection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
     output.thisWeekTrend
+      .map { $0.cellStates }
       .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
-    output.thisMonthTrend
+//    output.thisMonthTrend
+//      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
+//      .disposed(by: disposeBag)
+
+    let error = TrendCellState.errorLoadingDeveloper(Trending.Error.isDissecting)
+    let errors = [TrendCellState](repeating: error, count: 3)
+    let fake = Driver<[TrendCellState]>.just(errors)
+    fake
       .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
     // Reset scrolling position on reloading
 
-    let reset = { (view: TrendSectionView) -> ([TrendCellState]) -> Void in
+    let reset = { (view: TrendSectionView) -> (TrendSectionState) -> Void in
       { _ in
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         view.collectionView.scrollRectToVisible(rect, animated: false)
@@ -199,17 +208,17 @@ class TrendViewController: UIViewController {
     }
 
     output.todayTrend
-      .filter([TrendCellState].isLoading)
+      .filter { $0.isLoading }
       .drive(onNext: reset(todaySection))
       .disposed(by: disposeBag)
 
     output.thisWeekTrend
-      .filter([TrendCellState].isLoading)
+      .filter { $0.isLoading }
       .drive(onNext: reset(thisWeekSection))
       .disposed(by: disposeBag)
 
     output.thisMonthTrend
-      .filter([TrendCellState].isLoading)
+      .filter { $0.isLoading }
       .drive(onNext: reset(thisMonthSection))
       .disposed(by: disposeBag)
 

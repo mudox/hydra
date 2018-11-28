@@ -72,15 +72,3 @@ enum TrendCellState {
   }
 
 }
-
-extension Array where Element == TrendCellState {
-
-  static func isLoading(states: [TrendCellState]) -> Bool {
-    if let state = states.first {
-      return state.isLoading
-    } else { // empty
-      return false
-    }
-  }
-
-}

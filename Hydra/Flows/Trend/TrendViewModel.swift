@@ -38,9 +38,9 @@ protocol TrendViewModelInput {
 }
 
 protocol TrendViewModelOutput {
-  var todayTrend: Driver<[TrendCellState]> { get }
-  var thisWeekTrend: Driver<[TrendCellState]> { get }
-  var thisMonthTrend: Driver<[TrendCellState]> { get }
+  var todayTrend: Driver<TrendSectionState> { get }
+  var thisWeekTrend: Driver<TrendSectionState> { get }
+  var thisMonthTrend: Driver<TrendSectionState> { get }
 }
 
 protocol TrendViewModelType: TrendViewModelInput, TrendViewModelOutput {
@@ -69,9 +69,9 @@ class TrendViewModel: TrendViewModelType {
 
   // MARK: - Output
 
-  var todayTrend: Driver<[TrendCellState]>
-  var thisWeekTrend: Driver<[TrendCellState]>
-  var thisMonthTrend: Driver<[TrendCellState]>
+  var todayTrend: Driver<TrendSectionState>
+  var thisWeekTrend: Driver<TrendSectionState>
+  var thisMonthTrend: Driver<TrendSectionState>
 
   // MARK: - Binding
 
@@ -95,26 +95,26 @@ private func trend(
   for period: Trending.Period,
   service: TrendServiceType
 )
-  -> Driver<[TrendCellState]>
+  -> Driver<TrendSectionState>
 {
   return input
-    .flatMapLatest { input -> Driver<[TrendCellState]> in
+    .flatMapLatest { input -> Driver<TrendSectionState> in
       switch input.kind {
       case .repositories:
         return service.repositories(of: input.language, for: period)
-          .map { $0.enumerated().map { TrendCellState.repository($1, rank: $0 + 1) } }
+          .map(TrendSectionState.repositories)
           .asObservable()
-          .startWith([TrendCellState](repeating: .loadingRepository, count: 3))
-          .asDriver {
-            Driver.just(.init(repeating: .errorLoadingRepository($0), count: 3))
+          .startWith(TrendSectionState.loadingRepositories)
+          .asDriver { error in
+            .just(TrendSectionState.errorLoadingRepositories(error))
           }
       case .developers:
         return service.developers(of: input.language, for: period)
-          .map { $0.enumerated().map { TrendCellState.developer($1, rank: $0 + 1) } }
+          .map(TrendSectionState.developers)
           .asObservable()
-          .startWith([TrendCellState](repeating: .loadingDeveloper, count: 3))
-          .asDriver {
-            Driver.just(.init(repeating: .errorLoadingDeveloper($0), count: 3))
+          .startWith(TrendSectionState.loadingDevelopers)
+          .asDriver { error in
+            .just(TrendSectionState.errorLoadingDevelopers(error))
           }
       }
     }
