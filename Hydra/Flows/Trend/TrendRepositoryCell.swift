@@ -12,44 +12,36 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-class TrendRepositoryCell: UICollectionViewCell {
-
-  let margin = 8
-
-  var imageIndex: Int? {
-    didSet {
-      if let index = imageIndex {
-        imageView.image = UIImage(named: "blurred-bg-\(index)")
-      } else {
-        imageView.image = nil
-      }
-    }
-  }
+class TrendRepositoryCell: TrendBaseCell {
 
   // MARK: - Subviews
 
-  fileprivate var imageView: UIImageView!
   fileprivate var repositoryLabel: UILabel!
   fileprivate var ownerLabel: UILabel!
-  fileprivate var badge: TrendRankBadge!
 
   fileprivate var starsLabel: UILabel!
+  fileprivate var starsIcon: UIImageView!
+
   fileprivate var gainedStarsLabel: UILabel!
+  fileprivate var gainedStarsIcon: UIImageView!
+
   fileprivate var forksLabel: UILabel!
+  fileprivate var forksIcon: UIImageView!
+
   fileprivate var languageLabel: UILabel!
-  fileprivate var languageColorView: UIView!
+  fileprivate var languageBadge: UIView!
+
+  // Currently unused
+  fileprivate var tipLabel: UILabel!
 
   // MARK: - Setup
 
   override init(frame: CGRect) {
     super.init(frame: frame)
 
-    tintColor = .white
-
-    setupShadow()
-    setupImageView()
-    setupBadge(hasShadow: false)
-    setupLabels()
+    setupRepositoryLabel()
+    setupOwnerLabel()
+    setupTipLabel()
 
     setupTopLeftCorner()
     setupTopRightCorner()
@@ -57,60 +49,15 @@ class TrendRepositoryCell: UICollectionViewCell {
     setupBottomLeftCorner()
   }
 
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use")
-  }
-
-  func setupShadow() {
-    layer.do {
-      // Shape
-      $0.cornerRadius = 6
-      $0.masksToBounds = false
-
-      // Shadow
-      $0.shadowOffset = UI.shadowOffset
-      $0.shadowRadius = UI.shadowRadius
-      $0.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 6).cgPath
-
-      // Rasterization somehow blur all content above
-      $0.shouldRasterize = false
-    }
-  }
-
-  func setupImageView() {
-    imageView = UIImageView().then {
-      $0.contentMode = .scaleAspectFill
-
-      $0.layer.cornerRadius = 6
-      $0.layer.masksToBounds = true
-    }
-
-    contentView.addSubview(imageView)
-    imageView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
-    }
-  }
-
-  func setupBadge(hasShadow: Bool) {
-    badge = TrendRankBadge()
-    contentView.addSubview(badge)
-    badge.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.centerY.equalTo(snp.bottom)
-    }
-  }
-
-  func setupLabels() {
-    // Repository name label
+  func setupRepositoryLabel() {
     repositoryLabel = UILabel().then {
       $0.text = "Repository Name"
-      $0.textColor = .white
-      $0.font = .systemFont(ofSize: 20, weight: .bold)
+      $0.textColor = .dark
+      $0.font = .title
       $0.textAlignment = .center
 
       // Auto shrink
-      $0.numberOfLines = 1
+      $0.numberOfLines = 2
       $0.lineBreakMode = .byTruncatingTail
 
       $0.adjustsFontSizeToFitWidth = true
@@ -124,12 +71,13 @@ class TrendRepositoryCell: UICollectionViewCell {
       make.centerY.equalToSuperview().offset(-14)
       make.leading.trailing.equalToSuperview().inset(10)
     }
+  }
 
-    // Repository owner name label
+  func setupOwnerLabel() {
     ownerLabel = UILabel().then {
       $0.text = "Owner Name"
-      $0.textColor = .white
-      $0.font = .systemFont(ofSize: 14)
+      $0.textColor = .dark
+      $0.font = .text
       $0.textAlignment = .center
 
       // Auto shrink
@@ -147,22 +95,44 @@ class TrendRepositoryCell: UICollectionViewCell {
       make.top.equalTo(repositoryLabel.snp.bottom).offset(4)
       make.leading.trailing.equalToSuperview().inset(10)
     }
+  }
+
+  func setupTipLabel() {
+    tipLabel = UILabel().then {
+      $0.text = "Loading"
+      $0.textColor = .emptyDark
+      $0.font = .text
+      $0.textAlignment = .center
+
+      // Auto shrink
+      $0.numberOfLines = 1
+      $0.lineBreakMode = .byTruncatingTail
+
+      $0.adjustsFontSizeToFitWidth = true
+      $0.minimumScaleFactor = 0.7
+      $0.allowsDefaultTighteningForTruncation = true
+    }
+
+    contentView.addSubview(tipLabel)
+    tipLabel.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+    }
 
   }
 
   func setupTopLeftCorner() {
     starsLabel = UILabel().then {
       $0.text = "1383"
-      $0.textColor = .white
-      $0.font = .systemFont(ofSize: 10)
+      $0.textColor = .dark
+      $0.font = .callout
       $0.textAlignment = .left
     }
 
-    let starsIcon = UIImageView().then {
+    starsIcon = UIImageView().then {
       $0.image = #imageLiteral(resourceName: "Stars Icon")
     }
 
-    let views = [starsIcon, starsLabel!]
+    let views: [UIView] = [starsIcon, starsLabel]
     let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
       $0.distribution = .fill
@@ -172,24 +142,24 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.top.leading.equalToSuperview().offset(margin)
+      make.top.leading.equalToSuperview().offset(UI.margin)
     }
 
   }
 
   func setupTopRightCorner() {
-    let gainedStarsIcon = UIImageView().then {
+    gainedStarsIcon = UIImageView().then {
       $0.image = #imageLiteral(resourceName: "Gained Stars Icon")
     }
 
     gainedStarsLabel = UILabel().then {
       $0.text = "283"
-      $0.textColor = .white
-      $0.font = .systemFont(ofSize: 10)
+      $0.textColor = .dark
+      $0.font = .callout
       $0.textAlignment = .right
     }
 
-    let views = [gainedStarsLabel!, gainedStarsIcon]
+    let views: [UIView] = [gainedStarsLabel!, gainedStarsIcon]
     let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
       $0.distribution = .fill
@@ -199,23 +169,23 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.top.trailing.equalToSuperview().inset(margin)
+      make.top.trailing.equalToSuperview().inset(UI.margin)
     }
 
   }
 
   func setupBottomRightCorner() {
-    let forksIcon = UIImageView().then {
+    forksIcon = UIImageView().then {
       $0.image = #imageLiteral(resourceName: "Fork Icon")
     }
 
     forksLabel = UILabel().then {
-      $0.textColor = .white
-      $0.font = .systemFont(ofSize: 10)
+      $0.textColor = .dark
+      $0.font = .callout
       $0.textAlignment = .right
     }
 
-    let views = [forksLabel!, forksIcon]
+    let views: [UIView] = [forksLabel!, forksIcon]
     let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
       $0.distribution = .fill
@@ -225,13 +195,13 @@ class TrendRepositoryCell: UICollectionViewCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.bottom.equalToSuperview().inset(margin)
-      make.trailing.equalToSuperview().inset(margin + 1)
+      make.bottom.equalToSuperview().inset(UI.margin)
+      make.trailing.equalToSuperview().inset(UI.margin + 1)
     }
   }
 
   func setupBottomLeftCorner() {
-    languageColorView = UIView().then {
+    languageBadge = UIView().then {
       $0.layer.cornerRadius = 5
       $0.layer.borderWidth = 0.7
       $0.layer.borderColor = UIColor.white.cgColor
@@ -239,84 +209,85 @@ class TrendRepositoryCell: UICollectionViewCell {
     }
 
     languageLabel = UILabel().then {
-      $0.textColor = .white
-      $0.font = .systemFont(ofSize: 10)
+      $0.textColor = .dark
+      $0.font = .callout
       $0.textAlignment = .left
     }
 
-    let views = [languageColorView!, languageLabel!]
+    let views: [UIView] = [languageBadge, languageLabel]
     let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
       $0.distribution = .fill
       $0.alignment = .center
       $0.spacing = 2
     }
-    languageColorView.snp.makeConstraints { make in
+    languageBadge.snp.makeConstraints { make in
       make.size.equalTo(10)
     }
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.leading.bottom.equalToSuperview().inset(margin)
+      make.leading.bottom.equalToSuperview().inset(UI.margin)
     }
   }
 
   // MARK: - Show States
 
-  var isLoading = true
-
-  func showState(_ state: TrendState) {
+  func showState(_ state: TrendCellState) {
     switch state {
     case .loadingRepository:
-      isLoading = true
       showLoading()
     case let .repository(repository, rank: rank):
-      isLoading = false
       show(repository: repository, rank: rank)
     default:
-      jack.failure("can not show this kind of state: \(state)")
+      jack.function().failure("can not show this kind of state: \(state)")
     }
   }
 
-  func showLoading() {
-    // Hide shadows
-    layer.shadowOpacity = 0
+  override func showLoading() {
+    super.showLoading()
 
-    // 4 corners
+    // Corners
     starsLabel.text = ""
+    starsIcon.tintColor = .white
+
     gainedStarsLabel.text = ""
+    gainedStarsIcon.tintColor = .white
+
     forksLabel.text = ""
+    forksIcon.tintColor = .white
+
     languageLabel.text = ""
-    languageColorView.backgroundColor = .white
+    languageBadge.backgroundColor = .white
 
-    // Title and author
-    repositoryLabel.text = ""
-    ownerLabel.textColor = .lightGray
-    ownerLabel.text = "Loading"
-
-    backgroundColor = .groupTableViewBackground
-
-    // Rank badge
-    badge.showLoading()
+    // Labels
+    repositoryLabel.isHidden = true
+    ownerLabel.isHidden = true
+    tipLabel.do {
+      $0.text = "Loading"
+      $0.isHidden = false
+    }
   }
 
   func show(repository: Trending.Repository, rank: Int) {
-    // Show shadows
-    layer.shadowOpacity = UI.shadowOpacity
+    show(rank: rank)
 
-    // Stars counts
+    // Corners
     starsLabel.text = repository.starsCount.description
-    gainedStarsLabel.text = repository.gainedStarsCount.description
+    starsIcon.tintColor = .dark
 
-    // Language color & name
+    gainedStarsLabel.text = repository.gainedStarsCount.description
+    gainedStarsIcon.tintColor = .dark
+
+    // Language
     if let language = repository.language {
       languageLabel.text = language.name
 
       if let color = UIColor(hexString: language.color) {
-        languageColorView.isHidden = false
-        languageColorView.backgroundColor = color
+        languageBadge.isHidden = false
+        languageBadge.backgroundColor = color
       } else {
-        languageColorView.isHidden = true
+        languageBadge.isHidden = true
       }
     }
 
@@ -324,17 +295,23 @@ class TrendRepositoryCell: UICollectionViewCell {
     if let count = repository.forksCount {
       forksLabel.isHidden = false
       forksLabel.text = count.description
+      forksIcon.tintColor = .dark
     } else {
       forksLabel.isHidden = true
     }
 
-    // Title and author
-    repositoryLabel.text = repository.name
-    ownerLabel.textColor = .white
-    ownerLabel.text = repository.owner
-
-    // Rank badge
-    badge.showRank(rank)
+    // Center labels
+    repositoryLabel.do {
+      $0.isHidden = false
+      $0.text = repository.name
+    }
+    ownerLabel.do {
+      $0.isHidden = false
+      $0.text = repository.owner
+    }
+    tipLabel.do {
+      $0.isHidden = true
+    }
   }
 
 }
