@@ -80,9 +80,6 @@ class TrendViewModel: TrendViewModelType {
       trendKind.asDriver(), language.asDriver(),
       resultSelector: TrendUserInput.init
     )
-    .do(onNext: {
-      jack.debug("kind: \($0.kind), language: \($0.language)")
-    })
 
     todayTrend = trend(with: userInput, for: .today, service: service)
     thisWeekTrend = trend(with: userInput, for: .thisWeek, service: service)
@@ -107,22 +104,17 @@ private func trend(
         return service.repositories(of: input.language, for: period)
           .map { $0.enumerated().map { TrendCellState.repository($1, rank: $0 + 1) } }
           .asObservable()
-          .startWith([TrendCellState](repeating: .loadingRepository, count: 4))
-          .asDriver { error in
-            jack.descendant("trend(for:\(period)").failure("error: \(error)")
-            return .empty()
+          .startWith([TrendCellState](repeating: .loadingRepository, count: 3))
+          .asDriver {
+            Driver.just(.init(repeating: .errorLoadingRepository($0), count: 3))
           }
       case .developers:
         return service.developers(of: input.language, for: period)
-          .do(onSuccess: {
-            jack.debug("developers count: \($0.count)")
-          })
           .map { $0.enumerated().map { TrendCellState.developer($1, rank: $0 + 1) } }
           .asObservable()
-          .startWith([TrendCellState](repeating: .loadingDeveloper, count: 4))
-          .asDriver { error in
-            jack.descendant("trend(for:\(period)").failure("error: \(error)")
-            return .empty()
+          .startWith([TrendCellState](repeating: .loadingDeveloper, count: 3))
+          .asDriver {
+            Driver.just(.init(repeating: .errorLoadingDeveloper($0), count: 3))
           }
       }
     }
