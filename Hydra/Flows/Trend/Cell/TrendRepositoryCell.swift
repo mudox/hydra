@@ -14,6 +14,8 @@ private let jack = Jack().set(format: .short)
 
 class TrendRepositoryCell: TrendBaseCell {
 
+  static let identifier = "\(type(of: self))"
+
   // MARK: - Subviews
 
   private var repositoryLabel: UILabel!

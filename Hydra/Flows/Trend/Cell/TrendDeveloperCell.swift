@@ -14,6 +14,8 @@ private let jack = Jack().set(format: .short)
 
 class TrendDeveloperCell: TrendBaseCell {
 
+  static let identifier = "\(type(of: self))"
+
   // MARK: - Subviews
 
   private var avatarView: UIImageView!

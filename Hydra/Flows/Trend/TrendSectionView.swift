@@ -86,11 +86,11 @@ class TrendSectionView: UIView {
 
       $0.register(
         TrendRepositoryCell.self,
-        forCellWithReuseIdentifier: .trendRepositoryCellIdentifier
+        forCellWithReuseIdentifier: TrendRepositoryCell.identifier
       )
       $0.register(
         TrendDeveloperCell.self,
-        forCellWithReuseIdentifier: .trendDeveloperCellIdentifier
+        forCellWithReuseIdentifier: TrendDeveloperCell.identifier
       )
     }
 

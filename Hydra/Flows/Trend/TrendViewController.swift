@@ -12,11 +12,6 @@ import GitHub
 
 private let jack = Jack().set(format: .short)
 
-extension String {
-  static let trendRepositoryCellIdentifier = "trendRepositoryCell"
-  static let trendDeveloperCellIdentifier = "trendDeveloperCell"
-}
-
 class TrendViewController: UIViewController {
 
   var disposeBag = DisposeBag()
@@ -142,14 +137,14 @@ class TrendViewController: UIViewController {
     switch state {
     case .loadingRepository, .repository, .errorLoadingRepository:
       let cell = view.dequeueReusableCell(
-        withReuseIdentifier: .trendRepositoryCellIdentifier,
+        withReuseIdentifier: TrendRepositoryCell.identifier,
         for: indexPath
-        ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
+      ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
       cell.show(state: state)
       return cell
     case .loadingDeveloper, .developer, .errorLoadingDeveloper:
       let cell = view.dequeueReusableCell(
-        withReuseIdentifier: .trendDeveloperCellIdentifier,
+        withReuseIdentifier: TrendDeveloperCell.identifier,
         for: indexPath
       ) as! TrendDeveloperCell // swiftlint:disable:this force_cast
       cell.show(state: state)
