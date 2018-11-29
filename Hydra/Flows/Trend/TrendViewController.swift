@@ -182,24 +182,25 @@ class TrendViewController: UIViewController {
       .drive(todaySection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
-//    output.thisWeekTrend
-//      .map { $0.cellStates }
-//      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
-//      .disposed(by: disposeBag)
-
-//    output.thisMonthTrend
-//      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
-//      .disposed(by: disposeBag)
-
-    TrendSectionState.fakeErrorLoadingRepositoriesDriver
+    output.thisWeekTrend
       .map { $0.cellStates }
       .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
 
-    TrendSectionState.fakeLoadingRepositoriesDriver
+    output.thisMonthTrend
       .map { $0.cellStates }
       .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
       .disposed(by: disposeBag)
+
+//    TrendSectionState.fakeErrorLoadingRepositoriesDriver
+//      .map { $0.cellStates }
+//      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
+//      .disposed(by: disposeBag)
+//
+//    TrendSectionState.fakeLoadingDevelopersDriver
+//      .map { $0.cellStates }
+//      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
+//      .disposed(by: disposeBag)
 
     // Reset scrolling position on reloading
 
