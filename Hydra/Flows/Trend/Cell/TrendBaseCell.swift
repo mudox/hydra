@@ -71,6 +71,7 @@ class TrendBaseCell: UICollectionViewCell {
       $0.minimumScaleFactor = 0.7
       $0.allowsDefaultTighteningForTruncation = true
     }
+
   }
 
   func setupErrorStackView() {
@@ -86,6 +87,10 @@ class TrendBaseCell: UICollectionViewCell {
     errorStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
       make.size.lessThanOrEqualToSuperview().inset(UI.margin)
+    }
+
+    tipLabel.snp.makeConstraints { make in
+      make.width.lessThanOrEqualTo(contentView).inset(14)
     }
   }
 
@@ -119,7 +124,7 @@ class TrendBaseCell: UICollectionViewCell {
     errorStackView.isHidden = false
     switch error {
     case Trending.Error.isDissecting:
-      tipLabel.text = "Server  "
+      tipLabel.text = "Server is updating the data..."
     case Trending.Error.htmlParsing:
       tipLabel.text = "Internal Error"
     default:

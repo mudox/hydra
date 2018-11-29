@@ -246,18 +246,20 @@ class TrendRepositoryCell: TrendBaseCell {
     // Center
     centerStackView.isHidden = false
     repositoryLabel.do {
+      $0.text = "XXXXXXXXXX"
       $0.textColor = .emptyDark
       $0.backgroundColor = .emptyDark
-      $0.transform = .init(scaleX: 0.6, y: 0.6)
-      $0.layer.cornerRadius = 2
+      $0.transform = .init(scaleX: 0.6, y: 0.65)
+      $0.layer.cornerRadius = UI.cornerRadius
       $0.layer.masksToBounds = true
     }
     ownerLabel.do {
+      $0.text = "XXXXXXX"
       $0.textColor = .emptyDark
       $0.backgroundColor = .emptyDark
       $0.transform = .init(scaleX: 0.6, y: 0.7)
       $0.transform = $0.transform.translatedBy(x: 0, y: -5)
-      $0.layer.cornerRadius = 2
+      $0.layer.cornerRadius = UI.cornerRadius
       $0.layer.masksToBounds = true
     }
   }
