@@ -13,16 +13,6 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-enum TrendKind: Int {
-  case repositories
-  case developers
-}
-
-private struct TrendUserInput {
-  let kind: TrendKind
-  let language: String
-}
-
 protocol TrendServiceType {
   func repositories(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]>
   func developers(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]>
@@ -33,7 +23,7 @@ extension GitHub.Trending: TrendServiceType {}
 // MARK: - Interface
 
 protocol TrendViewModelInput {
-  var trendKind: BehaviorRelay<TrendKind> { get }
+  var trendKind: BehaviorRelay<TrendViewModel.Kind> { get }
   var language: BehaviorRelay<String> { get }
 
   var refreshToday: PublishRelay<Void> { get }
@@ -56,15 +46,25 @@ extension TrendViewModelType {
   var output: TrendViewModelOutput { return self }
 }
 
-// MARK: -
+// MARK: - View Model
 
 class TrendViewModel: TrendViewModelType {
 
-  let disposeBag = DisposeBag()
+  // MARK: - Types
+
+  enum Kind: Int {
+    case repositories
+    case developers
+  }
+
+  struct Input {
+    let kind: Kind
+    let language: String
+  }
 
   // MARK: - Input
 
-  var trendKind = BehaviorRelay<TrendKind>(value: .repositories)
+  var trendKind = BehaviorRelay<Kind>(value: .repositories)
   var language = BehaviorRelay<String>(value: "all")
 
   var refreshToday = PublishRelay<Void>()
@@ -79,10 +79,12 @@ class TrendViewModel: TrendViewModelType {
 
   // MARK: - Binding
 
+  let disposeBag = DisposeBag()
+
   required init(service: TrendServiceType) {
     let userInput = Driver.combineLatest(
-      trendKind.asDriver(), language.asDriver(),
-      resultSelector: TrendUserInput.init
+      trendKind.asDriver().distinctUntilChanged(), language.asDriver(),
+      resultSelector: Input.init
     )
 
     todayTrend = trend(with: userInput, for: .today, service: service)
@@ -95,7 +97,7 @@ class TrendViewModel: TrendViewModelType {
 // MARK: - Helpers
 
 private func trend(
-  with input: Driver<TrendUserInput>,
+  with input: Driver<TrendViewModel.Input>,
   for period: Trending.Period,
   service: TrendServiceType
 )

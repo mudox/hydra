@@ -14,22 +14,6 @@ private let jack = Jack().set(format: .short)
 
 class TrendViewController: UIViewController {
 
-  var disposeBag = DisposeBag()
-  var model: TrendViewModel!
-
-  // MARK: - Subviews
-
-  var tabSwitch: TabSwitch!
-
-  var searchBar: UISearchBar!
-  var languageLabel: UILabel!
-
-  var todaySection: TrendSectionView!
-  var thisWeekSection: TrendSectionView!
-  var thisMonthSection: TrendSectionView!
-
-  // MARK: - Life Circle
-
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -40,6 +24,14 @@ class TrendViewController: UIViewController {
   }
 
   // MARK: - View
+
+  var tabSwitch: TabSwitch!
+  var searchBar: UISearchBar!
+  var languageLabel: UILabel!
+
+  var todaySection: TrendSectionView!
+  var thisWeekSection: TrendSectionView!
+  var thisMonthSection: TrendSectionView!
 
   func setupView() {
     view.backgroundColor = .backDark
@@ -125,6 +117,9 @@ class TrendViewController: UIViewController {
 
   // MARK: - Model
 
+  var disposeBag = DisposeBag()
+  var model: TrendViewModel!
+
   func setupTrendCell(
     view: UICollectionView,
     index: Int,
@@ -158,7 +153,7 @@ class TrendViewController: UIViewController {
     // Tab switch -> trend kind
 
     tabSwitch.selectedIndex
-      .map { TrendKind(rawValue: $0)! }
+      .map { TrendViewModel.Kind(rawValue: $0)! }
       .drive(input.trendKind)
       .disposed(by: disposeBag)
 
