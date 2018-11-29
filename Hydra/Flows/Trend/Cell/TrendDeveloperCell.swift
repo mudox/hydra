@@ -159,7 +159,7 @@ class TrendDeveloperCell: TrendBaseCell {
     )
 
     // Developer name and repository name
-    centerStackView.isHidden = true
+    centerStackView.isHidden = false
     nameLabel.do {
       $0.text = developer.name
       $0.textColor = .dark
