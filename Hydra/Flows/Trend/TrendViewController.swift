@@ -120,33 +120,6 @@ class TrendViewController: UIViewController {
   var disposeBag = DisposeBag()
   var model: TrendViewModel!
 
-  func setupTrendCell(
-    view: UICollectionView,
-    index: Int,
-    state: TrendCellState
-  )
-    -> UICollectionViewCell
-  {
-    let indexPath = IndexPath(item: index, section: 0)
-
-    switch state {
-    case .loadingRepository, .repository, .errorLoadingRepository:
-      let cell = view.dequeueReusableCell(
-        withReuseIdentifier: TrendRepositoryCell.identifier,
-        for: indexPath
-      ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
-      cell.show(state: state)
-      return cell
-    case .loadingDeveloper, .developer, .errorLoadingDeveloper:
-      let cell = view.dequeueReusableCell(
-        withReuseIdentifier: TrendDeveloperCell.identifier,
-        for: indexPath
-      ) as! TrendDeveloperCell // swiftlint:disable:this force_cast
-      cell.show(state: state)
-      return cell
-    }
-  }
-
   func bindToModel() {
     let input = model.input
 
@@ -218,6 +191,28 @@ class TrendViewController: UIViewController {
 
   }
 
+}
+
+let setupTrendCell = {
+  (view: UICollectionView, index: Int, state: TrendCellState) -> UICollectionViewCell in
+  let indexPath = IndexPath(item: index, section: 0)
+
+  switch state {
+  case .loadingRepository, .repository, .errorLoadingRepository:
+    let cell = view.dequeueReusableCell(
+      withReuseIdentifier: TrendRepositoryCell.identifier,
+      for: indexPath
+    ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
+    cell.show(state: state)
+    return cell
+  case .loadingDeveloper, .developer, .errorLoadingDeveloper:
+    let cell = view.dequeueReusableCell(
+      withReuseIdentifier: TrendDeveloperCell.identifier,
+      for: indexPath
+    ) as! TrendDeveloperCell // swiftlint:disable:this force_cast
+    cell.show(state: state)
+    return cell
+  }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
