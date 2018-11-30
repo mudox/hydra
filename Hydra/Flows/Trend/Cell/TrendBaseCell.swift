@@ -14,7 +14,7 @@ class TrendBaseCell: UICollectionViewCell {
 
   var badge: TrendRankBadge!
 
-  private var tipLabel: UILabel!
+  private var errorLabel: UILabel!
   private var retryButton = RetryButton()
   private var errorStackView: UIStackView!
 
@@ -57,14 +57,14 @@ class TrendBaseCell: UICollectionViewCell {
   }
 
   func setupErrorLabel() {
-    tipLabel = UILabel().then {
-      $0.text = "Loading"
+    errorLabel = UILabel().then {
+      $0.text = "Oops"
       $0.textColor = .emptyDark
       $0.font = .text
       $0.textAlignment = .center
 
       // Auto shrink
-      $0.numberOfLines = 1
+      $0.numberOfLines = 2
       $0.lineBreakMode = .byTruncatingTail
 
       $0.adjustsFontSizeToFitWidth = true
@@ -75,7 +75,7 @@ class TrendBaseCell: UICollectionViewCell {
   }
 
   func setupErrorStackView() {
-    let views: [UIView] = [tipLabel, retryButton]
+    let views: [UIView] = [errorLabel, retryButton]
     errorStackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .vertical
       $0.distribution = .fill
@@ -89,8 +89,8 @@ class TrendBaseCell: UICollectionViewCell {
       make.size.lessThanOrEqualToSuperview().inset(UI.margin)
     }
 
-    tipLabel.snp.makeConstraints { make in
-      make.width.lessThanOrEqualTo(contentView).inset(14)
+    errorLabel.snp.makeConstraints { make in
+      make.width.lessThanOrEqualTo(contentView).inset(24)
     }
   }
 
@@ -124,11 +124,11 @@ class TrendBaseCell: UICollectionViewCell {
     errorStackView.isHidden = false
     switch error {
     case Trending.Error.isDissecting:
-      tipLabel.text = "Server is updating the data..."
+      errorLabel.text = "Server is updating the data..."
     case Trending.Error.htmlParsing:
-      tipLabel.text = "Internal Error"
+      errorLabel.text = "Internal Error"
     default:
-      tipLabel.text = "Loading Error"
+      errorLabel.text = "Loading Error"
     }
     retryButton.isHidden = false
 
