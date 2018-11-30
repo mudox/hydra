@@ -83,7 +83,8 @@ class TrendViewModel: TrendViewModelType {
 
   required init(service: TrendServiceType) {
     let userInput = Driver.combineLatest(
-      trendKind.asDriver().distinctUntilChanged(), language.asDriver(),
+      trendKind.asDriver().distinctUntilChanged(),
+      language.asDriver().skip(1),
       resultSelector: Input.init
     )
 
