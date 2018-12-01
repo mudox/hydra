@@ -26,7 +26,7 @@ class TrendViewController: UIViewController {
   // MARK: - View
 
   var tabSwitch: TabSwitch!
-  var searchBar: UISearchBar!
+  var languageBar: LanguageBar!
   var languageLabel: UILabel!
 
   var todaySection: TrendSectionView!
@@ -42,7 +42,7 @@ class TrendViewController: UIViewController {
     tabBarController?.tabBar.tintColor = .highlight
 
     setupTabSwitch()
-    setupSearchBar()
+    setupLanguageBar()
     setupSections()
   }
 
@@ -56,30 +56,14 @@ class TrendViewController: UIViewController {
     }
   }
 
-  func setupSearchBar() {
-    searchBar = UISearchBar(frame: .zero).then {
-      $0.placeholder = ""
-      $0.searchBarStyle = .minimal
-    }
+  func setupLanguageBar() {
+    languageBar = LanguageBar()
 
-    view.addSubview(searchBar)
-    searchBar.snp.makeConstraints { make in
+    view.addSubview(languageBar)
+    languageBar.snp.makeConstraints { make in
       make.top.equalTo(tabSwitch.snp.bottom).offset(10)
       make.leading.trailing.equalToSuperview().inset(10)
     }
-
-    languageLabel = UILabel().then {
-      $0.text = "All Languages"
-      $0.textColor = .dark
-      $0.font = .text
-      $0.textAlignment = .center
-    }
-
-    view.addSubview(languageLabel)
-    languageLabel.snp.makeConstraints { make in
-      make.center.equalTo(searchBar)
-    }
-
   }
 
   func setupSections() {
@@ -108,7 +92,7 @@ class TrendViewController: UIViewController {
 
     view.addSubview(sectionsStackView)
     sectionsStackView.snp.makeConstraints { make in
-      make.top.equalTo(searchBar.snp.bottom).offset(10)
+      make.top.equalTo(languageBar.snp.bottom).offset(10)
       make.leading.trailing.equalToSuperview()
       make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
     }
@@ -130,9 +114,18 @@ class TrendViewController: UIViewController {
       .drive(input.trendKind)
       .disposed(by: disposeBag)
 
-    // Language search bar -> language (fake)
+    // Language search bar -> language
 
-    input.language.accept("all")
+    let languages = [
+      "All", "C", "JavaScript", "Swift", "Objective-C",
+      "Python", "Ruby", "Go", "Rust", "Unknown", "More..."
+    ]
+    languageBar.languagesRelay.accept(languages)
+
+    languageBar.selectedLanguage
+      .debug("selected language")
+      .drive(input.language)
+      .disposed(by: disposeBag)
   }
 
   func bindFromModel() {
@@ -227,7 +220,7 @@ extension TrendViewController: UICollectionViewDelegateFlowLayout {
     -> CGSize
   {
     let height = collectionView.bounds.height
-    let width = height / 120 * 190 // !!!: magic number
+    let width = height / 120 * 190 // Magic number!!!
     return CGSize(width: width, height: height)
   }
 
