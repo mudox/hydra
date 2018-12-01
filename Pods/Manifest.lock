@@ -15,6 +15,7 @@ PODS:
     - RxCocoa
     - RxSwift
     - SSZipArchive
+    - SwiftHEXColors (~> 1.1)
     - Yams
   - JacKit (1.0):
     - CocoaLumberjack/Swift (~> 3.3.0)
@@ -172,7 +173,7 @@ SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
-  GitHubKit: 1e512e5bbb85f852903aee19769bfa5b10932f31
+  GitHubKit: 440fd5d50cf9f6e8c2f01d176e332f6f888babe6
   JacKit: 829f22a30cf6000011c8cc5efd9e47e2d831fae9
   Kanna: c60b61d72554bf04ed1ee074f9b379855cab4892
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0

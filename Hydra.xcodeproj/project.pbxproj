@@ -173,6 +173,26 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		F43032F221B2DC2600BE40DF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F456A01C218C956E00047369 /* TrendViewModel.swift */,
+				F463A2B321AF26BE0067432B /* TrendSectionState.swift */,
+				F463A2AC21AE0BBE0067432B /* TrendCellState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F43032F321B2DC4400BE40DF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F4349CE421A873D000628D8D /* TrendPageControl.swift */,
+				F49A1C5C21A66A440045E74B /* TrendSectionView.swift */,
+				F451AC7521B0356800C101D1 /* LanguageBar.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		F43F584521A5E41900416A45 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,14 +216,10 @@
 			isa = PBXGroup;
 			children = (
 				F463A2B521AF49A60067432B /* Cell */,
+				F43032F221B2DC2600BE40DF /* Model */,
+				F43032F321B2DC4400BE40DF /* Views */,
 				F456A01D218C956E00047369 /* TrendFlow.swift */,
-				F4349CE421A873D000628D8D /* TrendPageControl.swift */,
-				F49A1C5C21A66A440045E74B /* TrendSectionView.swift */,
 				F456A01E218C956E00047369 /* TrendViewController.swift */,
-				F456A01C218C956E00047369 /* TrendViewModel.swift */,
-				F463A2B321AF26BE0067432B /* TrendSectionState.swift */,
-				F463A2AC21AE0BBE0067432B /* TrendCellState.swift */,
-				F451AC7521B0356800C101D1 /* LanguageBar.swift */,
 			);
 			path = Trend;
 			sourceTree = "<group>";

@@ -123,7 +123,6 @@ class TrendViewController: UIViewController {
     languageBar.languagesRelay.accept(languages)
 
     languageBar.selectedLanguage
-      .debug("selected language")
       .drive(input.language)
       .disposed(by: disposeBag)
   }
