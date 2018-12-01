@@ -110,7 +110,7 @@ class TrendRankBadge: UIView {
     rankLabel.text = "!"
   }
 
-  func show(rank: Int) {
+  func show(rank: Int, color: UIColor) {
     jack.descendant("rank.didSet").assert(rank > 0, "invalid rank (\(rank)), should >= 1")
 
     // Hide for rank after 9
@@ -123,7 +123,7 @@ class TrendRankBadge: UIView {
     isHidden = false
 
     // Content view
-    contentView.backgroundColor = .highlight
+    contentView.backgroundColor = color
 
     // Indicator
     indicator.stopAnimating()

@@ -215,14 +215,14 @@ class TrendRepositoryCell: TrendBaseCell {
 
   // MARK: - Show States
 
-  func show(state: TrendCellState) {
+  func show(state: TrendCellState, period: Trending.Period) {
     switch state {
     case .loadingRepository:
       showLoading()
     case let .repository(repository, rank: rank):
       show(repository: repository, rank: rank)
     case let .errorLoadingRepository(error):
-      show(error: error)
+      show(error: error, period: period)
     default:
       jack.function().failure("can not show this kind of state: \(state)")
     }
@@ -265,8 +265,8 @@ class TrendRepositoryCell: TrendBaseCell {
     }
   }
 
-  override func show(error: Error) {
-    super.show(error: error)
+  override func show(error: Error, period: Trending.Period) {
+    super.show(error: error, period: period)
 
     // Corners
     starsLabel.text = ""
@@ -289,7 +289,7 @@ class TrendRepositoryCell: TrendBaseCell {
   }
 
   func show(repository: Trending.Repository, rank: Int) {
-    show(rank: rank)
+    show(rank: rank, color: repository.language?.color ?? .light)
 
     // Stars
     starsLabel.text = repository.starsCount.description
@@ -311,7 +311,7 @@ class TrendRepositoryCell: TrendBaseCell {
     if let language = repository.language {
       languageLabel.text = language.name
 
-      if let color = UIColor(hexString: language.color) {
+      if let color = language.color {
         languageBadge.isHidden = false
         languageBadge.backgroundColor = color
       } else {

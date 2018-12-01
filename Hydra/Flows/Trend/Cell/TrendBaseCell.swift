@@ -12,13 +12,22 @@ private let jack = Jack().set(format: .short)
 
 class TrendBaseCell: UICollectionViewCell {
 
+  static let retryNotification = Notification.Name("io.github.Mudox.Hydra.Trend.retry")
+
+  var disposeBag = DisposeBag()
+
   var badge: TrendRankBadge!
 
   private var errorLabel: UILabel!
-  private var retryButton = RetryButton()
+  private var retryButton: RetryButton!
   private var errorStackView: UIStackView!
 
   // MARK: - Setup
+
+  @available(*, unavailable)
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("do not use")
+  }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -32,11 +41,6 @@ class TrendBaseCell: UICollectionViewCell {
     setupErrorStackView()
 
     setupBadge()
-  }
-
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use")
   }
 
   func setupLayer() {
@@ -71,10 +75,11 @@ class TrendBaseCell: UICollectionViewCell {
       $0.minimumScaleFactor = 0.7
       $0.allowsDefaultTighteningForTruncation = true
     }
-
   }
 
   func setupErrorStackView() {
+    retryButton = RetryButton()
+
     let views: [UIView] = [errorLabel, retryButton]
     errorStackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .vertical
@@ -94,7 +99,7 @@ class TrendBaseCell: UICollectionViewCell {
     }
   }
 
-  func show(rank: Int) {
+  func show(rank: Int, color: UIColor) {
     // Self
     backgroundColor = .white
 
@@ -102,7 +107,7 @@ class TrendBaseCell: UICollectionViewCell {
     errorStackView.isHidden = true
 
     // Badge
-    badge.show(rank: rank)
+    badge.show(rank: rank, color: color)
   }
 
   func showLoading() {
@@ -116,11 +121,11 @@ class TrendBaseCell: UICollectionViewCell {
     badge.showLoading()
   }
 
-  func show(error: Error) {
+  func show(error: Error, period: Trending.Period) {
     // Self
     backgroundColor = .emptyLight
 
-    // Center
+    // Error label
     errorStackView.isHidden = false
     switch error {
     case Trending.Error.isDissecting:
@@ -131,6 +136,20 @@ class TrendBaseCell: UICollectionViewCell {
       errorLabel.text = "Loading Error"
     }
     retryButton.isHidden = false
+
+    // Retry button
+    disposeBag = DisposeBag()
+    retryButton.rx.tap
+      .subscribe(onNext: { _ in
+        NotificationCenter.default.post(
+          name: TrendBaseCell.retryNotification,
+          object: nil,
+          userInfo: [
+            "period": period
+          ]
+        )
+      })
+      .disposed(by: disposeBag)
 
     // Badge
     badge.showError()

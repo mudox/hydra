@@ -102,14 +102,14 @@ class TrendDeveloperCell: TrendBaseCell {
 
   // MARK: - Show States
 
-  func show(state: TrendCellState) {
+  func show(state: TrendCellState, period: Trending.Period) {
     switch state {
     case .loadingDeveloper:
       showLoading()
     case let .developer(developer, rank: rank):
       show(developer: developer, rank: rank)
     case let .errorLoadingDeveloper(error):
-      show(error: error)
+      show(error: error, period: period)
     default:
       jack.function().failure("unexpected state: \(state)")
     }
@@ -140,8 +140,8 @@ class TrendDeveloperCell: TrendBaseCell {
     }
   }
 
-  override func show(error: Error) {
-    super.show(error: error)
+  override func show(error: Error, period: Trending.Period) {
+    super.show(error: error, period: period)
 
     // Avatar View
     avatarView.image = [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!
@@ -152,7 +152,7 @@ class TrendDeveloperCell: TrendBaseCell {
   }
 
   func show(developer: Trending.Developer, rank: Int) {
-    show(rank: rank)
+    show(rank: rank, color: .highlight)
 
     // Avatar View
     avatarImageTask = avatarView.kf.setImage(
