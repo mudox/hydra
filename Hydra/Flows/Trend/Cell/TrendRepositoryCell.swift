@@ -184,8 +184,9 @@ class TrendRepositoryCell: TrendBaseCell {
   }
 
   func setupBottomLeftCorner() {
+    let badgeDiameter: CGFloat = 9
     languageBadge = UIView().then {
-      $0.layer.cornerRadius = 5
+      $0.layer.cornerRadius = badgeDiameter / 2
       $0.backgroundColor = .clear
     }
 
@@ -203,7 +204,7 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.spacing = 2
     }
     languageBadge.snp.makeConstraints { make in
-      make.size.equalTo(10)
+      make.size.equalTo(badgeDiameter)
     }
 
     contentView.addSubview(stackView)
@@ -295,8 +296,16 @@ class TrendRepositoryCell: TrendBaseCell {
     starsIcon.tintColor = .dark
 
     // Gained Stars
-    gainedStarsLabel.text = repository.gainedStarsCount.description
-    gainedStarsIcon.tintColor = .dark
+    if let count = repository.gainedStarsCount {
+      gainedStarsLabel.isHidden = false
+      gainedStarsIcon.isHidden = false
+
+      gainedStarsLabel.text = count.description
+      gainedStarsIcon.tintColor = .dark
+    } else {
+      gainedStarsLabel.isHidden = true
+      gainedStarsIcon.isHidden = true
+    }
 
     // Language
     if let language = repository.language {
