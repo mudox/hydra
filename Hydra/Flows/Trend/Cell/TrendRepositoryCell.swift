@@ -185,6 +185,7 @@ class TrendRepositoryCell: TrendBaseCell {
 
   func setupBottomLeftCorner() {
     let badgeDiameter: CGFloat = 9
+
     languageBadge = UIView().then {
       $0.layer.cornerRadius = badgeDiameter / 2
       $0.backgroundColor = .clear
@@ -201,7 +202,7 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.axis = .horizontal
       $0.distribution = .fill
       $0.alignment = .center
-      $0.spacing = 2
+      $0.spacing = 3
     }
     languageBadge.snp.makeConstraints { make in
       make.size.equalTo(badgeDiameter)
