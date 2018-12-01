@@ -110,11 +110,10 @@ class TabSwitch: UIView {
       })
       .disposed(by: disposeBag)
 
-    // Selection drive underline move with spring animation
+    // Selection drives underline's move with spring animation
     selectedButtonIndexRelay
       .bind(onNext: { [weak self] newIndex in
         guard let self = self else { return }
-
         UIView.animate(
           withDuration: 0.25,
           delay: 0,

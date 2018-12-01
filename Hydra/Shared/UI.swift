@@ -6,6 +6,7 @@ enum UI {
   // Layout
   static let margin = 8
   static let spacing = 10
+  static let underlineHeight: CGFloat = 2
 
   // Shadow
 
@@ -18,6 +19,7 @@ enum UI {
   // Shape
 
   static let cornerRadius: CGFloat = 4
+
 }
 
 extension UIFont {
