@@ -7,7 +7,7 @@ private let jack = Jack().set(format: .short)
 
 public extension ObservableConvertibleType {
 
-  func asDriver() -> Driver<E> {
+  func asDriverNoError() -> Driver<E> {
     return asDriver {
       jack.function().failure("unexpected error: \($0)")
       return .empty()

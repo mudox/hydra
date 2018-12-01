@@ -172,10 +172,10 @@ class LanguageBar: UIView {
       .do(onNext: {
         if $0.isEmpty {
           jack.descendant("languages")
-            .failure("input languages set should not be empty")
+            .failure("input languages list should not be empty")
         }
       })
-      .asDriver()
+      .asDriverNoError()
 
     selectedIndexPathRelay = .init(value: IndexPath(item: 0, section: 0))
     selectedIndexPath = Driver.merge(
