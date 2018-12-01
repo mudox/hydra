@@ -13,7 +13,7 @@
 		F40C238521AC95D4006FA060 /* TrendBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C238421AC95D4006FA060 /* TrendBaseCell.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
 		F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4231FD3217B9D3600B2D748 /* Activity.swift */; };
-		F43032ED21B1039500BE40DF /* AsDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032EC21B1039400BE40DF /* AsDriver.swift */; };
+		F43032ED21B1039500BE40DF /* AsDriverNoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032EC21B1039400BE40DF /* AsDriverNoError.swift */; };
 		F43032F021B2365D00BE40DF /* LanguageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032EF21B2365D00BE40DF /* LanguageService.swift */; };
 		F4349CE521A873D000628D8D /* TrendPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4349CE421A873D000628D8D /* TrendPageControl.swift */; };
 		F43F584721A5E42D00416A45 /* TabSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F584621A5E42D00416A45 /* TabSwitch.swift */; };
@@ -65,7 +65,7 @@
 		F40C238421AC95D4006FA060 /* TrendBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendBaseCell.swift; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F4231FD3217B9D3600B2D748 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
-		F43032EC21B1039400BE40DF /* AsDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriver.swift; sourceTree = "<group>"; };
+		F43032EC21B1039400BE40DF /* AsDriverNoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriverNoError.swift; sourceTree = "<group>"; };
 		F43032EF21B2365D00BE40DF /* LanguageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageService.swift; sourceTree = "<group>"; };
 		F4349CE421A873D000628D8D /* TrendPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendPageControl.swift; sourceTree = "<group>"; };
 		F43F584621A5E42D00416A45 /* TabSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwitch.swift; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				F49A1C6021A6CDB60045E74B /* UI.swift */,
-				F43032EC21B1039400BE40DF /* AsDriver.swift */,
+				F43032EC21B1039400BE40DF /* AsDriverNoError.swift */,
 				F4231FD3217B9D3600B2D748 /* Activity.swift */,
 				F48779472169F1CC00C027A9 /* DefaultsKeys.swift */,
 			);
@@ -595,7 +595,7 @@
 				F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */,
 				F43F584721A5E42D00416A45 /* TabSwitch.swift in Sources */,
 				F4349CE521A873D000628D8D /* TrendPageControl.swift in Sources */,
-				F43032ED21B1039500BE40DF /* AsDriver.swift in Sources */,
+				F43032ED21B1039500BE40DF /* AsDriverNoError.swift in Sources */,
 				F463A2AF21AF188A0067432B /* RetryButton.swift in Sources */,
 				F451AC7621B0356800C101D1 /* LanguageBar.swift in Sources */,
 				F463A2AD21AE0BBE0067432B /* TrendCellState.swift in Sources */,

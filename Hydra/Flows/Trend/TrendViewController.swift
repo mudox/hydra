@@ -111,7 +111,7 @@ class TrendViewController: UIViewController {
 
     tabSwitch.selectedIndex
       .map { TrendViewModel.Kind(rawValue: $0)! }
-      .drive(input.trendKind)
+      .drive(input.kindRelay)
       .disposed(by: disposeBag)
 
     // Language search bar -> language
@@ -123,7 +123,7 @@ class TrendViewController: UIViewController {
     languageBar.languagesRelay.accept(languages)
 
     languageBar.selectedLanguage
-      .drive(input.language)
+      .drive(input.languageRelay)
       .disposed(by: disposeBag)
   }
 
@@ -134,24 +134,25 @@ class TrendViewController: UIViewController {
 
     output.todayTrend
       .map { $0.cellStates }
-      .drive(todaySection.collectionView.rx.items)(setupTrendCell)
+      .drive(todaySection.collectionView.rx.items)(trendCellConfigurer(period: .today))
       .disposed(by: disposeBag)
 
     output.thisWeekTrend
       .map { $0.cellStates }
-      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
+      .drive(thisWeekSection.collectionView.rx.items)(trendCellConfigurer(period: .thisWeek))
       .disposed(by: disposeBag)
 
     output.thisMonthTrend
       .map { $0.cellStates }
-      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
+      .drive(thisMonthSection.collectionView.rx.items)(trendCellConfigurer(period: .thisMonth))
       .disposed(by: disposeBag)
 
+    // Fake trending data
 //    TrendSectionState.fakeErrorLoadingRepositoriesDriver
 //      .map { $0.cellStates }
-//      .drive(thisWeekSection.collectionView.rx.items)(setupTrendCell)
+//      .drive(todaySection.collectionView.rx.items)(trendCellConfigurer(period: .thisWeek))
 //      .disposed(by: disposeBag)
-//
+
 //    TrendSectionState.fakeLoadingDevelopersDriver
 //      .map { $0.cellStates }
 //      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
@@ -185,25 +186,30 @@ class TrendViewController: UIViewController {
 
 }
 
-let setupTrendCell = {
-  (view: UICollectionView, index: Int, state: TrendCellState) -> UICollectionViewCell in
-  let indexPath = IndexPath(item: index, section: 0)
+func trendCellConfigurer(period: Trending.Period)
+  -> (UICollectionView, Int, TrendCellState)
+  -> UICollectionViewCell
+{
+  return { view, index, state -> UICollectionViewCell in
+    let indexPath = IndexPath(item: index, section: 0)
 
-  switch state {
-  case .loadingRepository, .repository, .errorLoadingRepository:
-    let cell = view.dequeueReusableCell(
-      withReuseIdentifier: TrendRepositoryCell.identifier,
-      for: indexPath
-    ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
-    cell.show(state: state)
-    return cell
-  case .loadingDeveloper, .developer, .errorLoadingDeveloper:
-    let cell = view.dequeueReusableCell(
-      withReuseIdentifier: TrendDeveloperCell.identifier,
-      for: indexPath
-    ) as! TrendDeveloperCell // swiftlint:disable:this force_cast
-    cell.show(state: state)
-    return cell
+    switch state {
+    case .loadingRepository, .repository, .errorLoadingRepository:
+      let cell = view.dequeueReusableCell(
+        withReuseIdentifier: TrendRepositoryCell.identifier,
+        for: indexPath
+      ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
+      cell.show(state: state, period: period)
+      return cell
+
+    case .loadingDeveloper, .developer, .errorLoadingDeveloper:
+      let cell = view.dequeueReusableCell(
+        withReuseIdentifier: TrendDeveloperCell.identifier,
+        for: indexPath
+      ) as! TrendDeveloperCell // swiftlint:disable:this force_cast
+      cell.show(state: state, period: period)
+      return cell
+    }
   }
 }
 

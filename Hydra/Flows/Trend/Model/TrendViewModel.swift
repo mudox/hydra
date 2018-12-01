@@ -23,12 +23,12 @@ extension GitHub.Trending: TrendServiceType {}
 // MARK: - Interface
 
 protocol TrendViewModelInput {
-  var trendKind: BehaviorRelay<TrendViewModel.Kind> { get }
-  var language: BehaviorRelay<String> { get }
+  var kindRelay: BehaviorRelay<TrendViewModel.Kind> { get }
+  var languageRelay: BehaviorRelay<String> { get }
 
-  var refreshToday: PublishRelay<Void> { get }
-  var refreshThisWeek: PublishRelay<Void> { get }
-  var refreshThisMonth: PublishRelay<Void> { get }
+  var todayRelay: BehaviorRelay<Void> { get }
+  var weekRelay: BehaviorRelay<Void> { get }
+  var monthRelay: BehaviorRelay<Void> { get }
 }
 
 protocol TrendViewModelOutput {
@@ -60,16 +60,17 @@ class TrendViewModel: TrendViewModelType {
   struct Input {
     let kind: Kind
     let language: String
+    let period: Trending.Period
   }
 
   // MARK: - Input
 
-  var trendKind = BehaviorRelay<Kind>(value: .repositories)
-  var language = BehaviorRelay<String>(value: "all")
+  var kindRelay = BehaviorRelay<Kind>(value: .repositories)
+  var languageRelay = BehaviorRelay<String>(value: "all")
 
-  var refreshToday = PublishRelay<Void>()
-  var refreshThisWeek = PublishRelay<Void>()
-  var refreshThisMonth = PublishRelay<Void>()
+  var todayRelay = BehaviorRelay<Void>(value: ())
+  var weekRelay = BehaviorRelay<Void>(value: ())
+  var monthRelay = BehaviorRelay<Void>(value: ())
 
   // MARK: - Output
 
@@ -82,15 +83,53 @@ class TrendViewModel: TrendViewModelType {
   let disposeBag = DisposeBag()
 
   required init(service: TrendServiceType) {
-    let userInput = Driver.combineLatest(
-      trendKind.asDriver().distinctUntilChanged(),
-      language.asDriver().skip(1),
+
+    let today = Driver.combineLatest(
+      kindRelay.asDriver().distinctUntilChanged(),
+      languageRelay.asDriver().skip(1),
+      todayRelay.asDriver().mapTo(Trending.Period.today),
       resultSelector: Input.init
     )
 
-    todayTrend = trend(with: userInput, for: .today, service: service)
-    thisWeekTrend = trend(with: userInput, for: .thisWeek, service: service)
-    thisMonthTrend = trend(with: userInput, for: .thisMonth, service: service)
+    let week = Driver.combineLatest(
+      kindRelay.asDriver().distinctUntilChanged(),
+      languageRelay.asDriver().skip(1),
+      weekRelay.asDriver().mapTo(Trending.Period.thisWeek),
+      resultSelector: Input.init
+    )
+
+    let month = Driver.combineLatest(
+      kindRelay.asDriver().distinctUntilChanged(),
+      languageRelay.asDriver().skip(1),
+      monthRelay.asDriver().mapTo(Trending.Period.thisMonth),
+      resultSelector: Input.init
+    )
+
+    todayTrend = trend(triggeredBy: today, service: service)
+    thisWeekTrend = trend(triggeredBy: week, service: service)
+    thisMonthTrend = trend(triggeredBy: month, service: service)
+
+    NotificationCenter.default.rx.notification(TrendBaseCell.retryNotification)
+      .debug("refresh", trimOutput: false)
+      .bind(onNext: { [weak self] notification in
+        guard let self = self else { return }
+
+        if let period = notification.userInfo?["period"] as? Trending.Period {
+          switch period {
+          case .today:
+            self.todayRelay.accept(())
+          case .thisWeek:
+            self.weekRelay.accept(())
+          case .thisMonth:
+            self.monthRelay.accept(())
+          }
+        } else {
+          jack.function().error(
+            "failed to extract period information from `TrendBaseCell.retryNotification`"
+          )
+        }
+      })
+      .disposed(by: disposeBag)
   }
 
 }
@@ -98,24 +137,23 @@ class TrendViewModel: TrendViewModelType {
 // MARK: - Helpers
 
 private func trend(
-  with input: Driver<TrendViewModel.Input>,
-  for period: Trending.Period,
+  triggeredBy input: Driver<TrendViewModel.Input>,
   service: TrendServiceType
 )
   -> Driver<TrendSectionState>
 {
-  let activity: Activity
-  switch period {
-  case .today: activity = .todayTrend
-  case .thisWeek: activity = .thisWeekTrend
-  case .thisMonth: activity = .thisMonthTrend
-  }
-
   return input
     .flatMapLatest { input -> Driver<TrendSectionState> in
+      let activity: Activity
+      switch input.period {
+      case .today: activity = .todayTrend
+      case .thisWeek: activity = .thisWeekTrend
+      case .thisMonth: activity = .thisMonthTrend
+      }
+
       switch input.kind {
       case .repositories:
-        return service.repositories(of: input.language, for: period)
+        return service.repositories(of: input.language, for: input.period)
           .trackActivity(activity)
           .map(TrendSectionState.repositories)
           .asObservable()
@@ -124,7 +162,7 @@ private func trend(
             .just(TrendSectionState.errorLoadingRepositories(error))
           }
       case .developers:
-        return service.developers(of: input.language, for: period)
+        return service.developers(of: input.language, for: input.period)
           .trackActivity(activity)
           .map(TrendSectionState.developers)
           .asObservable()
@@ -134,5 +172,4 @@ private func trend(
           }
       }
     }
-
 }
