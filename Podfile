@@ -123,6 +123,7 @@ target 'Hydra' do
   ui_pods
   networking_pods
   swift_pods
+  realm_pods
 
   target 'Test' do
     inherit! :search_paths
