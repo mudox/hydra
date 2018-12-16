@@ -14,7 +14,7 @@
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
 		F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4231FD3217B9D3600B2D748 /* Activity.swift */; };
 		F43032ED21B1039500BE40DF /* AsDriverNoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032EC21B1039400BE40DF /* AsDriverNoError.swift */; };
-		F43032F021B2365D00BE40DF /* LanguageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032EF21B2365D00BE40DF /* LanguageService.swift */; };
+		F43032F621B3A53A00BE40DF /* LanguageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032F521B3A53A00BE40DF /* LanguageService.swift */; };
 		F4349CE521A873D000628D8D /* TrendPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4349CE421A873D000628D8D /* TrendPageControl.swift */; };
 		F43F584721A5E42D00416A45 /* TabSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F584621A5E42D00416A45 /* TabSwitch.swift */; };
 		F43F584921A6273100416A45 /* TrendRepositoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F584821A6273100416A45 /* TrendRepositoryCell.swift */; };
@@ -35,6 +35,7 @@
 		F49A1C5F21A6CBA80045E74B /* TrendRankBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */; };
 		F49A1C6121A6CDB60045E74B /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6021A6CDB60045E74B /* UI.swift */; };
 		F49A1C6321A730BD0045E74B /* ContributorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6221A730BD0045E74B /* ContributorsView.swift */; };
+		F4DC70FB21B58F3A00999BD1 /* LanguagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DC70FA21B58F3A00999BD1 /* LanguagesViewModel.swift */; };
 		F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* AppFlow.swift */; };
 		F4F338242171071100DC9638 /* DefaultsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338232171071100DC9638 /* DefaultsSpec.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
@@ -66,7 +67,7 @@
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F4231FD3217B9D3600B2D748 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		F43032EC21B1039400BE40DF /* AsDriverNoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriverNoError.swift; sourceTree = "<group>"; };
-		F43032EF21B2365D00BE40DF /* LanguageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageService.swift; sourceTree = "<group>"; };
+		F43032F521B3A53A00BE40DF /* LanguageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageService.swift; sourceTree = "<group>"; };
 		F4349CE421A873D000628D8D /* TrendPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendPageControl.swift; sourceTree = "<group>"; };
 		F43F584621A5E42D00416A45 /* TabSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwitch.swift; sourceTree = "<group>"; };
 		F43F584821A6273100416A45 /* TrendRepositoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRepositoryCell.swift; sourceTree = "<group>"; };
@@ -87,6 +88,7 @@
 		F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRankBadge.swift; sourceTree = "<group>"; };
 		F49A1C6021A6CDB60045E74B /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F49A1C6221A730BD0045E74B /* ContributorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorsView.swift; sourceTree = "<group>"; };
+		F4DC70FA21B58F3A00999BD1 /* LanguagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesViewModel.swift; sourceTree = "<group>"; };
 		F4F338132170BD4100DC9638 /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		F4F338192171035700DC9638 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F338232171071100DC9638 /* DefaultsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsSpec.swift; sourceTree = "<group>"; };
@@ -157,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				F45C49522167E65200BC0576 /* CredentialService.swift */,
-				F43032EF21B2365D00BE40DF /* LanguageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -193,6 +194,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		F43032F421B3A50100BE40DF /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				F43032F521B3A53A00BE40DF /* LanguageService.swift */,
+				F4DC70FA21B58F3A00999BD1 /* LanguagesViewModel.swift */,
+			);
+			path = Languages;
+			sourceTree = "<group>";
+		};
 		F43F584521A5E41900416A45 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +225,7 @@
 		F456A01B218C956E00047369 /* Trend */ = {
 			isa = PBXGroup;
 			children = (
+				F43032F421B3A50100BE40DF /* Languages */,
 				F463A2B521AF49A60067432B /* Cell */,
 				F43032F221B2DC2600BE40DF /* Model */,
 				F43032F321B2DC4400BE40DF /* Views */,
@@ -510,9 +521,11 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Hydra/Pods-Hydra-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Action/Action.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/GitHubKit/GitHub.framework",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
@@ -520,11 +533,15 @@
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/MudoxKit/MudoxKit.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRealm/RxRealm.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRealmDataSources/RxRealmDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
@@ -538,9 +555,11 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Action.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GitHub.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
@@ -548,11 +567,15 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MudoxKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRealm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRealmDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -584,9 +607,11 @@
 			files = (
 				F40C238521AC95D4006FA060 /* TrendBaseCell.swift in Sources */,
 				F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */,
+				F4DC70FB21B58F3A00999BD1 /* LanguagesViewModel.swift in Sources */,
 				F46C688E215A43400090B4AF /* LoginViewModel.swift in Sources */,
 				F46C688D215A43400090B4AF /* LoginViewController.swift in Sources */,
 				F46C6891215A43400090B4AF /* LoginService.swift in Sources */,
+				F43032F621B3A53A00BE40DF /* LanguageService.swift in Sources */,
 				F49A1C6321A730BD0045E74B /* ContributorsView.swift in Sources */,
 				F49A1C6121A6CDB60045E74B /* UI.swift in Sources */,
 				F45C49532167E65200BC0576 /* CredentialService.swift in Sources */,
@@ -607,7 +632,6 @@
 				F43F584921A6273100416A45 /* TrendRepositoryCell.swift in Sources */,
 				F463A2B421AF26BF0067432B /* TrendSectionState.swift in Sources */,
 				F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */,
-				F43032F021B2365D00BE40DF /* LanguageService.swift in Sources */,
 				F49A1C5F21A6CBA80045E74B /* TrendRankBadge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
