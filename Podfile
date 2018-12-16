@@ -92,6 +92,7 @@ def ui_pods
   # pod 'IQKeyboardManagerSwift'
   # pod 'SwiftRichString'
 
+  pod 'Hero'
   pod 'NVActivityIndicatorView'
   pod 'SwiftHEXColors'
   pod 'SnapKit'
@@ -105,6 +106,7 @@ end
 
 def data_pods
   pod 'SwiftyUserDefaults', '4.0.0-alpha.1'
+  pod 'Cache'
 end
 
 #################################################

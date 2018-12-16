@@ -3,6 +3,7 @@ PODS:
     - RxCocoa (~> 4.3)
     - RxSwift (~> 4.3)
   - Alamofire (4.7.3)
+  - Cache (5.2.0)
   - CocoaLumberjack/Default (3.3.0)
   - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
@@ -17,6 +18,7 @@ PODS:
     - SSZipArchive
     - SwiftHEXColors (~> 1.1)
     - Yams
+  - Hero (1.4.0)
   - JacKit (1.0):
     - CocoaLumberjack/Swift (~> 3.3.0)
   - Kanna (4.0.2)
@@ -118,7 +120,9 @@ PODS:
 
 DEPENDENCIES:
   - Action
+  - Cache
   - GitHubKit (from `/Users/mudox/Develop/Apple/Frameworks/GitHubKit`)
+  - Hero
   - JacKit (from `/Users/mudox/Develop/Apple/Frameworks/JacKit`)
   - Kingfisher
   - MudoxKit (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
@@ -148,8 +152,10 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Action
     - Alamofire
+    - Cache
     - CocoaLumberjack
     - Differentiator
+    - Hero
     - Kanna
     - Kingfisher
     - MBProgressHUD
@@ -191,9 +197,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Action: 2f461c203c480b17aa99b3bb166e4329ecff6908
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
   GitHubKit: 440fd5d50cf9f6e8c2f01d176e332f6f888babe6
+  Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
   JacKit: 829f22a30cf6000011c8cc5efd9e47e2d831fae9
   Kanna: c60b61d72554bf04ed1ee074f9b379855cab4892
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
@@ -226,6 +234,6 @@ SPEC CHECKSUMS:
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 8561e1304d7460b1e06b82e426e83b0e6757550e
+PODFILE CHECKSUM: c663dc13be46e794fd6e01f6fcdcb05aeb11b235
 
 COCOAPODS: 1.5.3
