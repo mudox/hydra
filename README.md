@@ -18,9 +18,8 @@ various technologies I learned in community.
 - [x] Stand-alone network abstraction layer ([GitHubKit]) using state-of-art techniques.
 - [x] Utilize CI automation tools.
 - [x] Experiment IB-less UI developing (i.e. no .xib, .storyboard files, only source code).
-- [ ] Unit tested.
-- [ ] UI tested.
-- [ ] Decent code coverage.
+- [ ] Localization for 🇨🇳 , 🇺🇸.
+- [ ] Unit & UI tested with decent code coverage.
 
 ## Technologies
 
