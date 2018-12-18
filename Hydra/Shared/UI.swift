@@ -26,7 +26,7 @@ extension UIFont {
 
   // Login
   static let loginTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
-  static let loginTip = UIFont.systemFont(ofSize: 12)
+  static let loginTip = UIFont.systemFont(ofSize: 12, weight: .thin)
   static let loginInput = UIFont.systemFont(ofSize: 18)
   static let loginButton = UIFont.systemFont(ofSize: 18, weight: .medium)
 
