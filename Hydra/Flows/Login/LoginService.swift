@@ -55,7 +55,7 @@ struct LoginService: LoginServiceType {
     return githubService
       .authorize(scope: scope)
       .asDriver {
-        jack.descendant("login").error(dump(of: $0))
+        jack.sub("login").error(dump(of: $0))
         return .empty()
       }
   }

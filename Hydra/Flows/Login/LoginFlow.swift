@@ -3,78 +3,78 @@ import MudoxKit
 import RxCocoa
 import RxSwift
 
+import Then
+
 import GitHub
 
 import JacKit
 
-private let jack = Jack("Hydra.LoginFlow")
+private let jack = Jack().set(format: .short)
 
 protocol LoginFlowType: FlowType {
 
-  func loginIfNeeded() -> Completable
+  var loginIfNeeded: Completable { get }
 
   func complete()
-
 }
 
 class LoginFlow: BaseFlow, LoginFlowType {
 
   private let credentialService: GitHub.CredentialServiceType
 
-  let completionSignal = PublishSubject<Never>()
+  let completeRelay = PublishRelay<Void>()
 
   init(
-    stage: FlowStage,
+    on stage: FlowStage,
     credentialService: GitHub.CredentialServiceType
   ) {
     self.credentialService = credentialService
-    super.init(stage: stage)
+    super.init(on: stage)
   }
 
-  func loginIfNeeded() -> Completable {
+  var loginIfNeeded: Completable {
 
-    if credentialService.isAuthorized {
-      return .empty()
+    return .create { completable in
+      let noClean = Disposables.create()
+
+      guard !self.credentialService.isAuthorized else {
+        completable(.completed)
+        return noClean
+      }
+
+      let loginViewController = LoginViewController().then {
+        let credSrv = CredentialService.shared
+        let ghSrv = GitHub.Service(credentialService: credSrv)
+        let loginSrv = LoginService(githubService: ghSrv)
+        let model = LoginViewModel(flow: self, loginService: loginSrv)
+        $0.model = model
+      }
+
+      switch self.stage {
+      case let .window(window):
+        window.rootViewController = loginViewController
+      case let .viewController(viewController):
+        viewController.present(loginViewController, animated: true, completion: nil)
+      }
+
+      self.completeRelay
+        .take(1)
+        .subscribe(onNext: {
+          completable(.completed)
+        })
+        .disposed(by: self.disposeBag)
+
+      return noClean
     }
-
-    /*
-     *
-     * Step 1 - Load & configure login view controller
-     *
-     */
-
-    let loginViewController = ViewControllers.create(
-      LoginViewController.self,
-      storyboard: "Login"
-    )
-
-    loginViewController.flow = self
-
-    /*
-     *
-     * Step 2 - Show login view controller
-     *
-     */
-
-    switch stage {
-    case let .window(window):
-      window.rootViewController = loginViewController
-    case let .viewController(viewController):
-      viewController.present(loginViewController, animated: true, completion: nil)
-    }
-
-    return completionSignal.ignoreElements()
   }
 
   func complete() {
-    jack.descendant("complete").info("logged in", format: .short)
-
     switch stage {
     case .window:
-      completionSignal.onCompleted()
+      completeRelay.accept(())
     case let .viewController(viewController):
       viewController.dismiss(animated: true) {
-        self.completionSignal.onCompleted()
+        self.completeRelay.accept(())
       }
     }
   }

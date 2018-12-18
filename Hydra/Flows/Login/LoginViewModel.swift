@@ -84,16 +84,10 @@ class LoginViewModel: LoginViewModelType {
 
     loginAction
       .elements
-      .take(1)
       .ignoreElements()
-      .subscribe(
-        onCompleted: {
-          flow.complete()
-        },
-        onError: {
-          jack.descendant("init.login").error("failed to login with: \($0)")
-        }
-      )
+      .subscribe(onCompleted: {
+        flow.complete()
+      })
       .disposed(by: disposeBag)
 
   }
