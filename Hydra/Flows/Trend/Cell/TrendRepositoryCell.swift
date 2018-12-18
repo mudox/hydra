@@ -12,6 +12,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
+// swiftlint:disable:next type_body_length
 class TrendRepositoryCell: TrendBaseCell {
 
   static let identifier = "\(type(of: self))"
@@ -99,7 +100,7 @@ class TrendRepositoryCell: TrendBaseCell {
     contentView.addSubview(centerStackView)
     centerStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
-      make.size.lessThanOrEqualToSuperview().inset(UI.margin)
+      make.size.lessThanOrEqualToSuperview().inset(CGFloat.margin)
     }
   }
 
@@ -125,7 +126,7 @@ class TrendRepositoryCell: TrendBaseCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.top.leading.equalToSuperview().offset(UI.margin)
+      make.top.leading.equalToSuperview().offset(CGFloat.margin)
     }
 
   }
@@ -152,7 +153,7 @@ class TrendRepositoryCell: TrendBaseCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.top.trailing.equalToSuperview().inset(UI.margin)
+      make.top.trailing.equalToSuperview().inset(CGFloat.margin)
     }
 
   }
@@ -178,8 +179,8 @@ class TrendRepositoryCell: TrendBaseCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.bottom.equalToSuperview().inset(UI.margin)
-      make.trailing.equalToSuperview().inset(UI.margin + 1)
+      make.bottom.equalToSuperview().inset(CGFloat.margin)
+      make.trailing.equalToSuperview().inset(CGFloat.margin + 1)
     }
   }
 
@@ -210,7 +211,7 @@ class TrendRepositoryCell: TrendBaseCell {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.leading.bottom.equalToSuperview().inset(UI.margin)
+      make.leading.bottom.equalToSuperview().inset(CGFloat.margin)
     }
   }
 
@@ -225,7 +226,7 @@ class TrendRepositoryCell: TrendBaseCell {
     case let .errorLoadingRepository(error):
       show(error: error, period: period)
     default:
-      jack.function().failure("can not show this kind of state: \(state)")
+      jack.func().failure("can not show this kind of state: \(state)")
     }
   }
 
@@ -252,7 +253,7 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.textColor = .emptyDark
       $0.backgroundColor = .emptyDark
       $0.transform = .init(scaleX: 0.6, y: 0.65)
-      $0.layer.cornerRadius = UI.cornerRadius
+      $0.layer.cornerRadius = .cornerRadius
       $0.layer.masksToBounds = true
     }
     ownerLabel.do {
@@ -261,7 +262,7 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.backgroundColor = .emptyDark
       $0.transform = .init(scaleX: 0.6, y: 0.7)
       $0.transform = $0.transform.translatedBy(x: 0, y: -5)
-      $0.layer.cornerRadius = UI.cornerRadius
+      $0.layer.cornerRadius = .cornerRadius
       $0.layer.masksToBounds = true
     }
   }

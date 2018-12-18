@@ -40,11 +40,11 @@ class TrendPageControl: UIView {
   }
 
   func lowlight(dotAt index: Int) {
-    set(dotAt: index, color: .highlight, size: dotSize + 1)
+    set(dotAt: index, color: .brand, size: dotSize + 1)
   }
 
   func highlight(dotAt index: Int) {
-    set(dotAt: index, color: .highlight, size: dotSize + 2)
+    set(dotAt: index, color: .brand, size: dotSize + 2)
   }
 
   var currentIndex: Int = 0 {

@@ -79,7 +79,7 @@ class LanguageBar: UIView {
     underline = UIView().then {
       $0.isUserInteractionEnabled = false
       $0.backgroundColor = .dark
-      $0.layer.cornerRadius = UI.underlineHeight / 2
+      $0.layer.cornerRadius = .lineHeight / 2
     }
     collectionView.addSubview(underline)
   }
@@ -95,7 +95,7 @@ class LanguageBar: UIView {
         make.centerX.equalTo(centerX)
         make.width.equalTo(width)
         make.top.equalTo(cell.snp.bottom)
-        make.height.equalTo(UI.underlineHeight)
+        make.height.equalTo(CGFloat.lineHeight)
       }
 
       self.underline.superview?.layoutIfNeeded()
@@ -171,7 +171,7 @@ class LanguageBar: UIView {
       .skip(1)
       .do(onNext: {
         if $0.isEmpty {
-          jack.descendant("languages")
+          jack.sub("languages")
             .failure("input languages list should not be empty")
         }
       })

@@ -33,7 +33,7 @@ class TrendRankBadge: UIView {
 
   func setupView() {
     // Self to mimic border
-    backgroundColor = .backDark
+    backgroundColor = .bgDark
     layer.cornerRadius = outerRadius
 
     // Fixed size
@@ -43,7 +43,7 @@ class TrendRankBadge: UIView {
 
     // Content view
     contentView = UIView().then {
-      $0.backgroundColor = .highlight
+      $0.backgroundColor = .brand
       $0.layer.cornerRadius = innerRadius
     }
 
@@ -111,7 +111,7 @@ class TrendRankBadge: UIView {
   }
 
   func show(rank: Int, color: UIColor) {
-    jack.descendant("rank.didSet").assert(rank > 0, "invalid rank (\(rank)), should >= 1")
+    jack.sub("rank.didSet").assert(rank > 0, "invalid rank (\(rank)), should >= 1")
 
     // Hide for rank after 9
     if rank > 9 {

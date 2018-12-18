@@ -46,7 +46,7 @@ class TrendBaseCell: UICollectionViewCell {
   func setupLayer() {
     layer.do {
       // Shape
-      $0.cornerRadius = UI.cornerRadius
+      $0.cornerRadius = .cornerRadius
       $0.masksToBounds = false
     }
   }
@@ -91,7 +91,7 @@ class TrendBaseCell: UICollectionViewCell {
     contentView.addSubview(errorStackView)
     errorStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
-      make.size.lessThanOrEqualToSuperview().inset(UI.margin)
+      make.size.lessThanOrEqualToSuperview().inset(CGFloat.margin)
     }
 
     errorLabel.snp.makeConstraints { make in

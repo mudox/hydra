@@ -86,7 +86,7 @@ class TabSwitch: UIView {
       $0.setTitle(title, for: .normal)
       $0.titleLabel?.font = .text
       $0.setTitleColor(.dark, for: .selected)
-      $0.setTitleColor(.highlight, for: .highlighted)
+      $0.setTitleColor(.brand, for: .highlighted)
       $0.setTitleColor(.light, for: .normal)
     }
   }

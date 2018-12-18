@@ -1,50 +1,50 @@
 import SwiftHEXColors
 
-// swiftlint:disable:next type_name
-enum UI {
+import SnapKit
 
-  // Layout
-  static let margin = 8
-  static let spacing = 10
-  static let underlineHeight: CGFloat = 2
+extension CGFloat {
 
-  // Shadow
+  static let margin: CGFloat = 8
 
-  /// Set to 0 to disable app shadows (default: 0.2)
-  static let shadowOpacity: Float = 0
-  static let shadowOffset = CGSize(width: 0, height: 0)
-  static let shadowRadius: CGFloat = 4
-  static let shadowColor: UIColor = .black
-
-  // Shape
+  static let lineHeight: CGFloat = 2
 
   static let cornerRadius: CGFloat = 4
 
 }
 
+extension UIEdgeInsets {
+
+  static let trend = UIEdgeInsets(top: .margin, left: .margin, bottom: .margin, right: .margin)
+
+}
+
 extension UIFont {
 
-  static let title: UIFont = .systemFont(ofSize: 20, weight: .bold)
-  static let text: UIFont = .systemFont(ofSize: 14)
-  static let callout: UIFont = .systemFont(ofSize: 10)
+  static let title = UIFont.systemFont(ofSize: 20, weight: .bold)
+  static let text = UIFont.systemFont(ofSize: 14)
+  static let callout = UIFont.systemFont(ofSize: 10)
+
+  // Login
+  static let loginTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
+  static let loginTip = UIFont.systemFont(ofSize: 12)
+  static let loginInput = UIFont.systemFont(ofSize: 18)
+  static let loginButton = UIFont.systemFont(ofSize: 18, weight: .medium)
 
 }
 
 extension UIColor {
 
   // Foreground
+  static let brand = #colorLiteral(red: 0.9607843137, green: 0.6509803922, blue: 0.137254902, alpha: 1)
 
-  static let highlight = UIColor(hex: 0xF5A623)!
-  static let dark = UIColor(hex: 0x4A4A4A)!
-  static let light = UIColor(hex: 0x9B9B9B)!
+  static let dark = #colorLiteral(red: 0.2901960784, green: 0.2901960784, blue: 0.2901960784, alpha: 1)
+  static let light = #colorLiteral(red: 0.6078431373, green: 0.6078431373, blue: 0.6078431373, alpha: 1)
 
   // Background
-
-  static let backDark: UIColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
-  static let backLight: UIColor = .white
+  static let bgDark = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
+  static let bgLight = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 
   // Empty dataset
-
   static let emptyLight = #colorLiteral(red: 0.9101999158, green: 0.9101999158, blue: 0.9101999158, alpha: 1)
   static let emptyDark = #colorLiteral(red: 0.7200226663, green: 0.7200226663, blue: 0.7200226663, alpha: 1)
 

@@ -96,7 +96,7 @@ class TrendDeveloperCell: TrendBaseCell {
     contentView.addSubview(centerStackView)
     centerStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
-      make.width.lessThanOrEqualToSuperview().inset(UI.margin)
+      make.width.lessThanOrEqualToSuperview().inset(UIEdgeInsets.trend)
     }
   }
 
@@ -111,7 +111,7 @@ class TrendDeveloperCell: TrendBaseCell {
     case let .errorLoadingDeveloper(error):
       show(error: error, period: period)
     default:
-      jack.function().failure("unexpected state: \(state)")
+      jack.func().failure("unexpected state: \(state)")
     }
   }
 
@@ -152,7 +152,7 @@ class TrendDeveloperCell: TrendBaseCell {
   }
 
   func show(developer: Trending.Developer, rank: Int) {
-    show(rank: rank, color: .highlight)
+    show(rank: rank, color: .brand)
 
     // Avatar View
     avatarImageTask = avatarView.kf.setImage(
