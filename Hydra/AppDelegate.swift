@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.makeKeyAndVisible()
 
-    flow = AppFlow(stage: .window(window!))
+    flow = AppFlow(on: .window(window!))
     flow.start()
 
     return true

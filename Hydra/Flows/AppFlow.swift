@@ -11,13 +11,14 @@ private let jack = Jack("AppFlow").set(format: .short)
 
 extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType == Swift.Never {
 
-  func neverComplete() -> Disposable {
+  func forever() -> Disposable {
+    let log = jack.func()
     return subscribe(
       onCompleted: {
-        jack.error("should never complete")
+        log.error("Should never complete")
       },
       onError: {
-        jack.error("should never fail, error: \($0)")
+        log.error("Should never fail, error: \($0)")
       }
     )
   }
@@ -34,13 +35,13 @@ class AppFlow: BaseAppFlow {
 //    _ = welcomeIfNeeded
 //      .andThen(loginIfNeeded)
 //      .andThen(startMainFlow)
-//      .neverComplete()
+//      .forever()
 
-//    let flow = TrendFlow(stage: stage)
-//    _ = flow.start()
-//      .neverComplete()
+//    _ = startDevFlow.forever()
 
-    _ = startMainFlow.neverComplete()
+    _ = loginIfNeeded.subscribe(onCompleted: {
+      jack.func().info("Logged in")
+    })
 
   }
 
@@ -52,7 +53,7 @@ class AppFlow: BaseAppFlow {
     #if DEBUG
       switch ProcessInfo.processInfo.environment["RESET_APP"] {
       case "all":
-        jack.descendant("start").debug("clear data in UserDefaults")
+        jack.sub("start").debug("clear data in UserDefaults")
         Defaults.removeAll()
       default:
         break
@@ -62,14 +63,14 @@ class AppFlow: BaseAppFlow {
 
   private var welcomeIfNeeded: Completable {
     _ = FirstLaunchChecker.shared.check()
-    jack.descendant("welcomeIfNeeded").warn("not implemented yet")
+    jack.sub("welcomeIfNeeded").warn("not implemented yet")
 
     return .empty()
   }
 
   private var loginIfNeeded: Completable {
-    let flow = LoginFlow(stage: stage, credentialService: CredentialService.shared)
-    return flow.loginIfNeeded()
+    let flow = LoginFlow(on: stage, credentialService: CredentialService.shared)
+    return flow.loginIfNeeded
   }
 
   var startMainFlow: Completable {
@@ -77,7 +78,24 @@ class AppFlow: BaseAppFlow {
     stage.window.rootViewController = tabBarController
 
     // Trend
-    let trendFlow = TrendFlow(stage: .viewController(tabBarController))
+    let trendFlow = TrendFlow(on: .viewController(tabBarController))
     return trendFlow.start()
+  }
+
+  var startDevFlow: Completable {
+    let log = jack.func()
+
+    let stageVC = UIViewController()
+    stageVC.view.backgroundColor = .red
+
+    stage.window.rootViewController = stageVC
+
+    let flow = LanguagesFlow(on: .viewController(stageVC))
+    _ = flow.start()
+      .emit(onNext: {
+        log.sub("onNext").info("selection: \($0 ?? "cancelled")")
+      })
+
+    return .never()
   }
 }
