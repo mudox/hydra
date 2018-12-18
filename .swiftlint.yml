@@ -73,12 +73,9 @@ identifier_name:
     - id
 
 
-#file_name:
-#excluded:
-#- main.swift
-#- LinuxMain.swift
-#- TestHelpers.swift
-#- shim.swift
-#- AutomaticRuleTests.generated.swift
+file_name:
+  excluded:
+    - AsDriverNoError.swift
+    - UI.swift
 
 severity: error
