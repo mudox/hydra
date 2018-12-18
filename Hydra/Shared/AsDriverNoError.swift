@@ -9,7 +9,7 @@ public extension ObservableConvertibleType {
 
   func asDriverNoError() -> Driver<E> {
     return asDriver {
-      jack.function().failure("unexpected error: \($0)")
+      jack.func().failure("Unexpected error: \($0)")
       return .empty()
     }
   }

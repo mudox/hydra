@@ -124,7 +124,7 @@ class TrendViewModel: TrendViewModelType {
             self.monthRelay.accept(())
           }
         } else {
-          jack.function().error(
+          jack.func().error(
             "failed to extract period information from `TrendBaseCell.retryNotification`"
           )
         }

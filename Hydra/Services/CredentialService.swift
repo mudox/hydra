@@ -26,7 +26,7 @@ class CredentialService: GitHub.CredentialServiceType {
       if let username = Defaults[.username], let password = Defaults[.password] {
         return (username, password)
       } else {
-        jack.descendant("user").warn("no username and password")
+        jack.sub("user").warn("no username and password")
         return nil
       }
     }
@@ -42,7 +42,7 @@ class CredentialService: GitHub.CredentialServiceType {
       if let token = Defaults[.accessToken] {
         return token
       } else {
-        jack.descendant("token").warn("no access token")
+        jack.sub("token").warn("no access token")
         return nil
       }
     }

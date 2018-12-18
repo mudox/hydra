@@ -34,12 +34,12 @@ class TrendViewController: UIViewController {
   var thisMonthSection: TrendSectionView!
 
   func setupView() {
-    view.backgroundColor = .backDark
+    view.backgroundColor = .bgDark
 
     // Tab bar
     tabBarItem.image = #imageLiteral(resourceName: "Trend")
     tabBarItem.title = "Trend"
-    tabBarController?.tabBar.tintColor = .highlight
+    tabBarController?.tabBar.tintColor = .brand
 
     setupTabSwitch()
     setupLanguageBar()

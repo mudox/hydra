@@ -7,25 +7,22 @@ import MudoxKit
 
 import GitHub
 
-protocol TrendingFlowType {
+protocol TrendFlowType {
 
   func start(animated: Bool) -> Completable
 
 }
 
-class TrendFlow: BaseFlow, TrendingFlowType {
+class TrendFlow: BaseFlow, TrendFlowType {
 
   func start(animated: Bool = true) -> Completable {
-    return .create { _ in
-      let trendViewController = TrendViewController().then {
-        $0.model = TrendViewModel(service: GitHub.Trending())
-      }
-
-      self.show(trendViewController, animated: animated)
-
-      // never .complete
-      return Disposables.create()
+    let trendViewController = TrendViewController().then {
+      $0.model = TrendViewModel(service: GitHub.Trending())
     }
+
+    show(trendViewController, animated: animated)
+
+    return .never()
   }
 
 }
