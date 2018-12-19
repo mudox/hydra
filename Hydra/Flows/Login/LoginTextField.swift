@@ -14,7 +14,7 @@ class LoginTextField: UIView {
 
   var disposeBag = DisposeBag()
 
-  // MARK: - Subviews
+  // MARK: - Init
 
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
@@ -41,7 +41,7 @@ class LoginTextField: UIView {
   let clearButton = UIButton()
   let line = UIView()
 
-  // MARK: - Layout Constants
+  // MARK: - Constants
 
   private let tipHeight = 20
   private let gap = 4
@@ -54,11 +54,14 @@ class LoginTextField: UIView {
   private let lineHeightHighlighted = 2
   private let bottomMargin = 6
 
+  private let tipFont = UIFont.systemFont(ofSize: 12, weight: .thin)
+  private let fieldFont = UIFont.systemFont(ofSize: 18)
+
   // MARK: - Setup
 
   func setupTextField() {
     textField.do {
-      $0.font = .loginInput
+      $0.font = fieldFont
       $0.clearButtonMode = .never
       $0.autocapitalizationType = .none
       $0.autocorrectionType = .no
@@ -76,7 +79,7 @@ class LoginTextField: UIView {
   func setupTipLabel() {
     tipLabel.do {
       $0.textColor = .light
-      $0.font = .loginTip
+      $0.font = tipFont
       $0.textAlignment = .left
     }
 

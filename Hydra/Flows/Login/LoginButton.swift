@@ -37,7 +37,7 @@ class LoginButton: UIView {
   private let buttonHeight = 50
   private let cornerRadius: CGFloat = 6
   private let bottomMargin = 30
-  private let shadowRadius: CGFloat = 20
+  private let shadowRadius: CGFloat = 18
 
   private let font = UIFont.systemFont(ofSize: 18, weight: .medium)
 
@@ -70,7 +70,7 @@ class LoginButton: UIView {
       $0.cornerRadius = 15
       $0.masksToBounds = false
 
-      $0.shadowOpacity = 0.25
+      $0.shadowOpacity = 0.3
       $0.shadowOffset = CGSize(width: 0, height: 10)
       $0.shadowColor = UIColor.brand.cgColor
       $0.shadowRadius = shadowRadius

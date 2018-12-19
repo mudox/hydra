@@ -1,7 +1,7 @@
 import UIKit
 
-import Action
 import RxCocoa
+import RxKeyboard
 import RxSwift
 
 import Then
@@ -11,10 +11,7 @@ import MudoxKit
 
 import GitHub
 
-private let jack = Jack()
-
-private extension UIFont {
-}
+private let jack = Jack().set(format: .short)
 
 class LoginViewController: UIViewController {
 
@@ -25,96 +22,147 @@ class LoginViewController: UIViewController {
     setupModel()
   }
 
-  // MARK: - View
+  // MARK: - Subviews
+
+  let scrollView = UIScrollView()
+  let contentView = UIView()
 
   let titleLabel = UILabel()
 
-  let usernameLabel = UILabel()
-  let usernameField = LoginTextField()
+  let username = LoginTextField()
+  let password = LoginTextField()
 
-  let passwordLabel = UILabel()
-  let passwordField = LoginTextField()
+  let loginButton = LoginButton()
 
-  let loginButton = UIButton()
+  // MARK: - Constants
 
-  let margin: CGFloat = 30
-  let fieldGap: CGFloat = 40
-  let sectionGap: CGFloat = 100
+  let margin: CGFloat = 40
+  let fieldGap: CGFloat = 12
+  let titleYOffset: CGFloat = 40
+
+  let titleFont = UIFont.systemFont(ofSize: 30, weight: .bold)
+
+  // MARK: - View
 
   func setupView() {
     view.backgroundColor = .white
 
+    setupScrollView()
     setupTitleLabel()
     setupInputFields()
-    setupLoginButton()
+    setupStackViews()
+    setupKeyboard()
+  }
 
-    let inputFields: [UIView] = [usernameField, passwordField]
-    let inputStackView = UIStackView(arrangedSubviews: inputFields).then {
+  func setupScrollView() {
+    scrollView.do {
+      $0.showsHorizontalScrollIndicator = false
+      $0.keyboardDismissMode = .interactive
+    }
+
+    view.addSubview(scrollView)
+    scrollView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+
+    scrollView.addSubview(contentView)
+    contentView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+      make.size.equalTo(view)
+    }
+  }
+
+  func setupTitleLabel() {
+    titleLabel.do {
+      $0.text = "Welcome Back!"
+      $0.textAlignment = .left
+      $0.textColor = .black
+      $0.font = titleFont
+
+      $0.transform = CGAffineTransform(translationX: 0, y: titleYOffset)
+    }
+
+    scrollView.rx.didScroll
+      .bind { [weak self] in
+        guard let self = self else { return }
+        let topMargin = self.view.convert(CGPoint.zero, from: self.titleLabel).y
+        let deltaY = max(0, topMargin - self.view.safeAreaInsets.top)
+        self.titleLabel.alpha = deltaY / 100
+      }
+      .disposed(by: disposeBag)
+  }
+
+  func setupInputFields() {
+    username.textField.do {
+      $0.keyboardType = .emailAddress
+      $0.returnKeyType = .next
+      $0.textContentType = .username
+    }
+    username.tipLabel.text = "Username"
+
+    password.textField.do {
+      $0.keyboardType = .asciiCapable
+      $0.returnKeyType = .go
+      $0.textContentType = .password
+      $0.isSecureTextEntry = true
+    }
+    password.tipLabel.text = "Password"
+
+    UIControl.rx.createTapStopGroup(
+      username.textField,
+      password.textField
+    )
+    .disposed(by: disposeBag)
+  }
+
+  func setupStackViews() {
+    let textFields: [UIView] = [username, password]
+    let fieldsStackView = UIStackView(arrangedSubviews: textFields).then {
       $0.axis = .vertical
       $0.distribution = .fill
       $0.alignment = .fill
       $0.spacing = fieldGap
     }
 
-    let sections: [UIView] = [titleLabel, inputStackView, loginButton]
+    let sections: [UIView] = [titleLabel, fieldsStackView, loginButton]
     let stackView = UIStackView(arrangedSubviews: sections).then {
       $0.axis = .vertical
-      $0.distribution = .fill
+      $0.distribution = .equalSpacing
       $0.alignment = .fill
-      $0.spacing = sectionGap
     }
 
-    view.addSubview(stackView)
+    contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.center.equalToSuperview()
-      make.leading.trailing.equalToSuperview().inset(margin)
+      make.centerX.equalToSuperview()
+      make.centerY.equalToSuperview().offset(-titleYOffset + 20)
+      make.width.equalToSuperview().multipliedBy(0.8)
+      make.height.equalToSuperview().multipliedBy(0.75)
     }
-
   }
 
-  func setupTitleLabel() {
-    titleLabel.do {
-      $0.text = "Welcome Back!"
-      $0.textColor = .black
-      $0.font = .loginTitle
-      $0.textAlignment = .left
-    }
+  func setupKeyboard() {
+    view.layoutIfNeeded()
 
-  }
+    let newBottomMargin: CGFloat = 80
 
-  func setupInputFields() {
-    usernameField.textField.do {
-      $0.keyboardType = .emailAddress
-      $0.returnKeyType = .next
-      $0.textContentType = .username
-    }
-    usernameField.tipLabel.text = "Username"
+    let y = loginButton.frame.maxY
+    let bottomMargin = view.frame.maxY - y
+    let offset = bottomMargin - newBottomMargin
 
-    passwordField.textField.do {
-      $0.keyboardType = .asciiCapable
-      $0.returnKeyType = .go
-      $0.textContentType = .password
-      $0.isSecureTextEntry = true
-    }
-    passwordField.tipLabel.text = "Password"
-  }
+    RxKeyboard.instance.willShowVisibleHeight
+      .drive(onNext: { [weak self] height in
+        self?.scrollView.contentOffset.y += (height - offset)
+      })
+      .disposed(by: disposeBag)
 
-  func setupLoginButton() {
-    let height = 50
-    let cornerRadius: CGFloat = 6
-
-    loginButton.do {
-      $0.setTitle("LOGIN", for: .normal)
-      $0.titleLabel?.font = .loginButton
-      $0.setBackgroundImage(UIImage.mdx.color(.brand), for: .normal)
-
-      $0.layer.masksToBounds = true
-      $0.layer.cornerRadius = cornerRadius
-    }
-
-    loginButton.snp.makeConstraints { make in
-      make.height.equalTo(height)
-    }
+    RxKeyboard.instance.visibleHeight
+      .drive(onNext: { [weak self] height in
+        self?.scrollView.do {
+          $0.contentInset.bottom = (height - offset)
+          $0.scrollIndicatorInsets.bottom = (height - offset)
+        }
+      })
+      .disposed(by: disposeBag)
   }
 
   // MARK: - Model
@@ -126,14 +174,14 @@ class LoginViewController: UIViewController {
   func setupModel() {
     // model <- view
     disposeBag.insert(
-      usernameField.textField.rx.text.orEmpty.bind(to: model.input.username),
-      passwordField.textField.rx.text.orEmpty.bind(to: model.input.password),
-      loginButton.rx.tap.bind(to: model.input.loginTap)
+      username.textField.rx.text.orEmpty.bind(to: model.input.username),
+      password.textField.rx.text.orEmpty.bind(to: model.input.password),
+      loginButton.button.rx.tap.bind(to: model.input.loginTap)
     )
 
     // model -> view
     disposeBag.insert(
-      model.output.loginAction.enabled.bind(to: loginButton.rx.isEnabled)
+      model.output.loginAction.enabled.bind(to: loginButton.button.rx.isEnabled)
     )
   }
 
