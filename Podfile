@@ -40,7 +40,7 @@ def rx_pods
   pod 'RxDataSources'
 
   # Event handling
-  # pod 'RxKeyboard'
+  pod 'RxKeyboard'
   # pod 'RxGesture'
 
   # UI
