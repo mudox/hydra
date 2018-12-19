@@ -24,12 +24,6 @@ extension UIFont {
   static let text = UIFont.systemFont(ofSize: 14)
   static let callout = UIFont.systemFont(ofSize: 10)
 
-  // Login
-  static let loginTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
-  static let loginTip = UIFont.systemFont(ofSize: 12, weight: .thin)
-  static let loginInput = UIFont.systemFont(ofSize: 18)
-  static let loginButton = UIFont.systemFont(ofSize: 18, weight: .medium)
-
 }
 
 extension UIColor {
