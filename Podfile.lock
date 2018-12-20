@@ -81,6 +81,9 @@ PODS:
     - Differentiator (~> 3.0)
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
+  - RxGesture (2.1.0):
+    - RxCocoa (~> 4.4.0)
+    - RxSwift (~> 4.4.0)
   - RxKeyboard (0.9.0):
     - RxCocoa (>= 4.3.1)
     - RxSwift (>= 4.3.1)
@@ -139,6 +142,7 @@ DEPENDENCIES:
   - RxBlocking
   - RxCocoa
   - RxDataSources
+  - RxGesture
   - RxKeyboard
   - RxNimble
   - RxRealm
@@ -176,6 +180,7 @@ SPEC REPOS:
     - RxBlocking
     - RxCocoa
     - RxDataSources
+    - RxGesture
     - RxKeyboard
     - RxNimble
     - RxRealm
@@ -225,6 +230,7 @@ SPEC CHECKSUMS:
   RxBlocking: 138ad53217434444d6eeeb4fb406a45431d92e31
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
+  RxGesture: 7f6dfb45dbde06e618c24442d38493e3144f2c95
   RxKeyboard: 4f782303f499f41577b41c96c6a9a5d7acd51a47
   RxNimble: ba6caf0195c37fd50dd4b967624b66ff580d781a
   RxRealm: 5379eddd74f8d617ca7681d1f8d144af25b432b0
@@ -240,6 +246,6 @@ SPEC CHECKSUMS:
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 73dc55a012b23c548c43abb40df3a4c419045b0a
+PODFILE CHECKSUM: acd011584b1c88c86346a2f3d82448b438914b87
 
 COCOAPODS: 1.5.3

@@ -41,7 +41,7 @@ def rx_pods
 
   # Event handling
   pod 'RxKeyboard'
-  # pod 'RxGesture'
+  pod 'RxGesture'
 
   # UI
   # pod 'RxAnimated'
