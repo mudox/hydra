@@ -1,8 +1,10 @@
 import UIKit
 
 import RxCocoa
+import RxGesture
 import RxKeyboard
 import RxSwift
+import RxSwiftExt
 
 import Then
 
@@ -27,6 +29,8 @@ class LoginViewController: UIViewController {
   let scrollView = UIScrollView()
   let contentView = UIView()
 
+  let backButton = UIButton()
+
   let titleLabel = UILabel()
 
   let username = LoginTextField()
@@ -47,16 +51,22 @@ class LoginViewController: UIViewController {
   func setupView() {
     view.backgroundColor = .white
 
+    // Subviews
     setupScrollView()
     setupTitleLabel()
     setupInputFields()
     setupStackViews()
-    setupKeyboard()
+    setupBackButton()
+
+    // Keyboard
+    tapToDismissKeyboard()
+    avoidKeyboard()
   }
 
   func setupScrollView() {
     scrollView.do {
       $0.showsHorizontalScrollIndicator = false
+      $0.showsVerticalScrollIndicator = false
       $0.keyboardDismissMode = .interactive
     }
 
@@ -69,6 +79,18 @@ class LoginViewController: UIViewController {
     contentView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
       make.size.equalTo(view)
+    }
+  }
+
+  func setupBackButton() {
+    backButton.do {
+      $0.setImage(#imageLiteral(resourceName: "Back Arrow"), for: .normal)
+    }
+
+    view.addSubview(backButton)
+    backButton.snp.makeConstraints { make in
+      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(8)
+      make.leading.equalTo(titleLabel)
     }
   }
 
@@ -133,33 +155,44 @@ class LoginViewController: UIViewController {
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.centerY.equalToSuperview().offset(-titleYOffset + 20)
-      make.width.equalToSuperview().multipliedBy(0.8)
-      make.height.equalToSuperview().multipliedBy(0.75)
+      make.leading.trailing.equalToSuperview().inset(30)
+      make.top.equalTo(80)
+      make.bottom.equalTo(-86)
     }
   }
 
-  func setupKeyboard() {
+  // MARK: - Keyboard
+
+
+  func avoidKeyboard() {
     view.layoutIfNeeded()
 
-    let newBottomMargin: CGFloat = 80
-
-    let y = loginButton.frame.maxY
-    let bottomMargin = view.frame.maxY - y
-    let offset = bottomMargin - newBottomMargin
+    let margin: CGFloat = 10
+    let maxY = loginButton.convert(loginButton.bounds, to: view).maxY
+    let y = view.bounds.maxY - maxY
 
     RxKeyboard.instance.willShowVisibleHeight
       .drive(onNext: { [weak self] height in
-        self?.scrollView.contentOffset.y += (height - offset)
+        jack.func().debug("willShowVisibleHeight: \(height)")
+        guard self?.scrollView.contentOffset.y == 0 else { return }
+        let newY = height + margin
+        let inset = max(0, newY - y)
+        self?.scrollView.contentOffset.y = inset
       })
       .disposed(by: disposeBag)
 
     RxKeyboard.instance.visibleHeight
+      .debounce(0) // skip immediate hide before show event in the same run loop
       .drive(onNext: { [weak self] height in
-        self?.scrollView.do {
-          $0.contentInset.bottom = (height - offset)
-          $0.scrollIndicatorInsets.bottom = (height - offset)
+        jack.func().debug("visibleHeight: \(height)")
+        if height == 0 {
+          UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self?.scrollView.contentInset.bottom = 0
+          })
+        } else {
+          let newY = height + margin
+          let inset = max(0, newY - y)
+          self?.scrollView.contentInset.bottom = inset
         }
       })
       .disposed(by: disposeBag)
