@@ -163,6 +163,20 @@ class LoginViewController: UIViewController {
 
   // MARK: - Keyboard
 
+  func tapToDismissKeyboard() {
+    let backgroundTap = view.rx
+      .tapGesture()
+      .when(.recognized)
+      .mapTo(())
+
+    let loginButtonTap = loginButton.button.rx.tap.asObservable()
+
+    Observable.merge(backgroundTap, loginButtonTap)
+      .subscribe(onNext: { [weak self] _ in
+        self?.view.endEditing(true)
+      })
+      .disposed(by: disposeBag)
+  }
 
   func avoidKeyboard() {
     view.layoutIfNeeded()
