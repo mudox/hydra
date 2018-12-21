@@ -17,6 +17,10 @@ private let jack = Jack().set(format: .short)
 
 class LoginViewController: UIViewController {
 
+  deinit {
+    jack.func().debug("💀 \(type(of: self))", format: .bare)
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -36,7 +40,7 @@ class LoginViewController: UIViewController {
   let username = LoginTextField()
   let password = LoginTextField()
 
-  let loginButton = LoginButton()
+  let login = LoginButton()
 
   // MARK: - Constants
 
@@ -84,6 +88,7 @@ class LoginViewController: UIViewController {
 
   func setupBackButton() {
     backButton.do {
+      $0.tintColor = .brand
       $0.setImage(#imageLiteral(resourceName: "Back Arrow"), for: .normal)
     }
 
@@ -146,7 +151,7 @@ class LoginViewController: UIViewController {
       $0.spacing = fieldGap
     }
 
-    let sections: [UIView] = [titleLabel, fieldsStackView, loginButton]
+    let sections: [UIView] = [titleLabel, fieldsStackView, login]
     let stackView = UIStackView(arrangedSubviews: sections).then {
       $0.axis = .vertical
       $0.distribution = .equalSpacing
@@ -169,7 +174,7 @@ class LoginViewController: UIViewController {
       .when(.recognized)
       .mapTo(())
 
-    let loginButtonTap = loginButton.button.rx.tap.asObservable()
+    let loginButtonTap = login.button.rx.tap.asObservable()
 
     Observable.merge(backgroundTap, loginButtonTap)
       .subscribe(onNext: { [weak self] _ in
@@ -182,12 +187,12 @@ class LoginViewController: UIViewController {
     view.layoutIfNeeded()
 
     let margin: CGFloat = 10
-    let maxY = loginButton.convert(loginButton.bounds, to: view).maxY
+    let maxY = login.convert(login.bounds, to: view).maxY
     let y = view.bounds.maxY - maxY
 
     RxKeyboard.instance.willShowVisibleHeight
       .drive(onNext: { [weak self] height in
-        jack.func().debug("willShowVisibleHeight: \(height)")
+//        jack.func().debug("willShowVisibleHeight: \(height)")
         guard self?.scrollView.contentOffset.y == 0 else { return }
         let newY = height + margin
         let inset = max(0, newY - y)
@@ -198,7 +203,7 @@ class LoginViewController: UIViewController {
     RxKeyboard.instance.visibleHeight
       .debounce(0) // skip immediate hide before show event in the same run loop
       .drive(onNext: { [weak self] height in
-        jack.func().debug("visibleHeight: \(height)")
+//        jack.func().debug("visibleHeight: \(height)")
         if height == 0 {
           UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self?.scrollView.contentInset.bottom = 0
@@ -220,15 +225,19 @@ class LoginViewController: UIViewController {
 
   func setupModel() {
     // model <- view
+    let input = model.input
     disposeBag.insert(
-      username.textField.rx.text.orEmpty.bind(to: model.input.username),
-      password.textField.rx.text.orEmpty.bind(to: model.input.password),
-      loginButton.button.rx.tap.bind(to: model.input.loginTap)
+      backButton.rx.tap.bind(to: input.backTap),
+      username.textField.rx.text.orEmpty.bind(to: input.username),
+      password.textField.rx.text.orEmpty.bind(to: input.password),
+      login.button.rx.tap.bind(to: input.loginTap)
     )
 
+    let output = model.output
     // model -> view
     disposeBag.insert(
-      model.output.loginAction.enabled.bind(to: loginButton.button.rx.isEnabled)
+      output.loginAction.enabled.bind(to: login.button.rx.isEnabled),
+      output.hud.emit(to: view.mbp.hud)
     )
   }
 

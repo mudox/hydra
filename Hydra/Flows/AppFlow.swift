@@ -40,7 +40,7 @@ class AppFlow: BaseAppFlow {
 //    _ = startDevFlow.forever()
 
     _ = loginIfNeeded.subscribe(onCompleted: {
-      jack.func().info("Logged in")
+      jack.func().info("Login flow completed")
     })
 
   }
@@ -69,7 +69,10 @@ class AppFlow: BaseAppFlow {
   }
 
   private var loginIfNeeded: Completable {
-    let flow = LoginFlow(on: stage, credentialService: CredentialService.shared)
+    let vc = UIViewController()
+    stage.window.rootViewController = vc
+    vc.view.backgroundColor = .blue
+    let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService.shared)
     return flow.loginIfNeeded
   }
 

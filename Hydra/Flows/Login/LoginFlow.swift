@@ -22,8 +22,6 @@ class LoginFlow: BaseFlow, LoginFlowType {
 
   private let credentialService: GitHub.CredentialServiceType
 
-  let completeRelay = PublishRelay<Void>()
-
   init(
     on stage: FlowStage,
     credentialService: GitHub.CredentialServiceType
@@ -32,14 +30,16 @@ class LoginFlow: BaseFlow, LoginFlowType {
     super.init(on: stage)
   }
 
+  // MARK: - LoginFlowType
+
   var loginIfNeeded: Completable {
 
     return .create { completable in
-      let noClean = Disposables.create()
+      let clean = Disposables.create {}
 
       guard !self.credentialService.isAuthorized else {
         completable(.completed)
-        return noClean
+        return clean
       }
 
       let loginViewController = LoginViewController().then {
@@ -50,32 +50,18 @@ class LoginFlow: BaseFlow, LoginFlowType {
         $0.model = model
       }
 
-      switch self.stage {
-      case let .window(window):
-        window.rootViewController = loginViewController
-      case let .viewController(viewController):
-        viewController.present(loginViewController, animated: true, completion: nil)
-      }
+      self.completeClosure = completable
+      self.stage.viewController.present(loginViewController, animated: true)
 
-      self.completeRelay
-        .take(1)
-        .subscribe(onNext: {
-          completable(.completed)
-        })
-        .disposed(by: self.disposeBag)
-
-      return noClean
+      return clean
     }
   }
 
+  var completeClosure: ((CompletableEvent) -> Void)!
+
   func complete() {
-    switch stage {
-    case .window:
-      completeRelay.accept(())
-    case let .viewController(viewController):
-      viewController.dismiss(animated: true) {
-        self.completeRelay.accept(())
-      }
+    stage.viewController.dismiss(animated: true) {
+      self.completeClosure(.completed)
     }
   }
 

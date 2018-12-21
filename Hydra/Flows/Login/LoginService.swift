@@ -10,6 +10,7 @@ import JacKit
 private let jack = Jack("LoginService")
 
 protocol LoginServiceType {
+
   // MARK: Validate user intputs
 
   func validate(username: String) -> Bool
@@ -22,7 +23,7 @@ protocol LoginServiceType {
 
   var isLoggedIn: Bool { get }
 
-  func login(username: String, password: String) -> Driver<GitHub.Service.AuthorizeResponse>
+  func login(username: String, password: String) -> Single<GitHub.Service.AuthorizeResponse>
 }
 
 struct LoginService: LoginServiceType {
@@ -49,15 +50,10 @@ struct LoginService: LoginServiceType {
     return githubService.credentials.isAuthorized
   }
 
-  func login(username: String, password: String) -> Driver<GitHub.Service.AuthorizeResponse> {
+  func login(username: String, password: String) -> Single<GitHub.Service.AuthorizeResponse> {
     githubService.credentials.user = (name: username, password: password)
     let scope: GitHub.AuthScope = [.user, .repository, .organization, .notification, .gist]
-    return githubService
-      .authorize(scope: scope)
-      .asDriver {
-        jack.sub("login").error(dump(of: $0))
-        return .empty()
-      }
+    return githubService.authorize(scope: scope)
   }
 
 }

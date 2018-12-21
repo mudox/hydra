@@ -18,13 +18,14 @@ typealias LoginOutput = GitHub.Service.AuthorizeResponse
 // MARK: Interface
 
 protocol LoginViewModelInput {
+  var backTap: PublishRelay<Void> { get }
   var username: BehaviorRelay<String> { get }
   var password: BehaviorRelay<String> { get }
   var loginTap: PublishRelay<Void> { get }
 }
 
 protocol LoginViewModelOutput {
-  var hudCommands: Driver<MBPCommand> { get }
+  var hud: Signal<MBPCommand> { get }
   var loginAction: Action<LoginInput, LoginOutput> { get }
 }
 
@@ -48,48 +49,94 @@ class LoginViewModel: LoginViewModelType {
 
   // MARK: - Input
 
+  let backTap = PublishRelay<Void>()
   let username = BehaviorRelay<String>(value: "")
   let password = BehaviorRelay<String>(value: "")
   let loginTap = PublishRelay<Void>()
 
   // MARK: - Output
 
-  private var hudRelay = BehaviorRelay<MBPCommand>(value: .hide())
+  private var hudRelay = PublishRelay<MBPCommand>()
 
-  var hudCommands: Driver<MBPCommand> {
-    return hudRelay.asDriver()
+  var hud: Signal<MBPCommand> {
+    return hudRelay.asSignal()
   }
 
   var loginAction: Action<LoginInput, LoginOutput>
 
   // MARK: - Life cycle
 
+  private let flow: LoginFlowType
+  private let loginService: LoginServiceType
+
+  deinit {
+    jack.func().info("💀 \(type(of: self))", format: .bare)
+  }
+
   required init(flow: LoginFlowType, loginService: LoginServiceType) {
+
+    self.flow = flow
+    self.loginService = loginService
 
     let inputs = Observable
       .combineLatest(username, password) { (username: $0, password: $1) }
       .share()
 
-    // isLoginButtonEnabled
     let isInputValid = inputs.map(loginService.validate)
 
-    loginAction = Action(enabledIf: isInputValid, workFactory: { username, password in
+    loginAction = Action(enabledIf: isInputValid) { username, password in
       loginService.login(username: username, password: password)
-    })
+    }
+
+    backTap
+      .bind { [weak self] _ in
+        self?.flow.complete()
+      }
+      .disposed(by: disposeBag)
 
     loginTap
       .withLatestFrom(inputs)
       .bind(to: loginAction.inputs)
       .disposed(by: disposeBag)
 
-    loginAction
-      .elements
-      .ignoreElements()
-      .subscribe(onCompleted: {
-        flow.complete()
-      })
-      .disposed(by: disposeBag)
+    setupHUD()
+  }
 
+  func setupHUD() {
+
+    let begin = loginAction.executing
+      .filter { $0 == true }
+      .map { _ -> MBPCommand in
+        return .begin(message: "Logging in", mode: .indeterminate)
+      }
+
+    let success = loginAction.elements
+      .map { [weak self] _ -> MBPCommand in
+        return .success(message: "Logged in") { hud in
+          hud.completionBlock = {
+            self?.flow.complete()
+          }
+        }
+      }
+
+    let error = loginAction.errors
+      .map { error -> MBPCommand in
+        switch error {
+        case let ActionError.underlyingError(error):
+          switch error {
+          case GitHubError.invalidCredential:
+            return .error(title: "Error", message: "invalid username or password", hideIn: 2)
+          default:
+            return .error(message: "Error occured")
+          }
+        default:
+          return .error(message: "Error occured")
+        }
+      }
+
+    Observable.merge(begin, success, error)
+      .bind(to: hudRelay)
+      .disposed(by: disposeBag)
   }
 
 }
