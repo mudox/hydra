@@ -8,12 +8,12 @@ enum TrendCellState {
   // Trending repository
   case loadingRepository
   case repository(Trending.Repository, rank: Int)
-  case errorLoadingRepository(Error)
+  case errorLoadingRepository(Swift.Error)
 
   // Trending developer
   case loadingDeveloper
   case developer(Trending.Developer, rank: Int)
-  case errorLoadingDeveloper(Error)
+  case errorLoadingDeveloper(Swift.Error)
 
   var isLoading: Bool {
     switch self {

@@ -110,7 +110,6 @@ class TrendViewModel: TrendViewModelType {
     thisMonthTrend = trend(triggeredBy: month, service: service)
 
     NotificationCenter.default.rx.notification(TrendBaseCell.retryNotification)
-      .debug("refresh", trimOutput: false)
       .bind(onNext: { [weak self] notification in
         guard let self = self else { return }
 

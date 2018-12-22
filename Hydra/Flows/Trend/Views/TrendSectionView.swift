@@ -21,6 +21,10 @@ class TrendSectionView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
 
+    snp.makeConstraints { make in
+      make.height.equalTo(170)
+    }
+
     setupLabel()
     setupPageControl()
     setupCollectionView()

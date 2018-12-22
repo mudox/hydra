@@ -36,14 +36,22 @@ class TrendViewController: UIViewController {
   func setupView() {
     view.backgroundColor = .bgDark
 
-    // Tab bar
-    tabBarItem.image = #imageLiteral(resourceName: "Trend")
-    tabBarItem.title = "Trend"
-    tabBarController?.tabBar.tintColor = .brand
+    setupTabBar()
 
     setupTabSwitch()
     setupLanguageBar()
+
     setupSections()
+  }
+
+  func setupTabBar() {
+    tabBarItem.do {
+      $0.image = #imageLiteral(resourceName: "Trend")
+      $0.selectedImage = #imageLiteral(resourceName: "Trend Selected.pdf")
+      $0.title = "Trend"
+    }
+
+    tabBarController?.tabBar.tintColor = .brand
   }
 
   func setupTabSwitch() {
@@ -52,7 +60,7 @@ class TrendViewController: UIViewController {
     view.addSubview(tabSwitch)
     tabSwitch.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
-      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(4)
     }
   }
 
@@ -61,12 +69,26 @@ class TrendViewController: UIViewController {
 
     view.addSubview(languageBar)
     languageBar.snp.makeConstraints { make in
-      make.top.equalTo(tabSwitch.snp.bottom).offset(10)
+      make.top.equalTo(tabSwitch.snp.bottom).offset(8)
       make.leading.trailing.equalToSuperview().inset(10)
     }
   }
 
   func setupSections() {
+
+    let sectionGap: CGFloat = 26
+
+    let scrollView = UIScrollView().then {
+      $0.showsVerticalScrollIndicator = false
+    }
+
+    view.addSubview(scrollView)
+    scrollView.snp.makeConstraints { make in
+      make.top.equalTo(languageBar.snp.bottom).offset(sectionGap)
+      make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+      make.leading.trailing.equalToSuperview()
+    }
+
     todaySection = TrendSectionView().then {
       $0.label.text = "Today"
       $0.collectionView.delegate = self
@@ -86,15 +108,14 @@ class TrendViewController: UIViewController {
       $0.axis = .vertical
       $0.distribution = .fillEqually
       $0.alignment = .fill
-      $0.spacing = 10
+      $0.spacing = sectionGap
       $0.backgroundColor = .red
     }
 
-    view.addSubview(sectionsStackView)
+    scrollView.addSubview(sectionsStackView)
     sectionsStackView.snp.makeConstraints { make in
-      make.top.equalTo(languageBar.snp.bottom).offset(10)
-      make.leading.trailing.equalToSuperview()
-      make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
+      make.edges.equalTo(scrollView).inset(UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
+      make.width.equalTo(scrollView)
     }
 
   }
