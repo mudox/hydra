@@ -74,12 +74,15 @@ class TrendViewController: UIViewController {
     }
   }
 
+  let sectionGap: CGFloat = 26
+
   func setupSections() {
 
-    let sectionGap: CGFloat = 26
+    // Scroll view
 
     let scrollView = UIScrollView().then {
       $0.showsVerticalScrollIndicator = false
+      $0.delegate = self
     }
 
     view.addSubview(scrollView)
@@ -112,6 +115,7 @@ class TrendViewController: UIViewController {
       $0.backgroundColor = .red
     }
 
+    // Stack view as content view of the scroll view
     scrollView.addSubview(sectionsStackView)
     sectionsStackView.snp.makeConstraints { make in
       make.edges.equalTo(scrollView).inset(UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
@@ -250,4 +254,21 @@ extension TrendViewController: UICollectionViewDelegateFlowLayout {
     return CGSize(width: width, height: height)
   }
 
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension TrendViewController: UIScrollViewDelegate {
+
+  func scrollViewWillEndDragging(
+    _ scrollView: UIScrollView,
+    withVelocity velocity: CGPoint,
+    targetContentOffset: UnsafeMutablePointer<CGPoint>
+  )
+  {
+    let offset = targetContentOffset.pointee.y
+    let step = sectionGap + TrendSectionView.height
+    let boundary = (offset / step).rounded() * step
+    targetContentOffset.pointee.y = boundary
+  }
 }

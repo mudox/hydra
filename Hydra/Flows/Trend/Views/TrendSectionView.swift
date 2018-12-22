@@ -13,6 +13,8 @@ class TrendSectionView: UIView {
   var pageControl: TrendPageControl!
   var collectionView: UICollectionView!
 
+  static let height: CGFloat = 170
+
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
     fatalError("do not use it")
@@ -22,7 +24,7 @@ class TrendSectionView: UIView {
     super.init(frame: frame)
 
     snp.makeConstraints { make in
-      make.height.equalTo(170)
+      make.height.equalTo(TrendSectionView.height)
     }
 
     setupLabel()
