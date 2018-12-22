@@ -2,14 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Repos.pdf"
+      "filename" : "Trend Selected.pdf"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
-  },
-  "properties" : {
-    "template-rendering-intent" : "template"
   }
 }
