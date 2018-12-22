@@ -1,5 +1,6 @@
 import UIKit
 
+import RxCocoa
 import RxSwift
 
 import JacKit
@@ -27,22 +28,28 @@ extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType
 
 class AppFlow: BaseAppFlow {
 
-  override func start() {
-    super.start()
+  override var run: Completable {
+    let run = Completable.create { _ in
 
-    resetIfNeeded()
+      self.resetIfNeeded()
+      self.setupTabBar()
 
-//    _ = welcomeIfNeeded
-//      .andThen(loginIfNeeded)
-//      .andThen(startMainFlow)
-//      .forever()
+//      _ = self.welcomeIfNeeded
+//        .andThen(self.runTrendFlow)
+//        .forever()
 
-//    _ = startDevFlow.forever()
+//      devLanguagesFlow
+//        .emit(onNext: {
+//          jack.func().info("Selected language: \($0 ?? "cancled")")
+//        })
+//        .disposed(by: disposeBag)
 
-    _ = loginIfNeeded.subscribe(onCompleted: {
-      jack.func().info("Login flow completed")
-    })
+      _ = self.runTrendFlow.forever()
 
+      return Disposables.create()
+    }
+
+    return super.run.andThen(run)
   }
 
   /// Reset app states for developing purpose
@@ -61,6 +68,10 @@ class AppFlow: BaseAppFlow {
     #endif
   }
 
+  private func setupTabBar() {
+    UITabBar.appearance().tintColor = .brand
+  }
+
   private var welcomeIfNeeded: Completable {
     _ = FirstLaunchChecker.shared.check()
     jack.sub("welcomeIfNeeded").warn("not implemented yet")
@@ -69,36 +80,40 @@ class AppFlow: BaseAppFlow {
   }
 
   private var loginIfNeeded: Completable {
-    let vc = UIViewController()
-    stage.window.rootViewController = vc
-    vc.view.backgroundColor = .blue
-    let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService.shared)
+    let flow = LoginFlow(on: stage, credentialService: CredentialService.shared)
     return flow.loginIfNeeded
   }
 
-  var startMainFlow: Completable {
+  private var runTrendFlow: Completable {
     let tabBarController = UITabBarController()
     stage.window.rootViewController = tabBarController
 
     // Trend
     let trendFlow = TrendFlow(on: .viewController(tabBarController))
-    return trendFlow.start()
+    return trendFlow.run
   }
 
-  var startDevFlow: Completable {
-    let log = jack.func()
+  // MARK: - Development
 
-    let stageVC = UIViewController()
-    stageVC.view.backgroundColor = .red
+  #if DEBUG
 
-    stage.window.rootViewController = stageVC
+    private var devLoginFlow: Completable {
+      let vc = UIViewController()
+      vc.view.backgroundColor = .white
+      stage.window.rootViewController = vc
 
-    let flow = LanguagesFlow(on: .viewController(stageVC))
-    _ = flow.start()
-      .emit(onNext: {
-        log.sub("onNext").info("selection: \($0 ?? "cancelled")")
-      })
+      let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService.shared)
+      return flow.loginIfNeeded
+    }
 
-    return .never()
-  }
+    private var devLanguagesFlow: Signal<String?> {
+      let vc = UIViewController()
+      vc.view.backgroundColor = .white
+      stage.window.rootViewController = vc
+
+      let flow = LanguagesFlow(on: .viewController(vc))
+      return flow.start
+    }
+
+  #endif
 }

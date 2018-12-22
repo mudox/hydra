@@ -1,5 +1,8 @@
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -18,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window?.makeKeyAndVisible()
 
     flow = AppFlow(on: .window(window!))
-    flow.start()
+    _ = flow.run.forever()
 
     return true
   }

@@ -9,18 +9,20 @@ import GitHub
 
 protocol TrendFlowType {
 
-  func start(animated: Bool) -> Completable
+  var run: Completable { get }
 
 }
 
 class TrendFlow: BaseFlow, TrendFlowType {
 
-  func start(animated: Bool = true) -> Completable {
-    let trendViewController = TrendViewController().then {
+  var run: Completable {
+    let vc = TrendViewController().then {
       $0.model = TrendViewModel(service: GitHub.Trending())
     }
 
-    show(trendViewController, animated: animated)
+    var vcs = stage.tabBarController.viewControllers ?? []
+    vcs.append(vc)
+    stage.tabBarController.setViewControllers(vcs, animated: true)
 
     return .never()
   }
