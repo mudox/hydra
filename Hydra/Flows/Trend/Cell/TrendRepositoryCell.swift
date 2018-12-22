@@ -190,12 +190,17 @@ class TrendRepositoryCell: TrendBaseCell {
     languageBadge = UIView().then {
       $0.layer.cornerRadius = badgeDiameter / 2
       $0.backgroundColor = .clear
+
+      $0.snp.makeConstraints { make in
+        make.size.equalTo(badgeDiameter)
+      }
     }
 
     languageLabel = UILabel().then {
       $0.textColor = .dark
       $0.font = .callout
       $0.textAlignment = .left
+      $0.lineBreakMode = .byTruncatingTail
     }
 
     let views: [UIView] = [languageBadge, languageLabel]
@@ -205,13 +210,11 @@ class TrendRepositoryCell: TrendBaseCell {
       $0.alignment = .center
       $0.spacing = 3
     }
-    languageBadge.snp.makeConstraints { make in
-      make.size.equalTo(badgeDiameter)
-    }
 
     contentView.addSubview(stackView)
     stackView.snp.makeConstraints { make in
       make.leading.bottom.equalToSuperview().inset(CGFloat.margin)
+      make.trailing.equalTo(badge.snp.leading)
     }
   }
 
