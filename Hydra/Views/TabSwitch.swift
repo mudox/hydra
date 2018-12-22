@@ -11,7 +11,7 @@ import Then
 class TabSwitch: UIView {
 
   private let buttonWidth = 140
-  private let height = 26
+  private let height = 24
   private let gap = 10
 
   private var disposeBag = DisposeBag()

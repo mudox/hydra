@@ -20,8 +20,8 @@ extension UIEdgeInsets {
 
 extension UIFont {
 
-  static let title = UIFont.systemFont(ofSize: 20, weight: .bold)
-  static let text = UIFont.systemFont(ofSize: 14)
+  static let title = UIFont.systemFont(ofSize: 14, weight: .bold)
+  static let text = UIFont.systemFont(ofSize: 12)
   static let callout = UIFont.systemFont(ofSize: 10)
 
 }

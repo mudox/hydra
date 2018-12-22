@@ -10,7 +10,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-private let barHeight: CGFloat = 34
+private let barHeight: CGFloat = 24
 
 class LanguageBar: UIView {
 
