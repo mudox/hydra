@@ -35,6 +35,7 @@ def rx_pods
   # Common advanced extensions
   pod 'Action'
   pod 'RxSwiftExt'
+  pod 'RxOptional'
 
   # Data binding
   pod 'RxDataSources'
