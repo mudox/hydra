@@ -32,9 +32,9 @@ protocol TrendViewModelInput {
 }
 
 protocol TrendViewModelOutput {
-  var todayTrend: Driver<TrendSectionState> { get }
-  var thisWeekTrend: Driver<TrendSectionState> { get }
-  var thisMonthTrend: Driver<TrendSectionState> { get }
+  var todayTrend: Driver<TrendState> { get }
+  var thisWeekTrend: Driver<TrendState> { get }
+  var thisMonthTrend: Driver<TrendState> { get }
 }
 
 protocol TrendViewModelType: TrendViewModelInput, TrendViewModelOutput {
@@ -74,9 +74,9 @@ class TrendViewModel: TrendViewModelType {
 
   // MARK: - Output
 
-  var todayTrend: Driver<TrendSectionState>
-  var thisWeekTrend: Driver<TrendSectionState>
-  var thisMonthTrend: Driver<TrendSectionState>
+  var todayTrend: Driver<TrendState>
+  var thisWeekTrend: Driver<TrendState>
+  var thisMonthTrend: Driver<TrendState>
 
   // MARK: - Binding
 
@@ -139,10 +139,10 @@ private func trend(
   triggeredBy input: Driver<TrendViewModel.Input>,
   service: TrendServiceType
 )
-  -> Driver<TrendSectionState>
+  -> Driver<TrendState>
 {
   return input
-    .flatMapLatest { input -> Driver<TrendSectionState> in
+    .flatMapLatest { input -> Driver<TrendState> in
       let activity: Activity
       switch input.period {
       case .today: activity = .todayTrend
@@ -154,20 +154,20 @@ private func trend(
       case .repositories:
         return service.repositories(of: input.language, for: input.period)
           .trackActivity(activity)
-          .map(TrendSectionState.repositories)
+          .map(TrendState.repositories)
           .asObservable()
-          .startWith(TrendSectionState.loadingRepositories)
+          .startWith(TrendState.loadingRepositories)
           .asDriver { error in
-            .just(TrendSectionState.errorLoadingRepositories(error))
+            .just(TrendState.errorLoadingRepositories(error))
           }
       case .developers:
         return service.developers(of: input.language, for: input.period)
           .trackActivity(activity)
-          .map(TrendSectionState.developers)
+          .map(TrendState.developers)
           .asObservable()
-          .startWith(TrendSectionState.loadingDevelopers)
+          .startWith(TrendState.loadingDevelopers)
           .asDriver { error in
-            .just(TrendSectionState.errorLoadingDevelopers(error))
+            .just(TrendState.errorLoadingDevelopers(error))
           }
       }
     }

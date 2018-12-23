@@ -3,7 +3,7 @@ import RxSwift
 
 import GitHub
 
-enum TrendSectionState {
+enum TrendState {
   case loadingRepositories
   case repositories([Trending.Repository])
   case errorLoadingRepositories(Error)
@@ -43,23 +43,23 @@ enum TrendSectionState {
 
   // MARK: - Fakes
 
-  static var fakeErrorLoadingDevelopersDriver: Driver<TrendSectionState> {
+  static var fakeErrorLoadingDevelopersDriver: Driver<TrendState> {
     let error = Trending.Error.isDissecting
-    let state = TrendSectionState.errorLoadingDevelopers(error)
+    let state = TrendState.errorLoadingDevelopers(error)
     return .just(state)
   }
 
-  static var fakeErrorLoadingRepositoriesDriver: Driver<TrendSectionState> {
+  static var fakeErrorLoadingRepositoriesDriver: Driver<TrendState> {
     let error = Trending.Error.isDissecting
-    let state = TrendSectionState.errorLoadingRepositories(error)
+    let state = TrendState.errorLoadingRepositories(error)
     return .just(state)
   }
 
-  static var fakeLoadingRepositoriesDriver: Driver<TrendSectionState> {
+  static var fakeLoadingRepositoriesDriver: Driver<TrendState> {
     return .just(.loadingRepositories)
   }
 
-  static var fakeLoadingDevelopersDriver: Driver<TrendSectionState> {
+  static var fakeLoadingDevelopersDriver: Driver<TrendState> {
     return .just(.loadingDevelopers)
   }
 }

@@ -185,7 +185,7 @@ class TrendViewController: UIViewController {
 
     // Reset scrolling position on reloading
 
-    let reset = { (view: TrendSectionView) -> (TrendSectionState) -> Void in
+    let reset = { (view: TrendSectionView) -> (TrendState) -> Void in
       { _ in
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         view.collectionView.scrollRectToVisible(rect, animated: false)
