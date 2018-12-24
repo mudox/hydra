@@ -32,19 +32,15 @@ class AppFlow: BaseAppFlow {
     let run = Completable.create { _ in
 
       self.resetIfNeeded()
-      self.setupTabBar()
 
 //      _ = self.welcomeIfNeeded
-//        .andThen(self.runTrendFlow)
+//        .andThen(self.runMainFlow)
 //        .forever()
 
-//      devLanguagesFlow
-//        .emit(onNext: {
-//          jack.func().info("Selected language: \($0 ?? "cancled")")
-//        })
-//        .disposed(by: disposeBag)
-
-      _ = self.runTrendFlow.forever()
+      _ = self.tryLanguagesFlow
+        .emit(onNext: {
+          jack.func().info("Selected \($0 ?? "nothing")")
+        })
 
       return Disposables.create()
     }
@@ -68,10 +64,6 @@ class AppFlow: BaseAppFlow {
     #endif
   }
 
-  private func setupTabBar() {
-    UITabBar.appearance().tintColor = .brand
-  }
-
   private var welcomeIfNeeded: Completable {
     _ = FirstLaunchChecker.shared.check()
     jack.sub("welcomeIfNeeded").warn("not implemented yet")
@@ -84,20 +76,48 @@ class AppFlow: BaseAppFlow {
     return flow.loginIfNeeded
   }
 
-  private var runTrendFlow: Completable {
-    let tabBarController = UITabBarController()
-    stage.window.rootViewController = tabBarController
+  private var runMainFlow: Completable {
+    return .create { _ in
 
+      UITabBar.appearance().tintColor = .brand
+      let vc = UITabBarController()
+      self.stage.window.rootViewController = vc
+
+      _ = self.runTrendFlow(in: vc).forever()
+      _ = self.runExploreFlow(in: vc).forever()
+      _ = self.runSearchFlow(in: vc).forever()
+      _ = self.runUserFlow(in: vc).forever()
+
+      return Disposables.create()
+    }
+  }
+
+  private func runTrendFlow(in tabBarController: UITabBarController) -> Completable {
     // Trend
     let trendFlow = TrendFlow(on: .viewController(tabBarController))
     return trendFlow.run
+  }
+
+  private func runExploreFlow(in tabBarController: UITabBarController) -> Completable {
+    jack.func().warn("Explore flow has not been implemented yet")
+    return .never()
+  }
+
+  private func runSearchFlow(in tabBarController: UITabBarController) -> Completable {
+    jack.func().warn("Search flow has not been implemented yet")
+    return .never()
+  }
+
+  private func runUserFlow(in tabBarController: UITabBarController) -> Completable {
+    jack.func().warn("User flow has not been implemented yet")
+    return .never()
   }
 
   // MARK: - Development
 
   #if DEBUG
 
-    private var devLoginFlow: Completable {
+    private var tryLoginFlow: Completable {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
       stage.window.rootViewController = vc
@@ -106,13 +126,13 @@ class AppFlow: BaseAppFlow {
       return flow.loginIfNeeded
     }
 
-    private var devLanguagesFlow: Signal<String?> {
+    private var tryLanguagesFlow: Signal<String?> {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
       stage.window.rootViewController = vc
 
       let flow = LanguagesFlow(on: .viewController(vc))
-      return flow.start
+      return flow.selectedLanguage
     }
 
   #endif
