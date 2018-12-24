@@ -9,7 +9,7 @@ import MudoxKit
 
 import GitHub
 
-private let jack = Jack("LoginViewModel")
+private let jack = Jack("LoginModel")
 
 typealias LoginInput = (username: String, password: String)
 
@@ -17,33 +17,33 @@ typealias LoginOutput = GitHub.Service.AuthorizeResponse
 
 // MARK: Interface
 
-protocol LoginViewModelInput {
+protocol LoginModelInput {
   var backTap: PublishRelay<Void> { get }
   var username: BehaviorRelay<String> { get }
   var password: BehaviorRelay<String> { get }
   var loginTap: PublishRelay<Void> { get }
 }
 
-protocol LoginViewModelOutput {
+protocol LoginModelOutput {
   var hud: Signal<MBPCommand> { get }
   var loginAction: Action<LoginInput, LoginOutput> { get }
 }
 
-protocol LoginViewModelType: LoginViewModelInput, LoginViewModelOutput {
+protocol LoginModelType: LoginModelInput, LoginModelOutput {
   init(
     flow: LoginFlowType,
     loginService: LoginServiceType
   )
 }
 
-extension LoginViewModelType {
-  var input: LoginViewModelInput { return self }
-  var output: LoginViewModelOutput { return self }
+extension LoginModelType {
+  var input: LoginModelInput { return self }
+  var output: LoginModelOutput { return self }
 }
 
 // MARK: - Impelementation
 
-class LoginViewModel: LoginViewModelType {
+class LoginModel: LoginModelType {
 
   let disposeBag = DisposeBag()
 

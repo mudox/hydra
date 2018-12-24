@@ -15,7 +15,7 @@ import GitHub
 
 private let jack = Jack().set(format: .short)
 
-class LoginViewController: UIViewController {
+class LoginController: UIViewController {
 
   deinit {
     jack.func().debug("💀 \(type(of: self))", format: .bare)
@@ -221,7 +221,7 @@ class LoginViewController: UIViewController {
 
   var disposeBag = DisposeBag()
 
-  var model: LoginViewModel!
+  var model: LoginModel!
 
   func setupModel() {
     // model <- view
