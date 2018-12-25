@@ -12,7 +12,7 @@ import GitHub
 
 private let jack = Jack().set(format: .short)
 
-class TrendViewController: UIViewController {
+class TrendController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -127,7 +127,7 @@ class TrendViewController: UIViewController {
   // MARK: - Model
 
   var disposeBag = DisposeBag()
-  var model: TrendViewModel!
+  var model: TrendModel!
 
   func bindToModel() {
     let input = model.input
@@ -135,7 +135,7 @@ class TrendViewController: UIViewController {
     // Tab switch -> trend kind
 
     tabSwitch.selectedIndex
-      .map { TrendViewModel.Kind(rawValue: $0)! }
+      .map { TrendModel.Kind(rawValue: $0)! }
       .drive(input.kindRelay)
       .disposed(by: disposeBag)
 
@@ -240,7 +240,7 @@ func trendCellConfigurer(period: Trending.Period)
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension TrendViewController: UICollectionViewDelegateFlowLayout {
+extension TrendController: UICollectionViewDelegateFlowLayout {
 
   func collectionView(
     _ collectionView: UICollectionView,
@@ -258,7 +258,7 @@ extension TrendViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - UIScrollViewDelegate
 
-extension TrendViewController: UIScrollViewDelegate {
+extension TrendController: UIScrollViewDelegate {
 
   func scrollViewWillEndDragging(
     _ scrollView: UIScrollView,
