@@ -89,8 +89,6 @@ class LanguageService {
 
   // MARK: - Language Groups
 
-  let fixedItems = ["All Languages", "Unknown Languages"]
-
   var searchedLanguages: [String] {
     get {
       return Defaults[.searchedLanguages]
@@ -100,9 +98,25 @@ class LanguageService {
     }
   }
 
+  func add(searchedLanguage language: String) {
+    // If already exists, move to queue tail
+    if let index = searchedLanguages.firstIndex(of: language) {
+      searchedLanguages.remove(at: index)
+      searchedLanguages.append(language)
+      return
+    }
+
+    // Pop first item if queue exceeds limit
+    if searchedLanguages.count > 10 {
+      searchedLanguages.remove(at: 0)
+    }
+
+    searchedLanguages.append(language)
+  }
+
   static let defaultPinnedLanguages: [String] = [
-    "Swift", "Objective-C", "JavaScript", "Python", "Shell",
-    "Vim Script", "Ruby", "C", "Rust"
+    "Swift", "Objective-C", "Python", "JavaScript",
+    "Go", "Vim Script", "Ruby", "Rust"
   ]
 
   var pinnedLanguages: [String] {
@@ -112,6 +126,20 @@ class LanguageService {
     set {
       Defaults[.pinnedLanguages] = newValue
     }
+  }
+
+  func add(pinnedLanguage language: String) {
+    // If already exists, do nothing
+    if let index = pinnedLanguages.firstIndex(of: language) {
+      return
+    }
+
+    // Pop first item if queue exceeds limit
+    if pinnedLanguages.count > 10 {
+      pinnedLanguages.remove(at: 0)
+    }
+
+    pinnedLanguages.append(language)
   }
 
   // MARK: - Search Languages
@@ -150,8 +178,8 @@ class LanguageService {
         }
 
         return [
-          .init(title: "Search History", items: history),
-          .init(title: "Pinned Languages", items: pinned),
+          .init(title: "History", items: history),
+          .init(title: "Pinned", items: pinned),
           .init(title: "Languages", items: other)
         ]
       }
