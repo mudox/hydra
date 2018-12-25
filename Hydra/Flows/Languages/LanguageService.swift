@@ -63,17 +63,10 @@ class LanguageService {
   }
 
   private var allLanguagesFromNetwork: Single<[GitHub.Language]> {
-    jack.func().debug("Begin fetching all languages data from network")
-
     return GitHub.Language.all
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-      .do(onSuccess: { [weak self] languages in
+      .do(onSuccess: { languages in
         let log = jack.func().sub("do(onSuccess:)")
-
-        guard let self = self else {
-          log.error("`self` is nil, languages data is not cached")
-          return
-        }
 
         do {
           guard let cache = self.cache else {
@@ -123,47 +116,44 @@ class LanguageService {
 
   // MARK: - Search Languages
 
-  struct SearchResult {
-    let history: [String]
-    let pinned: [String]
-    let other: [String]
-  }
-
-  func search(text: String) -> Single<SearchResult> {
+  func search(text: String) -> Single<[LanguagesSection]> {
     return Observable.just(text)
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
       .withLatestFrom(allLanguages) { ($0, $1) }
-      .map { [weak self] text, all -> SearchResult in
-        guard let self = self else {
-          throw CommonError.weakReference("LanguageService.self")
-        }
+      .map { text, all -> [LanguagesSection] in
+
+        let history: [String]
+        let pinned: [String]
+        let other: [String]
 
         if text.isEmpty {
-          let history = self.searchedLanguages
-          let pinned = self.pinnedLanguages
-          let other = all.map { $0.name }
-          return SearchResult(
-            history: history, pinned: pinned, other: other
-          )
+
+          history = self.searchedLanguages
+          pinned = self.pinnedLanguages
+          other = all.map { $0.name }.sorted { $0.lowercased() < $1.lowercased() }
+
         } else {
-          let history = self.searchedLanguages.filter {
+
+          history = self.searchedLanguages.filter {
             $0.lowercased().contains(text.lowercased())
           }
 
-          let pinned = self.pinnedLanguages.filter {
+          pinned = self.pinnedLanguages.filter {
             $0.lowercased().contains(text.lowercased())
           }
 
-          let other = Set(all.map { $0.name })
+          other = Set(all.map { $0.name })
             .subtracting(history)
             .subtracting(pinned)
             .filter { $0.lowercased().contains(text) }
-            .sorted()
-
-          return SearchResult(
-            history: history, pinned: pinned, other: other
-          )
+            .sorted { $0.lowercased() < $1.lowercased() }
         }
+
+        return [
+          .init(title: "Search History", items: history),
+          .init(title: "Pinned Languages", items: pinned),
+          .init(title: "Languages", items: other)
+        ]
       }
       .asSingle()
   }

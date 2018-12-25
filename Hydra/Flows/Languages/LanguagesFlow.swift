@@ -33,7 +33,9 @@ class LanguagesFlow: BaseFlow, LanguagesFlowType {
       let model = LanguagesModel(service: LanguageService())
       let vc = LanguagesController()
       vc.model = model
-      self.stage.viewController.present(vc, animated: true)
+
+      let nav = UINavigationController(rootViewController: vc)
+      self.stage.viewController.present(nav, animated: true)
 
       return Disposables.create()
     }

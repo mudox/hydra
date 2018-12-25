@@ -2,6 +2,7 @@ import UIKit
 
 import RxCocoa
 import RxDataSources
+import RxOptional
 import RxSwift
 import RxSwiftExt
 
@@ -10,11 +11,26 @@ import Then
 
 import JacKit
 
-private let cellID = "languageCellID"
-
 private let jack = Jack().set(format: .short)
 
-class LanguagesController: UIViewController {
+// MARK: - Constants
+
+private let cellID = "languageCellID"
+private let headerID = "languagesHeaderID"
+
+class LanguagesController: UICollectionViewController {
+
+  let flowLayout: LanguagesFlowLayout
+
+  init() {
+    flowLayout = LanguagesFlowLayout()
+    super.init(collectionViewLayout: flowLayout)
+  }
+
+  @available(*, unavailable, message: "has not been implemented")
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -23,58 +39,60 @@ class LanguagesController: UIViewController {
     setupModel()
   }
 
-  // MARK: - UI Constants
-
-  let contentInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
-
-  let rowGap: CGFloat = 8
-  let itemGap: CGFloat = 8
-  let sectionInset = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
-
   // MARK: - View
 
+  let selectButton = UIBarButtonItem()
+  let pinButton = UIBarButtonItem()
+
+  var searchController: UISearchController!
   var searchBar: UISearchBar!
-  var collectionView: UICollectionView!
 
   func setupView() {
     view.backgroundColor = .bgLight
 
+    setupNavigationBar()
     setupSearchBar()
     setupCollectionView()
   }
 
-  func setupSearchBar() {
-    searchBar = UISearchBar().then {
-      $0.placeholder = "Search Languages"
-      $0.searchBarStyle = .minimal
+  func setupNavigationBar() {
+    navigationItem.do {
+      $0.title = "Languages"
+      $0.leftBarButtonItem = selectButton
+      $0.rightBarButtonItem = pinButton
     }
 
-    view.addSubview(searchBar)
-    searchBar.snp.makeConstraints { make in
-      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(contentInset)
-      make.leading.trailing.equalToSuperview().inset(contentInset)
+    selectButton.do {
+      $0.title = "Select"
+      $0.tintColor = .brand
     }
+
+    pinButton.do {
+      $0.title = "Pin"
+      $0.tintColor = .brand
+    }
+
+  }
+
+  func setupSearchBar() {
+    searchController = UISearchController(searchResultsController: self).then {
+      $0.obscuresBackgroundDuringPresentation = false
+    }
+
+    searchBar = searchController.searchBar
+
+    navigationItem.searchController = searchController
   }
 
   func setupCollectionView() {
-    let flowLayout = UICollectionViewFlowLayout().then {
-      $0.scrollDirection = .vertical
-      $0.minimumLineSpacing = itemGap
-      $0.minimumInteritemSpacing = rowGap
-      $0.sectionInset = sectionInset
-      $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-    }
-
-    collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
+    collectionView.do {
       $0.backgroundColor = .clear
       $0.register(LanguageCell.self, forCellWithReuseIdentifier: cellID)
-    }
-
-    view.addSubview(collectionView)
-    collectionView.snp.makeConstraints { make in
-      make.top.equalTo(searchBar.snp.bottom).offset(14)
-      make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(contentInset)
-      make.leading.trailing.equalToSuperview().inset(contentInset)
+      $0.register(
+        LanguagesHeaderView.self,
+        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+        withReuseIdentifier: headerID
+      )
     }
   }
 
@@ -94,15 +112,38 @@ class LanguagesController: UIViewController {
     // model -> view
     let output = model.output
 
-    let dataSource = RxCollectionViewSectionedReloadDataSource<LanguagesSectionModel>(configureCell: {
-      _, collectionView, indexPath, language in
-      // swiftlint:disable:next force_cast
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! LanguageCell
-      cell.show(language: language)
-      return cell
-    })
+    let dataSource = RxCollectionViewSectionedReloadDataSource<LanguagesSection>(
+      configureCell: {
+        _, collectionView, indexPath, language in
+        let cell = collectionView.dequeueReusableCell(
+          withReuseIdentifier: cellID,
+          for: indexPath
+        ) as! LanguageCell // swiftlint:disable:this force_cast
+        cell.show(language: language)
+        return cell
+      },
+      configureSupplementaryView: {
+        dataSource, collectionView, kind, indexPath in
+        assert(kind == UICollectionView.elementKindSectionHeader)
+        let view = collectionView.dequeueReusableSupplementaryView(
+          ofKind: UICollectionView.elementKindSectionHeader,
+          withReuseIdentifier: headerID,
+          for: indexPath
+        ) as! LanguagesHeaderView // swiftlint:disable:this force_cast
+        let title = dataSource[indexPath.section].title
+        view.show(title: title)
+        return view
+      }
+    )
 
-    output.collectionViewModels
+    collectionView.dataSource = nil
+    let width = UIScreen.main.bounds.width
+
+    output.collectionViewData
+      .do(onNext: { [weak self] sections in
+        guard let self = self else { return }
+        self.flowLayout.layout(for: sections, width: width)
+      })
       .drive(collectionView.rx.items(dataSource: dataSource))
       .disposed(by: disposeBag)
   }
