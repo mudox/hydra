@@ -22,8 +22,8 @@ extension GitHub.Trending: TrendServiceType {}
 
 // MARK: - Interface
 
-protocol TrendViewModelInput {
-  var kindRelay: BehaviorRelay<TrendViewModel.Kind> { get }
+protocol TrendModelInput {
+  var kindRelay: BehaviorRelay<TrendModel.Kind> { get }
   var languageRelay: BehaviorRelay<String> { get }
 
   var todayRelay: BehaviorRelay<Void> { get }
@@ -31,24 +31,24 @@ protocol TrendViewModelInput {
   var monthRelay: BehaviorRelay<Void> { get }
 }
 
-protocol TrendViewModelOutput {
+protocol TrendModelOutput {
   var todayTrend: Driver<TrendState> { get }
   var thisWeekTrend: Driver<TrendState> { get }
   var thisMonthTrend: Driver<TrendState> { get }
 }
 
-protocol TrendViewModelType: TrendViewModelInput, TrendViewModelOutput {
+protocol TrendModelType: TrendModelInput, TrendModelOutput {
   init(service: TrendServiceType)
 }
 
-extension TrendViewModelType {
-  var input: TrendViewModelInput { return self }
-  var output: TrendViewModelOutput { return self }
+extension TrendModelType {
+  var input: TrendModelInput { return self }
+  var output: TrendModelOutput { return self }
 }
 
 // MARK: - View Model
 
-class TrendViewModel: TrendViewModelType {
+class TrendModel: TrendModelType {
 
   // MARK: - Types
 
@@ -136,7 +136,7 @@ class TrendViewModel: TrendViewModelType {
 // MARK: - Helpers
 
 private func trend(
-  triggeredBy input: Driver<TrendViewModel.Input>,
+  triggeredBy input: Driver<TrendModel.Input>,
   service: TrendServiceType
 )
   -> Driver<TrendState>
