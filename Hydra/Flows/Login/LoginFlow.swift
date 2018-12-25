@@ -44,7 +44,7 @@ class LoginFlow: BaseFlow, LoginFlowType {
         return clean
       }
 
-      let LoginController = LoginController().then {
+      let vc = LoginController().then {
         let credSrv = CredentialService.shared
         let ghSrv = GitHub.Service(credentialService: credSrv)
         let loginSrv = LoginService(githubService: ghSrv)
@@ -53,7 +53,7 @@ class LoginFlow: BaseFlow, LoginFlowType {
       }
 
       self.completableClosure = completable
-      self.stage.viewController.present(LoginController, animated: true)
+      self.stage.viewController.present(vc, animated: true)
 
       return clean
     }
