@@ -17,38 +17,57 @@ class LanguageCell: UICollectionViewCell {
     setupView()
   }
 
+  // MARK: - Metric
+
+  static let cellHeight: CGFloat = 24
+
+  static func cellSize(for language: String) -> CGSize {
+    let containingSize = CGSize(width: CGFloat.infinity, height: CGFloat.infinity)
+    let options: NSStringDrawingOptions = []
+    let attributes: [NSAttributedString.Key: Any]? = [
+      .font: labelFont
+    ]
+    let context: NSStringDrawingContext? = nil
+
+    let width = (language as NSString).boundingRect(
+      with: containingSize,
+      options: options,
+      attributes: attributes,
+      context: context
+    ).size.width.rounded(.up)
+
+    return .init(width: width + cellHeight, height: cellHeight)
+  }
+
   // MARK: - Subviews
 
   let label = UILabel()
 
-  // MARK: - Constants
-
-  let height: CGFloat = 24
-
   // MARK: - Setup
 
-  func setupView() {
+  static let labelFont = UIFont.text
 
-    backgroundView = UIView().then {
-      $0.backgroundColor = .bgDark
-    }
+  func setupView() {
+    backgroundColor = .bgDark
 
     layer.do {
       $0.masksToBounds = true
-      $0.cornerRadius = height / 2
+      $0.cornerRadius = LanguageCell.cellHeight / 2
     }
 
+    setupLabel()
+  }
+
+  func setupLabel() {
     label.do {
       $0.textAlignment = .center
-      $0.font = .text
+      $0.font = LanguageCell.labelFont
       $0.textColor = .black
     }
 
     contentView.addSubview(label)
     label.snp.makeConstraints { make in
-      make.leading.trailing.equalToSuperview().inset(height / 2)
-      make.height.equalTo(height)
-      make.top.bottom.equalToSuperview()
+      make.center.equalToSuperview()
     }
   }
 
@@ -60,10 +79,10 @@ class LanguageCell: UICollectionViewCell {
     didSet {
       if isSelected {
         label.textColor = .white
-        backgroundView?.backgroundColor = .brand
+        backgroundColor = .brand
       } else {
         label.textColor = .black
-        backgroundView?.backgroundColor = .bgDark
+        backgroundColor = .bgDark
       }
     }
   }
