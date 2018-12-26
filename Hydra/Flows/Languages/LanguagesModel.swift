@@ -75,6 +75,8 @@ class LanguagesModel: LanguagesModelType {
           service.add(pinnedLanguage: language)
         case let .unpin(language):
           service.remove(pinnedLanguage: language)
+        case let .movePinnedLanguage(from: src, to: dest):
+          service.movePinnedLanguage(from: src, to: dest)
         }
       })
       .mapTo(())
@@ -129,6 +131,7 @@ extension LanguagesModel {
   enum Command {
     case pin(String)
     case unpin(String)
+    case movePinnedLanguage(from: Int, to: Int) // swiftlint:disable:this identifier_name
   }
 
   enum SearchState {

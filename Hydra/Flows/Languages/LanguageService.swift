@@ -23,7 +23,7 @@ class LanguageService {
     case nilCache
   }
 
-  // MARK: - Fetch All Languages
+  // MARK: - All
 
   private var allLanguagesFromCache: Single<[GitHub.Language]> {
     return .create { single in
@@ -71,7 +71,7 @@ class LanguageService {
     ]).asSingle()
   }
 
-  // MARK: - Language Groups
+  // MARK: - History
 
   var searchedLanguages: [String] {
     get {
@@ -97,6 +97,8 @@ class LanguageService {
 
     searchedLanguages.append(language)
   }
+
+  // MARK: - Pinned
 
   static let defaultPinnedLanguages: [String] = [
     "Swift", "Objective-C", "Python", "JavaScript",
@@ -132,6 +134,17 @@ class LanguageService {
     } else {
       jack.func().warn("Can not found language `\(language)` not in pinned language list")
     }
+  }
+
+  func movePinnedLanguage(from src: Int, to dest: Int) {
+    jack.func().debug("\(src) -> \(dest)")
+    guard pinnedLanguages.indices.contains(src) else {
+      jack.func().error("Invalid `from` index <\(src)>")
+      return
+    }
+
+    let language = pinnedLanguages.remove(at: src)
+    pinnedLanguages.insert(language, at: dest)
   }
 
   // MARK: - Search

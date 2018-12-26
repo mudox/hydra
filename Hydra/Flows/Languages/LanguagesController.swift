@@ -76,6 +76,7 @@ class LanguagesController: UICollectionViewController {
   func setupSearchBar() {
     searchController.do {
       $0.obscuresBackgroundDuringPresentation = false
+      $0.hidesNavigationBarDuringPresentation = false
     }
 
     searchController.searchBar.do {
@@ -110,17 +111,22 @@ class LanguagesController: UICollectionViewController {
     let input = model.input
 
     disposeBag.insert(
-      searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText),
-      collectionView.rx.itemSelected.bind(to: input.selectedIndexPath)
+      searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText)
     )
 
+    let indexPathSelected = collectionView.rx.itemSelected
+    let languageSelected = collectionView.rx.modelSelected(String.self)
+    Observable.zip(indexPathSelected, languageSelected)
+      .bind(to: input.itemTap)
+      .disposed(by: disposeBag)
+
     let pinOrUnpin = pinButton.rx.tap
-      .withLatestFrom(model.output.currentIndexPath)
-      .flatMap { [weak self] indexPath -> Observable<LanguagesModel.Command> in
-        guard let indexPath = indexPath else { return .empty() }
+      .withLatestFrom(model.output.selected)
+      .flatMap { [weak self] selected -> Observable<LanguagesModel.Command> in
+        guard let selected = selected else { return .empty() }
         guard let self = self else { return .empty() }
 
-        let language = self.dataSource[indexPath]
+        let language = selected.1
 
         let title = self.selectButton.title ?? "<nil>"
 
@@ -153,7 +159,7 @@ class LanguagesController: UICollectionViewController {
     )
   }
 
-  let dataSource = {
+  lazy var dataSource = {
     RxCollectionViewSectionedReloadDataSource<LanguagesModel.Section>(
       configureCell: {
         _, collectionView, indexPath, language in
@@ -175,6 +181,15 @@ class LanguagesController: UICollectionViewController {
         let title = dataSource[indexPath.section].title
         view.show(title: title)
         return view
+      },
+      moveItem: { [weak self]
+        _, srcIndexPath, destIndexPath in
+        let cmd = LanguagesModel.Command.movePinnedLanguage(from: srcIndexPath.item, to: destIndexPath.item)
+        self?.model.input.command.accept(cmd)
+      },
+      canMoveItemAtIndexPath: {
+        _, indexPath in
+        return indexPath.section == 1
       }
     )
   }()
@@ -193,9 +208,9 @@ class LanguagesController: UICollectionViewController {
       .drive(collectionView.rx.items(dataSource: dataSource))
       .disposed(by: disposeBag)
 
-    output.currentIndexPath
-      .drive(onNext: { [weak self] indexPath in
-        self?.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+    output.selected
+      .drive(onNext: { [weak self] selected in
+        self?.collectionView.selectItem(at: selected?.0, animated: true, scrollPosition: [])
       })
       .disposed(by: disposeBag)
   }
