@@ -6,6 +6,7 @@ import RxSwift
 import JacKit
 import MudoxKit
 
+import Cache
 import SwiftyUserDefaults
 
 private let jack = Jack("AppFlow").set(format: .short)
@@ -50,17 +51,23 @@ class AppFlow: BaseAppFlow {
 
   /// Reset app states for developing purpose
   ///
-  /// Reset according to the value of environment variable `RESET_APP`:
-  /// - "all":  reset all app data
+  /// Reset according to the value of environment variable __RESET__:
+  /// - "defaults":  reset UserDefaults through SwiftyUserDefaults
+  /// - "cache": reset caches through Cache
   private func resetIfNeeded() {
     #if DEBUG
-      switch ProcessInfo.processInfo.environment["RESET_APP"] {
-      case "all":
-        jack.sub("start").debug("clear data in UserDefaults")
+      guard let env = ProcessInfo.processInfo.environment["RESET"] else { return }
+
+      if env.contains("defaults") {
+        jack.func().info("Reset UserDefaults")
         Defaults.removeAll()
-      default:
-        break
       }
+
+      if env.contains("cache") {
+        jack.func().info("Reset caches")
+        Caches.reset()
+      }
+
     #endif
   }
 
@@ -79,7 +86,9 @@ class AppFlow: BaseAppFlow {
   private var runMainFlow: Completable {
     return .create { _ in
 
+      UINavigationBar.appearance().tintColor = .brand
       UITabBar.appearance().tintColor = .brand
+
       let vc = UITabBarController()
       self.stage.window.rootViewController = vc
 

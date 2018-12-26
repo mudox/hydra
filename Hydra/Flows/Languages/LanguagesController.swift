@@ -44,8 +44,9 @@ class LanguagesController: UICollectionViewController {
   let selectButton = UIBarButtonItem()
   let pinButton = UIBarButtonItem()
 
-  var searchController: UISearchController!
-  var searchBar: UISearchBar!
+  let searchController = UISearchController(searchResultsController: nil)
+
+  let indiceView = UIView()
 
   func setupView() {
     view.backgroundColor = .bgLight
@@ -75,11 +76,16 @@ class LanguagesController: UICollectionViewController {
   }
 
   func setupSearchBar() {
-    searchController = UISearchController(searchResultsController: self).then {
+    searchController.do {
       $0.obscuresBackgroundDuringPresentation = false
     }
 
-    searchBar = searchController.searchBar
+    searchController.searchBar.do {
+      $0.tintColor = .brand
+      $0.placeholder = ""
+
+      $0.autocapitalizationType = .none
+    }
 
     navigationItem.searchController = searchController
   }
@@ -106,10 +112,11 @@ class LanguagesController: UICollectionViewController {
     let input = model.input
 
     disposeBag.insert(
-      searchBar.rx.text.orEmpty.bind(to: input.searchTextRelay)
+      searchController.searchBar.rx.text.orEmpty.bind(to: input.searchTextRelay)
     )
 
     // model -> view
+
     let output = model.output
 
     let dataSource = RxCollectionViewSectionedReloadDataSource<LanguagesSection>(

@@ -41,6 +41,7 @@
 		F49A1C6321A730BD0045E74B /* ContributorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6221A730BD0045E74B /* ContributorsView.swift */; };
 		F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */; };
 		F4B4BA2521D290E700879B18 /* LanguagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */; };
+		F4B4BA2921D3546300879B18 /* Caches.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2821D3546300879B18 /* Caches.swift */; };
 		F4DC70FB21B58F3A00999BD1 /* LanguagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */; };
 		F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* AppFlow.swift */; };
 		F4F338242171071100DC9638 /* DefaultsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338232171071100DC9638 /* DefaultsSpec.swift */; };
@@ -101,6 +102,7 @@
 		F4B4BA1F21D1108D00879B18 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesFlowLayout.swift; sourceTree = "<group>"; };
 		F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesHeaderView.swift; sourceTree = "<group>"; };
+		F4B4BA2821D3546300879B18 /* Caches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caches.swift; sourceTree = "<group>"; };
 		F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModel.swift; sourceTree = "<group>"; };
 		F4F338132170BD4100DC9638 /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		F4F338192171035700DC9638 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,6 +185,7 @@
 				F43032EC21B1039400BE40DF /* AsDriverNoError.swift */,
 				F4231FD3217B9D3600B2D748 /* Activity.swift */,
 				F48779472169F1CC00C027A9 /* DefaultsKeys.swift */,
+				F4B4BA2821D3546300879B18 /* Caches.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -628,6 +631,7 @@
 				F4DC70FB21B58F3A00999BD1 /* LanguagesModel.swift in Sources */,
 				F46C688E215A43400090B4AF /* LoginModel.swift in Sources */,
 				F46C688D215A43400090B4AF /* LoginController.swift in Sources */,
+				F4B4BA2921D3546300879B18 /* Caches.swift in Sources */,
 				F46C6891215A43400090B4AF /* LoginService.swift in Sources */,
 				F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */,
 				F43032F621B3A53A00BE40DF /* LanguageService.swift in Sources */,

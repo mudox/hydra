@@ -25,27 +25,11 @@ class LanguageService {
 
   // MARK: - Fetch All Languages
 
-  let cache: Storage<[GitHub.Language]>? = {
-    let memoryConfig = MemoryConfig()
-    let diskConfig = DiskConfig(name: .allLanguagesDiskCacheName)
-
-    do {
-      return try Storage(
-        diskConfig: diskConfig,
-        memoryConfig: memoryConfig,
-        transformer: TransformerFactory.forCodable(ofType: [GitHub.Language].self)
-      )
-    } catch {
-      jack.func().error("Error initializing `Cache.Stoarge`: \(error)")
-      return nil
-    }
-  }()
-
   private var allLanguagesFromCache: Single<[GitHub.Language]> {
     return .create { single in
       let clean = Disposables.create()
 
-      guard let cache = self.cache else {
+      guard let cache = Caches.languages else {
         single(.error(Error.nilCache))
         return clean
       }
@@ -54,7 +38,7 @@ class LanguageService {
         let languages = try cache.object(forKey: .allLanguagesCacheKey)
         single(.success(languages))
       } catch {
-        jack.func().warn("Error fetching all languages data from cache: \(error)")
+        jack.func().warn("Failed with error:\n\(error.localizedDescription)")
         single(.error(error))
       }
 
@@ -69,8 +53,8 @@ class LanguageService {
         let log = jack.func().sub("do(onSuccess:)")
 
         do {
-          guard let cache = self.cache else {
-            log.error("`self.cache` is nil, languages data is not cached")
+          guard let cache = Caches.languages else {
+            log.error("`Caches.languages` is nil, languages data is not cached")
             return
           }
           try cache.setObject(languages, forKey: .allLanguagesCacheKey)
@@ -130,7 +114,7 @@ class LanguageService {
 
   func add(pinnedLanguage language: String) {
     // If already exists, do nothing
-    if let index = pinnedLanguages.firstIndex(of: language) {
+    if pinnedLanguages.contains(language) {
       return
     }
 
@@ -145,10 +129,9 @@ class LanguageService {
   // MARK: - Search Languages
 
   func search(text: String) -> Single<[LanguagesSection]> {
-    return Observable.just(text)
+    return allLanguages
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-      .withLatestFrom(allLanguages) { ($0, $1) }
-      .map { text, all -> [LanguagesSection] in
+      .map { all -> [LanguagesSection] in
 
         let history: [String]
         let pinned: [String]
@@ -183,7 +166,6 @@ class LanguageService {
           .init(title: "Languages", items: other)
         ]
       }
-      .asSingle()
   }
 
 }
