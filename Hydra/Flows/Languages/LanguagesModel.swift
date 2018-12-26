@@ -88,7 +88,7 @@ class LanguagesModel: LanguagesModelType {
       .map { LanguagesSearchState.success($0) }
       .startWith(LanguagesSearchState.searching)
       .asDriver { error in
-        jack.func().sub("asDriver").error("Received error: \(error)")
+        jack.func().sub("states").sub("asDriver").warn("Received error: \(error)")
         return .just(LanguagesSearchState.error(error))
       }
 

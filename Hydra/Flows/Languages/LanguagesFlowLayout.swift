@@ -20,6 +20,7 @@ class LanguagesFlowLayout: UICollectionViewLayout {
 
   private var cache: LayoutResult?
 
+  // swiftlint:disable:next function_body_length
   func layout(for sections: [LanguagesSection], width: CGFloat) {
 
     // Metrics
@@ -37,12 +38,16 @@ class LanguagesFlowLayout: UICollectionViewLayout {
     var x: CGFloat = 0
     var y: CGFloat = 0
 
-    func attributes(for languages: [String], inSection section: Int)
-      -> (header: UICollectionViewLayoutAttributes, cells: [UICollectionViewLayoutAttributes])
-    {
+    var headers = [UICollectionViewLayoutAttributes]()
+    var cells = [[UICollectionViewLayoutAttributes]]()
+
+    for (sectionIndex, section) in sections.enumerated() {
+      let languages = section.items
+
       // Header
+
       x = headerLeftMargin
-      if section == 0 {
+      if sectionIndex == 0 {
         y = sectionGap
       } else {
         y += sectionGap
@@ -51,7 +56,7 @@ class LanguagesFlowLayout: UICollectionViewLayout {
       let frame = CGRect(x: x, y: y, width: 200, height: headerHeight)
       let header = UICollectionViewLayoutAttributes(
         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-        with: .init(item: 0, section: section)
+        with: .init(item: 0, section: sectionIndex)
       )
       header.frame = frame
 
@@ -60,8 +65,8 @@ class LanguagesFlowLayout: UICollectionViewLayout {
       x = sectionInset.left
       y += headerHeight + sectionInset.top
 
-      let cells = languages.enumerated().map {
-        index, language -> UICollectionViewLayoutAttributes in
+      let attrs = languages.enumerated().map {
+        itemIndex, language -> UICollectionViewLayoutAttributes in
 
         var frame = CGRect(origin: .init(x: x, y: y), size: LanguageCell.cellSize(for: language))
         if frame.maxX > width - sectionInset.right {
@@ -72,26 +77,21 @@ class LanguagesFlowLayout: UICollectionViewLayout {
 
         x = frame.maxX + itemGap
 
-        let attr = UICollectionViewLayoutAttributes(forCellWith: .init(item: index, section: section))
+        let attr = UICollectionViewLayoutAttributes(forCellWith: .init(item: itemIndex, section: sectionIndex))
         attr.frame = frame
 
         return attr
       }
 
       // Last row of the section
-      if cells.isEmpty {
-
-      } else {
-      y += cellHeight + sectionInset.bottom
+      if !attrs.isEmpty {
+        y += cellHeight + sectionInset.bottom
       }
 
-      return (header, cells)
+      headers.append(header)
+      cells.append(attrs)
     }
 
-    let all = sections.enumerated().map { attributes(for: $0.element.items, inSection: $0.offset) }
-
-    let headers = all.map { $0.header }
-    let cells = all.map { $0.cells }
     let contentSize = CGSize(width: width, height: y + cellHeight + sectionInset.bottom)
 
     cache = LayoutResult(headers: headers, cells: cells, contentSize: contentSize)
@@ -104,9 +104,11 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   }
 
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-    return cache?.all.filter {
+    let attrs = cache?.all.filter {
       $0.frame.intersects(rect)
     }
+
+    return attrs
   }
 
   override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
