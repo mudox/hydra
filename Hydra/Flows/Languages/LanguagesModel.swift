@@ -17,18 +17,18 @@ private let jack = Jack().set(format: .short)
 protocol LanguagesModelInput {
   var command: PublishRelay<LanguagesModel.Command> { get }
   var searchText: BehaviorRelay<String> { get }
-  var selectedIndexPath: BehaviorRelay<IndexPath?> { get }
+  var itemTap: BehaviorRelay<(IndexPath, String)?> { get }
 }
 
 protocol LanguagesModelOutput {
-  var currentIndexPath: Driver<IndexPath?> { get }
+  var selected: Driver<(IndexPath, String)?> { get }
 
   var selectButtonEnabled: Driver<Bool> { get }
 
   var pinButtonEnabled: Driver<Bool> { get }
   var pinButtonTitle: Driver<String> { get }
 
-  var states: Driver<LanguagesModel.SearchState> { get }
+  var state: Driver<LanguagesModel.SearchState> { get }
   var collectionViewData: Driver<[LanguagesModel.Section]> { get }
 }
 
@@ -49,17 +49,17 @@ class LanguagesModel: LanguagesModelType {
 
   let command = PublishRelay<Command>()
   let searchText = BehaviorRelay<String>(value: "")
-  let selectedIndexPath = BehaviorRelay<IndexPath?>(value: nil)
+  let itemTap = BehaviorRelay<(IndexPath, String)?>(value: nil)
 
   // MARK: Output
 
-  let currentIndexPath: Driver<IndexPath?>
+  let selected: Driver<(IndexPath, String)?>
 
   let selectButtonEnabled: Driver<Bool>
   let pinButtonEnabled: Driver<Bool>
   let pinButtonTitle: Driver<String>
 
-  let states: Driver<LanguagesModel.SearchState>
+  let state: Driver<LanguagesModel.SearchState>
   let collectionViewData: Driver<[LanguagesModel.Section]>
 
   // MARK: Binding
@@ -67,23 +67,6 @@ class LanguagesModel: LanguagesModelType {
   var disposeBag = DisposeBag()
 
   required init(service: LanguageService) {
-
-    currentIndexPath = selectedIndexPath
-      .scan(nil) { prev, this in
-        if prev != this {
-          return this
-        } else {
-          return nil
-        }
-      }
-      .asDriverNoError()
-      .startWith(nil)
-
-    let enabled = currentIndexPath.map { $0 != nil }
-    selectButtonEnabled = enabled
-    pinButtonEnabled = enabled
-
-    pinButtonTitle = currentIndexPath.map { $0?.section == 1 ? "Unpin" : "Pin" }
 
     let commandTrigger = command.asObservable()
       .do(onNext: {
@@ -97,7 +80,7 @@ class LanguagesModel: LanguagesModelType {
       .mapTo(())
       .startWith(())
 
-    states = Observable.combineLatest(searchText, commandTrigger)
+    state = Observable.combineLatest(searchText, commandTrigger)
       .flatMap { text, _ in service.search(text: text) }
       .map { LanguagesModel.SearchState.success($0) }
       .startWith(LanguagesModel.SearchState.searching)
@@ -106,7 +89,7 @@ class LanguagesModel: LanguagesModelType {
         return .just(LanguagesModel.SearchState.error(error))
       }
 
-    collectionViewData = states
+    collectionViewData = state
       .flatMap { state -> Driver<[LanguagesModel.Section]> in
         if let data = state.collectionViewData {
           return .just(data)
@@ -114,6 +97,26 @@ class LanguagesModel: LanguagesModelType {
           return .empty()
         }
       }
+
+    let tapSelection = itemTap.asDriver()
+      .scan(nil) { prev, this -> (IndexPath, String)? in
+        if prev?.0 != this?.0 {
+          return this
+        } else {
+          return nil
+        }
+      }
+      .startWith(nil)
+
+    let resetSelection: Driver<(IndexPath, String)?> = collectionViewData.mapTo(nil)
+
+    selected = Driver.merge(tapSelection, resetSelection)
+
+    let enabled = selected.map { $0 != nil }
+    selectButtonEnabled = enabled
+    pinButtonEnabled = enabled
+
+    pinButtonTitle = selected.map { $0?.0.section == 1 ? "Unpin" : "Pin" }
 
   }
 
