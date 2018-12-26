@@ -46,8 +46,6 @@ class LanguagesController: UICollectionViewController {
 
   let searchController = UISearchController(searchResultsController: nil)
 
-  let indiceView = UIView()
-
   func setupView() {
     view.backgroundColor = .bgLight
 
@@ -101,7 +99,7 @@ class LanguagesController: UICollectionViewController {
       )
     }
   }
-
+  
   // MARK: - Model
 
   var disposeBag = DisposeBag()
