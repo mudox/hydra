@@ -99,7 +99,7 @@ class LanguagesController: UICollectionViewController {
       )
     }
   }
-  
+
   // MARK: - Model
 
   var disposeBag = DisposeBag()
@@ -117,7 +117,7 @@ class LanguagesController: UICollectionViewController {
 
     let output = model.output
 
-    let dataSource = RxCollectionViewSectionedReloadDataSource<LanguagesSection>(
+    let dataSource = RxCollectionViewSectionedReloadDataSource<LanguagesModel.Section>(
       configureCell: {
         _, collectionView, indexPath, language in
         let cell = collectionView.dequeueReusableCell(

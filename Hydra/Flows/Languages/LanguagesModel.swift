@@ -12,47 +12,16 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-enum LanguagesSearchState {
-
-  case searching
-  case success([LanguagesSection])
-  case error(Swift.Error)
-
-  var collectionViewData: [LanguagesSection]? {
-    if case let LanguagesSearchState.success(sections) = self {
-      return sections
-    } else {
-      return nil
-    }
-  }
-}
-
-struct LanguagesSection: SectionModelType {
-
-  let title: String
-  var items: [String]
-
-  init(original: LanguagesSection, items: [String]) {
-    self = original
-    self.items = items
-  }
-
-  init(title: String, items: [String]) {
-    self.title = title
-    self.items = items
-  }
-
-}
-
 // MARK: - Interface
 
 protocol LanguagesModelInput {
   var searchTextRelay: BehaviorRelay<String> { get }
+  var commandRelay: BehaviorRelay<String> { get }
 }
 
 protocol LanguagesModelOutput {
-  var states: Driver<LanguagesSearchState> { get }
-  var collectionViewData: Driver<[LanguagesSection]> { get }
+  var states: Driver<LanguagesModel.SearchState> { get }
+  var collectionViewData: Driver<[LanguagesModel.Section]> { get }
 }
 
 protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {
@@ -71,11 +40,12 @@ class LanguagesModel: LanguagesModelType {
   // MARK: - Input
 
   let searchTextRelay = BehaviorRelay<String>(value: "")
+  let commandRelay: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
 
   // MARK: - Output
 
-  let states: Driver<LanguagesSearchState>
-  let collectionViewData: Driver<[LanguagesSection]>
+  let states: Driver<LanguagesModel.SearchState>
+  let collectionViewData: Driver<[LanguagesModel.Section]>
 
   // MARK: - Binding
 
@@ -85,15 +55,15 @@ class LanguagesModel: LanguagesModelType {
 
     states = searchTextRelay
       .flatMap(service.search)
-      .map { LanguagesSearchState.success($0) }
-      .startWith(LanguagesSearchState.searching)
+      .map { LanguagesModel.SearchState.success($0) }
+      .startWith(LanguagesModel.SearchState.searching)
       .asDriver { error in
         jack.func().sub("states").sub("asDriver").warn("Received error: \(error)")
-        return .just(LanguagesSearchState.error(error))
+        return .just(LanguagesModel.SearchState.error(error))
       }
 
     collectionViewData = states
-      .flatMap { state -> Driver<[LanguagesSection]> in
+      .flatMap { state -> Driver<[LanguagesModel.Section]> in
         if let data = state.collectionViewData {
           return .just(data)
         } else {
@@ -102,4 +72,46 @@ class LanguagesModel: LanguagesModelType {
       }
   }
 
+}
+
+// MARK: - Types
+
+extension LanguagesModel {
+
+  enum Command {
+    case pin(String)
+    case unpin(String)
+  }
+
+  enum SearchState {
+
+    case searching
+    case success([LanguagesModel.Section])
+    case error(Swift.Error)
+
+    var collectionViewData: [LanguagesModel.Section]? {
+      if case let LanguagesModel.SearchState.success(sections) = self {
+        return sections
+      } else {
+        return nil
+      }
+    }
+  }
+
+  struct Section: SectionModelType {
+
+    let title: String
+    var items: [String]
+
+    init(original: LanguagesModel.Section, items: [String]) {
+      self = original
+      self.items = items
+    }
+
+    init(title: String, items: [String]) {
+      self.title = title
+      self.items = items
+    }
+
+  }
 }

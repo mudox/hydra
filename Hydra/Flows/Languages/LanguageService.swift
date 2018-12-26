@@ -128,10 +128,10 @@ class LanguageService {
 
   // MARK: - Search Languages
 
-  func search(text: String) -> Single<[LanguagesSection]> {
+  func search(text: String) -> Single<[LanguagesModel.Section]> {
     return allLanguages
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-      .map { all -> [LanguagesSection] in
+      .map { all -> [LanguagesModel.Section] in
 
         let history: [String]
         let pinned: [String]
