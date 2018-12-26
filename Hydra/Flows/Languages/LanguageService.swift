@@ -141,33 +141,33 @@ class LanguageService {
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
       .map { all -> [LanguagesModel.Section] in
 
-        let history: [String]
-        let pinned: [String]
-        let other: [String]
-
-        if text.isEmpty {
-
-          history = self.searchedLanguages
-          pinned = self.pinnedLanguages
-          other = all.map { $0.name }.sorted { $0.lowercased() < $1.lowercased() }
-
-        } else {
-
-          history = self.searchedLanguages.filter {
-            $0.lowercased().contains(text.lowercased())
+        let history = self.searchedLanguages.filter {
+          if text.isEmpty {
+            return true
+          } else {
+            return $0.lowercased().contains(text.lowercased())
           }
-
-          pinned = self.pinnedLanguages.filter {
-            $0.lowercased().contains(text.lowercased())
-          }
-
-          other = Set(all.map { $0.name })
-            .subtracting(history)
-            .subtracting(pinned)
-            .filter { $0.lowercased().contains(text) }
-            .sorted { $0.lowercased() < $1.lowercased() }
         }
 
+        let pinned = self.pinnedLanguages.filter {
+          if text.isEmpty {
+            return true
+          } else {
+            return $0.lowercased().contains(text.lowercased())
+          }
+        }
+
+        let other = Set(all.map { $0.name })
+          .subtracting(history)
+          .subtracting(pinned)
+          .filter {
+            if text.isEmpty {
+              return true
+            } else {
+              return $0.lowercased().contains(text)
+            }
+          }
+          .sorted { $0.lowercased() < $1.lowercased() }
         return [
           .init(title: "History", items: history),
           .init(title: "Pinned", items: pinned),
