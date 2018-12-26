@@ -15,8 +15,8 @@ private let jack = Jack().set(format: .short)
 
 // MARK: - Constants
 
-private let cellID = "languageCellID"
-private let headerID = "languagesHeaderID"
+private let cellID = "LanguagesController.Cell.id"
+private let headerViewID = "LanguagesController.HeaderView.id"
 
 class LanguagesController: UICollectionViewController {
 
@@ -91,11 +91,11 @@ class LanguagesController: UICollectionViewController {
   func setupCollectionView() {
     collectionView.do {
       $0.backgroundColor = .clear
-      $0.register(LanguageCell.self, forCellWithReuseIdentifier: cellID)
+      $0.register(Cell.self, forCellWithReuseIdentifier: cellID)
       $0.register(
-        LanguagesHeaderView.self,
+        HeaderView.self,
         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-        withReuseIdentifier: headerID
+        withReuseIdentifier: headerViewID
       )
     }
   }
@@ -137,7 +137,7 @@ class LanguagesController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(
           withReuseIdentifier: cellID,
           for: indexPath
-        ) as! LanguageCell // swiftlint:disable:this force_cast
+        ) as! Cell // swiftlint:disable:this force_cast
         cell.show(language: language)
         return cell
       },
@@ -146,9 +146,9 @@ class LanguagesController: UICollectionViewController {
         assert(kind == UICollectionView.elementKindSectionHeader)
         let view = collectionView.dequeueReusableSupplementaryView(
           ofKind: UICollectionView.elementKindSectionHeader,
-          withReuseIdentifier: headerID,
+          withReuseIdentifier: headerViewID,
           for: indexPath
-        ) as! LanguagesHeaderView // swiftlint:disable:this force_cast
+        ) as! HeaderView // swiftlint:disable:this force_cast
         let title = dataSource[indexPath.section].title
         view.show(title: title)
         return view

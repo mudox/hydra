@@ -1,38 +1,42 @@
 import UIKit
 
-class LanguagesHeaderView: UICollectionReusableView {
+extension LanguagesController {
 
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use it")
-  }
+  class HeaderView: UICollectionReusableView {
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-
-    setupView()
-  }
-
-  // MARK: - Subviews
-
-  let label = UILabel()
-
-  // MARK: - View
-
-  func setupView() {
-    label.do {
-      $0.textColor = .light
-      $0.font = .text
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+      fatalError("do not use it")
     }
 
-    addSubview(label)
-    label.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
-    }
-  }
+    override init(frame: CGRect) {
+      super.init(frame: frame)
 
-  func show(title: String) {
-    label.text = title
+      setupView()
+    }
+
+    // MARK: - Subviews
+
+    let label = UILabel()
+
+    // MARK: - View
+
+    func setupView() {
+      label.do {
+        $0.textColor = .light
+        $0.font = .text
+      }
+
+      addSubview(label)
+      label.snp.makeConstraints { make in
+        make.edges.equalToSuperview()
+      }
+    }
+
+    func show(title: String) {
+      label.text = title
+    }
+
   }
 
 }
