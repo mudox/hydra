@@ -126,7 +126,15 @@ class LanguageService {
     pinnedLanguages.append(language)
   }
 
-  // MARK: - Search Languages
+  func remove(pinnedLanguage language: String) {
+    if let index = pinnedLanguages.firstIndex(of: language) {
+      pinnedLanguages.remove(at: index)
+    } else {
+      jack.func().warn("Can not found language `\(language)` not in pinned language list")
+    }
+  }
+
+  // MARK: - Search
 
   func search(text: String) -> Single<[LanguagesModel.Section]> {
     return allLanguages

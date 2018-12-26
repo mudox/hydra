@@ -114,6 +114,29 @@ class LanguagesController: UICollectionViewController {
       collectionView.rx.itemSelected.bind(to: input.selectedIndexPath)
     )
 
+    let pinOrUnpin = pinButton.rx.tap
+      .withLatestFrom(model.output.currentIndexPath)
+      .flatMap { [weak self] indexPath -> Observable<LanguagesModel.Command> in
+        guard let indexPath = indexPath else { return .empty() }
+        guard let self = self else { return .empty() }
+
+        let language = self.dataSource[indexPath]
+
+        let title = self.selectButton.title ?? "<nil>"
+
+        switch self.pinButton.title {
+        case "Pin": return .just(.pin(language))
+        case "Unpin": return .just(.unpin(language))
+        default:
+          jack.func().error("Unexpected select button title: \(title)")
+          return .empty()
+        }
+      }
+
+    disposeBag.insert(
+      pinOrUnpin.bind(to: input.command)
+    )
+
     // model -> view
 
     driveButtons()
@@ -172,7 +195,7 @@ class LanguagesController: UICollectionViewController {
 
     output.currentIndexPath
       .drive(onNext: { [weak self] indexPath in
-        self?.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+        self?.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
       })
       .disposed(by: disposeBag)
   }

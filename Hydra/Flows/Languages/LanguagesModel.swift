@@ -15,7 +15,7 @@ private let jack = Jack().set(format: .short)
 // MARK: Interface
 
 protocol LanguagesModelInput {
-  var command: BehaviorRelay<String> { get }
+  var command: PublishRelay<LanguagesModel.Command> { get }
   var searchText: BehaviorRelay<String> { get }
   var selectedIndexPath: BehaviorRelay<IndexPath?> { get }
 }
@@ -47,7 +47,7 @@ class LanguagesModel: LanguagesModelType {
 
   // MARK: Input
 
-  let command: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
+  let command = PublishRelay<Command>()
   let searchText = BehaviorRelay<String>(value: "")
   let selectedIndexPath = BehaviorRelay<IndexPath?>(value: nil)
 
@@ -85,8 +85,20 @@ class LanguagesModel: LanguagesModelType {
 
     pinButtonTitle = currentIndexPath.map { $0?.section == 1 ? "Unpin" : "Pin" }
 
-    states = searchText
-      .flatMap(service.search)
+    let commandTrigger = command.asObservable()
+      .do(onNext: {
+        switch $0 {
+        case let .pin(language):
+          service.add(pinnedLanguage: language)
+        case let .unpin(language):
+          service.remove(pinnedLanguage: language)
+        }
+      })
+      .mapTo(())
+      .startWith(())
+
+    states = Observable.combineLatest(searchText, commandTrigger)
+      .flatMap { text, _ in service.search(text: text) }
       .map { LanguagesModel.SearchState.success($0) }
       .startWith(LanguagesModel.SearchState.searching)
       .asDriver { error in
@@ -102,6 +114,7 @@ class LanguagesModel: LanguagesModelType {
           return .empty()
         }
       }
+
   }
 
 }
