@@ -110,14 +110,28 @@ class LanguagesController: UICollectionViewController {
     let input = model.input
 
     disposeBag.insert(
-      searchController.searchBar.rx.text.orEmpty.bind(to: input.searchTextRelay)
+      searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText),
+      collectionView.rx.itemSelected.bind(to: input.selectedIndexPath)
     )
 
     // model -> view
 
+    driveButtons()
+    driveCollectionView()
+  }
+
+  func driveButtons() {
     let output = model.output
 
-    let dataSource = RxCollectionViewSectionedReloadDataSource<LanguagesModel.Section>(
+    disposeBag.insert(
+      output.selectButtonEnabled.drive(selectButton.rx.isEnabled),
+      output.pinButtonEnabled.drive(pinButton.rx.isEnabled),
+      output.pinButtonTitle.drive(pinButton.rx.title)
+    )
+  }
+
+  let dataSource = {
+    RxCollectionViewSectionedReloadDataSource<LanguagesModel.Section>(
       configureCell: {
         _, collectionView, indexPath, language in
         let cell = collectionView.dequeueReusableCell(
@@ -140,6 +154,10 @@ class LanguagesController: UICollectionViewController {
         return view
       }
     )
+  }()
+
+  func driveCollectionView() {
+    let output = model.output
 
     collectionView.dataSource = nil
     let width = UIScreen.main.bounds.width
@@ -150,6 +168,12 @@ class LanguagesController: UICollectionViewController {
         self.flowLayout.layout(for: sections, width: width)
       })
       .drive(collectionView.rx.items(dataSource: dataSource))
+      .disposed(by: disposeBag)
+
+    output.currentIndexPath
+      .drive(onNext: { [weak self] indexPath in
+        self?.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+      })
       .disposed(by: disposeBag)
   }
 

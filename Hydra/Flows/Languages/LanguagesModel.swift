@@ -12,14 +12,22 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-// MARK: - Interface
+// MARK: Interface
 
 protocol LanguagesModelInput {
-  var searchTextRelay: BehaviorRelay<String> { get }
-  var commandRelay: BehaviorRelay<String> { get }
+  var command: BehaviorRelay<String> { get }
+  var searchText: BehaviorRelay<String> { get }
+  var selectedIndexPath: BehaviorRelay<IndexPath?> { get }
 }
 
 protocol LanguagesModelOutput {
+  var currentIndexPath: Driver<IndexPath?> { get }
+
+  var selectButtonEnabled: Driver<Bool> { get }
+
+  var pinButtonEnabled: Driver<Bool> { get }
+  var pinButtonTitle: Driver<String> { get }
+
   var states: Driver<LanguagesModel.SearchState> { get }
   var collectionViewData: Driver<[LanguagesModel.Section]> { get }
 }
@@ -37,23 +45,47 @@ extension LanguagesModelType {
 
 class LanguagesModel: LanguagesModelType {
 
-  // MARK: - Input
+  // MARK: Input
 
-  let searchTextRelay = BehaviorRelay<String>(value: "")
-  let commandRelay: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
+  let command: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
+  let searchText = BehaviorRelay<String>(value: "")
+  let selectedIndexPath = BehaviorRelay<IndexPath?>(value: nil)
 
-  // MARK: - Output
+  // MARK: Output
+
+  let currentIndexPath: Driver<IndexPath?>
+
+  let selectButtonEnabled: Driver<Bool>
+  let pinButtonEnabled: Driver<Bool>
+  let pinButtonTitle: Driver<String>
 
   let states: Driver<LanguagesModel.SearchState>
   let collectionViewData: Driver<[LanguagesModel.Section]>
 
-  // MARK: - Binding
+  // MARK: Binding
 
   var disposeBag = DisposeBag()
 
   required init(service: LanguageService) {
 
-    states = searchTextRelay
+    currentIndexPath = selectedIndexPath
+      .scan(nil) { prev, this in
+        if prev != this {
+          return this
+        } else {
+          return nil
+        }
+      }
+      .asDriverNoError()
+      .startWith(nil)
+
+    let enabled = currentIndexPath.map { $0 != nil }
+    selectButtonEnabled = enabled
+    pinButtonEnabled = enabled
+
+    pinButtonTitle = currentIndexPath.map { $0?.section == 1 ? "Unpin" : "Pin" }
+
+    states = searchText
       .flatMap(service.search)
       .map { LanguagesModel.SearchState.success($0) }
       .startWith(LanguagesModel.SearchState.searching)
