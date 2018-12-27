@@ -36,7 +36,7 @@
 		F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48779472169F1CC00C027A9 /* DefaultsKeys.swift */; };
 		F4967D5C21CFE43600FAACBD /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4967D5B21CFE43600FAACBD /* LanguageCell.swift */; };
 		F49A1C5D21A66A440045E74B /* TrendSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5C21A66A440045E74B /* TrendSectionView.swift */; };
-		F49A1C5F21A6CBA80045E74B /* TrendRankBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */; };
+		F49A1C5F21A6CBA80045E74B /* TrendBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */; };
 		F49A1C6121A6CDB60045E74B /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6021A6CDB60045E74B /* UI.swift */; };
 		F49A1C6321A730BD0045E74B /* ContributorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6221A730BD0045E74B /* ContributorsView.swift */; };
 		F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */; };
@@ -96,7 +96,7 @@
 		F48779472169F1CC00C027A9 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
 		F4967D5B21CFE43600FAACBD /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
 		F49A1C5C21A66A440045E74B /* TrendSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendSectionView.swift; sourceTree = "<group>"; };
-		F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRankBadge.swift; sourceTree = "<group>"; };
+		F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendBadgeView.swift; sourceTree = "<group>"; };
 		F49A1C6021A6CDB60045E74B /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F49A1C6221A730BD0045E74B /* ContributorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorsView.swift; sourceTree = "<group>"; };
 		F4B4BA1F21D1108D00879B18 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -252,7 +252,7 @@
 		F463A2B521AF49A60067432B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				F49A1C5E21A6CBA80045E74B /* TrendRankBadge.swift */,
+				F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */,
 				F49A1C6221A730BD0045E74B /* ContributorsView.swift */,
 				F40C238421AC95D4006FA060 /* TrendBaseCell.swift */,
 				F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */,
@@ -659,7 +659,7 @@
 				F463A2B421AF26BF0067432B /* TrendState.swift in Sources */,
 				F4967D5C21CFE43600FAACBD /* LanguageCell.swift in Sources */,
 				F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */,
-				F49A1C5F21A6CBA80045E74B /* TrendRankBadge.swift in Sources */,
+				F49A1C5F21A6CBA80045E74B /* TrendBadgeView.swift in Sources */,
 				F4B4BA2521D290E700879B18 /* LanguagesHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

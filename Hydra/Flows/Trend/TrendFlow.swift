@@ -16,15 +16,17 @@ protocol TrendFlowType {
 class TrendFlow: BaseFlow, TrendFlowType {
 
   var run: Completable {
-    let vc = TrendController().then {
-      $0.model = TrendModel(service: GitHub.Trending())
+    return .create { _ in
+      let vc = TrendController().then {
+        $0.model = TrendModel(service: GitHub.Trending())
+      }
+
+      var vcs = self.stage.tabBarController.viewControllers ?? []
+      vcs.append(vc)
+      self.stage.tabBarController.setViewControllers(vcs, animated: true)
+
+      return Disposables.create()
     }
-
-    var vcs = stage.tabBarController.viewControllers ?? []
-    vcs.append(vc)
-    stage.tabBarController.setViewControllers(vcs, animated: true)
-
-    return .never()
   }
 
 }
