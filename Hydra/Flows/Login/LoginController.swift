@@ -17,6 +17,16 @@ private let jack = Jack().set(format: .short)
 
 class LoginController: UIViewController {
 
+  init(model: LoginModelType) {
+    self.model = model
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  @available(*, unavailable, message: "init(coder:) has not been implemented")
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   deinit {
     jack.func().debug("💀 \(type(of: self))", format: .bare)
   }
@@ -88,6 +98,7 @@ class LoginController: UIViewController {
 
   func setupBackButton() {
     backButton.do {
+      $0.accessibilityIdentifier = "dismissLogin"
       $0.tintColor = .brand
       $0.setImage(#imageLiteral(resourceName: "Back Arrow"), for: .normal)
     }
@@ -121,6 +132,8 @@ class LoginController: UIViewController {
 
   func setupInputFields() {
     username.textField.do {
+      $0.accessibilityIdentifier = "usernameField"
+      $0.clearsOnBeginEditing = true
       $0.keyboardType = .emailAddress
       $0.returnKeyType = .next
       $0.textContentType = .username
@@ -128,6 +141,8 @@ class LoginController: UIViewController {
     username.tipLabel.text = "Username"
 
     password.textField.do {
+      $0.accessibilityIdentifier = "passwordField"
+      $0.clearsOnBeginEditing = true
       $0.keyboardType = .asciiCapable
       $0.returnKeyType = .go
       $0.textContentType = .password
@@ -174,9 +189,9 @@ class LoginController: UIViewController {
       .when(.recognized)
       .mapTo(())
 
-    let ButtonTap = login.button.rx.tap.asObservable()
+    let buttonTap = login.button.rx.tap.asObservable()
 
-    Observable.merge(backgroundTap, ButtonTap)
+    Observable.merge(backgroundTap, buttonTap)
       .subscribe(onNext: { [weak self] _ in
         self?.view.endEditing(true)
       })

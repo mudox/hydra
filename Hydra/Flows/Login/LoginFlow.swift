@@ -12,10 +12,7 @@ import JacKit
 private let jack = Jack().set(format: .short)
 
 protocol LoginFlowType: FlowType {
-
   var loginIfNeeded: Completable { get }
-
-  func complete()
 }
 
 class LoginFlow: BaseFlow, LoginFlowType {
@@ -37,31 +34,28 @@ class LoginFlow: BaseFlow, LoginFlowType {
   var loginIfNeeded: Completable {
 
     return .create { completable in
-      let clean = Disposables.create {}
-
       guard !self.credentialService.isAuthorized else {
         completable(.completed)
-        return clean
+        return Disposables.create()
       }
 
-      let vc = LoginController().then {
-        let credSrv = CredentialService.shared
-        let ghSrv = GitHub.Service(credentialService: credSrv)
-        let loginSrv = LoginService(githubService: ghSrv)
-        let model = LoginModel(flow: self, loginService: loginSrv)
-        $0.model = model
-      }
+      let github = GitHub.Service(credentialService: CredentialService.shared)
+      let login = LoginService(githubService: github)
+      let model = LoginModel(service: login)
+
+      let sub = model.dismiss
+        .emit(onNext: {
+          self.stage.viewController.dismiss(animated: true) {
+            completable(.completed)
+          }
+        })
+
+      let vc = LoginController(model: model)
 
       self.completableClosure = completable
       self.stage.viewController.present(vc, animated: true)
 
-      return clean
-    }
-  }
-
-  func complete() {
-    stage.viewController.dismiss(animated: true) {
-      self.completableClosure(.completed)
+      return Disposables.create([sub])
     }
   }
 

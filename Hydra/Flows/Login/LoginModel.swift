@@ -19,21 +19,21 @@ typealias LoginOutput = GitHub.Service.AuthorizeResponse
 
 protocol LoginModelInput {
   var backTap: PublishRelay<Void> { get }
+
   var username: BehaviorRelay<String> { get }
   var password: BehaviorRelay<String> { get }
+
   var loginTap: PublishRelay<Void> { get }
 }
 
 protocol LoginModelOutput {
   var hud: Signal<MBPCommand> { get }
-  var loginAction: Action<LoginInput, LoginOutput> { get }
+  var login: Action<LoginInput, LoginOutput> { get }
+  var dismiss: Signal<Void> { get }
 }
 
 protocol LoginModelType: LoginModelInput, LoginModelOutput {
-  init(
-    flow: LoginFlowType,
-    loginService: LoginServiceType
-  )
+  init(service: LoginServiceType)
 }
 
 extension LoginModelType {
@@ -56,47 +56,40 @@ class LoginModel: LoginModelType {
 
   // MARK: - Output
 
-  private var hudRelay = PublishRelay<MBPCommand>()
+  private let _hud = PublishRelay<MBPCommand>()
+  let hud: Signal<MBPCommand>
 
-  var hud: Signal<MBPCommand> {
-    return hudRelay.asSignal()
-  }
+  private let _dismiss = PublishRelay<Void>()
+  let dismiss: Signal<Void>
 
-  var loginAction: Action<LoginInput, LoginOutput>
+  var login: Action<LoginInput, LoginOutput>
 
   // MARK: - Life cycle
-
-  private let flow: LoginFlowType
-  private let loginService: LoginServiceType
 
   deinit {
     jack.func().info("💀 \(type(of: self))", format: .bare)
   }
 
-  required init(flow: LoginFlowType, loginService: LoginServiceType) {
+  required init(service: LoginServiceType) {
 
-    self.flow = flow
-    self.loginService = loginService
+    hud = _hud.asSignal()
+    dismiss = _dismiss.asSignal()
+
+    backTap.bind(to: _dismiss).disposed(by: disposeBag)
 
     let inputs = Observable
       .combineLatest(username, password) { (username: $0, password: $1) }
       .share()
 
-    let isInputValid = inputs.map(loginService.validate)
+    let isInputValid = inputs.map(service.validate)
 
-    loginAction = Action(enabledIf: isInputValid) { username, password in
-      loginService.login(username: username, password: password)
+    login = Action(enabledIf: isInputValid) { username, password in
+      service.login(username: username, password: password)
     }
-
-    backTap
-      .bind { [weak self] _ in
-        self?.flow.complete()
-      }
-      .disposed(by: disposeBag)
 
     loginTap
       .withLatestFrom(inputs)
-      .bind(to: loginAction.inputs)
+      .bind(to: login.inputs)
       .disposed(by: disposeBag)
 
     setupHUD()
@@ -104,22 +97,22 @@ class LoginModel: LoginModelType {
 
   func setupHUD() {
 
-    let begin = loginAction.executing
+    let begin = login.executing
       .filter { $0 == true }
       .map { _ -> MBPCommand in
         return .begin(message: "Logging in", mode: .indeterminate)
       }
 
-    let success = loginAction.elements
+    let success = login.elements
       .map { [weak self] _ -> MBPCommand in
         return .success(message: "Logged in") { hud in
           hud.completionBlock = {
-            self?.flow.complete()
+            self?._dismiss.accept(())
           }
         }
       }
 
-    let error = loginAction.errors
+    let error = login.errors
       .map { error -> MBPCommand in
         switch error {
         case let ActionError.underlyingError(error):
@@ -135,7 +128,7 @@ class LoginModel: LoginModelType {
       }
 
     Observable.merge(begin, success, error)
-      .bind(to: hudRelay)
+      .bind(to: _hud)
       .disposed(by: disposeBag)
   }
 
