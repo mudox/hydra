@@ -8,6 +8,7 @@ PODS:
   - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
   - Differentiator (3.1.0)
+  - EarlGrey (1.15.0)
   - GitHubKit (0.2.0):
     - JacKit
     - Kanna
@@ -130,6 +131,7 @@ PODS:
 DEPENDENCIES:
   - Action
   - Cache
+  - EarlGrey
   - GitHubKit (from `/Users/mudox/Develop/Apple/Frameworks/GitHubKit`)
   - Hero
   - JacKit (from `/Users/mudox/Develop/Apple/Frameworks/JacKit`)
@@ -167,6 +169,7 @@ SPEC REPOS:
     - Cache
     - CocoaLumberjack
     - Differentiator
+    - EarlGrey
     - Hero
     - Kanna
     - Kingfisher
@@ -215,6 +218,7 @@ SPEC CHECKSUMS:
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
+  EarlGrey: 289a16cc7d08a54b962d72881b21e36d5103b549
   GitHubKit: 440fd5d50cf9f6e8c2f01d176e332f6f888babe6
   Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
   JacKit: 829f22a30cf6000011c8cc5efd9e47e2d831fae9
@@ -252,6 +256,6 @@ SPEC CHECKSUMS:
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 38888f9190671eaa18fb19ade731eaf848336bb9
+PODFILE CHECKSUM: 58d140b89acb1247b36dfedc70bcdd6911ebebb3
 
 COCOAPODS: 1.5.3

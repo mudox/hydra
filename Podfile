@@ -134,6 +134,12 @@ target 'Hydra' do
     testing_pods
   end
 
+  target 'EarlGreyTest' do
+    inherit! :search_paths
+
+    pod 'EarlGrey'
+  end
+
   target 'UITest' do
     inherit! :search_paths
 
