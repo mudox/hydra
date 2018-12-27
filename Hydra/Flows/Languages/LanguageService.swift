@@ -137,9 +137,9 @@ class LanguageService {
   }
 
   func movePinnedLanguage(from src: Int, to dest: Int) {
-    jack.func().debug("\(src) -> \(dest)")
-    guard pinnedLanguages.indices.contains(src) else {
-      jack.func().error("Invalid `from` index <\(src)>")
+    let range = pinnedLanguages.indices
+    guard range.contains(src) && range.contains(dest) else {
+      jack.func().error("Invalid index: <\(src)>, <\(dest)>, available range: \(range)")
       return
     }
 

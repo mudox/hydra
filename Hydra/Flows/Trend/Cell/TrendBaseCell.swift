@@ -16,7 +16,7 @@ class TrendBaseCell: UICollectionViewCell {
 
   var disposeBag = DisposeBag()
 
-  var badge: TrendRankBadge!
+  let badge = BadgeView()
 
   private var errorLabel: UILabel!
   private var retryButton: RetryButton!
@@ -52,7 +52,6 @@ class TrendBaseCell: UICollectionViewCell {
   }
 
   func setupBadge() {
-    badge = TrendRankBadge()
     contentView.addSubview(badge)
     badge.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
