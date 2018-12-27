@@ -37,8 +37,8 @@ class LoginController: UIViewController {
 
   let titleLabel = UILabel()
 
-  let username = LoginTextField()
-  let password = LoginTextField()
+  let username = TextField()
+  let password = TextField()
 
   let login = Button()
 
