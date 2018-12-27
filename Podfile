@@ -133,4 +133,10 @@ target 'Hydra' do
 
     testing_pods
   end
+
+  target 'UITest' do
+    inherit! :search_paths
+
+    pod 'Then'
+  end
 end

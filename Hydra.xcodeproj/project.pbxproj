@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CF691A27EB1535A12983E2E /* Pods_UITest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FB440B074E0377F649F750C /* Pods_UITest.framework */; };
 		66C3EDEDB895A15DBD36BE34 /* Pods_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE590289787F2D6445D52167 /* Pods_Test.framework */; };
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
 		F40C238321AC6D2C006FA060 /* TrendDeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */; };
@@ -42,15 +43,31 @@
 		F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */; };
 		F4B4BA2521D290E700879B18 /* LanguagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */; };
 		F4B4BA2921D3546300879B18 /* Caches.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2821D3546300879B18 /* Caches.swift */; };
+		F4B4BA5621D52FD400879B18 /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4821D52FC300879B18 /* LoginTests.swift */; };
+		F4B4BA5721D5300300879B18 /* DefaultsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */; };
+		F4B4BA5821D5300E00879B18 /* EarlGreyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4E21D52FC300879B18 /* EarlGreyTest.swift */; };
 		F4DC70FB21B58F3A00999BD1 /* LanguagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */; };
 		F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* AppFlow.swift */; };
-		F4F338242171071100DC9638 /* DefaultsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338232171071100DC9638 /* DefaultsSpec.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
 		F4F85F37213F05A600EFF085 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F36213F05A600EFF085 /* Assets.xcassets */; };
 		F4F85F3A213F05A600EFF085 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F4B4BA3321D5189F00879B18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4F85F24213F05A400EFF085 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4F85F2B213F05A400EFF085;
+			remoteInfo = Hydra;
+		};
+		F4B4BA4121D52EF800879B18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4F85F24213F05A400EFF085 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4F85F2B213F05A400EFF085;
+			remoteInfo = Hydra;
+		};
 		F4F3381E2171035700DC9638 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4F85F24213F05A400EFF085 /* Project object */;
@@ -61,11 +78,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48C3B650F627130785B8D43D /* Pods-UITest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UITest.release.xcconfig"; path = "Pods/Target Support Files/Pods-UITest/Pods-UITest.release.xcconfig"; sourceTree = "<group>"; };
 		5B0330F6E48FA8390071FF17 /* Pods-Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.release.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.release.xcconfig"; sourceTree = "<group>"; };
 		69F27496219A535FA715CD5C /* Pods_HydraTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HydraTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FB440B074E0377F649F750C /* Pods_UITest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UITest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.release.xcconfig"; sourceTree = "<group>"; };
 		B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
 		BE590289787F2D6445D52167 /* Pods_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2081F6829FC040FF6336CA3 /* Pods-UITest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UITest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UITest/Pods-UITest.debug.xcconfig"; sourceTree = "<group>"; };
 		C65B14901A4FB25D16C427D6 /* Pods-Hydra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.release.xcconfig"; sourceTree = "<group>"; };
 		C940AE3485B3016DE9D6F688 /* Pods-Hydra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hydra.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hydra/Pods-Hydra.debug.xcconfig"; sourceTree = "<group>"; };
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,20 +123,41 @@
 		F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesFlowLayout.swift; sourceTree = "<group>"; };
 		F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesHeaderView.swift; sourceTree = "<group>"; };
 		F4B4BA2821D3546300879B18 /* Caches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caches.swift; sourceTree = "<group>"; };
+		F4B4BA2E21D5189F00879B18 /* UITest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4B4BA3C21D52EF800879B18 /* EarlGreyTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4B4BA4821D52FC300879B18 /* LoginTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
+		F4B4BA4921D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsSpec.swift; sourceTree = "<group>"; };
+		F4B4BA4C21D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4B4BA4E21D52FC300879B18 /* EarlGreyTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarlGreyTest.swift; sourceTree = "<group>"; };
+		F4B4BA4F21D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModel.swift; sourceTree = "<group>"; };
 		F4F338132170BD4100DC9638 /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		F4F338192171035700DC9638 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4F338232171071100DC9638 /* DefaultsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsSpec.swift; sourceTree = "<group>"; };
 		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F85F2F213F05A400EFF085 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4F85F36213F05A600EFF085 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4F85F39213F05A600EFF085 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F4F85F3B213F05A600EFF085 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4FC13042142DF8600EF6BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hydra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F4B4BA2B21D5189F00879B18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CF691A27EB1535A12983E2E /* Pods_UITest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4B4BA3921D52EF800879B18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4F338162171035700DC9638 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -142,6 +183,7 @@
 				FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */,
 				69F27496219A535FA715CD5C /* Pods_HydraTests.framework */,
 				BE590289787F2D6445D52167 /* Pods_Test.framework */,
+				8FB440B074E0377F649F750C /* Pods_UITest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,6 +197,8 @@
 				9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */,
 				B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */,
 				5B0330F6E48FA8390071FF17 /* Pods-Test.release.xcconfig */,
+				C2081F6829FC040FF6336CA3 /* Pods-UITest.debug.xcconfig */,
+				48C3B650F627130785B8D43D /* Pods-UITest.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -274,12 +318,49 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		F4B4BA4621D52FC300879B18 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				F4B4BA4721D52FC300879B18 /* UI */,
+				F4B4BA4A21D52FC300879B18 /* Unit */,
+				F4B4BA4D21D52FC300879B18 /* EarlGrey */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		F4B4BA4721D52FC300879B18 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F4B4BA4821D52FC300879B18 /* LoginTests.swift */,
+				F4B4BA4921D52FC300879B18 /* Info.plist */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F4B4BA4A21D52FC300879B18 /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */,
+				F4B4BA4C21D52FC300879B18 /* Info.plist */,
+			);
+			path = Unit;
+			sourceTree = "<group>";
+		};
+		F4B4BA4D21D52FC300879B18 /* EarlGrey */ = {
+			isa = PBXGroup;
+			children = (
+				F4B4BA4E21D52FC300879B18 /* EarlGreyTest.swift */,
+				F4B4BA4F21D52FC300879B18 /* Info.plist */,
+			);
+			path = EarlGrey;
+			sourceTree = "<group>";
+		};
 		F4F85F23213F05A400EFF085 = {
 			isa = PBXGroup;
 			children = (
 				F4B4BA1F21D1108D00879B18 /* MyPlayground.playground */,
 				F4F85F2E213F05A400EFF085 /* Hydra */,
-				F4FC13012142DF8600EF6BC2 /* HydraTests */,
+				F4B4BA4621D52FC300879B18 /* Test */,
 				F4F85F2D213F05A400EFF085 /* Products */,
 				E2B77D9209FABFB707DAFEA3 /* Pods */,
 				C1BA29E2CBD48CEBD0D4188F /* Frameworks */,
@@ -291,6 +372,8 @@
 			children = (
 				F4F85F2C213F05A400EFF085 /* Hydra.app */,
 				F4F338192171035700DC9638 /* Test.xctest */,
+				F4B4BA2E21D5189F00879B18 /* UITest.xctest */,
+				F4B4BA3C21D52EF800879B18 /* EarlGreyTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -306,18 +389,47 @@
 			path = Hydra;
 			sourceTree = "<group>";
 		};
-		F4FC13012142DF8600EF6BC2 /* HydraTests */ = {
-			isa = PBXGroup;
-			children = (
-				F4F338232171071100DC9638 /* DefaultsSpec.swift */,
-				F4FC13042142DF8600EF6BC2 /* Info.plist */,
-			);
-			path = HydraTests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F4B4BA2D21D5189F00879B18 /* UITest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4B4BA3521D5189F00879B18 /* Build configuration list for PBXNativeTarget "UITest" */;
+			buildPhases = (
+				1E788F973CE4282CC47A03D8 /* [CP] Check Pods Manifest.lock */,
+				F4B4BA2A21D5189F00879B18 /* Sources */,
+				F4B4BA2B21D5189F00879B18 /* Frameworks */,
+				F4B4BA2C21D5189F00879B18 /* Resources */,
+				FA30D5ABB6EA56359A4D6545 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4B4BA3421D5189F00879B18 /* PBXTargetDependency */,
+			);
+			name = UITest;
+			productName = UITests;
+			productReference = F4B4BA2E21D5189F00879B18 /* UITest.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		F4B4BA3B21D52EF800879B18 /* EarlGreyTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4B4BA4521D52EF800879B18 /* Build configuration list for PBXNativeTarget "EarlGreyTest" */;
+			buildPhases = (
+				F4B4BA3821D52EF800879B18 /* Sources */,
+				F4B4BA3921D52EF800879B18 /* Frameworks */,
+				F4B4BA3A21D52EF800879B18 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4B4BA4221D52EF800879B18 /* PBXTargetDependency */,
+			);
+			name = EarlGreyTest;
+			productName = EarlGreyTest;
+			productReference = F4B4BA3C21D52EF800879B18 /* EarlGreyTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F4F338182171035700DC9638 /* Test */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4F338202171035700DC9638 /* Build configuration list for PBXNativeTarget "Test" */;
@@ -365,10 +477,19 @@
 		F4F85F24213F05A400EFF085 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Mudox;
 				TargetAttributes = {
+					F4B4BA2D21D5189F00879B18 = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = F4F85F2B213F05A400EFF085;
+					};
+					F4B4BA3B21D52EF800879B18 = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = F4F85F2B213F05A400EFF085;
+					};
 					F4F338182171035700DC9638 = {
 						CreatedOnToolsVersion = 10.0;
 						TestTargetID = F4F85F2B213F05A400EFF085;
@@ -394,11 +515,27 @@
 			targets = (
 				F4F85F2B213F05A400EFF085 /* Hydra */,
 				F4F338182171035700DC9638 /* Test */,
+				F4B4BA2D21D5189F00879B18 /* UITest */,
+				F4B4BA3B21D52EF800879B18 /* EarlGreyTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F4B4BA2C21D5189F00879B18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4B4BA3A21D52EF800879B18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4F338172171035700DC9638 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -418,6 +555,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1E788F973CE4282CC47A03D8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UITest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		90201CD1B9C91885100DE1D1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -610,14 +769,52 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hydra/Pods-Hydra-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FA30D5ABB6EA56359A4D6545 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-UITest/Pods-UITest-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UITest/Pods-UITest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F4B4BA2A21D5189F00879B18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4B4BA5621D52FD400879B18 /* LoginTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4B4BA3821D52EF800879B18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4B4BA5821D5300E00879B18 /* EarlGreyTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4F338152171035700DC9638 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4F338242171071100DC9638 /* DefaultsSpec.swift in Sources */,
+				F4B4BA5721D5300300879B18 /* DefaultsSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,6 +864,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F4B4BA3421D5189F00879B18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4F85F2B213F05A400EFF085 /* Hydra */;
+			targetProxy = F4B4BA3321D5189F00879B18 /* PBXContainerItemProxy */;
+		};
+		F4B4BA4221D52EF800879B18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4F85F2B213F05A400EFF085 /* Hydra */;
+			targetProxy = F4B4BA4121D52EF800879B18 /* PBXContainerItemProxy */;
+		};
 		F4F3381F2171035700DC9638 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F4F85F2B213F05A400EFF085 /* Hydra */;
@@ -686,14 +893,13 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F4F338212171035700DC9638 /* Debug */ = {
+		F4B4BA3621D5189F00879B18 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */;
+			baseConfigurationReference = C2081F6829FC040FF6336CA3 /* Pods-UITest.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
-				INFOPLIST_FILE = HydraTests/Info.plist;
+				INFOPLIST_FILE = Test/UI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -702,7 +908,98 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.HydraTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Hydra;
+			};
+			name = Debug;
+		};
+		F4B4BA3721D5189F00879B18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48C3B650F627130785B8D43D /* Pods-UITest.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = Test/UI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Hydra;
+			};
+			name = Release;
+		};
+		F4B4BA4321D52EF800879B18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = Test/EarlGrey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra.EarlGreyTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hydra.app/Hydra";
+			};
+			name = Debug;
+		};
+		F4B4BA4421D52EF800879B18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = Test/EarlGrey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra.EarlGreyTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hydra.app/Hydra";
+			};
+			name = Release;
+		};
+		F4F338212171035700DC9638 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
+				INFOPLIST_FILE = Test/Unit/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -717,7 +1014,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
-				INFOPLIST_FILE = HydraTests/Info.plist;
+				INFOPLIST_FILE = Test/Unit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -725,7 +1022,7 @@
 					"@loader_path/Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.HydraTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.mudox.Hydra.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -892,6 +1189,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F4B4BA3521D5189F00879B18 /* Build configuration list for PBXNativeTarget "UITest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4B4BA3621D5189F00879B18 /* Debug */,
+				F4B4BA3721D5189F00879B18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4B4BA4521D52EF800879B18 /* Build configuration list for PBXNativeTarget "EarlGreyTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4B4BA4321D52EF800879B18 /* Debug */,
+				F4B4BA4421D52EF800879B18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F4F338202171035700DC9638 /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
