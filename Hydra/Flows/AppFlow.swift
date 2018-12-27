@@ -34,14 +34,25 @@ class AppFlow: BaseAppFlow {
 
       self.resetIfNeeded()
 
-//      _ = self.welcomeIfNeeded
-//        .andThen(self.runMainFlow)
-//        .forever()
-
-      _ = self.tryLanguagesFlow
-        .emit(onNext: {
-          jack.func().info("Selected \($0 ?? "nothing")")
-        })
+      #if DEBUG
+        switch ProcessInfo.processInfo.environment["HYDRA_RUN_MODE"] {
+        case "login"?:
+          _ = self.tryLoginFlow.subscribe()
+        case "languages"?:
+          _ = self.tryLanguagesFlow
+            .emit(onNext: {
+              jack.func().info("Selected \($0 ?? "nothing")")
+            })
+        default:
+          _ = self.welcomeIfNeeded
+            .andThen(self.runMainFlow)
+            .forever()
+        }
+      #else
+        _ = self.welcomeIfNeeded
+          .andThen(self.runMainFlow)
+          .forever()
+      #endif
 
       return Disposables.create()
     }
@@ -56,7 +67,7 @@ class AppFlow: BaseAppFlow {
   /// - "cache": reset caches through Cache
   private func resetIfNeeded() {
     #if DEBUG
-      guard let env = ProcessInfo.processInfo.environment["RESET"] else { return }
+      guard let env = ProcessInfo.processInfo.environment["HYDRA_RESET"] else { return }
 
       if env.contains("defaults") {
         jack.func().info("Reset UserDefaults")
