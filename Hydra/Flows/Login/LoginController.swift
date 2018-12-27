@@ -40,7 +40,7 @@ class LoginController: UIViewController {
   let username = LoginTextField()
   let password = LoginTextField()
 
-  let login = LoginButton()
+  let login = Button()
 
   // MARK: - Constants
 
@@ -174,9 +174,9 @@ class LoginController: UIViewController {
       .when(.recognized)
       .mapTo(())
 
-    let loginButtonTap = login.button.rx.tap.asObservable()
+    let ButtonTap = login.button.rx.tap.asObservable()
 
-    Observable.merge(backgroundTap, loginButtonTap)
+    Observable.merge(backgroundTap, ButtonTap)
       .subscribe(onNext: { [weak self] _ in
         self?.view.endEditing(true)
       })
@@ -221,7 +221,7 @@ class LoginController: UIViewController {
 
   var disposeBag = DisposeBag()
 
-  var model: LoginModel!
+  let model: LoginModelType
 
   func setupModel() {
     // model <- view
@@ -236,7 +236,7 @@ class LoginController: UIViewController {
     let output = model.output
     // model -> view
     disposeBag.insert(
-      output.loginAction.enabled.bind(to: login.button.rx.isEnabled),
+      output.login.enabled.bind(to: login.button.rx.isEnabled),
       output.hud.emit(to: view.mbp.hud)
     )
   }
