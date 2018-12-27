@@ -29,8 +29,6 @@ class LoginFlow: BaseFlow, LoginFlowType {
 
   // MARK: - LoginFlowType
 
-  var completableClosure: ((CompletableEvent) -> Void)!
-
   var loginIfNeeded: Completable {
 
     return .create { completable in
@@ -52,7 +50,6 @@ class LoginFlow: BaseFlow, LoginFlowType {
 
       let vc = LoginController(model: model)
 
-      self.completableClosure = completable
       self.stage.viewController.present(vc, animated: true)
 
       return Disposables.create([sub])
