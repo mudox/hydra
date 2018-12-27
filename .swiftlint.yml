@@ -79,5 +79,8 @@ file_name:
     - UI.swift
     - LanguageCell.swift
     - LanguagesHeaderView.swift
+    - TrendBadgeView.swift
+    - LoginButton.swift
+    - LoginTextField.swift
 
 severity: error
