@@ -9,10 +9,9 @@ import MudoxKit
 
 import GitHub
 
-private let jack = Jack("LoginModel")
+private let jack = Jack().set(format: .short)
 
 typealias LoginInput = (username: String, password: String)
-
 typealias LoginOutput = GitHub.Service.AuthorizeResponse
 
 // MARK: Interface
@@ -29,7 +28,7 @@ protocol LoginModelInput {
 protocol LoginModelOutput {
   var hud: Signal<MBPCommand> { get }
   var login: Action<LoginInput, LoginOutput> { get }
-  var dismiss: Signal<Void> { get }
+  var complete: Single<Void> { get }
 }
 
 protocol LoginModelType: LoginModelInput, LoginModelOutput {
@@ -59,8 +58,8 @@ class LoginModel: LoginModelType {
   private let _hud = PublishRelay<MBPCommand>()
   let hud: Signal<MBPCommand>
 
-  private let _dismiss = PublishRelay<Void>()
-  let dismiss: Signal<Void>
+  private var _complete = PublishRelay<Void>()
+  let complete: Single<Void>
 
   var login: Action<LoginInput, LoginOutput>
 
@@ -71,11 +70,14 @@ class LoginModel: LoginModelType {
   }
 
   required init(service: LoginServiceType) {
-
     hud = _hud.asSignal()
-    dismiss = _dismiss.asSignal()
+    complete = _complete.take(1).asSingle()
 
-    backTap.bind(to: _dismiss).disposed(by: disposeBag)
+    // Back button tap -> complete
+
+    backTap.bind(to: _complete).disposed(by: disposeBag)
+
+    // Logain action
 
     let inputs = Observable
       .combineLatest(username, password) { (username: $0, password: $1) }
@@ -92,6 +94,8 @@ class LoginModel: LoginModelType {
       .bind(to: login.inputs)
       .disposed(by: disposeBag)
 
+    // HUD
+
     setupHUD()
   }
 
@@ -107,7 +111,7 @@ class LoginModel: LoginModelType {
       .map { [weak self] _ -> MBPCommand in
         return .success(message: "Logged in") { hud in
           hud.completionBlock = {
-            self?._dismiss.accept(())
+            self?._complete.accept(())
           }
         }
       }

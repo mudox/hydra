@@ -15,12 +15,12 @@ protocol LoginFlowType: FlowType {
   var loginIfNeeded: Completable { get }
 }
 
-class LoginFlow: BaseFlow, LoginFlowType {
+class LoginFlow: Flow, LoginFlowType {
 
   private let credentialService: GitHub.CredentialServiceType
 
   init(
-    on stage: FlowStage,
+    on stage: Flow.Stage,
     credentialService: GitHub.CredentialServiceType
   ) {
     self.credentialService = credentialService
@@ -41,8 +41,8 @@ class LoginFlow: BaseFlow, LoginFlowType {
       let login = LoginService(githubService: github)
       let model = LoginModel(service: login)
 
-      let sub = model.dismiss
-        .emit(onNext: {
+      let sub = model.complete
+        .subscribe(onSuccess: { _ in
           self.stage.viewController.dismiss(animated: true) {
             completable(.completed)
           }

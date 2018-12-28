@@ -120,6 +120,7 @@ extension LoginController {
 
     func setupClearButton() {
       clearButton.do {
+        $0.accessibilityIdentifier = "loginTextFieldClearButton"
         $0.setImage(#imageLiteral(resourceName: "Clear Button.pdf"), for: .normal)
         $0.isHidden = true
       }
