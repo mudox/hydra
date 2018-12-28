@@ -27,60 +27,49 @@ extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType
 
 }
 
-class AppFlow: BaseAppFlow {
+class HydraFlow: AppFlow {
 
-  override var run: Completable {
-    let run = Completable.create { _ in
+  override func reset(_ mode: String) {
+    switch mode {
 
-      self.resetIfNeeded()
+    case "defaults":
+      jack.func().info(" Reset UserDefaults (\(mode))")
+      Defaults.removeAll()
 
-      #if DEBUG
-        switch ProcessInfo.processInfo.environment["HYDRA_RUN_MODE"] {
-        case "login"?:
-          _ = self.tryLoginFlow.subscribe()
-        case "languages"?:
-          _ = self.tryLanguagesFlow
-            .emit(onNext: {
-              jack.func().info("Selected \($0 ?? "nothing")")
-            })
-        default:
-          _ = self.welcomeIfNeeded
-            .andThen(self.runMainFlow)
-            .forever()
-        }
-      #else
-        _ = self.welcomeIfNeeded
-          .andThen(self.runMainFlow)
-          .forever()
-      #endif
+    case "cache":
+      jack.func().info(" Reset caches from `Cache` (\(mode))")
+      Caches.reset()
 
-      return Disposables.create()
+    default:
+      jack.func().warn("Unrecognized reset mode token: \(mode)")
     }
-
-    return super.run.andThen(run)
   }
 
-  /// Reset app states for developing purpose
-  ///
-  /// Reset according to the value of environment variable __RESET__:
-  /// - "defaults":  reset UserDefaults through SwiftyUserDefaults
-  /// - "cache": reset caches through Cache
-  private func resetIfNeeded() {
-    #if DEBUG
-      guard let env = ProcessInfo.processInfo.environment["HYDRA_RESET"] else { return }
-
-      if env.contains("defaults") {
-        jack.func().info("Reset UserDefaults")
-        Defaults.removeAll()
-      }
-
-      if env.contains("cache") {
-        jack.func().info("Reset caches")
-        Caches.reset()
-      }
-
-    #endif
+  override func debugRun(_: String?) {
+    switch runMode {
+    case "login"?:
+      _ = tryLoginFlow.subscribe()
+    case "languages"?:
+      _ = tryLanguagesFlow
+        .emit(onNext: {
+          jack.func().info("Selected \($0 ?? "nothing")")
+        })
+    case nil:
+      _ = welcomeIfNeeded
+        .andThen(runMainFlow)
+        .forever()
+    default:
+      jack.func().error("Unrecognized run mode: \(runMode ?? "<nil>")")
+    }
   }
+
+  override func releaseRun() {
+    _ = welcomeIfNeeded
+      .andThen(runMainFlow)
+      .forever()
+  }
+
+  // MARK: - Flows
 
   private var welcomeIfNeeded: Completable {
     _ = FirstLaunchChecker.shared.check()
