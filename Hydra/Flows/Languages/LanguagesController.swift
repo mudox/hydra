@@ -20,9 +20,9 @@ private let headerViewID = "LanguagesController.HeaderView.id"
 
 class LanguagesController: UICollectionViewController {
 
-  let flowLayout: LanguagesFlowLayout
+  init(model: LanguagesModel) {
+    self.model = model
 
-  init() {
     flowLayout = LanguagesFlowLayout()
     super.init(collectionViewLayout: flowLayout)
   }
@@ -40,6 +40,8 @@ class LanguagesController: UICollectionViewController {
   }
 
   // MARK: - View
+
+  let flowLayout: LanguagesFlowLayout
 
   let selectButton = UIBarButtonItem()
   let pinButton = UIBarButtonItem()
@@ -104,13 +106,14 @@ class LanguagesController: UICollectionViewController {
   // MARK: - Model
 
   var disposeBag = DisposeBag()
-  var model: LanguagesModel!
+  let model: LanguagesModel
 
   func setupModel() {
     // view -> model
     let input = model.input
 
     disposeBag.insert(
+      selectButton.rx.tap.bind(to: input.selectTap),
       searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText)
     )
 
@@ -120,7 +123,7 @@ class LanguagesController: UICollectionViewController {
       .bind(to: input.itemTap)
       .disposed(by: disposeBag)
 
-    let pinOrUnpin = pinButton.rx.tap
+    let pinCommand = pinButton.rx.tap
       .withLatestFrom(model.output.selected)
       .flatMap { [weak self] selected -> Observable<LanguagesModel.Command> in
         guard let selected = selected else { return .empty() }
@@ -140,7 +143,7 @@ class LanguagesController: UICollectionViewController {
       }
 
     disposeBag.insert(
-      pinOrUnpin.bind(to: input.command)
+      pinCommand.bind(to: input.command)
     )
 
     // model -> view
@@ -153,7 +156,7 @@ class LanguagesController: UICollectionViewController {
     let output = model.output
 
     disposeBag.insert(
-      output.selectButtonEnabled.drive(selectButton.rx.isEnabled),
+      output.selectButtonTitle.drive(selectButton.rx.title),
       output.pinButtonEnabled.drive(pinButton.rx.isEnabled),
       output.pinButtonTitle.drive(pinButton.rx.title)
     )
@@ -189,7 +192,7 @@ class LanguagesController: UICollectionViewController {
       },
       canMoveItemAtIndexPath: {
         _, indexPath in
-        return indexPath.section == 1
+        indexPath.section == 1
       }
     )
   }()

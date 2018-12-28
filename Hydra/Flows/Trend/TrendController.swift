@@ -14,6 +14,17 @@ private let jack = Jack().set(format: .short)
 
 class TrendController: UIViewController {
 
+  init(model: TrendModelType) {
+    self.model = model
+
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  @available(*, unavailable, message: "init(coder:) has not been implemented")
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -127,7 +138,7 @@ class TrendController: UIViewController {
   // MARK: - Model
 
   var disposeBag = DisposeBag()
-  var model: TrendModel!
+  let model: TrendModelType
 
   func bindToModel() {
     let input = model.input
@@ -141,11 +152,7 @@ class TrendController: UIViewController {
 
     // Language search bar -> language
 
-    let languages = [
-      "All", "C", "JavaScript", "Swift", "Objective-C",
-      "Python", "Ruby", "Go", "Rust", "Unknown", "More..."
-    ]
-    languageBar.languagesRelay.accept(languages)
+    languageBar.languages = LanguageService().pinnedLanguages
 
     languageBar.selectedLanguage
       .drive(input.languageRelay)

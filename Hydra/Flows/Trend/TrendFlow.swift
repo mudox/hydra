@@ -8,18 +8,15 @@ import MudoxKit
 import GitHub
 
 protocol TrendFlowType {
-
   var run: Completable { get }
-
 }
 
-class TrendFlow: BaseFlow, TrendFlowType {
+class TrendFlow: Flow, TrendFlowType {
 
   var run: Completable {
     return .create { _ in
-      let vc = TrendController().then {
-        $0.model = TrendModel(service: GitHub.Trending())
-      }
+      let model = TrendModel(service: GitHub.Trending())
+      let vc = TrendController(model: model)
 
       var vcs = self.stage.tabBarController.viewControllers ?? []
       vcs.append(vc)

@@ -11,42 +11,28 @@ import MudoxKit
 private let jack = Jack().set(format: .short)
 
 protocol LanguagesFlowType {
-
-  var selectedLanguage: Signal<String?> { get }
-
-  func complete(with selectedLanguage: String?)
-
+  var selectedLanguage: Single<String?> { get }
 }
 
-class LanguagesFlow: BaseFlow, LanguagesFlowType {
+class LanguagesFlow: Flow, LanguagesFlowType {
 
-  deinit {
-    jack.func().debug("💀 \(type(of: self))", format: .bare)
-  }
-
-  var singleClosure: ((SingleEvent<String?>) -> Void)!
-
-  var selectedLanguage: Signal<String?> {
-    return Single.create { single in
-      self.singleClosure = single
-
+  /// Returns nil on cancellation
+  var selectedLanguage: Single<String?> {
+    return .create { single in
       let model = LanguagesModel(service: LanguageService())
-      let vc = LanguagesController()
-      vc.model = model
+      let sub = model.selectedLanguage
+        .subscribe(onSuccess: { language in
+          self.stage.viewController.dismiss(animated: true) {
+            single(.success(language))
+          }
+        })
 
+      let vc = LanguagesController(model: model)
       let nav = UINavigationController(rootViewController: vc)
       self.stage.viewController.present(nav, animated: true)
 
-      return Disposables.create()
+      return Disposables.create([sub])
     }
-    .asSignal {
-      jack.func().sub("asDriver").error("Unexpected error: \($0)")
-      return .just(nil)
-    }
-  }
-
-  func complete(with selectedLanguage: String?) {
-    singleClosure(.success(selectedLanguage))
   }
 
 }

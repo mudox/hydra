@@ -15,7 +15,9 @@ private let jack = Jack().set(format: .short)
 // MARK: Interface
 
 protocol LanguagesModelInput {
+  var selectTap: PublishRelay<Void> { get }
   var command: PublishRelay<LanguagesModel.Command> { get }
+
   var searchText: BehaviorRelay<String> { get }
   var itemTap: BehaviorRelay<(IndexPath, String)?> { get }
 }
@@ -23,13 +25,15 @@ protocol LanguagesModelInput {
 protocol LanguagesModelOutput {
   var selected: Driver<(IndexPath, String)?> { get }
 
-  var selectButtonEnabled: Driver<Bool> { get }
+  var selectButtonTitle: Driver<String> { get }
 
   var pinButtonEnabled: Driver<Bool> { get }
   var pinButtonTitle: Driver<String> { get }
 
   var state: Driver<LanguagesModel.SearchState> { get }
   var collectionViewData: Driver<[LanguagesModel.Section]> { get }
+
+  var selectedLanguage: Single<String?> { get }
 }
 
 protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {
@@ -44,10 +48,11 @@ extension LanguagesModelType {
 // MARK: - View Model
 
 class LanguagesModel: LanguagesModelType {
-
   // MARK: Input
 
+  let selectTap = PublishRelay<Void>()
   let command = PublishRelay<Command>()
+
   let searchText = BehaviorRelay<String>(value: "")
   let itemTap = BehaviorRelay<(IndexPath, String)?>(value: nil)
 
@@ -55,12 +60,15 @@ class LanguagesModel: LanguagesModelType {
 
   let selected: Driver<(IndexPath, String)?>
 
-  let selectButtonEnabled: Driver<Bool>
+  let selectButtonTitle: Driver<String>
+
   let pinButtonEnabled: Driver<Bool>
   let pinButtonTitle: Driver<String>
 
   let state: Driver<LanguagesModel.SearchState>
   let collectionViewData: Driver<[LanguagesModel.Section]>
+
+  let selectedLanguage: Single<String?>
 
   // MARK: Binding
 
@@ -100,6 +108,8 @@ class LanguagesModel: LanguagesModelType {
         }
       }
 
+    // Selection -> Buttons
+
     let tapSelection = itemTap.asDriver()
       .scan(nil) { prev, this -> (IndexPath, String)? in
         if prev?.0 != this?.0 {
@@ -114,12 +124,23 @@ class LanguagesModel: LanguagesModelType {
 
     selected = Driver.merge(tapSelection, resetSelection)
 
-    let enabled = selected.map { $0 != nil }
-    selectButtonEnabled = enabled
-    pinButtonEnabled = enabled
+    pinButtonEnabled = selected.map { $0 != nil }
 
     pinButtonTitle = selected.map { $0?.0.section == 1 ? "Unpin" : "Pin" }
+    selectButtonTitle = selected.map { $0 != nil ? "Select" : "Back" }
 
+    // Complete
+
+    selectedLanguage = selectTap
+      .withLatestFrom(selected)
+      .map { $0?.1 }
+      .do(onNext: {
+        if let language = $0 {
+          service.add(searchedLanguage: language)
+        }
+      })
+      .take(1)
+      .asSingle()
   }
 
 }
