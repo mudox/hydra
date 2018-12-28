@@ -1,3 +1,6 @@
+# vim: fdm=marker
+
+# My Pods {{{1
 def my_pods
   # Travis-CI set `CI` on macOS environment
   if ENV['CI'] == 'true'
@@ -27,6 +30,10 @@ def my_pods
 
 end
 
+# }}}
+
+# RxSwift {{{
+
 def rx_pods
   # Base frameworks
   pod 'RxSwift'
@@ -52,31 +59,49 @@ def rx_pods
   # pod 'RxBluetoothKit'
 end
 
+# }}}
+
+# Data {{{1
+
+def data_pods
+  pod 'SwiftyUserDefaults', '4.0.0-alpha.1'
+  pod 'Cache'
+end
+
 def realm_pods
   pod 'RealmSwift'
   pod 'RxRealm'
   pod 'RxRealmDataSources'
 end
 
-def di_pods
+# }}}
+
+# Testing {{{1
+
+def swinject_pods
   # pod 'Swinject'
   # pod 'SwinjectStoryboard'
   # pod 'SwinjectAutoregistration'
 end
 
-def testing_pods
-  # BDD
+def quick_pods
   pod 'Quick'
   pod 'Nimble'
+end
 
-  # Testing RxSwift code
+def rxtest_pods
   pod 'RxTest'
   pod 'RxBlocking'
   pod 'RxNimble'
+end
 
-  # Requests stubbing
+def network_testing_pods
   pod 'OHHTTPStubs'
 end
+
+# }}}
+
+# Other {{{1
 
 def networking_pods
   # pod 'Alamofire'
@@ -101,18 +126,15 @@ end
 
 def swift_pods
   pod 'Then'
+end
 
+def utility_pods
   pod 'SwiftLint'
 end
 
-def data_pods
-  pod 'SwiftyUserDefaults', '4.0.0-alpha.1'
-  pod 'Cache'
-end
+# }}}
 
-#################################################
-#  ----------------- Podfile -----------------  #
-#################################################
+# Install pods {{{1
 
 platform :ios, '10.0'
 use_frameworks!
@@ -120,24 +142,35 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'Hydra' do
+  utility_pods
+
   my_pods
-  rx_pods
-  data_pods
-  ui_pods
-  networking_pods
+
   swift_pods
+  rx_pods
+
+  ui_pods
+
+  data_pods
   realm_pods
+
+  networking_pods
 
   target 'Test' do
     inherit! :search_paths
 
-    testing_pods
+    pod 'Then'
+
+    quick_pods
   end
 
   target 'EarlGreyTest' do
     inherit! :search_paths
 
     pod 'EarlGrey'
+    pod 'Then'
+
+    quick_pods
   end
 
   target 'UITest' do
@@ -146,3 +179,5 @@ target 'Hydra' do
     pod 'Then'
   end
 end
+
+# }}}

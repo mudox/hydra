@@ -47,19 +47,6 @@ PODS:
   - NVActivityIndicatorView (4.4.0):
     - NVActivityIndicatorView/Presenter (= 4.4.0)
   - NVActivityIndicatorView/Presenter (4.4.0)
-  - OHHTTPStubs (6.1.0):
-    - OHHTTPStubs/Default (= 6.1.0)
-  - OHHTTPStubs/Core (6.1.0)
-  - OHHTTPStubs/Default (6.1.0):
-    - OHHTTPStubs/Core
-    - OHHTTPStubs/JSON
-    - OHHTTPStubs/NSURLSession
-    - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (6.1.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (6.1.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (6.1.0)
   - Quick (1.3.2)
   - Realm (3.12.0):
     - Realm/Headers (= 3.12.0)
@@ -73,9 +60,6 @@ PODS:
     - Alamofire (~> 4.5)
     - RxSwift (~> 4)
   - RxAtomic (4.4.0)
-  - RxBlocking (4.4.0):
-    - RxAtomic (~> 4.4)
-    - RxSwift (~> 4.0)
   - RxCocoa (4.4.0):
     - RxSwift (~> 4.0)
   - RxDataSources (3.1.0):
@@ -88,14 +72,6 @@ PODS:
   - RxKeyboard (0.9.0):
     - RxCocoa (>= 4.3.1)
     - RxSwift (>= 4.3.1)
-  - RxNimble (4.4.0):
-    - RxNimble/RxBlocking (= 4.4.0)
-  - RxNimble/Core (4.4.0):
-    - Nimble (~> 7.0)
-    - RxSwift (~> 4.2)
-  - RxNimble/RxBlocking (4.4.0):
-    - RxBlocking
-    - RxNimble/Core
   - RxOptional (3.6.2):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
@@ -117,9 +93,6 @@ PODS:
   - RxSwiftExt/RxCocoa (3.4.0):
     - RxCocoa (~> 4.0)
     - RxSwiftExt/Core
-  - RxTest (4.4.0):
-    - RxAtomic (~> 4.4)
-    - RxSwift (~> 4.0)
   - SnapKit (4.2.0)
   - SSZipArchive (2.1.4)
   - SwiftHEXColors (1.1.2)
@@ -141,21 +114,17 @@ DEPENDENCIES:
   - MudoxKit/MBProgressHUD (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
   - Nimble
   - NVActivityIndicatorView
-  - OHHTTPStubs
   - Quick
   - RealmSwift
-  - RxBlocking
   - RxCocoa
   - RxDataSources
   - RxGesture
   - RxKeyboard
-  - RxNimble
   - RxOptional
   - RxRealm
   - RxRealmDataSources
   - RxSwift
   - RxSwiftExt
-  - RxTest
   - SnapKit
   - SwiftHEXColors
   - SwiftLint
@@ -177,25 +146,21 @@ SPEC REPOS:
     - Moya
     - Nimble
     - NVActivityIndicatorView
-    - OHHTTPStubs
     - Quick
     - Realm
     - RealmSwift
     - Result
     - RxAlamofire
     - RxAtomic
-    - RxBlocking
     - RxCocoa
     - RxDataSources
     - RxGesture
     - RxKeyboard
-    - RxNimble
     - RxOptional
     - RxRealm
     - RxRealmDataSources
     - RxSwift
     - RxSwiftExt
-    - RxTest
     - SnapKit
     - SSZipArchive
     - SwiftHEXColors
@@ -229,25 +194,21 @@ SPEC CHECKSUMS:
   MudoxKit: 749f870d10e48e43a769d608db49512f291b0dc8
   Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
   NVActivityIndicatorView: ec7440a57af2450319d3a4181cca7da6fc127064
-  OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
   Realm: cdaef23c4ddb36ab1ddffed23f5a7f3332fc5585
   RealmSwift: 5576324033f0aa5ef1e0a839a3da2281dff47a7f
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
-  RxBlocking: 138ad53217434444d6eeeb4fb406a45431d92e31
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
   RxGesture: 7f6dfb45dbde06e618c24442d38493e3144f2c95
   RxKeyboard: 4f782303f499f41577b41c96c6a9a5d7acd51a47
-  RxNimble: ba6caf0195c37fd50dd4b967624b66ff580d781a
   RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
   RxRealm: 5379eddd74f8d617ca7681d1f8d144af25b432b0
   RxRealmDataSources: 89b61c0d3edf7769da2a6bf4dcf317bc713394db
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
-  RxTest: 19d03286bdc0a3aaea5d61d4cde31fdf4bb8a5ba
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   SwiftHEXColors: 7f9f7e6bdce888d821e11749279733e5ddff5f51
@@ -256,6 +217,6 @@ SPEC CHECKSUMS:
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 58d140b89acb1247b36dfedc70bcdd6911ebebb3
+PODFILE CHECKSUM: 58c174ca88f5eed896d2dc04c24556c74d521351
 
 COCOAPODS: 1.5.3
