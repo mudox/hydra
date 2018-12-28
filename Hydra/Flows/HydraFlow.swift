@@ -51,7 +51,7 @@ class HydraFlow: AppFlow {
       _ = tryLoginFlow.subscribe()
     case "languages"?:
       _ = tryLanguagesFlow
-        .emit(onNext: {
+        .subscribe(onSuccess: {
           jack.func().info("Selected \($0 ?? "nothing")")
         })
     case nil:
@@ -135,7 +135,7 @@ class HydraFlow: AppFlow {
       return flow.loginIfNeeded
     }
 
-    private var tryLanguagesFlow: Signal<String?> {
+    private var tryLanguagesFlow: Single<String?> {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
       stage.window.rootViewController = vc
