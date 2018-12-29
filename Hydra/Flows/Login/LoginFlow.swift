@@ -11,7 +11,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-protocol LoginFlowType: FlowType {
+protocol LoginFlowType {
   var loginIfNeeded: Completable { get }
 }
 

@@ -17,7 +17,7 @@ protocol LoginServiceType {
 
   func validate(password: String) -> Bool
 
-  func validate(_ input: LoginInput) -> Bool
+  func validate(username: String, password: String) -> Bool
 
   // MARK: Login
 
@@ -42,8 +42,8 @@ struct LoginService: LoginServiceType {
     return !password.isEmpty
   }
 
-  func validate(_ input: LoginInput) -> Bool {
-    return validate(username: input.username) && validate(password: input.password)
+  func validate(username: String, password: String) -> Bool {
+    return validate(username: username) && validate(password: password)
   }
 
   var isLoggedIn: Bool {

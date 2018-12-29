@@ -251,7 +251,7 @@ class LoginController: UIViewController {
     let output = model.output
     // model -> view
     disposeBag.insert(
-      output.login.enabled.bind(to: login.button.rx.isEnabled),
+      output.loginButtonEnabled.drive(login.button.rx.isEnabled),
       output.hud.emit(to: view.mbp.hud)
     )
   }

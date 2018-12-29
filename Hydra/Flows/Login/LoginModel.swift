@@ -11,8 +11,9 @@ import GitHub
 
 private let jack = Jack().set(format: .short)
 
-typealias LoginInput = (username: String, password: String)
-typealias LoginOutput = GitHub.Service.AuthorizeResponse
+private typealias LoginInput = (username: String, password: String)
+private typealias LoginOutput = GitHub.Service.AuthorizeResponse
+private typealias LoginAction = Action<LoginInput, LoginOutput>
 
 // MARK: Interface
 
@@ -27,7 +28,7 @@ protocol LoginModelInput {
 
 protocol LoginModelOutput {
   var hud: Signal<MBPCommand> { get }
-  var login: Action<LoginInput, LoginOutput> { get }
+  var loginButtonEnabled: Driver<Bool> { get }
   var complete: Single<Void> { get }
 }
 
@@ -42,9 +43,12 @@ extension LoginModelType {
 
 // MARK: - Impelementation
 
-class LoginModel: LoginModelType {
+class LoginModel: ViewModel, LoginModelType {
 
   let disposeBag = DisposeBag()
+
+  private var action: LoginAction!
+  private let service: LoginServiceType
 
   // MARK: - Input
 
@@ -55,59 +59,65 @@ class LoginModel: LoginModelType {
 
   // MARK: - Output
 
-  private let _hud = PublishRelay<MBPCommand>()
+  private let _hud: PublishRelay<MBPCommand>
   let hud: Signal<MBPCommand>
 
-  private var _complete = PublishRelay<Void>()
+  private var _complete: PublishRelay<Void>
   let complete: Single<Void>
 
-  var login: Action<LoginInput, LoginOutput>
+  private var _loginButtonEnabled: BehaviorRelay<Bool>
+  let loginButtonEnabled: Driver<Bool>
 
   // MARK: - Life cycle
 
-  deinit {
-    jack.func().info("💀 \(type(of: self))", format: .bare)
-  }
-
   required init(service: LoginServiceType) {
+    self.service = service
+
+    _hud = PublishRelay<MBPCommand>()
     hud = _hud.asSignal()
+
+    _complete = PublishRelay<Void>()
     complete = _complete.take(1).asSingle()
 
-    // Back button tap -> complete
+    _loginButtonEnabled = BehaviorRelay<Bool>(value: false)
+    loginButtonEnabled = _loginButtonEnabled.asDriver()
+
+    super.init()
 
     backTap.bind(to: _complete).disposed(by: disposeBag)
 
-    // Logain action
+    setupAction()
+    setupHUD()
+  }
 
+  private func setupAction() {
     let inputs = Observable
       .combineLatest(username, password) { (username: $0, password: $1) }
       .share()
 
     let isInputValid = inputs.map(service.validate)
 
-    login = Action(enabledIf: isInputValid) { username, password in
-      service.login(username: username, password: password)
+    action = LoginAction(enabledIf: isInputValid) {
+      [weak self] username, password -> Observable<LoginOutput> in
+      self?.service.login(username: username, password: password).asObservable()
+        ?? Observable.empty()
     }
 
     loginTap
       .withLatestFrom(inputs)
-      .bind(to: login.inputs)
+      .bind(to: action.inputs)
       .disposed(by: disposeBag)
-
-    // HUD
-
-    setupHUD()
   }
 
-  func setupHUD() {
+  private func setupHUD() {
 
-    let begin = login.executing
+    let begin = action.executing
       .filter { $0 == true }
       .map { _ -> MBPCommand in
         return .begin(message: "Logging in", mode: .indeterminate)
       }
 
-    let success = login.elements
+    let success = action.elements
       .map { [weak self] _ -> MBPCommand in
         return .success(message: "Logged in") { hud in
           hud.completionBlock = {
@@ -116,7 +126,7 @@ class LoginModel: LoginModelType {
         }
       }
 
-    let error = login.errors
+    let error = action.errors
       .map { error -> MBPCommand in
         switch error {
         case let ActionError.underlyingError(error):
