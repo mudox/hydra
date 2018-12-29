@@ -45,8 +45,6 @@ extension LoginModelType {
 
 class LoginModel: ViewModel, LoginModelType {
 
-  let disposeBag = DisposeBag()
-
   private var action: LoginAction!
   private let service: LoginServiceType
 
