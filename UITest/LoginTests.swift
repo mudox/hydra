@@ -10,6 +10,10 @@ class LoginTests: XCTestCase {
 
   override func setUp() {
     continueAfterFailure = false
+    app.launchEnvironment = [
+      "APP_RUN_MODE": "login",
+      "APP_RESET_MODE": "defaults cache",
+    ]
     app.launch()
   }
 
