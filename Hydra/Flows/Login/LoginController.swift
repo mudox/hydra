@@ -15,20 +15,11 @@ import GitHub
 
 private let jack = Jack().set(format: .short)
 
-class LoginController: UIViewController {
+class LoginController: ViewController {
 
   init(model: LoginModelType) {
     self.model = model
     super.init(nibName: nil, bundle: nil)
-  }
-
-  @available(*, unavailable, message: "init(coder:) has not been implemented")
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  deinit {
-    jack.func().debug("💀 \(type(of: self))", format: .bare)
   }
 
   override func viewDidLoad() {
