@@ -22,9 +22,10 @@
 		F426C44621C6A68D00CAA764 /* LanguagesFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44521C6A68D00CAA764 /* LanguagesFlow.swift */; };
 		F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44721C9174100CAA764 /* LoginTextField.swift */; };
 		F426C44A21C9174E00CAA764 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44921C9174E00CAA764 /* LoginButton.swift */; };
-		F43032ED21B1039500BE40DF /* AsDriverNoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032EC21B1039400BE40DF /* AsDriverNoError.swift */; };
+		F43032ED21B1039500BE40DF /* AsDriverSignalShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032EC21B1039400BE40DF /* AsDriverSignalShortcuts.swift */; };
 		F43032F621B3A53A00BE40DF /* LanguageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032F521B3A53A00BE40DF /* LanguageService.swift */; };
 		F4349CE521A873D000628D8D /* TrendPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4349CE421A873D000628D8D /* TrendPageControl.swift */; };
+		F4395EE721D620CE00BEAD9F /* LoginSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4395EE621D620CE00BEAD9F /* LoginSpec.swift */; };
 		F43F584721A5E42D00416A45 /* TabSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F584621A5E42D00416A45 /* TabSwitch.swift */; };
 		F43F584921A6273100416A45 /* TrendRepositoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F584821A6273100416A45 /* TrendRepositoryCell.swift */; };
 		F451AC7621B0356800C101D1 /* LanguageBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451AC7521B0356800C101D1 /* LanguageBar.swift */; };
@@ -49,9 +50,8 @@
 		F4B4BA2921D3546300879B18 /* Caches.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2821D3546300879B18 /* Caches.swift */; };
 		F4B4BA5621D52FD400879B18 /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4821D52FC300879B18 /* LoginTests.swift */; };
 		F4B4BA5721D5300300879B18 /* DefaultsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */; };
-		F4B4BA5821D5300E00879B18 /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4E21D52FC300879B18 /* LoginTests.swift */; };
 		F4DC70FB21B58F3A00999BD1 /* LanguagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */; };
-		F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* AppFlow.swift */; };
+		F4F338142170BD4100DC9638 /* HydraFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* HydraFlow.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
 		F4F85F37213F05A600EFF085 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F36213F05A600EFF085 /* Assets.xcassets */; };
 		F4F85F3A213F05A600EFF085 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */; };
@@ -120,9 +120,10 @@
 		F426C44521C6A68D00CAA764 /* LanguagesFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesFlow.swift; sourceTree = "<group>"; };
 		F426C44721C9174100CAA764 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		F426C44921C9174E00CAA764 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
-		F43032EC21B1039400BE40DF /* AsDriverNoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriverNoError.swift; sourceTree = "<group>"; };
+		F43032EC21B1039400BE40DF /* AsDriverSignalShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsDriverSignalShortcuts.swift; sourceTree = "<group>"; };
 		F43032F521B3A53A00BE40DF /* LanguageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageService.swift; sourceTree = "<group>"; };
 		F4349CE421A873D000628D8D /* TrendPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendPageControl.swift; sourceTree = "<group>"; };
+		F4395EE621D620CE00BEAD9F /* LoginSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSpec.swift; sourceTree = "<group>"; };
 		F43F584621A5E42D00416A45 /* TabSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwitch.swift; sourceTree = "<group>"; };
 		F43F584821A6273100416A45 /* TrendRepositoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRepositoryCell.swift; sourceTree = "<group>"; };
 		F451AC7521B0356800C101D1 /* LanguageBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageBar.swift; sourceTree = "<group>"; };
@@ -152,10 +153,9 @@
 		F4B4BA4921D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsSpec.swift; sourceTree = "<group>"; };
 		F4B4BA4C21D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4B4BA4E21D52FC300879B18 /* LoginTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
 		F4B4BA4F21D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModel.swift; sourceTree = "<group>"; };
-		F4F338132170BD4100DC9638 /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
+		F4F338132170BD4100DC9638 /* HydraFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydraFlow.swift; sourceTree = "<group>"; };
 		F4F338192171035700DC9638 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F85F2F213F05A400EFF085 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -257,7 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				F49A1C6021A6CDB60045E74B /* UI.swift */,
-				F43032EC21B1039400BE40DF /* AsDriverNoError.swift */,
+				F43032EC21B1039400BE40DF /* AsDriverSignalShortcuts.swift */,
 				F4231FD3217B9D3600B2D748 /* Activity.swift */,
 				F48779472169F1CC00C027A9 /* DefaultsKeys.swift */,
 				F4B4BA2821D3546300879B18 /* Caches.swift */,
@@ -304,7 +304,7 @@
 		F456A01A218C952A00047369 /* Flows */ = {
 			isa = PBXGroup;
 			children = (
-				F4F338132170BD4100DC9638 /* AppFlow.swift */,
+				F4F338132170BD4100DC9638 /* HydraFlow.swift */,
 				F46C6887215A43400090B4AF /* Login */,
 				F43032F421B3A50100BE40DF /* Languages */,
 				F456A01B218C956E00047369 /* Trend */,
@@ -370,7 +370,7 @@
 		F4B4BA4D21D52FC300879B18 /* EarlGreyTest */ = {
 			isa = PBXGroup;
 			children = (
-				F4B4BA4E21D52FC300879B18 /* LoginTests.swift */,
+				F4395EE621D620CE00BEAD9F /* LoginSpec.swift */,
 				F4B4BA4F21D52FC300879B18 /* Info.plist */,
 				FA8E5B89095619159D3A6E01 /* EarlGrey.swift */,
 			);
@@ -873,7 +873,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4B4BA5821D5300E00879B18 /* LoginTests.swift in Sources */,
+				F4395EE721D620CE00BEAD9F /* LoginSpec.swift in Sources */,
 				14F0F0E833ECED25AAAE2F22 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -909,7 +909,7 @@
 				F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */,
 				F43F584721A5E42D00416A45 /* TabSwitch.swift in Sources */,
 				F4349CE521A873D000628D8D /* TrendPageControl.swift in Sources */,
-				F43032ED21B1039500BE40DF /* AsDriverNoError.swift in Sources */,
+				F43032ED21B1039500BE40DF /* AsDriverSignalShortcuts.swift in Sources */,
 				F426C44421C69E8F00CAA764 /* LanguagesController.swift in Sources */,
 				F463A2AF21AF188A0067432B /* RetryButton.swift in Sources */,
 				F451AC7621B0356800C101D1 /* LanguageBar.swift in Sources */,
@@ -918,7 +918,7 @@
 				F456A01F218C956E00047369 /* TrendModel.swift in Sources */,
 				F456A021218C956E00047369 /* TrendController.swift in Sources */,
 				F40C238321AC6D2C006FA060 /* TrendDeveloperCell.swift in Sources */,
-				F4F338142170BD4100DC9638 /* AppFlow.swift in Sources */,
+				F4F338142170BD4100DC9638 /* HydraFlow.swift in Sources */,
 				F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */,
 				F43F584921A6273100416A45 /* TrendRepositoryCell.swift in Sources */,
 				F463A2B421AF26BF0067432B /* TrendState.swift in Sources */,

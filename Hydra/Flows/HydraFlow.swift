@@ -45,7 +45,7 @@ class HydraFlow: AppFlow {
     }
   }
 
-  override func debugRun(_: String?) {
+  override func debugRun() {
     switch runMode {
     case "login"?:
       _ = tryLoginFlow.subscribe()
