@@ -29,7 +29,7 @@ extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType
 
 class HydraFlow: AppFlow {
 
-  override func reset(_ mode: String) {
+  override func reset(mode: String) {
     switch mode {
 
     case "defaults":
@@ -45,21 +45,28 @@ class HydraFlow: AppFlow {
     }
   }
 
-  override func debugRun() {
-    switch runMode {
-    case "login"?:
+  override func debugRun(mode: String) {
+    switch mode {
+
+    case "login":
       _ = tryLoginFlow.subscribe()
-    case "languages"?:
+
+    case "languages":
       _ = tryLanguagesFlow
         .subscribe(onSuccess: {
           jack.func().info("Selected \($0 ?? "nothing")")
         })
-    case nil:
+
+    case "earlgrey":
+      setupEarlGreyStage()
+
+    case "release":
       _ = welcomeIfNeeded
         .andThen(runMainFlow)
         .forever()
+
     default:
-      jack.func().error("Unrecognized run mode: \(runMode ?? "<nil>")")
+      jack.func().error("Unrecognized run mode: \(mode)")
     }
   }
 
@@ -125,6 +132,13 @@ class HydraFlow: AppFlow {
   // MARK: - Development
 
   #if DEBUG
+
+    private func setupEarlGreyStage() {
+      let vc = UIViewController()
+      vc.view.backgroundColor = .white
+      vc.view.accessibilityIdentifier = aid(.stageView)
+      stage.window.rootViewController = vc
+    }
 
     private var tryLoginFlow: Completable {
       let vc = UIViewController()
