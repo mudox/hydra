@@ -136,7 +136,7 @@ class HydraFlow: AppFlow {
     private func setupEarlGreyStage() {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
-      vc.view.accessibilityIdentifier = aid(.stageView)
+      vc.view.aid = .stageView
       stage.window.rootViewController = vc
     }
 

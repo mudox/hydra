@@ -58,7 +58,7 @@ class LoginController: ViewController {
 
     // Subviews
 
-    login.button.accessibilityIdentifier = aid(.loginButton)
+    login.button.aid = .loginButton
 
     setupScrollView()
     setupTitleLabel()
@@ -92,7 +92,7 @@ class LoginController: ViewController {
 
   func setupBackButton() {
     backButton.do {
-      $0.accessibilityIdentifier = aid(.dismissLogin)
+      $0.aid = .dismissLogin
       $0.tintColor = .brand
       $0.setImage(#imageLiteral(resourceName: "Back Arrow"), for: .normal)
     }
@@ -126,23 +126,30 @@ class LoginController: ViewController {
 
   func setupInputFields() {
     username.textField.do {
-      $0.accessibilityIdentifier = aid(.username)
+      $0.aid = .username
       $0.clearsOnBeginEditing = true
       $0.keyboardType = .emailAddress
       $0.returnKeyType = .next
       $0.textContentType = .username
     }
-    username.tipLabel.text = "Username"
+    username.do {
+      $0.clearButton.aid = .clearUsername
+      $0.tipLabel.text = "Username"
+    }
 
     password.textField.do {
-      $0.accessibilityIdentifier = aid(.password)
+      $0.aid = .password
       $0.clearsOnBeginEditing = true
       $0.keyboardType = .asciiCapable
       $0.returnKeyType = .go
       $0.textContentType = .password
       $0.isSecureTextEntry = true
     }
-    password.tipLabel.text = "Password"
+
+    password.do {
+      $0.clearButton.aid = .clearPassword
+      $0.tipLabel.text = "Password"
+    }
 
     UIControl.rx.createTapStopGroup(
       username.textField,
@@ -212,7 +219,6 @@ class LoginController: ViewController {
     RxKeyboard.instance.visibleHeight
       .debounce(0) // skip immediate hide before show event in the same run loop
       .drive(onNext: { [weak self] height in
-//        jack.func().debug("visibleHeight: \(height)")
         if height == 0 {
           UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self?.scrollView.contentInset.bottom = 0

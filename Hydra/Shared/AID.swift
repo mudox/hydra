@@ -1,5 +1,20 @@
-func aid(_ id: AID) -> String {
-  return id.rawValue
+import UIKit
+
+extension UIAccessibilityIdentification {
+
+  var aid: AID? {
+    get {
+      if let id = accessibilityIdentifier {
+        return AID(rawValue: id)
+      } else {
+        return nil
+      }
+    }
+    set {
+      accessibilityIdentifier = newValue?.rawValue
+    }
+  }
+
 }
 
 enum AID: String {
