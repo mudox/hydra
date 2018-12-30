@@ -105,6 +105,9 @@ class LoginModel: ViewModel, LoginModelType {
       .withLatestFrom(inputs)
       .bind(to: action.inputs)
       .disposed(by: disposeBag)
+
+    action.enabled.bind(to: _loginButtonEnabled)
+      .disposed(by: disposeBag)
   }
 
   private func setupHUD() {
@@ -130,7 +133,7 @@ class LoginModel: ViewModel, LoginModelType {
         case let ActionError.underlyingError(error):
           switch error {
           case GitHubError.invalidCredential:
-            return .error(title: "Error", message: "invalid username or password", hideIn: 2)
+            return .error(message: "invalid username\nor password", hideIn: 2)
           default:
             return .error(message: "Error occured")
           }

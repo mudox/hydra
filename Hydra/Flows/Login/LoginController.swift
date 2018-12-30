@@ -57,6 +57,9 @@ class LoginController: ViewController {
     view.backgroundColor = .white
 
     // Subviews
+
+    login.button.accessibilityIdentifier = aid(.loginButton)
+
     setupScrollView()
     setupTitleLabel()
     setupInputFields()
@@ -89,7 +92,7 @@ class LoginController: ViewController {
 
   func setupBackButton() {
     backButton.do {
-      $0.accessibilityIdentifier = "dismissLogin"
+      $0.accessibilityIdentifier = aid(.dismissLogin)
       $0.tintColor = .brand
       $0.setImage(#imageLiteral(resourceName: "Back Arrow"), for: .normal)
     }
@@ -123,7 +126,7 @@ class LoginController: ViewController {
 
   func setupInputFields() {
     username.textField.do {
-      $0.accessibilityIdentifier = "usernameField"
+      $0.accessibilityIdentifier = aid(.username)
       $0.clearsOnBeginEditing = true
       $0.keyboardType = .emailAddress
       $0.returnKeyType = .next
@@ -132,7 +135,7 @@ class LoginController: ViewController {
     username.tipLabel.text = "Username"
 
     password.textField.do {
-      $0.accessibilityIdentifier = "passwordField"
+      $0.accessibilityIdentifier = aid(.password)
       $0.clearsOnBeginEditing = true
       $0.keyboardType = .asciiCapable
       $0.returnKeyType = .go
@@ -225,12 +228,12 @@ class LoginController: ViewController {
 
   // MARK: - Model
 
-  var disposeBag = DisposeBag()
-
   let model: LoginModelType
 
   func setupModel() {
+
     // model <- view
+
     let input = model.input
     disposeBag.insert(
       backButton.rx.tap.bind(to: input.backTap),
@@ -239,8 +242,9 @@ class LoginController: ViewController {
       login.button.rx.tap.bind(to: input.loginTap)
     )
 
-    let output = model.output
     // model -> view
+
+    let output = model.output
     disposeBag.insert(
       output.loginButtonEnabled.drive(login.button.rx.isEnabled),
       output.hud.emit(to: view.mbp.hud)

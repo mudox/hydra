@@ -33,6 +33,7 @@ class LoginFlow: Flow, LoginFlowType {
 
     return .create { completable in
       guard !self.credentialService.isAuthorized else {
+        jack.func().info("Already logged in, complete")
         completable(.completed)
         return Disposables.create()
       }
