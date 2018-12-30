@@ -17,17 +17,27 @@ class LoginSpec: QuickSpec {
 
     let dismiss = element(.dismissLogin)
     let username = element(.username)
+    let clearUsername = element(.clearUsername)
     let password = element(.password)
+    let clearPassword = element(.clearPassword)
     let login = element(.loginButton)
 
     beforeEach {
       self.continueAfterFailure = false
-      
+
       let window = UIApplication.shared.keyWindow!
       HydraFlow(on: .window(window)).run(reset: ["defaults", "cache"], mode: "login")
     }
 
-    it("dismiss0") {
+    it("text input") {
+      username.perform(grey_typeText("abcdef"))
+      clearUsername.perform(grey_tap())
+      username.assert(grey_text(""))
+      
+      password.perform(grey_typeText("abcdef"))
+      clearPassword.perform(grey_tap())
+      username.assert(grey_text(""))
+      
       dismiss.perform(grey_tap())
     }
 
