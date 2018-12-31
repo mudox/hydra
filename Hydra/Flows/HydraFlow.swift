@@ -33,12 +33,15 @@ class HydraFlow: AppFlow {
     switch mode {
 
     case "defaults":
-      jack.func().info(" Reset UserDefaults (\(mode))")
+      jack.func().info("Reset UserDefaults (\(mode))")
       Defaults.removeAll()
 
     case "cache":
-      jack.func().info(" Reset caches from `Cache` (\(mode))")
+      jack.func().info("Reset caches from `Cache` (\(mode))")
       Caches.reset()
+      
+    case "realm":
+      jack.func().info("Reset Realm data (\(mode)) (Currently not implemented)")
 
     default:
       jack.func().warn("Unrecognized reset mode token: \(mode)")

@@ -16,13 +16,22 @@ class LanguageBar: UIView {
 
   typealias Language = String
 
-  var languagesRelay: BehaviorRelay<[Language]>!
-  private var languages: Driver<[Language]>!
+  var languages: [Language] {
+    get {
+      return _languagesRelay.value
+    }
+    set {
+      _languagesRelay.accept(newValue)
+    }
+  }
 
-  private var selectedIndexPathRelay: BehaviorRelay<IndexPath>!
-  private var selectedIndexPath: Driver<IndexPath>!
+  private let _languagesRelay = BehaviorRelay<[Language]>(value: [])
+  private let _languagesDriver: Driver<[Language]>
 
-  var selectedLanguage: Driver<Language>!
+  private let _indexPathRelay = BehaviorRelay<IndexPath>(value: .init(item: 0, section: 0))
+  private let _indexPathDriver: Driver<IndexPath>
+
+  let selectedLanguage: Driver<Language>
 
   // MARK: - Subviews
 
@@ -37,6 +46,20 @@ class LanguageBar: UIView {
   }
 
   init() {
+    _languagesDriver = _languagesRelay
+      .asDriver()
+      .skip(1)
+      .do(onNext: {
+        jack.assert(!$0.isEmpty, "Languages list should not be empty")
+      })
+
+    _indexPathDriver = _indexPathRelay.asDriver().skip(1)
+
+    selectedLanguage = _indexPathDriver
+      .withLatestFrom(_languagesDriver) { indexPath, languages -> Language in
+        languages[indexPath.item]
+      }
+
     super.init(frame: .zero)
 
     snp.makeConstraints { make in
@@ -122,39 +145,37 @@ class LanguageBar: UIView {
   private var disposeBag = DisposeBag()
 
   func setupBindings() {
-    setupProperties()
+
+    collectionView.rx.itemSelected.bind(to: _indexPathRelay)
+      .disposed(by: disposeBag)
 
     // Reload collection view on new data arrival
-    languages
+    _languagesDriver
       .drive(collectionView.rx.items)(setupCell)
       .disposed(by: disposeBag)
 
     // Scroll & select first item after reloading
-    languages
-      .drive(onNext: { [weak self] _ in
+    _languagesDriver
+      .mapTo(IndexPath(item: 0, section: 0))
+      .do(onNext: { [weak self] indexPath in
         guard let self = self else { return }
 
-        DispatchQueue.main.async {
-          let indexPath = IndexPath(item: 0, section: 0)
-          self.collectionView.scrollToItem(
-            at: indexPath,
-            at: .left,
-            animated: false
-          )
-          self.collectionView.selectItem(
+        DispatchQueue.main.async { [weak self] in
+          self?.collectionView.selectItem(
             at: indexPath,
             animated: true,
             scrollPosition: .left
           )
-          self.selectedIndexPathRelay.accept(indexPath)
         }
       })
+      .drive(_indexPathRelay)
       .disposed(by: disposeBag)
 
     // Underline follows selected cell with spring animation
-    selectedIndexPath
+    _indexPathDriver
       .drive(onNext: { [weak self] indexPath in
         guard let self = self else { return }
+
         DispatchQueue.main.async { // In case the cell is not shown in current run loop
           if let cell = self.collectionView.cellForItem(at: indexPath)
             as? LanguageBar.Cell {
@@ -163,29 +184,6 @@ class LanguageBar: UIView {
         }
       })
       .disposed(by: disposeBag)
-  }
-
-  func setupProperties() {
-    languagesRelay = .init(value: [])
-    languages = languagesRelay
-      .skip(1)
-      .do(onNext: {
-        if $0.isEmpty {
-          jack.sub("languages")
-            .failure("input languages list should not be empty")
-        }
-      })
-      .asDriverNoError()
-
-    selectedIndexPathRelay = .init(value: IndexPath(item: 0, section: 0))
-    selectedIndexPath = Driver.merge(
-      collectionView.rx.itemSelected.asDriver(),
-      selectedIndexPathRelay.asDriver()
-    )
-
-    selectedLanguage = selectedIndexPath.withLatestFrom(languages) { indexPath, languages -> Language in
-      languages[indexPath.item]
-    }
   }
 
 }

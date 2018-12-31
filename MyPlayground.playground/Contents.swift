@@ -6,19 +6,21 @@ import RxCocoa
 import RxSwift
 import RxSwiftExt
 
-let relay = BehaviorRelay<Int?>(value: nil)
+import MudoxKit
 
-relay.asObservable().pairwise()
-  .map { prev, this -> Int? in
-    if this != prev {
-      return this
-    } else {
-      return nil
-    }
+class A {
+  static func hi() {
+    print(self)
   }
-  .debug()
-  .subscribe()
+  
+  class func ho() {
+    print(self)
+  }
+}
 
-relay.accept(1)
-relay.accept(1)
-relay.accept(nil)
+class B: A {
+  
+}
+
+B.hi()
+B.ho()
