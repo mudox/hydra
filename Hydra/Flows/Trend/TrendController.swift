@@ -12,31 +12,15 @@ import GitHub
 
 private let jack = Jack().set(format: .short)
 
-class TrendController: UIViewController {
+class TrendController: ViewController {
 
   init(model: TrendModelType) {
     self.model = model
-
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  @available(*, unavailable, message: "init(coder:) has not been implemented")
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    setupView()
-
-    bindToModel()
-    bindFromModel()
+    super.init()
   }
 
   // MARK: - View
 
-  var tabSwitch: TabSwitch!
   var languageBar: LanguageBar!
   var languageLabel: UILabel!
 
@@ -44,12 +28,11 @@ class TrendController: UIViewController {
   var thisWeekSection: TrendSectionView!
   var thisMonthSection: TrendSectionView!
 
-  func setupView() {
+  override func setupView() {
     view.backgroundColor = .bgDark
 
     setupTabBar()
 
-    setupTabSwitch()
     setupLanguageBar()
 
     setupSections()
@@ -65,22 +48,12 @@ class TrendController: UIViewController {
     tabBarController?.tabBar.tintColor = .brand
   }
 
-  func setupTabSwitch() {
-    tabSwitch = TabSwitch(titles: ["Repositories", "Developers"])
-
-    view.addSubview(tabSwitch)
-    tabSwitch.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(4)
-    }
-  }
-
   func setupLanguageBar() {
     languageBar = LanguageBar()
 
     view.addSubview(languageBar)
     languageBar.snp.makeConstraints { make in
-      make.top.equalTo(tabSwitch.snp.bottom).offset(8)
+      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(8)
       make.leading.trailing.equalToSuperview().inset(10)
     }
   }
@@ -137,29 +110,24 @@ class TrendController: UIViewController {
 
   // MARK: - Model
 
-  var disposeBag = DisposeBag()
   let model: TrendModelType
+  
+  override func setupModel() {
+    viewDrivesModel()
+    modelDrivesView()
+  }
 
-  func bindToModel() {
+  func viewDrivesModel() {
     let input = model.input
-
-    // Tab switch -> trend kind
-
-    tabSwitch.selectedIndex
-      .map { TrendModel.Kind(rawValue: $0)! }
-      .drive(input.kindRelay)
-      .disposed(by: disposeBag)
-
-    // Language search bar -> language
 
     languageBar.languages = LanguageService().pinnedLanguages
 
     languageBar.selectedLanguage
-      .drive(input.languageRelay)
+      .drive(input.language)
       .disposed(by: disposeBag)
   }
 
-  func bindFromModel() {
+  func modelDrivesView() {
     let output = model.output
 
     // Drive collection views
