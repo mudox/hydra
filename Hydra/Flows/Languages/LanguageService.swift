@@ -19,26 +19,20 @@ private extension String {
 
 class LanguageService {
 
-  enum Error: Swift.Error {
-    case nilCache
-  }
-
   // MARK: - All
 
   private var allLanguagesFromCache: Single<[GitHub.Language]> {
     return .create { single in
-      let clean = Disposables.create()
-
       guard let cache = Caches.languages else {
-        single(.error(Error.nilCache))
-        return clean
+        single(.error(Errors.error("`Caches.languages` returned nil")))
+        return Disposables.create()
       }
 
       do {
         let languages = try cache.object(forKey: .allLanguagesCacheKey)
         single(.success(languages))
       } catch {
-        jack.func().warn("Failed with error:\n\(error.localizedDescription)")
+        jack.func().warn("Error fetching all languages from cache:\n\(error.localizedDescription)")
         single(.error(error))
       }
 
