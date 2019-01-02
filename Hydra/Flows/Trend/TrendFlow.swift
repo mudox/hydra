@@ -14,8 +14,8 @@ protocol TrendFlowType {
 class TrendFlow: Flow, TrendFlowType {
 
   var run: Completable {
-    return .create { _ in
-      let model = TrendModel(service: GitHub.Trending())
+    return .create { _ in // never complete
+      let model = TrendModel(service: TrendService())
       let vc = TrendController(model: model)
 
       var vcs = self.stage.tabBarController.viewControllers ?? []
