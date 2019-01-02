@@ -19,14 +19,7 @@ class LoginController: ViewController {
 
   init(model: LoginModelType) {
     self.model = model
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    setupView()
-    setupModel()
+    super.init()
   }
 
   // MARK: - Subviews
@@ -53,7 +46,7 @@ class LoginController: ViewController {
 
   // MARK: - View
 
-  func setupView() {
+  override func setupView() {
     view.backgroundColor = .white
 
     // Subviews
@@ -236,7 +229,7 @@ class LoginController: ViewController {
 
   let model: LoginModelType
 
-  func setupModel() {
+  override func setupModel() {
 
     // model <- view
 
