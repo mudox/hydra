@@ -1,6 +1,7 @@
 import UIKit
 
 import RxCocoa
+import RxDataSources
 import RxSwift
 
 import SnapKit
@@ -21,97 +22,49 @@ class TrendController: ViewController {
 
   // MARK: - View
 
-  var languageBar: LanguageBar!
-  var languageLabel: UILabel!
-
-  var todaySection: TrendSectionView!
-  var thisWeekSection: TrendSectionView!
-  var thisMonthSection: TrendSectionView!
+  let languageBar = LanguageBar()
+  let tableView = UITableView()
 
   override func setupView() {
     view.backgroundColor = .bgDark
 
+    setupNavigationBar()
+    setupTableView()
     setupTabBar()
-
-    setupLanguageBar()
-
-    setupSections()
   }
 
   func setupTabBar() {
-    tabBarItem.do {
+    navigationController?.tabBarItem.do {
       $0.image = #imageLiteral(resourceName: "Trend")
       $0.selectedImage = #imageLiteral(resourceName: "Trend Selected.pdf")
       $0.title = "Trend"
     }
-
-    tabBarController?.tabBar.tintColor = .brand
   }
 
-  func setupLanguageBar() {
-    languageBar = LanguageBar()
-
-    view.addSubview(languageBar)
+  func setupNavigationBar() {
+    navigationItem.titleView = languageBar
     languageBar.snp.makeConstraints { make in
-      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(8)
-      make.leading.trailing.equalToSuperview().inset(10)
+      make.width.equalToSuperview()
     }
   }
 
-  let sectionGap: CGFloat = 26
-
-  func setupSections() {
-
-    // Scroll view
-
-    let scrollView = UIScrollView().then {
-      $0.showsVerticalScrollIndicator = false
-      $0.delegate = self
+  func setupTableView() {
+    tableView.do {
+      $0.allowsSelection = false
+      $0.tableFooterView = UIView()
+      $0.register(TrendScrollCell.self, forCellReuseIdentifier: TrendScrollCell.id)
     }
 
-    view.addSubview(scrollView)
-    scrollView.snp.makeConstraints { make in
-      make.top.equalTo(languageBar.snp.bottom).offset(sectionGap)
-      make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-      make.leading.trailing.equalToSuperview()
+    view.addSubview(tableView)
+    tableView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
     }
-
-    todaySection = TrendSectionView().then {
-      $0.label.text = "Today"
-      $0.collectionView.delegate = self
-    }
-
-    thisWeekSection = TrendSectionView().then {
-      $0.label.text = "This Week"
-      $0.collectionView.delegate = self
-    }
-
-    thisMonthSection = TrendSectionView().then {
-      $0.label.text = "This Month"
-      $0.collectionView.delegate = self
-    }
-
-    let sectionsStackView = UIStackView(arrangedSubviews: [todaySection, thisWeekSection, thisMonthSection]).then {
-      $0.axis = .vertical
-      $0.distribution = .fillEqually
-      $0.alignment = .fill
-      $0.spacing = sectionGap
-      $0.backgroundColor = .red
-    }
-
-    // Stack view as content view of the scroll view
-    scrollView.addSubview(sectionsStackView)
-    sectionsStackView.snp.makeConstraints { make in
-      make.edges.equalTo(scrollView).inset(UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
-      make.width.equalTo(scrollView)
-    }
-
   }
 
   // MARK: - Model
 
   let model: TrendModelType
-  
+
   override func setupModel() {
     viewDrivesModel()
     modelDrivesView()
@@ -128,89 +81,18 @@ class TrendController: ViewController {
   }
 
   func modelDrivesView() {
-    let output = model.output
-
-    // Drive collection views
-
-    output.todayTrend
-      .map { $0.cellStates }
-      .drive(todaySection.collectionView.rx.items)(trendCellConfigurer(period: .today))
-      .disposed(by: disposeBag)
-
-    output.thisWeekTrend
-      .map { $0.cellStates }
-      .drive(thisWeekSection.collectionView.rx.items)(trendCellConfigurer(period: .thisWeek))
-      .disposed(by: disposeBag)
-
-    output.thisMonthTrend
-      .map { $0.cellStates }
-      .drive(thisMonthSection.collectionView.rx.items)(trendCellConfigurer(period: .thisMonth))
-      .disposed(by: disposeBag)
-
-    // Fake trending data
-//    TrendSectionState.fakeErrorLoadingRepositoriesDriver
-//      .map { $0.cellStates }
-//      .drive(todaySection.collectionView.rx.items)(trendCellConfigurer(period: .thisWeek))
-//      .disposed(by: disposeBag)
-
-//    TrendSectionState.fakeLoadingDevelopersDriver
-//      .map { $0.cellStates }
-//      .drive(thisMonthSection.collectionView.rx.items)(setupTrendCell)
-//      .disposed(by: disposeBag)
-
-    // Reset scrolling position on reloading
-
-    let reset = { (view: TrendSectionView) -> (TrendState) -> Void in
-      { _ in
-        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
-        view.collectionView.scrollRectToVisible(rect, animated: false)
-      }
-    }
-
-    output.todayTrend
-      .filter { $0.isLoading }
-      .drive(onNext: reset(todaySection))
-      .disposed(by: disposeBag)
-
-    output.thisWeekTrend
-      .filter { $0.isLoading }
-      .drive(onNext: reset(thisWeekSection))
-      .disposed(by: disposeBag)
-
-    output.thisMonthTrend
-      .filter { $0.isLoading }
-      .drive(onNext: reset(thisMonthSection))
-      .disposed(by: disposeBag)
 
   }
 
-}
-
-func trendCellConfigurer(period: Trending.Period)
-  -> (UICollectionView, Int, TrendCellState)
-  -> UICollectionViewCell
-{
-  return { view, index, state -> UICollectionViewCell in
-    let indexPath = IndexPath(item: index, section: 0)
-
-    switch state {
-    case .loadingRepository, .repository, .errorLoadingRepository:
-      let cell = view.dequeueReusableCell(
-        withReuseIdentifier: TrendRepositoryCell.identifier,
-        for: indexPath
-      ) as! TrendRepositoryCell // swiftlint:disable:this force_cast
-      cell.show(state: state, period: period)
-      return cell
-
-    case .loadingDeveloper, .developer, .errorLoadingDeveloper:
-      let cell = view.dequeueReusableCell(
-        withReuseIdentifier: TrendDeveloperCell.identifier,
-        for: indexPath
-      ) as! TrendDeveloperCell // swiftlint:disable:this force_cast
-      cell.show(state: state, period: period)
+  lazy var dataSource = RxTableViewSectionedReloadDataSource<Trend.Section>(
+    configureCell: { _, tableView, _, item in
+      // swiftlint:disable:next force_cast
+      let cell = tableView.dequeueReusableCell(withIdentifier: TrendScrollCell.id) as! TrendScrollCell
+      cell.show(item)
       return cell
     }
-  }
+  )
+
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -233,17 +115,17 @@ extension TrendController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - UIScrollViewDelegate
 
-extension TrendController: UIScrollViewDelegate {
-
-  func scrollViewWillEndDragging(
-    _ scrollView: UIScrollView,
-    withVelocity velocity: CGPoint,
-    targetContentOffset: UnsafeMutablePointer<CGPoint>
-  )
-  {
-    let offset = targetContentOffset.pointee.y
-    let step = sectionGap + TrendSectionView.height
-    let boundary = (offset / step).rounded() * step
-    targetContentOffset.pointee.y = boundary
-  }
-}
+// extension TrendController: UIScrollViewDelegate {
+//
+//  func scrollViewWillEndDragging(
+//    _ scrollView: UIScrollView,
+//    withVelocity velocity: CGPoint,
+//    targetContentOffset: UnsafeMutablePointer<CGPoint>
+//  )
+//  {
+//    let offset = targetContentOffset.pointee.y
+//    let step = sectionGap + TrendView.height
+//    let boundary = (offset / step).rounded() * step
+//    targetContentOffset.pointee.y = boundary
+//  }
+// }

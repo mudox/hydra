@@ -18,8 +18,10 @@ class TrendFlow: Flow, TrendFlowType {
       let model = TrendModel(service: TrendService())
       let vc = TrendController(model: model)
 
+      let nav = UINavigationController(rootViewController: vc)
+
       var vcs = self.stage.tabBarController.viewControllers ?? []
-      vcs.append(vc)
+      vcs.append(nav)
       self.stage.tabBarController.setViewControllers(vcs, animated: true)
 
       return Disposables.create()
