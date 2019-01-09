@@ -23,6 +23,7 @@ class TrendController: ViewController {
   // MARK: - View
 
   let languageBar = LanguageBar()
+
   let tableView = UITableView()
 
   override func setupView() {
@@ -48,18 +49,19 @@ class TrendController: ViewController {
     }
   }
 
+  let sectionHeaderHeight: CGFloat = 50
+
   func setupTableView() {
     tableView.do {
       $0.backgroundColor = .clear
 
+      $0.sectionHeaderHeight = sectionHeaderHeight
       $0.rowHeight = TrendScrollCell.height
 
       $0.allowsSelection = false
 
       $0.separatorStyle = .none
       $0.tableFooterView = UIView()
-
-      $0.sectionHeaderHeight = 50
 
       $0.showsHorizontalScrollIndicator = false
       $0.showsVerticalScrollIndicator = false
@@ -132,7 +134,7 @@ extension TrendController: UITableViewDelegate {
 
 // MARK: - UIScrollViewDelegate
 
-// extension TrendController: UIScrollViewDelegate {
+//extension TrendController: UIScrollViewDelegate {
 //
 //  func scrollViewWillEndDragging(
 //    _ scrollView: UIScrollView,
@@ -140,9 +142,47 @@ extension TrendController: UITableViewDelegate {
 //    targetContentOffset: UnsafeMutablePointer<CGPoint>
 //  )
 //  {
-//    let offset = targetContentOffset.pointee.y
-//    let step = sectionGap + TrendView.height
-//    let boundary = (offset / step).rounded() * step
-//    targetContentOffset.pointee.y = boundary
+////    let yBounds = [
+////      0,
+////      sectionHeaderHeight + TrendScrollCell.height,
+////      sectionHeaderHeight + TrendScrollCell.height * 2,
+////      sectionHeaderHeight + TrendScrollCell.height * 3,
+////      sectionHeaderHeight * 2 + TrendScrollCell.height * 4,
+////      sectionHeaderHeight * 2 + TrendScrollCell.height * 5,
+////      sectionHeaderHeight * 2 + TrendScrollCell.height * 6
+////    ]
+//    let yBounds = [
+//      0,
+//      TrendScrollCell.height,
+//      TrendScrollCell.height * 2,
+//      TrendScrollCell.height * 3,
+//      TrendScrollCell.height * 4,
+//      TrendScrollCell.height * 5,
+//      TrendScrollCell.height * 6
+//    ]
+//
+//    let oldY = targetContentOffset.pointee.y
+//
+//    targetContentOffset.pointee.y = snap(oldY, toBoundaries: yBounds)
 //  }
-// }
+//
+//}
+
+//func snap(_ value: CGFloat, toBoundaries bounds: [CGFloat]) -> CGFloat {
+//  var result: CGFloat = 0
+//  for index in 0 ... bounds.endIndex - 2 {
+//    let lower = bounds[index]
+//    let upper = bounds[index + 1]
+//    if lower <= value && value <= upper {
+//      if (value - lower) <= (upper - value) {
+//        result = lower
+//      } else {
+//        result = upper
+//      }
+//    }
+//  }
+//
+//  result = min(bounds.last!, max(bounds.first!, result))
+//  jack.debug("snap to \(result)")
+//  return result
+//}
