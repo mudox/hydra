@@ -17,8 +17,6 @@ class TrendRepositoryCell: TrendItemCell {
 
   static let id = "\(type(of: self))"
 
-  static let size = CGSize(width: 270, height: 170)
-
   // MARK: - Subviews
 
   private var repositoryLabel: UILabel!
@@ -225,19 +223,15 @@ class TrendRepositoryCell: TrendItemCell {
   }
 
   // MARK: - Show States
-  
-  func show(state: LoadingState<Trending.Repository>, context: Trend.Item, at: Int) {
-    
-  }
 
-  func show(state: LoadingState<(Int, Trending.Repository)>) {
+  func show(state: LoadingState<Trending.Repository>, context: Trend.Context, at index: Int) {
     switch state {
     case .loading:
       showLoading()
-    case let .value(value):
-      show(repository: value.1, rank: value.0)
+    case let .value(repo):
+      show(repository: repo, rank: index + 1)
     case let .error(error):
-      show(error: error)
+      show(error: error, context: context)
     }
   }
 
@@ -278,8 +272,8 @@ class TrendRepositoryCell: TrendItemCell {
     }
   }
 
-  override func show(error: Error, period: Trending.Period) {
-    super.show(error: error, period: period)
+  override func show(error: Error, context: Trend.Context) {
+    super.show(error: error, context: context)
 
     // Corners
     starsLabel.text = ""

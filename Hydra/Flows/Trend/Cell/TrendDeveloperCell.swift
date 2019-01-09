@@ -16,8 +16,6 @@ class TrendDeveloperCell: TrendItemCell {
 
   static let id = "\(type(of: self))"
 
-  static let size = CGSize(width: 270, height: 170)
-
   // MARK: - Subviews
 
   private var avatarView: UIImageView!
@@ -108,14 +106,14 @@ class TrendDeveloperCell: TrendItemCell {
 
   // MARK: - Show States
 
-  func show(state: LoadingState<(Trending.Developer, Int)>, period: Trending.Period) {
+  func show(state: LoadingState<Trending.Developer>, context: Trend.Context, at index: Int) {
     switch state {
     case .loading:
       showLoading()
-    case let .value(value):
-      show(developer: value.0, rank: value.1)
+    case let .value(developer):
+      show(developer: developer, rank: index + 1)
     case let .error(error):
-      show(error: error, period: period)
+      show(error: error, context: context)
     }
   }
 
@@ -144,17 +142,6 @@ class TrendDeveloperCell: TrendItemCell {
     }
   }
 
-  override func show(error: Error, period: Trending.Period) {
-    super.show(error: error, period: period)
-
-    // Avatar View
-    avatarView.image = [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!
-    avatarView.tintColor = .emptyDark
-
-    // Center
-    centerStackView.isHidden = true
-  }
-
   func show(developer: Trending.Developer, rank: Int) {
     show(rank: rank, color: .brand)
 
@@ -180,6 +167,17 @@ class TrendDeveloperCell: TrendItemCell {
       $0.transform = .identity
       $0.layer.cornerRadius = 0
     }
+  }
+
+  override func show(error: Error, context: Trend.Context) {
+    super.show(error: error, context: context)
+
+    // Avatar View
+    avatarView.image = [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!
+    avatarView.tintColor = .emptyDark
+
+    // Center
+    centerStackView.isHidden = true
   }
 
   // MARK: - Image Task

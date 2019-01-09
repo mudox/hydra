@@ -50,9 +50,23 @@ class TrendController: ViewController {
 
   func setupTableView() {
     tableView.do {
+      $0.backgroundColor = .clear
+
+      $0.rowHeight = TrendScrollCell.height
+
       $0.allowsSelection = false
+
+      $0.separatorStyle = .none
       $0.tableFooterView = UIView()
+
+      $0.sectionHeaderHeight = 50
+
+      $0.showsHorizontalScrollIndicator = false
+      $0.showsVerticalScrollIndicator = false
+
       $0.register(TrendScrollCell.self, forCellReuseIdentifier: TrendScrollCell.id)
+
+      $0.rx.setDelegate(self).disposed(by: disposeBag)
     }
 
     view.addSubview(tableView)
@@ -81,34 +95,37 @@ class TrendController: ViewController {
   }
 
   func modelDrivesView() {
+    let output = model.output
 
+    output.trend
+      .map { $0.sectionModels }
+      .drive(tableView.rx.items(dataSource: dataSource))
+      .disposed(by: disposeBag)
   }
 
   lazy var dataSource = RxTableViewSectionedReloadDataSource<Trend.Section>(
-    configureCell: { _, tableView, _, item in
+    configureCell: { _, tableView, _, context in
       // swiftlint:disable:next force_cast
       let cell = tableView.dequeueReusableCell(withIdentifier: TrendScrollCell.id) as! TrendScrollCell
-      cell.show(item)
+      cell.show(context)
       return cell
     }
   )
 
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
+// MARK: - UITableViewDelegate
 
-extension TrendController: UICollectionViewDelegateFlowLayout {
+extension TrendController: UITableViewDelegate {
 
-  func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    sizeForItemAt indexPath: IndexPath
-  )
-    -> CGSize
-  {
-    let height = collectionView.bounds.height
-    let width = height / 120 * 190 // Magic number!!!
-    return CGSize(width: width, height: height)
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    return UILabel().then {
+      $0.text = (section == 0) ? "TRENDING REPOSITORIES" : "TRENDING DEVELOPERS"
+      $0.textAlignment = .center
+      $0.font = .systemFont(ofSize: 14, weight: .bold)
+
+      $0.backgroundColor = .white
+    }
   }
 
 }

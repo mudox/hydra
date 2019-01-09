@@ -2,10 +2,15 @@ import UIKit
 
 import RxCocoa
 import RxSwift
+import RxSwiftExt
 
 import SnapKit
 
 import GitHub
+
+import JacKit
+
+private let jack = Jack().set(format: .short)
 
 class TrendScrollCell: UITableViewCell {
 
@@ -16,10 +21,8 @@ class TrendScrollCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-    // Size is fixed
-    snp.makeConstraints { make in
-      make.size.equalTo(TrendScrollCell.height)
-    }
+    backgroundColor = .clear
+    contentView.backgroundColor = .clear
 
     setupLabel()
     setupPageControl()
@@ -32,24 +35,27 @@ class TrendScrollCell: UITableViewCell {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
   // MARK: - View
 
   let label = UILabel()
+
   let pageControl = TrendPageControl()
-  let collectionView = UICollectionView(frame: .zero)
-  
-  static let height: CGFloat = 170
+
+  var collectionView: UICollectionView!
+
+  static let height: CGFloat = 230
 
   func setupLabel() {
     label.do {
+      $0.text = "Period"
       $0.font = .text
       $0.textColor = .dark
     }
 
     contentView.addSubview(label)
     label.snp.makeConstraints { make in
-      make.top.equalToSuperview()
+      make.top.equalToSuperview().inset(20)
       make.leading.equalToSuperview().offset(17)
     }
   }
@@ -66,7 +72,10 @@ class TrendScrollCell: UITableViewCell {
     let layout = UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
       $0.minimumLineSpacing = 10
+      $0.itemSize = TrendItemCell.size
     }
+
+    collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
     collectionView.do {
       $0.setCollectionViewLayout(layout, animated: false)
@@ -91,9 +100,9 @@ class TrendScrollCell: UITableViewCell {
 
     contentView.addSubview(collectionView)
     collectionView.snp.makeConstraints { make in
-      make.top.equalTo(label.snp.bottom).offset(10)
-      make.bottom.equalToSuperview().inset(10)
       make.leading.trailing.equalToSuperview()
+      make.top.equalTo(label.snp.bottom).offset(10)
+      make.height.equalTo(TrendItemCell.size.height)
     }
   }
 
@@ -120,29 +129,82 @@ class TrendScrollCell: UITableViewCell {
       })
       .disposed(by: disposeBag)
   }
-  
+
   // MARK: - Show data
 
-  func show(_ item: Trend.Item) {
+  func show(_ context: Trend.Context) {
+    switch context.period {
+    case .pastDay:
+      label.text = "Today"
+    case .pastWeek:
+      label.text = "Past Week"
+    case .pastMonth:
+      label.text = "Past Month"
+    }
+    
     disposeBag = DisposeBag()
 
-    TrendService()
-      .repositories(of: item.language, for: item.period)
-      .asLoadingStateDriver()
-      .map { state -> [LoadingState<Trending.Repository>] in
-        switch state {
-        case .loading:
-          return .init(repeating: .loading, count: 3)
-        case let .value(repos):
-          return repos.map(LoadingState.value)
-        case let .error(error):
-          return .init(repeating: .error(error), count: 3)
+    let driver = NotificationCenter.default
+      .rx.notification(TrendItemCell.retryNotification)
+      .filter { notify in
+        if let cellContext = notify.userInfo?["context"] as? Trend.Context {
+          return cellContext == context
+        } else {
+          jack.warn("Can not extract context info from the notification object")
+          return false
         }
+      }
+      .mapTo(())
+      .startWith(())
+      .asDriver { error in
+        jack.failure("Unexpected error: \(error)")
+        return .empty()
+      }
+
+    switch context.category {
+    case .repository:
+      driver.flatMapFirst {
+        TrendService()
+          .repositories(of: context.language, for: context.period)
+          .asLoadingStateDriver()
+          .map { state -> [LoadingState<Trending.Repository>] in
+            switch state {
+            case .loading:
+              return .init(repeating: .loading, count: 3)
+            case let .value(repos):
+              return repos.map(LoadingState.value)
+            case let .error(error):
+              return .init(repeating: .error(error), count: 3)
+            }
+          }
       }
       .drive(collectionView.rx.items(cellIdentifier: TrendRepositoryCell.id, cellType: TrendRepositoryCell.self)) {
         row, state, cell in
-        cell.show(state: state, context: item, at: row)
+        cell.show(state: state, context: context, at: row)
       }
       .disposed(by: disposeBag)
+    case .developer:
+      driver.flatMapFirst {
+        TrendService()
+          .developers(of: context.language, for: context.period)
+          .asLoadingStateDriver()
+          .map { state -> [LoadingState<Trending.Developer>] in
+            switch state {
+            case .loading:
+              return .init(repeating: .loading, count: 3)
+            case let .value(repos):
+              return repos.map(LoadingState.value)
+            case let .error(error):
+              return .init(repeating: .error(error), count: 3)
+            }
+          }
+      }
+      .drive(collectionView.rx.items(cellIdentifier: TrendDeveloperCell.id, cellType: TrendDeveloperCell.self)) {
+        row, state, cell in
+        cell.show(state: state, context: context, at: row)
+      }
+      .disposed(by: disposeBag)
+    }
   }
+
 }

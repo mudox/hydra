@@ -6,28 +6,28 @@ import RxSwift
 
 struct Trend {
 
-  struct Item {
+  struct Context: Equatable {
     let category: Trending.Category
     let language: String
     let period: Trending.Period
   }
 
-  typealias Section = SectionModel<String, Item>
+  typealias Section = SectionModel<String, Context>
 
-  let repositories: [Item]
-  let deveopers: [Item]
+  let repositories: [Context]
+  let deveopers: [Context]
 
   init(of language: String) {
     repositories = [
-      Item(category: .repository, language: language, period: .today),
-      Item(category: .repository, language: language, period: .weekly),
-      Item(category: .repository, language: language, period: .monthly)
+      Context(category: .repository, language: language, period: .pastDay),
+      Context(category: .repository, language: language, period: .pastWeek),
+      Context(category: .repository, language: language, period: .pastMonth)
     ]
 
     deveopers = [
-      Item(category: .developer, language: language, period: .today),
-      Item(category: .developer, language: language, period: .weekly),
-      Item(category: .developer, language: language, period: .monthly)
+      Context(category: .developer, language: language, period: .pastDay),
+      Context(category: .developer, language: language, period: .pastWeek),
+      Context(category: .developer, language: language, period: .pastMonth)
     ]
   }
 

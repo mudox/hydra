@@ -18,12 +18,6 @@ class TrendItemCell: UICollectionViewCell {
 
   let badge = BadgeView()
 
-  private var errorLabel: UILabel!
-  private var retryButton: RetryButton!
-  private var errorStackView: UIStackView!
-
-  // MARK: - Setup
-
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
     fatalError("do not use")
@@ -42,6 +36,14 @@ class TrendItemCell: UICollectionViewCell {
 
     setupBadge()
   }
+
+  // MARK: - View
+
+  private var errorLabel: UILabel!
+  private var retryButton: RetryButton!
+  private var errorStackView: UIStackView!
+
+  static let size = CGSize(width: 270, height: 170)
 
   func setupLayer() {
     layer.do {
@@ -120,7 +122,7 @@ class TrendItemCell: UICollectionViewCell {
     badge.showLoading()
   }
 
-  func show(error: Error, period: Trending.Period) {
+  func show(error: Error, context: Trend.Context) {
     // Self
     backgroundColor = .emptyLight
 
@@ -143,9 +145,7 @@ class TrendItemCell: UICollectionViewCell {
         NotificationCenter.default.post(
           name: TrendItemCell.retryNotification,
           object: nil,
-          userInfo: [
-            "period": period
-          ]
+          userInfo: ["context": context]
         )
       })
       .disposed(by: disposeBag)

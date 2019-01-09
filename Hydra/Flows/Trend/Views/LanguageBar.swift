@@ -21,7 +21,10 @@ class LanguageBar: UIView {
       return _languagesRelay.value
     }
     set {
-      _languagesRelay.accept(newValue)
+      var list = newValue
+      list.insert("All", at: 0)
+      list.insert("Unknown", at: list.endIndex - 2)
+      _languagesRelay.accept(list)
     }
   }
 
