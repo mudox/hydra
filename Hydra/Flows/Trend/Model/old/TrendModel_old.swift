@@ -109,7 +109,7 @@ class TrendModel: TrendModelType {
     thisWeekTrend = trend(triggeredBy: week, service: service)
     thisMonthTrend = trend(triggeredBy: month, service: service)
 
-    NotificationCenter.default.rx.notification(TrendBaseCell.retryNotification)
+    NotificationCenter.default.rx.notification(TrendItemCell.retryNotification)
       .bind(onNext: { [weak self] notification in
         guard let self = self else { return }
 
@@ -124,7 +124,7 @@ class TrendModel: TrendModelType {
           }
         } else {
           jack.func().error(
-            "failed to extract period information from `TrendBaseCell.retryNotification`"
+            "failed to extract period information from `TrendItemCell.retryNotification`"
           )
         }
       })
