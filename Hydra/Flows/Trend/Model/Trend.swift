@@ -12,27 +12,29 @@ struct Trend {
     let period: Trending.Period
   }
 
+  typealias Section = SectionModel<String, Item>
+
   let repositories: [Item]
   let deveopers: [Item]
 
   init(of language: String) {
     repositories = [
       Item(category: .repository, language: language, period: .today),
-      Item(category: .repository, language: language, period: .thisWeek),
-      Item(category: .repository, language: language, period: .thisMonth),
+      Item(category: .repository, language: language, period: .weekly),
+      Item(category: .repository, language: language, period: .monthly)
     ]
 
     deveopers = [
       Item(category: .developer, language: language, period: .today),
-      Item(category: .developer, language: language, period: .thisWeek),
-      Item(category: .developer, language: language, period: .thisMonth),
+      Item(category: .developer, language: language, period: .weekly),
+      Item(category: .developer, language: language, period: .monthly)
     ]
   }
 
-  var sectionModels: [SectionModel<String, Item>] {
+  var sectionModels: [Section] {
     return [
-      SectionModel(model: "Repositories", items: repositories),
-      SectionModel(model: "Developers", items: deveopers),
+      Section(model: "Repositories", items: repositories),
+      Section(model: "Developers", items: deveopers)
     ]
   }
 

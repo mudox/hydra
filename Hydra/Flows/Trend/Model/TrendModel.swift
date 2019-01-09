@@ -9,7 +9,7 @@ import GitHub
 import JacKit
 import MudoxKit
 
-fileprivate let jack = Jack().set(format: .short)
+private let jack = Jack().set(format: .short)
 
 // MARK: Interface
 
@@ -41,7 +41,7 @@ class TrendModel: TrendModelType {
   let language = BehaviorRelay<String>(value: "all")
 
   // MARK: Output
-  
+
   let trend: Driver<Trend>
 
   // MARK: Binding

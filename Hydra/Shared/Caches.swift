@@ -26,7 +26,7 @@ enum Caches {
 
   static let trend: Storage<[GitHub.Trending.Repository]>? = {
     let expiry = Cache.Expiry.seconds(60 * 60) // expires in 1 hour
-    
+
     let memoryConfig = MemoryConfig(expiry: expiry)
     let diskConfig = DiskConfig(name: "trend", expiry: expiry)
 

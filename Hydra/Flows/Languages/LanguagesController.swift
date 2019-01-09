@@ -192,6 +192,7 @@ class LanguagesController: UICollectionViewController {
       },
       canMoveItemAtIndexPath: {
         _, indexPath in
+        // Can only move items in 'Pinned' section
         indexPath.section == 1
       }
     )

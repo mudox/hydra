@@ -22,7 +22,12 @@ class TrendService: TrendServiceType {
 
   // MARK: Repositories
 
-  private func repositoriesFromCache(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]> {
+  private func repositoriesFromCache(
+    of language: String,
+    for period: Trending.Period
+  )
+    -> Single<[Trending.Repository]>
+  {
     return .create { single in
       guard let cache = Caches.trend else {
         single(.error(Errors.error("`Caches.trend` returned nil")))
@@ -42,7 +47,12 @@ class TrendService: TrendServiceType {
     }
   }
 
-  private func repositoriesFromNetwork(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]> {
+  private func repositoriesFromNetwork(
+    of language: String,
+    for period: Trending.Period
+  )
+    -> Single<[Trending.Repository]>
+  {
     return Trending().repositories(of: language, for: period)
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
       .do(onSuccess: { repositories in
@@ -62,16 +72,26 @@ class TrendService: TrendServiceType {
       })
   }
 
-  func repositories(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]> {
+  func repositories(
+    of language: String,
+    for period: Trending.Period
+  )
+    -> Single<[Trending.Repository]>
+  {
     return Observable.catchError([
       repositoriesFromCache(of: language, for: period).asObservable(),
-      repositoriesFromNetwork(of: language, for: period).asObservable(),
+      repositoriesFromNetwork(of: language, for: period).asObservable()
     ]).asSingle()
   }
 
   // MARK: - Developers
 
-  private func developersFromCache(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]> {
+  private func developersFromCache(
+    of language: String,
+    for period: Trending.Period
+  )
+    -> Single<[Trending.Developer]>
+  {
     return .create { single in
       guard let cache = Caches.trend else {
         single(.error(Errors.error("`Caches.trend` returned nil")))
@@ -91,7 +111,12 @@ class TrendService: TrendServiceType {
     }
   }
 
-  private func developersFromNetwork(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]> {
+  private func developersFromNetwork(
+    of language: String,
+    for period: Trending.Period
+  )
+    -> Single<[Trending.Developer]>
+  {
     return Trending().developers(of: language, for: period)
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
       .do(onSuccess: { developers in
@@ -111,10 +136,15 @@ class TrendService: TrendServiceType {
       })
   }
 
-  func developers(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]> {
+  func developers(
+    of language: String,
+    for period: Trending.Period
+  )
+    -> Single<[Trending.Developer]>
+  {
     return Observable.catchError([
       developersFromCache(of: language, for: period).asObservable(),
-      developersFromNetwork(of: language, for: period).asObservable(),
+      developersFromNetwork(of: language, for: period).asObservable()
     ]).asSingle()
   }
 

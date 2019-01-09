@@ -39,7 +39,7 @@ class HydraFlow: AppFlow {
     case "cache":
       jack.func().info("Reset caches from `Cache` (\(mode))")
       Caches.reset()
-      
+
     case "realm":
       jack.func().info("Reset Realm data (\(mode)) (Currently not implemented)")
 
@@ -69,7 +69,7 @@ class HydraFlow: AppFlow {
         .forever()
 
     default:
-      jack.func().error("Unrecognized run mode: \(mode)")
+      jack.failure("Unrecognized run mode: \(mode)")
     }
   }
 
