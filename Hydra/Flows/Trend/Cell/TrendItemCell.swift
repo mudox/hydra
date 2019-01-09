@@ -10,7 +10,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-class TrendBaseCell: UICollectionViewCell {
+class TrendItemCell: UICollectionViewCell {
 
   static let retryNotification = Notification.Name("io.github.Mudox.Hydra.Trend.retry")
 
@@ -141,7 +141,7 @@ class TrendBaseCell: UICollectionViewCell {
     retryButton.rx.tap
       .subscribe(onNext: { _ in
         NotificationCenter.default.post(
-          name: TrendBaseCell.retryNotification,
+          name: TrendItemCell.retryNotification,
           object: nil,
           userInfo: [
             "period": period

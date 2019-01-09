@@ -7,7 +7,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-extension TrendBaseCell {
+extension TrendItemCell {
 
   class BadgeView: UIView {
 

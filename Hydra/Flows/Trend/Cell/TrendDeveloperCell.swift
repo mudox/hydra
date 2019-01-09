@@ -12,9 +12,11 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-class TrendDeveloperCell: TrendBaseCell {
+class TrendDeveloperCell: TrendItemCell {
 
-  static let identifier = "\(type(of: self))"
+  static let id = "\(type(of: self))"
+
+  static let size = CGSize(width: 270, height: 170)
 
   // MARK: - Subviews
 
@@ -27,6 +29,10 @@ class TrendDeveloperCell: TrendBaseCell {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
+
+    snp.makeConstraints { make in
+      make.size.equalTo(TrendDeveloperCell.size)
+    }
 
     setupAvatarView()
     setupNameLabel()
@@ -102,16 +108,14 @@ class TrendDeveloperCell: TrendBaseCell {
 
   // MARK: - Show States
 
-  func show(state: TrendCellState, period: Trending.Period) {
+  func show(state: LoadingState<(Trending.Developer, Int)>, period: Trending.Period) {
     switch state {
-    case .loadingDeveloper:
+    case .loading:
       showLoading()
-    case let .developer(developer, rank: rank):
-      show(developer: developer, rank: rank)
-    case let .errorLoadingDeveloper(error):
+    case let .value(value):
+      show(developer: value.0, rank: value.1)
+    case let .error(error):
       show(error: error, period: period)
-    default:
-      jack.func().failure("unexpected state: \(state)")
     }
   }
 

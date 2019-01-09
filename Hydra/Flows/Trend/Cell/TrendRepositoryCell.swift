@@ -13,9 +13,11 @@ import JacKit
 private let jack = Jack().set(format: .short)
 
 // swiftlint:disable:next type_body_length
-class TrendRepositoryCell: TrendBaseCell {
+class TrendRepositoryCell: TrendItemCell {
 
-  static let identifier = "\(type(of: self))"
+  static let id = "\(type(of: self))"
+
+  static let size = CGSize(width: 270, height: 170)
 
   // MARK: - Subviews
 
@@ -39,6 +41,10 @@ class TrendRepositoryCell: TrendBaseCell {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
+
+    snp.makeConstraints { make in
+      make.size.equalTo(TrendRepositoryCell.size)
+    }
 
     // Center
     setupRepositoryLabel()
@@ -219,17 +225,19 @@ class TrendRepositoryCell: TrendBaseCell {
   }
 
   // MARK: - Show States
+  
+  func show(state: LoadingState<Trending.Repository>, context: Trend.Item, at: Int) {
+    
+  }
 
-  func show(state: TrendCellState, period: Trending.Period) {
+  func show(state: LoadingState<(Int, Trending.Repository)>) {
     switch state {
-    case .loadingRepository:
+    case .loading:
       showLoading()
-    case let .repository(repository, rank: rank):
-      show(repository: repository, rank: rank)
-    case let .errorLoadingRepository(error):
-      show(error: error, period: period)
-    default:
-      jack.func().failure("can not show this kind of state: \(state)")
+    case let .value(value):
+      show(repository: value.1, rank: value.0)
+    case let .error(error):
+      show(error: error)
     }
   }
 
