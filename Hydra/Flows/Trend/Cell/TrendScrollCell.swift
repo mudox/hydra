@@ -16,7 +16,8 @@ class TrendScrollCell: UITableViewCell {
 
   static let id = "\(type(of: self))"
 
-  var disposeBag = DisposeBag()
+  let pageControlBag = DisposeBag()
+  var dataSourceBag = DisposeBag()
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -109,7 +110,9 @@ class TrendScrollCell: UITableViewCell {
   func setupBindings() {
     // Collection view scrolling drives page control
     collectionView.rx.didScroll
-      .bind(onNext: { [unowned self] in
+      .bind(onNext: { [weak self] in
+        guard let self = self else { return }
+
         let pageWidth = self.collectionView.bounds.width
         let totalWidth = self.collectionView.contentSize.width
 
@@ -122,12 +125,12 @@ class TrendScrollCell: UITableViewCell {
         var x = self.collectionView.contentOffset.x
         x = max(0, x)
 
-        var index = Int(x * 25 / (totalWidth - pageWidth))
+        var index = Int(x * 25 / fullDistance)
         index = min(24, index)
 
         self.pageControl.currentIndex = index
       })
-      .disposed(by: disposeBag)
+      .disposed(by: pageControlBag)
   }
 
   // MARK: - Show data
@@ -141,10 +144,12 @@ class TrendScrollCell: UITableViewCell {
     case .pastMonth:
       label.text = "Past Month"
     }
-    
-    disposeBag = DisposeBag()
 
-    let driver = NotificationCenter.default
+    driveCollectionView(context)
+  }
+
+  func refreshDriver(for context: Trend.Context) -> Driver<Void> {
+    return NotificationCenter.default
       .rx.notification(TrendItemCell.retryNotification)
       .filter { notify in
         if let cellContext = notify.userInfo?["context"] as? Trend.Context {
@@ -160,6 +165,12 @@ class TrendScrollCell: UITableViewCell {
         jack.failure("Unexpected error: \(error)")
         return .empty()
       }
+  }
+
+  func driveCollectionView(_ context: Trend.Context) {
+    dataSourceBag = DisposeBag()
+
+    let driver = refreshDriver(for: context)
 
     switch context.category {
     case .repository:
@@ -182,7 +193,7 @@ class TrendScrollCell: UITableViewCell {
         row, state, cell in
         cell.show(state: state, context: context, at: row)
       }
-      .disposed(by: disposeBag)
+      .disposed(by: dataSourceBag)
     case .developer:
       driver.flatMapFirst {
         TrendService()
@@ -203,8 +214,7 @@ class TrendScrollCell: UITableViewCell {
         row, state, cell in
         cell.show(state: state, context: context, at: row)
       }
-      .disposed(by: disposeBag)
+      .disposed(by: dataSourceBag)
     }
   }
-
 }
