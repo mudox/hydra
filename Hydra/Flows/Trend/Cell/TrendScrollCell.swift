@@ -23,7 +23,6 @@ class TrendScrollCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
     backgroundColor = .clear
-    contentView.backgroundColor = .clear
 
     setupLabel()
     setupPageControl()
