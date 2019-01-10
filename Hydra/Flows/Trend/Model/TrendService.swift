@@ -84,7 +84,7 @@ class TrendService: TrendServiceType {
     ]).asSingle()
   }
 
-  // MARK: - Developers
+  // MARK: Developers
 
   private func developersFromCache(
     of language: String,
@@ -100,8 +100,8 @@ class TrendService: TrendServiceType {
 
       do {
         let key = composeKey(category: .developer, language: language, period: period)
-        let repositories = try cache.transformCodable(ofType: [Trending.Developer].self).object(forKey: key)
-        single(.success(repositories))
+        let developers = try cache.transformCodable(ofType: [Trending.Developer].self).object(forKey: key)
+        single(.success(developers))
       } catch {
         jack.func().warn("Error fetching all languages from cache:\n\(error.localizedDescription)")
         single(.error(error))
@@ -173,3 +173,38 @@ class TrendService: TrendServiceType {
   }
 
 }
+
+// swiftlint:disable force_try
+class TrendServiceStub: TrendServiceType {
+
+  func repositories(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]> {
+    switch period {
+    case .pastDay:
+      let jsonFile = Bundle.main.url(forResource: "TrendRepositories", withExtension: "json")!
+      let data = try! Data(contentsOf: jsonFile)
+      let list = try! JSONDecoder().decode([Trending.Repository].self, from: data)
+      return .just(list)
+    case .pastWeek:
+      return .never() // Loading forever
+    case .pastMonth:
+      return .error(Trending.Error.isDissecting)
+    }
+  }
+
+  func developers(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]> {
+    switch period {
+    case .pastDay:
+      let jsonFile = Bundle.main.url(forResource: "TrendDevelopers", withExtension: "json")!
+      let data = try! Data(contentsOf: jsonFile)
+      let list = try! JSONDecoder().decode([Trending.Developer].self, from: data)
+      return .just(list)
+    case .pastWeek:
+      return .never() // Loading forever
+    case .pastMonth:
+      return .error(Trending.Error.isDissecting)
+    }
+  }
+
+}
+
+// swiftlint:enable all
