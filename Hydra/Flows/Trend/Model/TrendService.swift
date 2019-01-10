@@ -15,7 +15,7 @@ protocol TrendServiceType {
 }
 
 private func composeKey(category: Trending.Category, language: String, period: Trending.Period) -> String {
-  return "\(period.rawValue)-\(language)-\(category)"
+  return "\(period.rawValue)-\(language.lowercased())-\(category)"
 }
 
 class TrendService: TrendServiceType {
