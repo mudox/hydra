@@ -12,15 +12,11 @@ private let jack = Jack().set(format: .short)
 
 class TrendItemCell: UICollectionViewCell {
 
-  static let retryNotification = Notification.Name("io.github.Mudox.Hydra.Trend.retry")
-
-  var disposeBag = DisposeBag()
-
   let badge = BadgeView()
 
-  @available(*, unavailable)
+  @available(*, unavailable, message: "init(coder:) has not been implemented")
   required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use")
+    fatalError("init(coder:) has not been implemented")
   }
 
   override init(frame: CGRect) {
@@ -40,7 +36,6 @@ class TrendItemCell: UICollectionViewCell {
   // MARK: - View
 
   private var errorLabel: UILabel!
-  private var retryButton: RetryButton!
   private var errorStackView: UIStackView!
 
   static let size = CGSize(width: 270, height: 170)
@@ -79,9 +74,7 @@ class TrendItemCell: UICollectionViewCell {
   }
 
   func setupErrorStackView() {
-    retryButton = RetryButton()
-
-    let views: [UIView] = [errorLabel, retryButton]
+    let views: [UIView] = [errorLabel]
     errorStackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .vertical
       $0.distribution = .fill
@@ -122,6 +115,8 @@ class TrendItemCell: UICollectionViewCell {
     badge.showLoading()
   }
 
+  var retryBag = DisposeBag()
+
   func show(error: Error, context: Trend.Context) {
     // Self
     backgroundColor = .emptyLight
@@ -136,22 +131,20 @@ class TrendItemCell: UICollectionViewCell {
     default:
       errorLabel.text = "Loading Error"
     }
-    retryButton.isHidden = false
 
-    // Retry button
-    disposeBag = DisposeBag()
-    retryButton.rx.tap
+    // Badge
+    badge.showError()
+
+    retryBag = DisposeBag()
+    badge.retryButton.rx.tap
       .subscribe(onNext: { _ in
         NotificationCenter.default.post(
-          name: TrendItemCell.retryNotification,
+          name: .retryLoadingTrend,
           object: nil,
           userInfo: ["context": context]
         )
       })
-      .disposed(by: disposeBag)
-
-    // Badge
-    badge.showError()
+      .disposed(by: retryBag)
   }
 
 }
