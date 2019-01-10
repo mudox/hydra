@@ -4,6 +4,8 @@ import RxCocoa
 import RxSwift
 import RxSwiftExt
 
+import Swinject
+
 import SnapKit
 
 import GitHub
@@ -135,16 +137,19 @@ class TrendScrollCell: UITableViewCell {
   // MARK: - Show data
 
   func show(_ context: Trend.Context) {
+    updateLabel(with: context)
+    driveCollectionView(with: context)
+  }
+
+  func updateLabel(with context: Trend.Context) {
     switch context.period {
     case .pastDay:
-      label.text = "Today"
+      label.text = "Past Day"
     case .pastWeek:
       label.text = "Past Week"
     case .pastMonth:
       label.text = "Past Month"
     }
-
-    driveCollectionView(context)
   }
 
   func refreshDriver(for context: Trend.Context) -> Driver<Void> {
@@ -154,7 +159,7 @@ class TrendScrollCell: UITableViewCell {
         if let cellContext = notify.userInfo?["context"] as? Trend.Context {
           return cellContext == context
         } else {
-          jack.warn("Can not extract context info from the notification object")
+          jack.warn("Can not extract context info from `notification.object`, skip this notification")
           return false
         }
       }
@@ -166,7 +171,7 @@ class TrendScrollCell: UITableViewCell {
       }
   }
 
-  func driveCollectionView(_ context: Trend.Context) {
+  func driveCollectionView(with context: Trend.Context) {
     dataSourceBag = DisposeBag()
 
     let driver = refreshDriver(for: context)
@@ -174,7 +179,7 @@ class TrendScrollCell: UITableViewCell {
     switch context.category {
     case .repository:
       driver.flatMapFirst {
-        TrendService()
+        di.resolve(TrendServiceType.self)!
           .repositories(of: context.language, for: context.period)
           .asLoadingStateDriver()
           .map { state -> [LoadingState<Trending.Repository>] in
@@ -195,7 +200,7 @@ class TrendScrollCell: UITableViewCell {
       .disposed(by: dataSourceBag)
     case .developer:
       driver.flatMapFirst {
-        TrendService()
+        di.resolve(TrendServiceType.self)!
           .developers(of: context.language, for: context.period)
           .asLoadingStateDriver()
           .map { state -> [LoadingState<Trending.Developer>] in
