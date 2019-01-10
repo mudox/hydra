@@ -21,6 +21,9 @@ class TrendRepositoryCell: TrendCardCell {
 
   private var repositoryLabel: UILabel!
   private var ownerLabel: UILabel!
+  private var centerInnerStackView: UIStackView!
+
+  private var summaryLabel: UILabel!
   private var centerStackView: UIStackView!
 
   private var starsLabel: UILabel!
@@ -35,7 +38,7 @@ class TrendRepositoryCell: TrendCardCell {
   private var languageLabel: UILabel!
   private var languageBadge: UIView!
 
-  // MARK: - Setup
+  // MARK: - Setup View
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -47,8 +50,8 @@ class TrendRepositoryCell: TrendCardCell {
     // Center
     setupRepositoryLabel()
     setupOwnerLabel()
-
-    setupContentStackView()
+    setupSummaryLabel()
+    setupCenterStackView()
 
     // Corners
     setupTopLeftCorner()
@@ -92,19 +95,44 @@ class TrendRepositoryCell: TrendCardCell {
     }
   }
 
-  func setupContentStackView() {
-    let views: [UIView] = [repositoryLabel, ownerLabel]
-    centerStackView = UIStackView(arrangedSubviews: views).then {
+  func setupSummaryLabel() {
+    summaryLabel = UILabel().then {
+      $0.text = "Repository Description"
+      $0.textColor = .light
+      $0.font = .callout
+      $0.textAlignment = .center
+
+      // Auto shrink
+      $0.numberOfLines = 4
+      $0.lineBreakMode = .byTruncatingTail
+
+      $0.adjustsFontSizeToFitWidth = true
+      $0.minimumScaleFactor = 0.7
+      $0.allowsDefaultTighteningForTruncation = true
+    }
+  }
+
+  func setupCenterStackView() {
+    var views: [UIView] = [repositoryLabel, ownerLabel]
+    centerInnerStackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .vertical
       $0.distribution = .fill
       $0.alignment = .center
       $0.spacing = 6
     }
 
+    views = [centerInnerStackView, summaryLabel]
+    centerStackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 10
+    }
+
     contentView.addSubview(centerStackView)
     centerStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
-      make.size.lessThanOrEqualToSuperview().inset(CGFloat.margin)
+      make.size.lessThanOrEqualToSuperview().inset(CGFloat.margin * 2)
     }
   }
 
@@ -265,8 +293,15 @@ class TrendRepositoryCell: TrendCardCell {
       $0.text = "XXXXXXX"
       $0.textColor = .emptyDark
       $0.backgroundColor = .emptyDark
-      $0.transform = .init(scaleX: 0.6, y: 0.7)
-      $0.transform = $0.transform.translatedBy(x: 0, y: -5)
+      $0.transform = CGAffineTransform(scaleX: 0.6, y: 0.7).translatedBy(x: 0, y: -5)
+      $0.layer.cornerRadius = .cornerRadius
+      $0.layer.masksToBounds = true
+    }
+    summaryLabel.do {
+      $0.text = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      $0.textColor = .emptyDark
+      $0.backgroundColor = .emptyDark
+      $0.transform = CGAffineTransform(scaleX: 0.6, y: 0.7).translatedBy(x: 0, y: -5)
       $0.layer.cornerRadius = .cornerRadius
       $0.layer.masksToBounds = true
     }
@@ -347,6 +382,13 @@ class TrendRepositoryCell: TrendCardCell {
     ownerLabel.do {
       $0.text = repository.owner
       $0.textColor = .dark
+      $0.backgroundColor = .clear
+      $0.transform = .identity
+      $0.layer.cornerRadius = 0
+    }
+    summaryLabel.do {
+      $0.text = repository.summary
+      $0.textColor = .light
       $0.backgroundColor = .clear
       $0.transform = .identity
       $0.layer.cornerRadius = 0
