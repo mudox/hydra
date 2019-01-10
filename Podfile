@@ -79,9 +79,8 @@ end
 # Testing {{{1
 
 def swinject_pods
-  # pod 'Swinject'
-  # pod 'SwinjectStoryboard'
-  # pod 'SwinjectAutoregistration'
+  pod 'Swinject'
+  pod 'SwinjectAutoregistration'
 end
 
 def quick_pods
@@ -148,6 +147,8 @@ target 'Hydra' do
 
   swift_pods
   rx_pods
+
+  swinject_pods
 
   ui_pods
 

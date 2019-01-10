@@ -98,6 +98,9 @@ PODS:
   - SwiftHEXColors (1.1.2)
   - SwiftLint (0.28.0)
   - SwiftyUserDefaults (4.0.0-alpha.1)
+  - Swinject (2.5.0)
+  - SwinjectAutoregistration (2.5.1):
+    - Swinject (~> 2.5)
   - Then (2.4.0)
   - Yams (1.0.1)
 
@@ -129,6 +132,8 @@ DEPENDENCIES:
   - SwiftHEXColors
   - SwiftLint
   - SwiftyUserDefaults (= 4.0.0-alpha.1)
+  - Swinject
+  - SwinjectAutoregistration
   - Then
 
 SPEC REPOS:
@@ -166,6 +171,8 @@ SPEC REPOS:
     - SwiftHEXColors
     - SwiftLint
     - SwiftyUserDefaults
+    - Swinject
+    - SwinjectAutoregistration
     - Then
     - Yams
 
@@ -214,9 +221,11 @@ SPEC CHECKSUMS:
   SwiftHEXColors: 7f9f7e6bdce888d821e11749279733e5ddff5f51
   SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
   SwiftyUserDefaults: cebe0ff9472f52699772a514b6f7155861d8069b
+  Swinject: 82cdb851f63f91bba974e3eca1d69780f2f7677e
+  SwinjectAutoregistration: f72bf894cbd2ee4a9153e00fa5208e93fb44d283
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 58c174ca88f5eed896d2dc04c24556c74d521351
+PODFILE CHECKSUM: 4b0dc2f383c75f22f5cb5027af4d88dbc133eb67
 
 COCOAPODS: 1.5.3
