@@ -10,7 +10,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-class TrendItemCell: UICollectionViewCell {
+class TrendCardCell: UICollectionViewCell {
 
   let badge = BadgeView()
 

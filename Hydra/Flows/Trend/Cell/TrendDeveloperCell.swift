@@ -12,7 +12,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-class TrendDeveloperCell: TrendItemCell {
+class TrendDeveloperCell: TrendCardCell {
 
   static let id = "\(type(of: self))"
 

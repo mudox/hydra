@@ -34,7 +34,7 @@
 		F44841FE21DCE09C00951C3D /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463A2AC21AE0BBE0067432B /* LoadingState.swift */; };
 		F44841FF21DCF68A00951C3D /* TrendBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */; };
 		F448420021DCF68A00951C3D /* ContributorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6221A730BD0045E74B /* ContributorsView.swift */; };
-		F448420121DCF68A00951C3D /* TrendItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C238421AC95D4006FA060 /* TrendItemCell.swift */; };
+		F448420121DCF68A00951C3D /* TrendCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C238421AC95D4006FA060 /* TrendCardCell.swift */; };
 		F448420221DCF68A00951C3D /* TrendDeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */; };
 		F448420321DCF68A00951C3D /* TrendRepositoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F584821A6273100416A45 /* TrendRepositoryCell.swift */; };
 		F448420421DCF71700951C3D /* RetryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463A2AE21AF188A0067432B /* RetryButton.swift */; };
@@ -119,7 +119,7 @@
 		E87907CADAF1DFD6C914B734 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Pods/EarlGrey/EarlGrey/EarlGrey.framework; sourceTree = SOURCE_ROOT; };
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendDeveloperCell.swift; sourceTree = "<group>"; };
-		F40C238421AC95D4006FA060 /* TrendItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendItemCell.swift; sourceTree = "<group>"; };
+		F40C238421AC95D4006FA060 /* TrendCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendCardCell.swift; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F41C5F2621E73BBF0011DBEC /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendRepositories.json; sourceTree = "<group>"; };
@@ -345,7 +345,7 @@
 			children = (
 				F49A1C5C21A66A440045E74B /* TrendScrollCell.swift */,
 				F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */,
-				F40C238421AC95D4006FA060 /* TrendItemCell.swift */,
+				F40C238421AC95D4006FA060 /* TrendCardCell.swift */,
 				F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */,
 				F43F584821A6273100416A45 /* TrendRepositoryCell.swift */,
 				F4F6097521E665DA000E06A3 /* Unused */,
@@ -940,7 +940,7 @@
 				F448420821DCF71F00951C3D /* TabSwitch.swift in Sources */,
 				F448420921DCF71F00951C3D /* TrendPageControl.swift in Sources */,
 				F448420421DCF71700951C3D /* RetryButton.swift in Sources */,
-				F448420121DCF68A00951C3D /* TrendItemCell.swift in Sources */,
+				F448420121DCF68A00951C3D /* TrendCardCell.swift in Sources */,
 				F448420A21DCF71F00951C3D /* TrendScrollCell.swift in Sources */,
 				F46C6891215A43400090B4AF /* LoginService.swift in Sources */,
 				F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */,

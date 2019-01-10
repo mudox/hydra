@@ -13,7 +13,7 @@ import JacKit
 private let jack = Jack().set(format: .short)
 
 // swiftlint:disable:next type_body_length
-class TrendRepositoryCell: TrendItemCell {
+class TrendRepositoryCell: TrendCardCell {
 
   static let id = "\(type(of: self))"
 

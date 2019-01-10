@@ -74,7 +74,7 @@ class TrendScrollCell: UITableViewCell {
     let layout = UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
       $0.minimumLineSpacing = 10
-      $0.itemSize = TrendItemCell.size
+      $0.itemSize = TrendCardCell.size
     }
 
     collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -104,7 +104,7 @@ class TrendScrollCell: UITableViewCell {
     collectionView.snp.makeConstraints { make in
       make.leading.trailing.equalToSuperview()
       make.top.equalTo(label.snp.bottom).offset(10)
-      make.height.equalTo(TrendItemCell.size.height)
+      make.height.equalTo(TrendCardCell.size.height)
     }
   }
 
