@@ -19,6 +19,7 @@
 		F41C5F2A21E79B7D0011DBEC /* TrendRepositories.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */; };
 		F41C5F2B21E79B7D0011DBEC /* TrendDevelopers.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2921E79B7D0011DBEC /* TrendDevelopers.json */; };
 		F41C5F2F21E79EA50011DBEC /* DI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2E21E79EA50011DBEC /* DI.swift */; };
+		F41C5F3121E7B4F70011DBEC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F3021E7B4F70011DBEC /* NotificationNames.swift */; };
 		F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4231FD3217B9D3600B2D748 /* Activity.swift */; };
 		F426C44421C69E8F00CAA764 /* LanguagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44321C69E8F00CAA764 /* LanguagesController.swift */; };
 		F426C44621C6A68D00CAA764 /* LanguagesFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44521C6A68D00CAA764 /* LanguagesFlow.swift */; };
@@ -124,6 +125,7 @@
 		F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendRepositories.json; sourceTree = "<group>"; };
 		F41C5F2921E79B7D0011DBEC /* TrendDevelopers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendDevelopers.json; sourceTree = "<group>"; };
 		F41C5F2E21E79EA50011DBEC /* DI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DI.swift; sourceTree = "<group>"; };
+		F41C5F3021E7B4F70011DBEC /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		F4231FD3217B9D3600B2D748 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		F426C44321C69E8F00CAA764 /* LanguagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesController.swift; sourceTree = "<group>"; };
 		F426C44521C6A68D00CAA764 /* LanguagesFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesFlow.swift; sourceTree = "<group>"; };
@@ -272,8 +274,9 @@
 				F4B4BA2821D3546300879B18 /* Caches.swift */,
 				F45C49522167E65200BC0576 /* CredentialService.swift */,
 				F48779472169F1CC00C027A9 /* DefaultsKeys.swift */,
-				F41C5F2621E73BBF0011DBEC /* UI.swift */,
 				F41C5F2E21E79EA50011DBEC /* DI.swift */,
+				F41C5F3021E7B4F70011DBEC /* NotificationNames.swift */,
+				F41C5F2621E73BBF0011DBEC /* UI.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -292,7 +295,6 @@
 		F43032F321B2DC4400BE40DF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F463A2AE21AF188A0067432B /* RetryButton.swift */,
 				F4349CE421A873D000628D8D /* TrendPageControl.swift */,
 				F451AC7521B0356800C101D1 /* LanguageBar.swift */,
 				F4F6097621E665EC000E06A3 /* Unused */,
@@ -395,6 +397,7 @@
 		F4F6097521E665DA000E06A3 /* Unused */ = {
 			isa = PBXGroup;
 			children = (
+				F463A2AE21AF188A0067432B /* RetryButton.swift */,
 				F49A1C6221A730BD0045E74B /* ContributorsView.swift */,
 			);
 			path = Unused;
@@ -925,6 +928,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F41C5F3121E7B4F70011DBEC /* NotificationNames.swift in Sources */,
 				F426C44A21C9174E00CAA764 /* LoginButton.swift in Sources */,
 				F448420B21DCF71F00951C3D /* LanguageBar.swift in Sources */,
 				F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */,
