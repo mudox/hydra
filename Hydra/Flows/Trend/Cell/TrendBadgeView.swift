@@ -1,5 +1,8 @@
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 import NVActivityIndicatorView
 import SnapKit
 
@@ -37,8 +40,7 @@ extension TrendItemCell {
     // MARK: - Subviews
 
     let rankLabel = UILabel()
-    let contentView = UIView()
-    let indicator = NVActivityIndicatorView(frame: .zero, type: .ballScaleRippleMultiple, color: .white)
+    let indicator = NVActivityIndicatorView(frame: .zero, type: .ballScaleRippleMultiple, color: .emptyDark)
     let retryButton = UIButton(type: .custom)
 
     // MARK: - Setup View
@@ -53,23 +55,9 @@ extension TrendItemCell {
         make.size.equalTo(outerDiameter)
       }
 
-      setupContentView()
       setupRankLabel()
       setupIndicator()
       setupRetryButton()
-    }
-
-    func setupContentView() {
-      contentView.do {
-        $0.backgroundColor = .brand
-        $0.layer.cornerRadius = innerRadius
-      }
-
-      addSubview(contentView)
-      contentView.snp.makeConstraints { make in
-        make.center.equalToSuperview()
-        make.size.equalTo(innerDiameter)
-      }
     }
 
     func setupRankLabel() {
@@ -78,10 +66,14 @@ extension TrendItemCell {
         $0.textColor = .white
         $0.font = UIFont(name: "American Typewriter", size: 12)
         $0.textAlignment = .center
+
+        $0.layer.cornerRadius = innerRadius
+        $0.layer.masksToBounds = true
       }
 
       addSubview(rankLabel)
       rankLabel.snp.makeConstraints { make in
+        make.size.equalTo(innerDiameter)
         make.center.equalTo(self)
       }
     }
@@ -90,7 +82,7 @@ extension TrendItemCell {
       addSubview(indicator)
       indicator.snp.makeConstraints { make in
         make.center.equalToSuperview()
-        make.size.equalTo(innerDiameter + 1)
+        make.size.equalTo(innerDiameter)
       }
 
     }
@@ -124,12 +116,6 @@ extension TrendItemCell {
         make.size.equalTo(outerDiameter)
       }
 
-      // Content view
-      contentView.do {
-        $0.isHidden = false
-        $0.backgroundColor = .emptyDark
-      }
-
       // Indicator
       indicator.startAnimating()
 
@@ -144,9 +130,6 @@ extension TrendItemCell {
       snp.updateConstraints { make in
         make.size.equalTo(CGSize(width: errorOuterWidth, height: outerDiameter))
       }
-
-      // Content view
-      contentView.isHidden = true
 
       // Indicator
       indicator.stopAnimating()
@@ -171,15 +154,12 @@ extension TrendItemCell {
         make.size.equalTo(outerDiameter)
       }
 
-      // Content view
-      contentView.do {
+      // Rank label
+      rankLabel.do {
         $0.isHidden = false
+        $0.text = rank.description
         $0.backgroundColor = color
       }
-
-      // Rank label
-      rankLabel.isHidden = false
-      rankLabel.text = rank.description
 
       // Other
       indicator.stopAnimating()
