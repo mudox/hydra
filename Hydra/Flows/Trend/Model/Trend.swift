@@ -31,7 +31,7 @@ struct Trend {
     ]
   }
 
-  var sectionModels: [Section] {
+  var sections: [Section] {
     return [
       Section(model: "Repositories", items: repositories),
       Section(model: "Developers", items: deveopers)

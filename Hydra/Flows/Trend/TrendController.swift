@@ -99,7 +99,7 @@ class TrendController: ViewController {
     let output = model.output
 
     output.trend
-      .map { $0.sectionModels }
+      .map { $0.sections }
       .drive(tableView.rx.items(dataSource: dataSource))
       .disposed(by: disposeBag)
   }
