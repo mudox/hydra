@@ -148,4 +148,28 @@ class TrendService: TrendServiceType {
     ]).asSingle()
   }
 
+  // MARK: Record Stub Data
+
+  func recordStubData() {
+    // swiftlint:disable force_try
+    var key = composeKey(category: .repository, language: "all", period: .pastDay)
+    let repositories = try! Caches.trend!.object(forKey: key)
+
+    key = composeKey(category: .developer, language: "all", period: .pastDay)
+    let developers = try! Caches.trend!.transformCodable(ofType: [Trending.Developer].self).object(forKey: key)
+
+    let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    let repoFile = docDir.appendingPathComponent("repo.json")
+    let devsFile = docDir.appendingPathComponent("dev.json")
+
+    let reposData = try! JSONEncoder().encode(repositories)
+    let devsData = try! JSONEncoder().encode(developers)
+
+    try! reposData.write(to: repoFile)
+    try! devsData.write(to: devsFile)
+
+    jack.info("Write stub data under: \(docDir)")
+    // swiftlint:enable all
+  }
+
 }
