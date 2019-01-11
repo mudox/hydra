@@ -19,7 +19,7 @@ class TrendRepositoryCell: TrendCardCell {
 
   // MARK: - Subviews
 
-  private var repositoryLabel: UILabel!
+  private var nameLabel: UILabel!
   private var ownerLabel: UILabel!
   private var centerInnerStackView: UIStackView!
 
@@ -48,7 +48,7 @@ class TrendRepositoryCell: TrendCardCell {
     }
 
     // Center
-    setupRepositoryLabel()
+    setupNameLabel()
     setupOwnerLabel()
     setupSummaryLabel()
     setupCenterStackView()
@@ -60,8 +60,8 @@ class TrendRepositoryCell: TrendCardCell {
     setupBottomLeftCorner()
   }
 
-  func setupRepositoryLabel() {
-    repositoryLabel = UILabel().then {
+  func setupNameLabel() {
+    nameLabel = UILabel().then {
       $0.text = "Repository Name"
       $0.textColor = .dark
       $0.font = .title
@@ -75,7 +75,6 @@ class TrendRepositoryCell: TrendCardCell {
       $0.minimumScaleFactor = 0.7
       $0.allowsDefaultTighteningForTruncation = true
     }
-
   }
 
   func setupOwnerLabel() {
@@ -90,7 +89,7 @@ class TrendRepositoryCell: TrendCardCell {
       $0.lineBreakMode = .byTruncatingTail
 
       $0.adjustsFontSizeToFitWidth = true
-      $0.minimumScaleFactor = 0.7
+      $0.minimumScaleFactor = 0.8
       $0.allowsDefaultTighteningForTruncation = true
     }
   }
@@ -103,17 +102,17 @@ class TrendRepositoryCell: TrendCardCell {
       $0.textAlignment = .center
 
       // Auto shrink
-      $0.numberOfLines = 4
+      $0.numberOfLines = 5
       $0.lineBreakMode = .byTruncatingTail
 
       $0.adjustsFontSizeToFitWidth = true
-      $0.minimumScaleFactor = 0.7
+      $0.minimumScaleFactor = 0.8
       $0.allowsDefaultTighteningForTruncation = true
     }
   }
 
   func setupCenterStackView() {
-    var views: [UIView] = [repositoryLabel, ownerLabel]
+    var views: [UIView] = [nameLabel, ownerLabel]
     centerInnerStackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .vertical
       $0.distribution = .fill
@@ -140,7 +139,7 @@ class TrendRepositoryCell: TrendCardCell {
     starsLabel = UILabel().then {
       $0.text = "1383"
       $0.textColor = .dark
-      $0.font = .callout
+      $0.font = .text
       $0.textAlignment = .left
     }
 
@@ -280,30 +279,8 @@ class TrendRepositoryCell: TrendCardCell {
     languageBadge.backgroundColor = .white
 
     // Center
-    centerStackView.isHidden = false
-    repositoryLabel.do {
-      $0.text = "XXXXXXXXXX"
-      $0.textColor = .emptyDark
-      $0.backgroundColor = .emptyDark
-      $0.transform = .init(scaleX: 0.6, y: 0.65)
-      $0.layer.cornerRadius = .cornerRadius
-      $0.layer.masksToBounds = true
-    }
-    ownerLabel.do {
-      $0.text = "XXXXXXX"
-      $0.textColor = .emptyDark
-      $0.backgroundColor = .emptyDark
-      $0.transform = CGAffineTransform(scaleX: 0.6, y: 0.7).translatedBy(x: 0, y: -5)
-      $0.layer.cornerRadius = .cornerRadius
-      $0.layer.masksToBounds = true
-    }
-    summaryLabel.do {
-      $0.text = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-      $0.textColor = .emptyDark
-      $0.backgroundColor = .emptyDark
-      $0.transform = CGAffineTransform(scaleX: 0.6, y: 0.7).translatedBy(x: 0, y: -5)
-      $0.layer.cornerRadius = .cornerRadius
-      $0.layer.masksToBounds = true
+    centerStackView.do {
+      $0.isHidden = false
     }
   }
 
@@ -349,7 +326,7 @@ class TrendRepositoryCell: TrendCardCell {
       gainedStarsIcon.isHidden = true
     }
 
-    // Language
+    // Language corner
     if let language = repository.language {
       languageLabel.text = language.name
 
@@ -361,7 +338,7 @@ class TrendRepositoryCell: TrendCardCell {
       }
     }
 
-    // Forks count
+    // Forks corner
     if let count = repository.forksCount {
       forksLabel.isHidden = false
       forksLabel.text = count.description
@@ -372,7 +349,7 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Center
     centerStackView.isHidden = false
-    repositoryLabel.do {
+    nameLabel.do {
       $0.text = repository.name
       $0.textColor = .dark
       $0.backgroundColor = .clear
