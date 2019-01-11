@@ -23,6 +23,8 @@ class TrendRepositoryCell: TrendCardCell {
   private var ownerLabel: UILabel!
   private var centerInnerStackView: UIStackView!
 
+  private var placeholder: UIStackView!
+
   private var summaryLabel: UILabel!
   private var centerStackView: UIStackView!
 
@@ -52,6 +54,8 @@ class TrendRepositoryCell: TrendCardCell {
     setupOwnerLabel()
     setupSummaryLabel()
     setupCenterStackView()
+
+    setupPlaceholder()
 
     // Corners
     setupTopLeftCorner()
@@ -91,6 +95,66 @@ class TrendRepositoryCell: TrendCardCell {
       $0.adjustsFontSizeToFitWidth = true
       $0.minimumScaleFactor = 0.8
       $0.allowsDefaultTighteningForTruncation = true
+    }
+  }
+
+  func setupPlaceholder() {
+
+    let nameLine = UIView().then {
+      $0.backgroundColor = .emptyDark
+      $0.layer.cornerRadius = 3
+      $0.isUserInteractionEnabled = false
+      $0.snp.makeConstraints { make in
+        make.size.equalTo(CGSize(width: 110, height: 14))
+      }
+    }
+
+    let ownerLine = UIView().then {
+      $0.backgroundColor = .emptyDark
+      $0.layer.cornerRadius = 3
+      $0.isUserInteractionEnabled = false
+      $0.snp.makeConstraints { make in
+        make.size.equalTo(CGSize(width: 55, height: 11))
+      }
+    }
+
+    let summaryLines = (0..<3).map { index in
+      return UIView().then {
+        $0.backgroundColor = #colorLiteral(red: 0.833925426, green: 0.833925426, blue: 0.833925426, alpha: 1)
+        $0.layer.cornerRadius = 2
+        $0.isUserInteractionEnabled = false
+        $0.snp.makeConstraints { make in
+          make.size.equalTo(CGSize(width: (index == 2) ? 133 : 190, height: 10))
+        }
+      }
+    }
+
+    var views: [UIView] = [nameLine, ownerLine]
+    let topStackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 10
+    }
+
+    let bottomStackView = UIStackView(arrangedSubviews: summaryLines).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 5
+    }
+
+    views = [topStackView, bottomStackView]
+    placeholder = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 15
+    }
+
+    contentView.addSubview(placeholder)
+    placeholder.snp.makeConstraints { make in
+      make.center.equalToSuperview()
     }
   }
 
@@ -279,9 +343,8 @@ class TrendRepositoryCell: TrendCardCell {
     languageBadge.backgroundColor = .white
 
     // Center
-    centerStackView.do {
-      $0.isHidden = false
-    }
+    centerStackView.isHidden = true
+    placeholder.isHidden = false
   }
 
   override func show(error: Error, context: Trend.Context) {
@@ -302,6 +365,7 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Center
     centerStackView.isHidden = true
+    placeholder.isHidden = true
 
     // Badge
     badge.showError()
@@ -310,11 +374,11 @@ class TrendRepositoryCell: TrendCardCell {
   func show(repository: Trending.Repository, rank: Int) {
     show(rank: rank, color: repository.language?.color ?? .light)
 
-    // Stars
+    // Stars corner
     starsLabel.text = repository.starsCount.description
     starsIcon.tintColor = .dark
 
-    // Gained Stars
+    // Gained stars corner
     if let count = repository.gainedStarsCount {
       gainedStarsLabel.isHidden = false
       gainedStarsIcon.isHidden = false
@@ -349,27 +413,7 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Center
     centerStackView.isHidden = false
-    nameLabel.do {
-      $0.text = repository.name
-      $0.textColor = .dark
-      $0.backgroundColor = .clear
-      $0.transform = .identity
-      $0.layer.cornerRadius = 0
-    }
-    ownerLabel.do {
-      $0.text = repository.owner
-      $0.textColor = .dark
-      $0.backgroundColor = .clear
-      $0.transform = .identity
-      $0.layer.cornerRadius = 0
-    }
-    summaryLabel.do {
-      $0.text = repository.summary
-      $0.textColor = .light
-      $0.backgroundColor = .clear
-      $0.transform = .identity
-      $0.layer.cornerRadius = 0
-    }
+    placeholder.isHidden = true
   }
 
 }

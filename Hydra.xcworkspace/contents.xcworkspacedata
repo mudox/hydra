@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../../../Desktop/CAGradientLayer.playground">
+   </FileRef>
+   <FileRef
       location = "group:Hydra.xcodeproj">
    </FileRef>
    <FileRef

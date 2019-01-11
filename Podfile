@@ -159,8 +159,6 @@ target 'Hydra' do
   target 'Test' do
     inherit! :search_paths
 
-    pod 'Then'
-
     quick_pods
   end
 
@@ -168,7 +166,7 @@ target 'Hydra' do
     inherit! :search_paths
 
     pod 'EarlGrey'
-    pod 'Then'
+    #pod 'Then'
 
     quick_pods
   end
@@ -176,7 +174,7 @@ target 'Hydra' do
   target 'UITest' do
     inherit! :search_paths
 
-    pod 'Then'
+    #pod 'Then'
   end
 end
 
