@@ -39,7 +39,7 @@ class TrendService: TrendServiceType {
         let repositories = try cache.object(forKey: key)
         single(.success(repositories))
       } catch {
-        jack.func().warn("Error fetching all languages from cache: \(error.localizedDescription)")
+        jack.func().verbose("Error fetching trending repositories data from cache:\n\(error)")
         single(.error(error))
       }
 
@@ -103,7 +103,7 @@ class TrendService: TrendServiceType {
         let developers = try cache.transformCodable(ofType: [Trending.Developer].self).object(forKey: key)
         single(.success(developers))
       } catch {
-        jack.func().warn("Error fetching all languages from cache:\n\(error.localizedDescription)")
+        jack.func().verbose("Error fetching trending developers data from cache:\n\(error)")
         single(.error(error))
       }
 

@@ -44,12 +44,15 @@ class TrendController: ViewController {
 
   func setupNavigationBar() {
     navigationItem.titleView = languageBar
+
     languageBar.snp.makeConstraints { make in
       make.width.equalToSuperview()
     }
+
+    navigationController?.navigationBar.shadowImage = UIImage()
   }
 
-  let sectionHeaderHeight: CGFloat = 50
+  let sectionHeaderHeight: CGFloat = 40
 
   func setupTableView() {
     tableView.do {
@@ -120,13 +123,22 @@ class TrendController: ViewController {
 extension TrendController: UITableViewDelegate {
 
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    return UILabel().then {
+    let label = UILabel().then {
       $0.text = (section == 0) ? "TRENDING REPOSITORIES" : "TRENDING DEVELOPERS"
       $0.textAlignment = .center
       $0.font = .systemFont(ofSize: 14, weight: .bold)
 
-      $0.backgroundColor = .white
+      $0.backgroundColor = .clear
     }
+
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+
+    blurView.contentView.addSubview(label)
+    label.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+    }
+
+    return blurView
   }
 
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
