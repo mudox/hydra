@@ -112,15 +112,14 @@ def networking_pods
 end
 
 def ui_pods
-  # pod 'iCarousel'
-  # pod 'Eureka'
   # pod 'IQKeyboardManagerSwift'
   # pod 'SwiftRichString'
 
+  #pod "SkeletonView"
   pod 'Hero'
   pod 'NVActivityIndicatorView'
-  pod 'SwiftHEXColors'
   pod 'SnapKit'
+  pod 'SwiftHEXColors'
 end
 
 def swift_pods
