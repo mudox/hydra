@@ -12,12 +12,6 @@ extension CGFloat {
 
 }
 
-extension UIEdgeInsets {
-
-  static let trend = UIEdgeInsets(top: .margin, left: .margin, bottom: .margin, right: .margin)
-
-}
-
 extension UIFont {
 
   static let title = UIFont.systemFont(ofSize: 14, weight: .bold)

@@ -10,6 +10,8 @@ import Kingfisher
 import GitHub
 import JacKit
 
+import SkeletonView
+
 private let jack = Jack().set(format: .short)
 
 // swiftlint:disable:next type_body_length
@@ -23,7 +25,7 @@ class TrendRepositoryCell: TrendCardCell {
   private var ownerLabel: UILabel!
   private var centerInnerStackView: UIStackView!
 
-  private var placeholder: UIStackView!
+  private var skeleton: UIStackView!
 
   private var summaryLabel: UILabel!
   private var centerStackView: UIStackView!
@@ -55,7 +57,7 @@ class TrendRepositoryCell: TrendCardCell {
     setupSummaryLabel()
     setupCenterStackView()
 
-    setupPlaceholder()
+    setupSkeleton()
 
     // Corners
     setupTopLeftCorner()
@@ -98,62 +100,62 @@ class TrendRepositoryCell: TrendCardCell {
     }
   }
 
-  func setupPlaceholder() {
+  func setupSkeleton() {
+    func setup(_ view: UIView, cornerRadius: CGFloat) {
+      view.isSkeletonable = true
+      view.layer.cornerRadius = cornerRadius
+      view.layer.masksToBounds = true
+    }
 
     let nameLine = UIView().then {
-      $0.backgroundColor = .emptyDark
-      $0.layer.cornerRadius = 3
-      $0.isUserInteractionEnabled = false
+      setup($0, cornerRadius: 3)
       $0.snp.makeConstraints { make in
         make.size.equalTo(CGSize(width: 110, height: 14))
       }
     }
 
     let ownerLine = UIView().then {
-      $0.backgroundColor = .emptyDark
-      $0.layer.cornerRadius = 3
-      $0.isUserInteractionEnabled = false
+      setup($0, cornerRadius: 3)
       $0.snp.makeConstraints { make in
         make.size.equalTo(CGSize(width: 55, height: 11))
       }
     }
 
-    let summaryLines = (0..<3).map { index in
+    let summaryLines = (0 ..< 3).map { index in
       return UIView().then {
-        $0.backgroundColor = #colorLiteral(red: 0.833925426, green: 0.833925426, blue: 0.833925426, alpha: 1)
-        $0.layer.cornerRadius = 2
-        $0.isUserInteractionEnabled = false
+        setup($0, cornerRadius: 2)
         $0.snp.makeConstraints { make in
           make.size.equalTo(CGSize(width: (index == 2) ? 133 : 190, height: 10))
         }
       }
     }
 
+    func setup(_ view: UIStackView) {
+      view.isSkeletonable = true
+      view.axis = .vertical
+      view.distribution = .fill
+      view.alignment = .center
+    }
+
     var views: [UIView] = [nameLine, ownerLine]
     let topStackView = UIStackView(arrangedSubviews: views).then {
-      $0.axis = .vertical
-      $0.distribution = .fill
-      $0.alignment = .center
+      setup($0)
       $0.spacing = 10
     }
 
     let bottomStackView = UIStackView(arrangedSubviews: summaryLines).then {
-      $0.axis = .vertical
-      $0.distribution = .fill
-      $0.alignment = .center
+      setup($0)
       $0.spacing = 5
     }
 
     views = [topStackView, bottomStackView]
-    placeholder = UIStackView(arrangedSubviews: views).then {
-      $0.axis = .vertical
-      $0.distribution = .fill
-      $0.alignment = .center
+    skeleton = UIStackView(arrangedSubviews: views).then {
+      setup($0)
       $0.spacing = 15
     }
 
-    contentView.addSubview(placeholder)
-    placeholder.snp.makeConstraints { make in
+    contentView.addSubview(skeleton)
+    skeleton.snp.makeConstraints { make in
       make.center.equalToSuperview()
     }
   }
@@ -344,7 +346,12 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Center
     centerStackView.isHidden = true
-    placeholder.isHidden = false
+    skeleton.do {
+      $0.isHidden = false
+      let gradient = SkeletonGradient(baseColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+      let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
+      $0.showAnimatedGradientSkeleton(usingGradient: gradient, animation: animation)
+    }
   }
 
   override func show(error: Error, context: Trend.Context) {
@@ -365,10 +372,8 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Center
     centerStackView.isHidden = true
-    placeholder.isHidden = true
-
-    // Badge
-    badge.showError()
+    skeleton.isHidden = true
+    skeleton.hideSkeleton()
   }
 
   func show(repository: Trending.Repository, rank: Int) {
@@ -413,7 +418,12 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Center
     centerStackView.isHidden = false
-    placeholder.isHidden = true
+    skeleton.isHidden = true
+    skeleton.hideSkeleton()
+
+    nameLabel.text = repository.name
+    ownerLabel.text = repository.owner
+    summaryLabel.text = repository.summary
   }
 
 }
