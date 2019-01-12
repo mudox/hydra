@@ -29,51 +29,55 @@ extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType
 
 class HydraFlow: AppFlow {
 
-  override func reset(mode: String) {
-    switch mode {
+  #if DEBUG
 
-    case "defaults":
-      jack.func().info("Reset UserDefaults (\(mode))")
-      Defaults.removeAll()
+    override func reset(mode: String) {
+      switch mode {
 
-    case "cache":
-      jack.func().info("Reset caches from `Cache` (\(mode))")
-      Caches.reset()
+      case "defaults":
+        jack.func().info("Reset UserDefaults (\(mode))")
+        Defaults.removeAll()
 
-    case "realm":
-      jack.func().info("Reset Realm data (\(mode)) (Currently not implemented)")
+      case "cache":
+        jack.func().info("Reset caches from `Cache` (\(mode))")
+        Caches.reset()
 
-    default:
-      jack.func().warn("Unrecognized reset mode token: \(mode)")
+      case "realm":
+        jack.func().info("Reset Realm data (\(mode)) (Currently not implemented)")
+
+      default:
+        jack.func().warn("Unrecognized reset mode token: \(mode)")
+      }
     }
-  }
 
-  override func debugRun(mode: String) {
-    switch mode {
+    override func run(inDebugMode mode: String) {
+      switch mode {
 
-    case "login":
-      _ = tryLoginFlow.subscribe()
+      case "login":
+        _ = tryLoginFlow.subscribe()
 
-    case "languages":
-      _ = tryLanguagesFlow
-        .subscribe(onSuccess: {
-          jack.func().info("Selected \($0 ?? "nothing")")
-        })
+      case "languages":
+        _ = tryLanguagesFlow
+          .subscribe(onSuccess: {
+            jack.func().info("Selected \($0 ?? "nothing")")
+          })
 
-    case "earlgrey":
-      setupEarlGreyStage()
+      case "earlgrey":
+        setupEarlGreyStage()
 
-    case "release":
-      _ = welcomeIfNeeded
-        .andThen(runMainFlow)
-        .forever()
+      case "release":
+        _ = welcomeIfNeeded
+          .andThen(runMainFlow)
+          .forever()
 
-    default:
-      jack.failure("Unrecognized run mode: \(mode)")
+      default:
+        jack.failure("Unrecognized run mode: \(mode)")
+      }
     }
-  }
 
-  override func releaseRun() {
+  #endif
+
+  override func runInReleaseMode() {
     _ = welcomeIfNeeded
       .andThen(runMainFlow)
       .forever()
