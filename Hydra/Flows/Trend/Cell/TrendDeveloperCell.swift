@@ -26,6 +26,13 @@ class TrendDeveloperCell: TrendCardCell {
 
   private var skeleton: UIStackView!
 
+  // MARK: - Metrics
+
+  let avatarDiameter: CGFloat = 50
+  let centerInsets = UIEdgeInsets(top: 20, left: 20, bottom: 30, right: 20)
+  let gapBelowAvatarView: CGFloat = 20
+  let gapBelowNameLabel: CGFloat = 8
+
   // MARK: - Setup View
 
   override init(frame: CGRect) {
@@ -43,17 +50,14 @@ class TrendDeveloperCell: TrendCardCell {
     setupSkeleton()
   }
 
-  let avatarDiameter: CGFloat = 50
-  let centerInsets = UIEdgeInsets(top: 20, left: 20, bottom: 30, right: 20)
-  let gapBelowAvatarView: CGFloat = 20
-  let gapBelowNameLabel: CGFloat = 8
-
   func setupAvatarView() {
     avatarView = UIImageView().then {
       $0.contentMode = .scaleAspectFill
 
       $0.layer.cornerRadius = avatarDiameter / 2
       $0.layer.masksToBounds = true
+
+      $0.tintColor = .emptyDark
     }
 
     avatarView.snp.makeConstraints { make in
@@ -64,7 +68,7 @@ class TrendDeveloperCell: TrendCardCell {
   func setupNameLabel() {
     nameLabel = UILabel().then {
       $0.text = "Developer Name"
-      $0.textColor = .white
+      $0.textColor = .dark
       $0.font = .title
       $0.textAlignment = .center
 
@@ -81,7 +85,7 @@ class TrendDeveloperCell: TrendCardCell {
   func setupRepositoryLabel() {
     repositoryLabel = UILabel().then {
       $0.text = "Repo Name"
-      $0.textColor = .white
+      $0.textColor = .light
       $0.font = .text
       $0.textAlignment = .center
 
@@ -120,7 +124,7 @@ class TrendDeveloperCell: TrendCardCell {
     }
 
     let avatar = UIView().then {
-      setup($0, cornerRadius: 25)
+      setup($0, cornerRadius: avatarDiameter / 2)
       $0.snp.makeConstraints { make in
         make.size.equalTo(avatarDiameter)
       }
@@ -188,6 +192,7 @@ class TrendDeveloperCell: TrendCardCell {
 
     avatarImageTask = avatarView.kf.setImage(
       with: developer.avatarURL,
+      placeholder: [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!,
       options: [.transition(.fade(0.2))]
     )
 
@@ -198,11 +203,6 @@ class TrendDeveloperCell: TrendCardCell {
   override func show(error: Error, context: Trend.Context) {
     super.show(error: error, context: context)
 
-    // Avatar View
-    avatarView.image = [#imageLiteral(resourceName: "Male Avatar"), #imageLiteral(resourceName: "Femail Avatar")].randomElement()!
-    avatarView.tintColor = .emptyDark
-
-    // Center
     centerStackView.isHidden = true
     skeleton.hideSkeleton()
   }
