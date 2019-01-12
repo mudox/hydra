@@ -93,6 +93,7 @@ PODS:
   - RxSwiftExt/RxCocoa (3.4.0):
     - RxCocoa (~> 4.0)
     - RxSwiftExt/Core
+  - SkeletonView (1.4.1)
   - SnapKit (4.2.0)
   - SSZipArchive (2.1.4)
   - SwiftHEXColors (1.1.2)
@@ -128,6 +129,7 @@ DEPENDENCIES:
   - RxRealmDataSources
   - RxSwift
   - RxSwiftExt
+  - SkeletonView
   - SnapKit
   - SwiftHEXColors
   - SwiftLint
@@ -166,6 +168,7 @@ SPEC REPOS:
     - RxRealmDataSources
     - RxSwift
     - RxSwiftExt
+    - SkeletonView
     - SnapKit
     - SSZipArchive
     - SwiftHEXColors
@@ -216,6 +219,7 @@ SPEC CHECKSUMS:
   RxRealmDataSources: 89b61c0d3edf7769da2a6bf4dcf317bc713394db
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
+  SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   SwiftHEXColors: 7f9f7e6bdce888d821e11749279733e5ddff5f51
@@ -226,6 +230,6 @@ SPEC CHECKSUMS:
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 0509e85104c171af505f29474a8745de3c03ebda
+PODFILE CHECKSUM: c678f42f6bca1c1521e47be31690aba5dfd98756
 
 COCOAPODS: 1.5.3

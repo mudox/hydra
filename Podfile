@@ -115,7 +115,7 @@ def ui_pods
   # pod 'IQKeyboardManagerSwift'
   # pod 'SwiftRichString'
 
-  #pod "SkeletonView"
+  pod "SkeletonView"
   pod 'Hero'
   pod 'NVActivityIndicatorView'
   pod 'SnapKit'
@@ -166,7 +166,6 @@ target 'Hydra' do
     inherit! :search_paths
 
     pod 'EarlGrey'
-    #pod 'Then'
 
     quick_pods
   end
@@ -174,7 +173,6 @@ target 'Hydra' do
   target 'UITest' do
     inherit! :search_paths
 
-    #pod 'Then'
   end
 end
 
