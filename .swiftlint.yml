@@ -82,5 +82,6 @@ file_name:
     - TrendBadgeView.swift
     - LoginButton.swift
     - LoginTextField.swift
+    - NotificationNames.swift
 
 severity: error
