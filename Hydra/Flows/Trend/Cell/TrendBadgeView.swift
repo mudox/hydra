@@ -119,8 +119,10 @@ extension TrendCardCell {
       // Indicator
       indicator.startAnimating()
 
-      // Other
+      // Rank label
       rankLabel.isHidden = true
+
+      // Retry button
       retryButton.isHidden = true
     }
 
@@ -134,8 +136,11 @@ extension TrendCardCell {
       // Indicator
       indicator.stopAnimating()
 
-      // Rank Label
+      // Rank label
       rankLabel.isHidden = true
+
+      // Retry button
+      retryButton.isHidden = false
     }
 
     func show(rank: Int, color: UIColor) {
@@ -154,6 +159,9 @@ extension TrendCardCell {
         make.size.equalTo(outerDiameter)
       }
 
+      // Indicator
+      indicator.stopAnimating()
+
       // Rank label
       rankLabel.do {
         $0.isHidden = false
@@ -161,8 +169,7 @@ extension TrendCardCell {
         $0.backgroundColor = color
       }
 
-      // Other
-      indicator.stopAnimating()
+      // Retry button
       retryButton.isHidden = true
     }
 

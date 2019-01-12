@@ -36,7 +36,7 @@ class TrendCardCell: UICollectionViewCell {
   // MARK: - View
 
   private var errorLabel: UILabel!
-  private var errorStackView: UIStackView!
+  private var errorStackView: UIStackView! // Currently only contain `errorLabel`
 
   static let size = CGSize(width: 270, height: 170)
 
