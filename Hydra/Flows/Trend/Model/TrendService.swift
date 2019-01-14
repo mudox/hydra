@@ -7,7 +7,7 @@ import GitHub
 import JacKit
 import MudoxKit
 
-private let jack = Jack().set(format: .short)
+private let jack = Jack().set(format: .short).set(level: .debug)
 
 protocol TrendServiceType {
   func repositories(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]>

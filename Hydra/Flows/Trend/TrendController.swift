@@ -46,7 +46,7 @@ class TrendController: ViewController {
     navigationItem.titleView = languageBar
 
     languageBar.snp.makeConstraints { make in
-      make.width.equalToSuperview()
+      make.leading.trailing.equalToSuperview().inset(10)
     }
 
     navigationController?.navigationBar.shadowImage = UIImage()
@@ -91,10 +91,28 @@ class TrendController: ViewController {
   func viewDrivesModel() {
     let input = model.input
 
-    languageBar.languages = LanguageService().pinnedLanguages
+    let languages = ["All"] + LanguageService().pinnedLanguages + ["Unkown"]
+    languageBar.languages.accept(languages)
 
     languageBar.selectedLanguage
       .drive(input.language)
+      .disposed(by: disposeBag)
+
+    languageBar.moreButton.rx.tap.asDriver()
+      .flatMapFirst { () -> Driver<String?> in
+        let flow = LanguagesFlow(on: .viewController(self))
+        return flow.selectedLanguage
+          .asDriverSkipError(label: "LanguagesFlow.selectedLanguage")
+      }
+      .drive(onNext: { [weak self] selectedLanguage in
+        guard let language = selectedLanguage else { return }
+        guard let self = self else { return }
+
+        var languages = self.languageBar.languages.value
+        if let index = languages.firstIndex(of: language) {
+
+        }
+      })
       .disposed(by: disposeBag)
   }
 

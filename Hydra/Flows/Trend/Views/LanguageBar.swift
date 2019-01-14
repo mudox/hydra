@@ -10,38 +10,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-private let barHeight: CGFloat = 24
-
 class LanguageBar: UIView {
-
-  typealias Language = String
-
-  var languages: [Language] {
-    get {
-      return _languagesRelay.value
-    }
-    set {
-      var list = newValue
-      list.insert("All", at: 0)
-      list.insert("Unknown", at: list.endIndex - 2)
-      _languagesRelay.accept(list)
-    }
-  }
-
-  private let _languagesRelay = BehaviorRelay<[Language]>(value: [])
-  private let _languagesDriver: Driver<[Language]>
-
-  private let _indexPathRelay = BehaviorRelay<IndexPath>(value: .init(item: 0, section: 0))
-  private let _indexPathDriver: Driver<IndexPath>
-
-  let selectedLanguage: Driver<Language>
-
-  // MARK: - Subviews
-
-  private var collectionView: UICollectionView!
-  private var underline: UIView!
-
-  // MARK: - View
 
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
@@ -49,42 +18,46 @@ class LanguageBar: UIView {
   }
 
   init() {
-    _languagesDriver = _languagesRelay
-      .asDriver()
-      .skip(1)
-      .do(onNext: {
-        jack.assert(!$0.isEmpty, "Languages list should not be empty")
-      })
-
-    _indexPathDriver = _indexPathRelay.asDriver().skip(1)
-
-    selectedLanguage = _indexPathDriver
-      .withLatestFrom(_languagesDriver) { indexPath, languages -> Language in
-        languages[indexPath.item]
-      }
-
     super.init(frame: .zero)
 
+    setupView()
+    setupModel()
+  }
+
+  // MARK: - Subviews
+
+  private var collectionView: UICollectionView!
+
+  var moreButton: UIButton!
+
+  private var underline: UIView!
+
+  // MARK: - Metrics
+
+  static private let height: CGFloat = 24
+  static private let underLineHeight: CGFloat = 2
+
+  // MARK: - Setup View
+
+  func setupView() {
     snp.makeConstraints { make in
-      make.height.equalTo(barHeight)
+      make.height.equalTo(LanguageBar.height)
       make.width.greaterThanOrEqualTo(200)
     }
 
     setupCollectionView()
-    setupBindings()
+    setupMoreButton()
   }
 
   func setupCollectionView() {
     let layout = UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
       $0.minimumLineSpacing = 4
-      $0.estimatedItemSize = CGSize(width: 120, height: barHeight)
-      $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+      $0.estimatedItemSize = CGSize(width: 120, height: LanguageBar.height)
     }
 
     collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
       $0.backgroundColor = .clear
-      $0.clipsToBounds = false
 
       $0.showsHorizontalScrollIndicator = false
       $0.showsVerticalScrollIndicator = false
@@ -97,7 +70,21 @@ class LanguageBar: UIView {
 
     addSubview(collectionView)
     collectionView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.top.bottom.leading.equalToSuperview()
+    }
+  }
+
+  func setupMoreButton() {
+    moreButton = UIButton().then {
+      $0.setTitle("More", for: .normal)
+      $0.setTitleColor(.brand, for: .normal)
+      $0.titleLabel?.font = .text
+    }
+
+    addSubview(moreButton)
+    moreButton.snp.makeConstraints { make in
+      make.top.bottom.trailing.equalToSuperview()
+      make.leading.equalTo(collectionView.snp.trailing).offset(10)
     }
   }
 
@@ -105,31 +92,29 @@ class LanguageBar: UIView {
     underline = UIView().then {
       $0.isUserInteractionEnabled = false
       $0.backgroundColor = .dark
-      $0.layer.cornerRadius = .lineHeight / 2
+      $0.layer.cornerRadius = LanguageBar.underLineHeight / 2
     }
     collectionView.addSubview(underline)
   }
 
-  func moveUnderline(to cell: LanguageBar.Cell) {
-    let layoutUnderline = { [weak self] in
-      guard let self = self else { return }
+  func updateUnderlineLayout(to cell: LanguageBar.Cell) {
+    let centerX = cell.frame.midX
+    let width = max(8, cell.bounds.width / 3)
 
-      let centerX = cell.frame.midX
-      let width = max(8, cell.bounds.width / 3)
-
-      self.underline.snp.remakeConstraints { make in
-        make.centerX.equalTo(centerX)
-        make.width.equalTo(width)
-        make.top.equalTo(cell.snp.bottom)
-        make.height.equalTo(CGFloat.lineHeight)
-      }
-
-      self.underline.superview?.layoutIfNeeded()
+    underline.snp.remakeConstraints { make in
+      make.centerX.equalTo(centerX)
+      make.width.equalTo(width)
+      make.bottom.equalTo(cell)
+      make.height.equalTo(LanguageBar.underLineHeight)
     }
 
+    underline.superview?.layoutIfNeeded()
+  }
+
+  func highlight(_ cell: LanguageBar.Cell) {
     if underline == nil {
       setupUnderline(cell: cell)
-      layoutUnderline()
+      updateUnderlineLayout(to: cell)
       return
     }
 
@@ -139,51 +124,46 @@ class LanguageBar: UIView {
       usingSpringWithDamping: 0.5,
       initialSpringVelocity: 2,
       options: [],
-      animations: layoutUnderline
+      animations: { self.updateUnderlineLayout(to: cell) }
     )
   }
 
-  // MARK: - Bindings
+  // MARK: - View Model
 
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
 
-  func setupBindings() {
+  // MARK: Input
 
-    collectionView.rx.itemSelected.bind(to: _indexPathRelay)
-      .disposed(by: disposeBag)
+  let languages = BehaviorRelay<[String]>(value: [])
 
-    // Reload collection view on new data arrival
-    _languagesDriver
-      .drive(collectionView.rx.items)(setupCell)
-      .disposed(by: disposeBag)
+  let selectedIndexPath = BehaviorRelay<IndexPath>(value: .init(item: 0, section: 0))
 
-    // Scroll & select first item after reloading
-    _languagesDriver
-      .mapTo(IndexPath(item: 0, section: 0))
-      .do(onNext: { [weak self] indexPath in
-        guard let self = self else { return }
+  // MARK: Output
 
-        DispatchQueue.main.async { [weak self] in
-          self?.collectionView.selectItem(
-            at: indexPath,
-            animated: true,
-            scrollPosition: .left
-          )
-        }
-      })
-      .drive(_indexPathRelay)
-      .disposed(by: disposeBag)
+  var selectedLanguage: Driver<String>!
 
-    // Underline follows selected cell with spring animation
-    _indexPathDriver
+  func setupModel() {
+
+    let indexPath = selectedIndexPath.asDriver().skip(1)
+    let items = languages.asDriver().skip(1)
+
+    selectedLanguage = indexPath.withLatestFrom(items) { $1[$0.item] }
+
+    disposeBag.insert(
+      collectionView.rx.itemSelected.bind(to: selectedIndexPath),
+      items.drive(collectionView.rx.items)(setupCell),
+      items.mapTo(IndexPath(item: 0, section: 0)).drive(selectedIndexPath)
+    )
+
+    indexPath
       .drive(onNext: { [weak self] indexPath in
-        guard let self = self else { return }
-
         DispatchQueue.main.async { // In case the cell is not shown in current run loop
-          if let cell = self.collectionView.cellForItem(at: indexPath)
-            as? LanguageBar.Cell {
-            self.moveUnderline(to: cell)
+          guard let self = self else { return }
+          guard let cell = self.collectionView.cellForItem(at: indexPath) as? LanguageBar.Cell else {
+            jack.warn("`self.collectionView.cellForItem(at: \(indexPath)) as? LanguageBar.Cell` returned nil")
+            return
           }
+          self.highlight(cell)
         }
       })
       .disposed(by: disposeBag)
@@ -203,6 +183,8 @@ let setupCell = {
   return cell
 }
 
+// MARK: - LanguageBar.Cell
+
 extension LanguageBar {
 
   class Cell: UICollectionViewCell {
@@ -211,9 +193,9 @@ extension LanguageBar {
 
     var label: UILabel!
 
-    @available(*, unavailable)
+    @available(*, unavailable, message: "init(coder:) has not been implemented")
     required init?(coder aDecoder: NSCoder) {
-      fatalError("do not use it")
+      fatalError("init(coder:) has not been implemented")
     }
 
     override init(frame: CGRect) {
@@ -229,7 +211,7 @@ extension LanguageBar {
       label.snp.makeConstraints { make in
         make.leading.trailing.equalToSuperview().inset(6)
         make.top.bottom.equalToSuperview()
-        make.height.equalTo(barHeight)
+        make.height.equalTo(LanguageBar.height)
       }
     }
 

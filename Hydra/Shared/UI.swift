@@ -6,8 +6,6 @@ extension CGFloat {
 
   static let margin: CGFloat = 8
 
-  static let lineHeight: CGFloat = 2
-
   static let cornerRadius: CGFloat = 4
 
 }
