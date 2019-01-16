@@ -12,6 +12,16 @@ import MBProgressHUD
 import EarlGrey
 
 class LoginSpec: QuickSpec {
+  
+  override func setUp() {
+    continueAfterFailure = false
+  }
+  
+  func runLoginFlow() {
+    let vc = window.rootViewController!
+    let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService())
+    _ = flow.loginIfNeeded.subscribe()
+  }
 
   override func spec() {
 
@@ -23,21 +33,19 @@ class LoginSpec: QuickSpec {
     let login = element(.loginButton)
 
     beforeEach {
-      self.continueAfterFailure = false
-
-      let window = UIApplication.shared.keyWindow!
-      HydraFlow(on: .window(window)).run(reset: ["defaults", "cache"], mode: "login")
+      appFlow.reset(mode: "credentials")
+      self.runLoginFlow()
     }
 
     it("text input") {
       username.perform(grey_typeText("abcdef"))
       clearUsername.perform(grey_tap())
       username.assert(grey_text(""))
-      
+
       password.perform(grey_typeText("abcdef"))
       clearPassword.perform(grey_tap())
       username.assert(grey_text(""))
-      
+
       dismiss.perform(grey_tap())
     }
 
@@ -76,6 +84,14 @@ private var window: UIWindow {
   return UIApplication.shared.keyWindow!
 }
 
+private var rootViewController: UIViewController {
+  return window.rootViewController!
+}
+
+private var appFlow: AppFlowType {
+  return (UIApplication.shared.delegate as! AppDelegate).appFlow
+}
+
 private func checkInstanceCounts() {
   let cond = GREYCondition(name: #function) {
     print("😈 \(#function) ...")
@@ -96,14 +112,16 @@ private func waitHUDToDismiss() {
     }
   }
 
-  cond.wait(withTimeout: 15, pollInterval: 1)
+  let r = cond.wait(withTimeout: 15, pollInterval: 1)
+  expect(r) == true
 }
 
 private func waitControllerToDismiss() {
   let cond = GREYCondition(name: #function) {
     print("😈 \(#function) ...")
-    return window.rootViewController!.presentedViewController == nil
+    return rootViewController.presentedViewController == nil
   }
 
-  cond.wait(withTimeout: 15, pollInterval: 1)
+  let r = cond.wait(withTimeout: 15, pollInterval: 1)
+  expect(r) == true
 }
