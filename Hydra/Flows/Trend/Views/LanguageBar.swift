@@ -34,8 +34,8 @@ class LanguageBar: UIView {
 
   // MARK: - Metrics
 
-  static private let height: CGFloat = 24
-  static private let underLineHeight: CGFloat = 2
+  private static let height: CGFloat = 24
+  private static let underLineHeight: CGFloat = 2
 
   // MARK: - Setup View
 
