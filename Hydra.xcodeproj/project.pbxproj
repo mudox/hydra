@@ -14,6 +14,7 @@
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
 		B367DEF284E8DBD38620939A /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = E87907CADAF1DFD6C914B734 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		EFF70CBA379A3382F5EA32F3 /* Pods_EarlGreyTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F6FB78AABB1EDDF73E4BAB /* Pods_EarlGreyTest.framework */; };
+		F40C906F21ECCF7500C85F27 /* UserLanguagesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C906E21ECCF7500C85F27 /* UserLanguagesSettings.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
 		F41C5F2721E73BBF0011DBEC /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2621E73BBF0011DBEC /* UI.swift */; };
 		F41C5F2A21E79B7D0011DBEC /* TrendRepositories.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */; };
@@ -120,6 +121,7 @@
 		EF6E578EDE38ADE73624C3CF /* Pods-HydraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendDeveloperCell.swift; sourceTree = "<group>"; };
 		F40C238421AC95D4006FA060 /* TrendCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendCardCell.swift; sourceTree = "<group>"; };
+		F40C906E21ECCF7500C85F27 /* UserLanguagesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLanguagesSettings.swift; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F41C5F2621E73BBF0011DBEC /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendRepositories.json; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				F426C44521C6A68D00CAA764 /* LanguagesFlow.swift */,
 				F426C44321C69E8F00CAA764 /* LanguagesController.swift */,
 				F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */,
+				F40C906E21ECCF7500C85F27 /* UserLanguagesSettings.swift */,
 			);
 			path = Languages;
 			sourceTree = "<group>";
@@ -824,6 +827,7 @@
 				"${BUILT_PRODUCTS_DIR}/Swinject/Swinject.framework",
 				"${BUILT_PRODUCTS_DIR}/SwinjectAutoregistration/SwinjectAutoregistration.framework",
 				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
+				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
 				"${BUILT_PRODUCTS_DIR}/Yams/Yams.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -864,6 +868,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swinject.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwinjectAutoregistration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Yams.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -910,6 +915,7 @@
 				F4DC70FB21B58F3A00999BD1 /* LanguagesModel.swift in Sources */,
 				F46C688E215A43400090B4AF /* LoginModel.swift in Sources */,
 				F46C688D215A43400090B4AF /* LoginController.swift in Sources */,
+				F40C906F21ECCF7500C85F27 /* UserLanguagesSettings.swift in Sources */,
 				F448420321DCF68A00951C3D /* TrendRepositoryCell.swift in Sources */,
 				F4B4BA2921D3546300879B18 /* Caches.swift in Sources */,
 				F448420821DCF71F00951C3D /* TabSwitch.swift in Sources */,

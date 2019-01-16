@@ -19,16 +19,6 @@ extension DefaultsKeys {
     defaultValue: nil
   )
 
-  static let password = DefaultsKey<String?>(
-    "\(credentialService).password",
-    defaultValue: nil
-  )
-
-  static let accessToken = DefaultsKey<String?>(
-    "\(credentialService).accessToken",
-    defaultValue: nil
-  )
-
   // MARK: - Languages
 
   static let searchedLanguages = DefaultsKey<[String]>(
