@@ -7,7 +7,7 @@ import GitHub
 
 import JacKit
 
-private let jack = Jack("LoginService")
+private let jack = Jack().set(format: .short)
 
 protocol LoginServiceType {
 

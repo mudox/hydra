@@ -45,6 +45,10 @@ class HydraFlow: AppFlow {
       case "realm":
         jack.func().info("Reset Realm data (\(mode)) (Currently not implemented)")
 
+      case "credentials":
+        jack.func().info("Reset credentials stored in UserDefaults and Valet")
+        CredentialService().reset()
+
       default:
         jack.func().warn("Unrecognized reset mode token: \(mode)")
       }
@@ -93,7 +97,7 @@ class HydraFlow: AppFlow {
   }
 
   private var loginIfNeeded: Completable {
-    let flow = LoginFlow(on: stage, credentialService: CredentialService.shared)
+    let flow = LoginFlow(on: stage, credentialService: CredentialService())
     return flow.loginIfNeeded
   }
 
@@ -152,7 +156,7 @@ class HydraFlow: AppFlow {
       vc.view.backgroundColor = .white
       stage.window.rootViewController = vc
 
-      let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService.shared)
+      let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService())
       return flow.loginIfNeeded
     }
 

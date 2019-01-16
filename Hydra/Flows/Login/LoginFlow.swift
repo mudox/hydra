@@ -38,7 +38,7 @@ class LoginFlow: Flow, LoginFlowType {
         return Disposables.create()
       }
 
-      let github = GitHub.Service(credentialService: CredentialService.shared)
+      let github = GitHub.Service(credentialService: CredentialService())
       let login = LoginService(githubService: github)
       let model = LoginModel(service: login)
 

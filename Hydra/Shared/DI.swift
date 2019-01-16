@@ -15,8 +15,7 @@ private func makeContainer() -> Container {
   let env = ProcessInfo.processInfo.environment
 
   container.register(TrendServiceType.self) { _ in
-    let stub = (env["STUB_TREND_SERVICE"] ?? "no") == "yes"
-    if stub {
+    if env.keys.contains("STUB_TREND_SERVICE") {
       jack.verbose("🐡 Stub `TrendServiceType`", format: .bare)
       return TrendServiceStub()
     } else {
