@@ -10,6 +10,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
+  var appFlow: AppFlowType!
+
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -20,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
     window!.makeKeyAndVisible()
 
-    HydraFlow(on: .window(window!)).run()
+    appFlow = HydraFlow(on: .window(window!))
+    appFlow.run()
 
     return true
   }
