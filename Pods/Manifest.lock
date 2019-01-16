@@ -103,6 +103,7 @@ PODS:
   - SwinjectAutoregistration (2.5.1):
     - Swinject (~> 2.5)
   - Then (2.4.0)
+  - Valet (3.2.3)
   - Yams (1.0.1)
 
 DEPENDENCIES:
@@ -137,6 +138,7 @@ DEPENDENCIES:
   - Swinject
   - SwinjectAutoregistration
   - Then
+  - Valet
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -177,6 +179,7 @@ SPEC REPOS:
     - Swinject
     - SwinjectAutoregistration
     - Then
+    - Valet
     - Yams
 
 EXTERNAL SOURCES:
@@ -228,8 +231,9 @@ SPEC CHECKSUMS:
   Swinject: 82cdb851f63f91bba974e3eca1d69780f2f7677e
   SwinjectAutoregistration: f72bf894cbd2ee4a9153e00fa5208e93fb44d283
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
+  Valet: 4af0382d4a94db5c7861504f751884f653437d24
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: c678f42f6bca1c1521e47be31690aba5dfd98756
+PODFILE CHECKSUM: 05c28c3dfbea97d4904035e980fe5f9a11fcf4d0
 
 COCOAPODS: 1.5.3
