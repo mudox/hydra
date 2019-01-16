@@ -3,13 +3,17 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-import JacKit
-import MudoxKit
-
 import Cache
 import SwiftyUserDefaults
 
-private let jack = Jack("AppFlow").set(format: .short)
+import Then
+
+import SnapKit
+
+import JacKit
+import MudoxKit
+
+private let jack = Jack().set(format: .short)
 
 extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType == Swift.Never {
 
@@ -35,18 +39,18 @@ class HydraFlow: AppFlow {
       switch mode {
 
       case "defaults":
-        jack.func().info("Reset UserDefaults (\(mode))")
+        jack.func().info("Reset `Defaults`")
         Defaults.removeAll()
 
       case "cache":
-        jack.func().info("Reset caches from `Cache` (\(mode))")
+        jack.func().info("Reset `Cache`")
         Caches.reset()
 
       case "realm":
-        jack.func().info("Reset Realm data (\(mode)) (Currently not implemented)")
+        jack.func().warn("Reset `Realm` data (Currently not implemented)")
 
       case "credentials":
-        jack.func().info("Reset credentials stored in UserDefaults and Valet")
+        jack.func().info("Reset `CredentialService`")
         CredentialService().reset()
 
       default:
@@ -57,6 +61,9 @@ class HydraFlow: AppFlow {
     override func run(inDebugMode mode: String) {
       switch mode {
 
+      case "earlgrey":
+        setupEarlGreyStage()
+
       case "login":
         _ = tryLoginFlow.subscribe()
 
@@ -65,9 +72,6 @@ class HydraFlow: AppFlow {
           .subscribe(onSuccess: {
             jack.func().info("Selected \($0 ?? "nothing")")
           })
-
-      case "earlgrey":
-        setupEarlGreyStage()
 
       case "release":
         _ = welcomeIfNeeded
@@ -143,21 +147,42 @@ class HydraFlow: AppFlow {
   // MARK: - Development
 
   #if DEBUG
-
-    private func setupEarlGreyStage() {
+    private func makeStageViewController() -> UIViewController {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
       vc.view.aid = .stageView
+
+      let label = UILabel().then {
+        $0.text = "EarlGrey Test"
+        $0.font = .systemFont(ofSize: 20)
+        $0.textAlignment = .center
+        $0.textColor = .darkGray
+      }
+
+      vc.view.addSubview(label)
+      label.snp.makeConstraints { make in
+        make.center.equalToSuperview()
+      }
+
+      return vc
+    }
+
+    private func setupEarlGreyStage() {
+      let vc = makeStageViewController()
       stage.window.rootViewController = vc
     }
 
     private var tryLoginFlow: Completable {
-      let vc = UIViewController()
-      vc.view.backgroundColor = .white
-      stage.window.rootViewController = vc
+      return .create { [unowned self] complete in
+        let vc = self.makeStageViewController()
+        let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService())
+        let sub = flow.loginIfNeeded.subscribe(onCompleted: {
+          complete(.completed)
+        })
 
-      let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService())
-      return flow.loginIfNeeded
+        return Disposables.create([sub])
+      }
+
     }
 
     private var tryLanguagesFlow: Single<String?> {
