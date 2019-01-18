@@ -12,10 +12,8 @@ private func makeContainer() -> Container {
 
   // MARK: Trend Flow
 
-  let env = ProcessInfo.processInfo.environment
-
   container.register(TrendServiceType.self) { _ in
-    if env.keys.contains("STUB_TREND_SERVICE") {
+    if EnvService().stubTrendService {
       jack.verbose("🐡 Stub `TrendServiceType`", format: .bare)
       return TrendServiceStub()
     } else {
