@@ -2,6 +2,9 @@ import RxCocoa
 import RxDataSources
 import RxSwift
 
+import RealmSwift
+import RxRealm
+
 import Cache
 import SwiftyUserDefaults
 
@@ -13,15 +16,71 @@ import MudoxKit
 private let jack = Jack().set(format: .short)
 
 private extension String {
-  static let allLanguagesCacheKey = "AllGitHubLanguages"
-  static let allLanguagesDiskCacheName = "AllGitHubLanguagesDiskCache"
+  static let allLanguagesCacheKey = "allGitHubLanguagesCacheKey"
 }
 
-class LanguageService {
+private enum PrimaryKeys {
+  static let pinned = "pinned"
+  static let history = "history"
+}
+
+class LanguageList: Object {
+  @objc dynamic var name = ""
+  let list = List<String>()
+
+  override static func primaryKey() -> String? {
+    return "name"
+  }
+}
+
+class LanguagesService {
+
+  // MARK: Access Realm
+
+  func getLanguages(forKey key: String, defaultList: [String] = []) -> [String] {
+    guard let realm = Realms.user else {
+      return []
+    }
+
+    if let list = realm.object(ofType: LanguageList.self, forPrimaryKey: key) {
+      return list.list.toArray()
+    } else {
+      jack.func().debug("No initial pinned language list found, populate with default list")
+      do {
+        try realm.write {
+          realm.add(LanguageList(value: [key, defaultList]))
+        }
+      } catch {
+        jack.func().error("""
+        Failed to write default pinned language list into realm.
+        Error: \(error)
+        """, format: [])
+      }
+      return defaultList
+    }
+  }
+
+  func set(languages: [String], forKey key: String) {
+    do {
+      guard let realm = Realms.user else {
+        return
+      }
+
+      try realm.write {
+        let newList = LanguageList(value: [key, languages])
+        realm.add(newList, update: true)
+      }
+    } catch {
+      jack.func().error("""
+        Failed to write new pinned language list into user Realm.
+        Error: \(error)
+        """, format: [])
+    }
+  }
 
   // MARK: - All
 
-  private var allLanguagesFromCache: Single<[GitHub.Language]> {
+  private var allFromCache: Single<[GitHub.Language]> {
     return .create { single in
       guard let cache = Caches.languages else {
         single(.error(Errors.error("`Caches.languages` returned nil")))
@@ -40,7 +99,7 @@ class LanguageService {
     }
   }
 
-  private var allLanguagesFromNetwork: Single<[GitHub.Language]> {
+  private var allFromRepository: Single<[GitHub.Language]> {
     return GitHub.Language.all
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
       .do(onSuccess: { languages in
@@ -58,97 +117,95 @@ class LanguageService {
       })
   }
 
-  var allLanguages: Single<[GitHub.Language]> {
+  var all: Single<[GitHub.Language]> {
     return Observable.catchError([
-      allLanguagesFromCache.asObservable(),
-      allLanguagesFromNetwork.asObservable()
+      allFromCache.asObservable(),
+      allFromRepository.asObservable()
     ]).asSingle()
   }
 
   // MARK: - History
 
-  var searchedLanguages: [String] {
+  var history: [String] {
     get {
-      return Defaults[.searchedLanguages]
+      return getLanguages(forKey: PrimaryKeys.history)
     }
     set {
-      Defaults[.searchedLanguages] = newValue
+      set(languages: newValue, forKey: PrimaryKeys.history)
     }
   }
 
-  func add(searchedLanguage language: String) {
+  func add(selectedLanguage language: String) {
     // If already exists, move to queue tail
-    if let index = searchedLanguages.firstIndex(of: language) {
-      searchedLanguages.remove(at: index)
-      searchedLanguages.append(language)
+    if let index = history.firstIndex(of: language) {
+      history.remove(at: index)
+      history.append(language)
       return
     }
 
     // Pop first item if queue exceeds limit
-    if searchedLanguages.count > 10 {
-      searchedLanguages.remove(at: 0)
+    if history.count > 10 {
+      history.remove(at: 0)
     }
 
-    searchedLanguages.append(language)
+    history.append(language)
   }
 
   // MARK: - Pinned
 
-  static let defaultPinnedLanguages: [String] = [
-    "Swift", "Objective-C", "Python", "JavaScript",
-    "Go", "Vim Script", "Ruby", "Rust"
-  ]
-
-  var pinnedLanguages: [String] {
+  var pinned: [String] {
     get {
-      return Defaults[.pinnedLanguages]
+      return getLanguages(forKey: PrimaryKeys.pinned, defaultList: [
+        "Swift", "Objective-C", "Python", "JavaScript",
+        "Ruby", "Go", "Rust", "VimScript"
+      ])
     }
     set {
-      Defaults[.pinnedLanguages] = newValue
+
     }
   }
 
   func add(pinnedLanguage language: String) {
     // If already exists, do nothing
-    if pinnedLanguages.contains(language) {
+    if pinned.contains(language) {
       return
     }
 
     // Pop first item if queue exceeds limit
-    if pinnedLanguages.count > 10 {
-      pinnedLanguages.remove(at: 0)
+    if pinned.count > 10 {
+      pinned.remove(at: 0)
     }
 
-    pinnedLanguages.append(language)
+    pinned.append(language)
   }
 
   func remove(pinnedLanguage language: String) {
-    if let index = pinnedLanguages.firstIndex(of: language) {
-      pinnedLanguages.remove(at: index)
+    if let index = pinned.firstIndex(of: language) {
+      pinned.remove(at: index)
     } else {
       jack.func().warn("Can not found language `\(language)` not in pinned language list")
     }
   }
 
   func movePinnedLanguage(from src: Int, to dest: Int) {
-    let range = pinnedLanguages.indices
+    let range = pinned.indices
     guard range.contains(src) && range.contains(dest) else {
       jack.func().error("Invalid index: <\(src)>, <\(dest)>, available range: \(range)")
       return
     }
 
-    let language = pinnedLanguages.remove(at: src)
-    pinnedLanguages.insert(language, at: dest)
+    let language = pinned.remove(at: src)
+    pinned.insert(language, at: dest)
   }
 
   // MARK: - Search
 
   func search(text: String) -> Single<[LanguagesModel.Section]> {
-    return allLanguages
+    return all
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
       .map { all -> [LanguagesModel.Section] in
 
-        let history = self.searchedLanguages.filter {
+        let history = self.history.filter {
           if text.isEmpty {
             return true
           } else {
@@ -156,7 +213,7 @@ class LanguageService {
           }
         }
 
-        let pinned = self.pinnedLanguages.filter {
+        let pinned = self.pinned.filter {
           if text.isEmpty {
             return true
           } else {
