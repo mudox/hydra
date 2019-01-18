@@ -45,6 +45,7 @@ enum Caches {
   static func reset() {
     do {
       try languages?.removeAll()
+      try trend?.removeAll()
     } catch {
       jack.func().warn("Error reseting caches: \(error)")
     }
