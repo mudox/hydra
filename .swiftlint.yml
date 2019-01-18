@@ -75,7 +75,7 @@ identifier_name:
 
 file_name:
   excluded:
-    - AsDriverSignalShortcuts.swift
+    - AsSharedSequence.swift
     - UI.swift
     - LanguageCell.swift
     - LanguagesHeaderView.swift
