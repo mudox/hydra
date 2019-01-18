@@ -134,20 +134,20 @@ class LanguageBar: UIView {
 
   // MARK: Input
 
-  let languages = BehaviorRelay<[String]>(value: [])
+  let items = BehaviorRelay<[String]>(value: [])
 
   let selectedIndexPath = BehaviorRelay<IndexPath>(value: .init(item: 0, section: 0))
 
   // MARK: Output
 
-  var selectedLanguage: Driver<String>!
+  var selectedItem: Driver<String>!
 
   func setupModel() {
 
     let indexPath = selectedIndexPath.asDriver().skip(1)
-    let items = languages.asDriver().skip(1)
+    let items = self.items.asDriver().skip(1)
 
-    selectedLanguage = indexPath.withLatestFrom(items) { $1[$0.item] }
+    selectedItem = indexPath.withLatestFrom(items) { $1[$0.item] }
 
     disposeBag.insert(
       collectionView.rx.itemSelected.bind(to: selectedIndexPath),
