@@ -8,15 +8,21 @@ private let jack = Jack().set(format: .short)
 enum Realms {
 
   static func realm(forUser username: String) -> Realm? {
-    guard let supportDir = The.files.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
-      jack.func().error("Got nil application support directory url, return nil")
-      return nil
-    }
-
-    let url = supportDir.appendingPathComponent("\(username)/username.realm")
-    let config = Realm.Configuration(fileURL: url)
 
     do {
+      let supportDir = try The.files.url(
+        for: .applicationSupportDirectory, in: .userDomainMask,
+        appropriateFor: nil, create: true
+      )
+      let url = supportDir.appendingPathComponent("\(username)/user.realm")
+
+      try The.files.createDirectory(
+        at: url.deletingLastPathComponent(),
+        withIntermediateDirectories: true,
+        attributes: nil
+      )
+
+      let config = Realm.Configuration(fileURL: url)
       return try Realm(configuration: config)
     } catch {
       jack.func().error("""

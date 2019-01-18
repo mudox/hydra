@@ -13,7 +13,7 @@ private func makeContainer() -> Container {
   // MARK: Trend Flow
 
   container.register(TrendServiceType.self) { _ in
-    if EnvService().stubTrendService {
+    if Environs.stubTrendService {
       jack.verbose("🐡 Stub `TrendServiceType`", format: .bare)
       return TrendServiceStub()
     } else {
