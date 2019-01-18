@@ -114,7 +114,7 @@ class LoginController: ViewController {
         let deltaY = max(0, topMargin - self.view.safeAreaInsets.top)
         self.titleLabel.alpha = deltaY / 100
       }
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
   func setupInputFields() {
@@ -148,7 +148,7 @@ class LoginController: ViewController {
       username.textField,
       password.textField
     )
-    .disposed(by: disposeBag)
+    .disposed(by: bag)
   }
 
   func setupStackViews() {
@@ -189,7 +189,7 @@ class LoginController: ViewController {
       .subscribe(onNext: { [weak self] _ in
         self?.view.endEditing(true)
       })
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
   func avoidKeyboard() {
@@ -207,7 +207,7 @@ class LoginController: ViewController {
         let inset = max(0, newY - y)
         self?.scrollView.contentOffset.y = inset
       })
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
 
     RxKeyboard.instance.visibleHeight
       .debounce(0) // skip immediate hide before show event in the same run loop
@@ -222,7 +222,7 @@ class LoginController: ViewController {
           self?.scrollView.contentInset.bottom = inset
         }
       })
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
   // MARK: - Model
@@ -234,7 +234,7 @@ class LoginController: ViewController {
     // model <- view
 
     let input = model.input
-    disposeBag.insert(
+    bag.insert(
       backButton.rx.tap.bind(to: input.backTap),
       username.textField.rx.text.orEmpty.bind(to: input.username),
       password.textField.rx.text.orEmpty.bind(to: input.password),
@@ -244,7 +244,7 @@ class LoginController: ViewController {
     // model -> view
 
     let output = model.output
-    disposeBag.insert(
+    bag.insert(
       output.loginButtonEnabled.drive(login.button.rx.isEnabled),
       output.hud.emit(to: view.mbp.hud)
     )

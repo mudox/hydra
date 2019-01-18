@@ -82,7 +82,7 @@ class LoginModel: ViewModel, LoginModelType {
 
     super.init()
 
-    backTap.bind(to: _complete).disposed(by: disposeBag)
+    backTap.bind(to: _complete).disposed(by: bag)
 
     setupAction()
     setupHUD()
@@ -104,10 +104,10 @@ class LoginModel: ViewModel, LoginModelType {
     loginTap
       .withLatestFrom(inputs)
       .bind(to: action.inputs)
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
 
     action.enabled.bind(to: _loginButtonEnabled)
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
   private func setupHUD() {
@@ -144,7 +144,7 @@ class LoginModel: ViewModel, LoginModelType {
 
     Observable.merge(begin, success, error)
       .bind(to: _hud)
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
 }
