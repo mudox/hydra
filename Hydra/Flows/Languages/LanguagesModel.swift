@@ -37,7 +37,7 @@ protocol LanguagesModelOutput {
 }
 
 protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {
-  init(service: LanguageService)
+  init(service: LanguagesService)
 }
 
 extension LanguagesModelType {
@@ -74,7 +74,7 @@ class LanguagesModel: LanguagesModelType {
 
   var disposeBag = DisposeBag()
 
-  required init(service: LanguageService) {
+  required init(service: LanguagesService) {
 
     let commandTrigger = command.asObservable()
       .do(onNext: {
@@ -136,7 +136,7 @@ class LanguagesModel: LanguagesModelType {
       .map { $0?.1 }
       .do(onNext: {
         if let language = $0 {
-          service.add(searchedLanguage: language)
+          service.add(selectedLanguage: language)
         }
       })
       .take(1)
