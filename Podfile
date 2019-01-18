@@ -116,11 +116,15 @@ def ui_pods
   # pod 'IQKeyboardManagerSwift'
   # pod 'SwiftRichString'
 
-  pod "SkeletonView"
-  pod 'Hero'
-  pod 'NVActivityIndicatorView'
+  pod 'Texture'
   pod 'SnapKit'
+
+  pod 'NVActivityIndicatorView'
   pod 'SwiftHEXColors'
+
+  pod "SkeletonView"
+
+  pod 'Hero'
 end
 
 def swift_pods
