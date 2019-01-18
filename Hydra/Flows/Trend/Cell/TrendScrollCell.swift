@@ -152,8 +152,6 @@ class TrendScrollCell: UITableViewCell {
     }
   }
 
-  static let retryNotification = Notification.Name("io.github.Mudox.Hydra.Trend.retry")
-
   func refreshDriver(for context: Trend.Context) -> Driver<Void> {
     return NotificationCenter.default
       .rx.notification(.retryLoadingTrend)

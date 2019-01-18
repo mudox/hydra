@@ -22,7 +22,7 @@ class TrendController: ViewController {
 
   // MARK: - View
 
-  let languageBar = LanguageBar()
+  let languageBar = LanguagesBar()
 
   let tableView = UITableView()
 
@@ -70,7 +70,7 @@ class TrendController: ViewController {
 
       $0.register(TrendScrollCell.self, forCellReuseIdentifier: TrendScrollCell.id)
 
-      $0.rx.setDelegate(self).disposed(by: disposeBag)
+      $0.rx.setDelegate(self).disposed(by: bag)
     }
 
     view.addSubview(tableView)
@@ -84,45 +84,39 @@ class TrendController: ViewController {
   let model: TrendModelType
 
   override func setupModel() {
-    viewDrivesModel()
-    modelDrivesView()
+    drivesModel()
+    modelDrives()
   }
 
-  func viewDrivesModel() {
+  func drivesModel() {
     let input = model.input
 
-    let languages = ["All"] + LanguageService().pinnedLanguages + ["Unkown"]
-    languageBar.languages.accept(languages)
-
-    languageBar.selectedLanguage
+    languageBar.selected
       .drive(input.language)
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
 
     languageBar.moreButton.rx.tap.asDriver()
-      .flatMapFirst { () -> Driver<String?> in
+      .flatMapFirst { [weak self] () -> Driver<String?> in
+        guard let self = self else { return .empty() }
         let flow = LanguagesFlow(on: .viewController(self))
         return flow.selectedLanguage
-          .asDriverSkipError(label: "LanguagesFlow.selectedLanguage")
+          .asDriver(onErrorFailWithLabel: "LanguagesFlow.selectedLanguage", or: .complete)
       }
-      .drive(onNext: { [weak self] selectedLanguage in
-        guard let language = selectedLanguage else { return }
-        guard let self = self else { return }
-
-        var languages = self.languageBar.languages.value
-        if let index = languages.firstIndex(of: language) {
-
-        }
-      })
-      .disposed(by: disposeBag)
+      .drive(input.moreLanguage)
+      .disposed(by: bag)
   }
 
-  func modelDrivesView() {
+  func modelDrives() {
     let output = model.output
+
+    output.barItems
+      .drive(languageBar.items)
+      .disposed(by: bag)
 
     output.trend
       .map { $0.sections }
       .drive(tableView.rx.items(dataSource: dataSource))
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
   lazy var dataSource = RxTableViewSectionedReloadDataSource<Trend.Section>(

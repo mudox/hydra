@@ -60,6 +60,7 @@ class HydraFlow: AppFlow {
     }
 
     override func run(inDebugMode mode: String) {
+
       switch mode {
 
       case "earlgrey":

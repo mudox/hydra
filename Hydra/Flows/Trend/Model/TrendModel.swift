@@ -49,32 +49,50 @@ extension TrendModelType {
 
 // MARK: - View Model
 
-class TrendModel: TrendModelType {
-
-  // MARK: Types
+class TrendModel: ViewModel, TrendModelType {
 
   // MARK: Input
 
+  let moreLanguage = BehaviorRelay<String?>(value: nil)
   let language = BehaviorRelay<String>(value: "all")
 
   // MARK: Output
 
   let trend: Driver<Trend>
 
+  private let _barItems = BehaviorRelay<[String]>(value: [])
+  let barItems: Driver<[String]>
+
   // MARK: Binding
 
-  var disposeBag = DisposeBag()
-
   required init(service: TrendServiceType) {
+    barItems = _barItems.asDriver()
+
     trend = language
       .asDriver()
       .map(Trend.init)
+
+    super.init()
+
+    moreLanguage.asDriver()
+      .map { selected -> [String] in
+        let pinned = LanguagesService().pinned
+        return items(selected: selected, pinned: pinned)
+      }
+      .drive(_barItems)
+      .disposed(by: bag)
   }
 
 }
 
-// MARK: - Types
+// MARK: - Helpers
 
-extension TrendModel {
+private func items(selected: String?, pinned: [String]) -> [String] {
+  var items = ["All", "Unknown"]
+  items.insert(contentsOf: pinned, at: 1)
 
+  if let selected = selected, !pinned.contains(selected) {
+    items.insert(selected, at: 1)
+  }
+  return items
 }
