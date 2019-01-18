@@ -10,7 +10,7 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-class LanguageBar: UIView {
+class LanguagesBar: UIView {
 
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
@@ -41,7 +41,7 @@ class LanguageBar: UIView {
 
   func setupView() {
     snp.makeConstraints { make in
-      make.height.equalTo(LanguageBar.height)
+      make.height.equalTo(LanguagesBar.height)
       make.width.greaterThanOrEqualTo(200)
     }
 
@@ -53,7 +53,7 @@ class LanguageBar: UIView {
     let layout = UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
       $0.minimumLineSpacing = 4
-      $0.estimatedItemSize = CGSize(width: 120, height: LanguageBar.height)
+      $0.estimatedItemSize = CGSize(width: 120, height: LanguagesBar.height)
     }
 
     collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
@@ -63,8 +63,8 @@ class LanguageBar: UIView {
       $0.showsVerticalScrollIndicator = false
 
       $0.register(
-        LanguageBar.Cell.self,
-        forCellWithReuseIdentifier: LanguageBar.Cell.identifier
+        LanguagesBar.Cell.self,
+        forCellWithReuseIdentifier: LanguagesBar.Cell.identifier
       )
     }
 
@@ -88,16 +88,16 @@ class LanguageBar: UIView {
     }
   }
 
-  func setupUnderline(cell: LanguageBar.Cell) {
+  func setupUnderline(cell: LanguagesBar.Cell) {
     underline = UIView().then {
       $0.isUserInteractionEnabled = false
       $0.backgroundColor = .dark
-      $0.layer.cornerRadius = LanguageBar.underLineHeight / 2
+      $0.layer.cornerRadius = LanguagesBar.underLineHeight / 2
     }
     collectionView.addSubview(underline)
   }
 
-  func updateUnderlineLayout(to cell: LanguageBar.Cell) {
+  func updateUnderlineLayout(to cell: LanguagesBar.Cell) {
     let centerX = cell.frame.midX
     let width = max(8, cell.bounds.width / 3)
 
@@ -105,13 +105,13 @@ class LanguageBar: UIView {
       make.centerX.equalTo(centerX)
       make.width.equalTo(width)
       make.bottom.equalTo(cell)
-      make.height.equalTo(LanguageBar.underLineHeight)
+      make.height.equalTo(LanguagesBar.underLineHeight)
     }
 
     underline.superview?.layoutIfNeeded()
   }
 
-  func highlight(_ cell: LanguageBar.Cell) {
+  func highlight(_ cell: LanguagesBar.Cell) {
     if underline == nil {
       setupUnderline(cell: cell)
       updateUnderlineLayout(to: cell)
@@ -130,43 +130,44 @@ class LanguageBar: UIView {
 
   // MARK: - View Model
 
-  private let disposeBag = DisposeBag()
+  private let bag = DisposeBag()
+
+  private let indexPathRelay = BehaviorRelay<IndexPath>(value: .init(item: 0, section: 0))
 
   // MARK: Input
 
   let items = BehaviorRelay<[String]>(value: [])
 
-  let selectedIndexPath = BehaviorRelay<IndexPath>(value: .init(item: 0, section: 0))
-
   // MARK: Output
 
-  var selectedItem: Driver<String>!
+  var selected: Driver<String>!
 
   func setupModel() {
 
-    let indexPath = selectedIndexPath.asDriver().skip(1)
-    let items = self.items.asDriver().skip(1)
+    let indexPathDriver = indexPathRelay.asDriver().skip(1)
+    let itemsDriver = self.items.asDriver().skip(1)
 
-    selectedItem = indexPath.withLatestFrom(items) { $1[$0.item] }
+    selected = indexPathDriver.withLatestFrom(itemsDriver) { $1[$0.item] }
 
-    disposeBag.insert(
-      collectionView.rx.itemSelected.bind(to: selectedIndexPath),
-      items.drive(collectionView.rx.items)(setupCell),
-      items.mapTo(IndexPath(item: 0, section: 0)).drive(selectedIndexPath)
+    bag.insert(
+      collectionView.rx.itemSelected.bind(to: indexPathRelay),
+      itemsDriver.mapTo(IndexPath(item: 0, section: 0)).drive(indexPathRelay),
+      itemsDriver.drive(collectionView.rx.items)(setupCell)
     )
 
-    indexPath
+    // Selected index path drives underline view's layout
+    indexPathDriver
       .drive(onNext: { [weak self] indexPath in
         DispatchQueue.main.async { // In case the cell is not shown in current run loop
           guard let self = self else { return }
-          guard let cell = self.collectionView.cellForItem(at: indexPath) as? LanguageBar.Cell else {
-            jack.warn("`self.collectionView.cellForItem(at: \(indexPath)) as? LanguageBar.Cell` returned nil")
+          guard let cell = self.collectionView.cellForItem(at: indexPath) as? LanguagesBar.Cell else {
+            jack.func().warn("`self.collectionView.cellForItem(at: \(indexPath)) as? LanguageBar.Cell` returned nil")
             return
           }
           self.highlight(cell)
         }
       })
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
 }
@@ -176,8 +177,8 @@ let setupCell = {
 
   let indexPath = IndexPath(item: index, section: 0)
   let cell = view.dequeueReusableCell(
-    withReuseIdentifier: LanguageBar.Cell.identifier, for: indexPath
-  ) as! LanguageBar.Cell // swiftlint:disable:this force_cast
+    withReuseIdentifier: LanguagesBar.Cell.identifier, for: indexPath
+  ) as! LanguagesBar.Cell // swiftlint:disable:this force_cast
 
   cell.label.text = language
   return cell
@@ -185,7 +186,7 @@ let setupCell = {
 
 // MARK: - LanguageBar.Cell
 
-extension LanguageBar {
+extension LanguagesBar {
 
   class Cell: UICollectionViewCell {
 
@@ -211,7 +212,7 @@ extension LanguageBar {
       label.snp.makeConstraints { make in
         make.leading.trailing.equalToSuperview().inset(6)
         make.top.bottom.equalToSuperview()
-        make.height.equalTo(LanguageBar.height)
+        make.height.equalTo(LanguagesBar.height)
       }
     }
 
