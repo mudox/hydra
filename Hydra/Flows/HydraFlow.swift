@@ -47,7 +47,8 @@ class HydraFlow: AppFlow {
         Caches.reset()
 
       case "realm":
-        jack.func().warn("Reset `Realm` data (Currently not implemented)")
+        jack.func().info("Reset `Realm` data")
+        Realms.reset()
 
       case "credentials":
         jack.func().info("Reset `CredentialService`")
@@ -154,7 +155,7 @@ class HydraFlow: AppFlow {
 
       let label = UILabel().then {
         $0.text = "EarlGrey Test"
-        $0.font = .systemFont(ofSize: 20)
+        $0.font = .systemFont(ofSize: 30)
         $0.textAlignment = .center
         $0.textColor = .darkGray
       }
@@ -173,25 +174,32 @@ class HydraFlow: AppFlow {
     }
 
     private var tryLoginFlow: Completable {
-      return .create { [unowned self] complete in
+      let makeFlow = Observable<LoginFlow>.create { observer in
         let vc = self.makeStageViewController()
         let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService())
-        let sub = flow.loginIfNeeded.subscribe(onCompleted: {
-          complete(.completed)
-        })
 
-        return Disposables.create([sub])
+        observer.onNext(flow)
+        return Disposables.create()
       }
 
+      return makeFlow.flatMap {
+        $0.loginIfNeeded.asObservable()
+      }
+      .asCompletable()
     }
 
     private var tryLanguagesFlow: Single<String?> {
-      let vc = UIViewController()
-      vc.view.backgroundColor = .white
-      stage.window.rootViewController = vc
+      let makeFlow = Single<LanguagesFlow>.create { single in
+        let vc = self.makeStageViewController()
+        let flow = LanguagesFlow(on: .viewController(vc))
 
-      let flow = LanguagesFlow(on: .viewController(vc))
-      return flow.selectedLanguage
+        single(.success(flow))
+        return Disposables.create()
+      }
+
+      return makeFlow.flatMap {
+        $0.selectedLanguage
+      }
     }
 
   #endif
