@@ -149,13 +149,13 @@ class HydraFlow: AppFlow {
   // MARK: - Development
 
   #if DEBUG
-    private func makeStageViewController() -> UIViewController {
+    private func stageController(title: String = "Stage") -> UIViewController {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
       vc.view.aid = .stageView
 
       let label = UILabel().then {
-        $0.text = "EarlGrey Test"
+        $0.text = title
         $0.font = .systemFont(ofSize: 30)
         $0.textAlignment = .center
         $0.textColor = .darkGray
@@ -170,36 +170,43 @@ class HydraFlow: AppFlow {
     }
 
     private func setupEarlGreyStage() {
-      let vc = makeStageViewController()
+      let vc = stageController(title: "EarlGrey Test")
       stage.window.rootViewController = vc
     }
 
     private var tryLoginFlow: Completable {
-      let makeFlow = Observable<LoginFlow>.create { observer in
-        let vc = self.makeStageViewController()
-        let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService())
+      return .create { [unowned self] completable in
+        let stageVC = self.stageController(title: "Try LoginFlow")
+        self.stage.window.rootViewController = stageVC
 
-        observer.onNext(flow)
-        return Disposables.create()
-      }
+        let sub = LoginFlow(
+          on: .viewController(stageVC),
+          credentialService: CredentialService()
+        )
+        .loginIfNeeded.subscribe(onCompleted: {
+          jack.func().info("Login flow completed")
+        })
 
-      return makeFlow.flatMap {
-        $0.loginIfNeeded.asObservable()
+        return Disposables.create([sub])
       }
-      .asCompletable()
     }
 
-    private var tryLanguagesFlow: Single<String?> {
-      let makeFlow = Single<LanguagesFlow>.create { single in
-        let vc = self.makeStageViewController()
-        let flow = LanguagesFlow(on: .viewController(vc))
+    private var tryLanguagesFlow: Single<LanguagesFlowResult> {
+      return .create { single in
+        let stageVC = self.stageController(title: "Try LanguagesFlow")
+        self.stage.window.rootViewController = stageVC
 
-        single(.success(flow))
-        return Disposables.create()
-      }
+        let sub = LanguagesFlow(on: .viewController(stageVC))
+          .run
+          .subscribe(onSuccess: { result in
+            jack.func().info("""
+            LanguagesFlow completed with:
+            - Selected language: \(result.selected ?? "<nil>")
+            - Pinned languages: \(result.pinned)
+            """)
+          })
 
-      return makeFlow.flatMap {
-        $0.selectedLanguage
+        return Disposables.create([sub])
       }
     }
 
