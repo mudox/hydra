@@ -33,7 +33,7 @@ protocol LanguagesModelOutput {
   var state: Driver<LanguagesModel.SearchState> { get }
   var collectionViewData: Driver<[LanguagesModel.Section]> { get }
 
-  var selectedLanguage: Single<String?> { get }
+  var result: Single<(String?, [String])> { get }
 }
 
 protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {
@@ -68,7 +68,7 @@ class LanguagesModel: LanguagesModelType {
   let state: Driver<LanguagesModel.SearchState>
   let collectionViewData: Driver<[LanguagesModel.Section]>
 
-  let selectedLanguage: Single<String?>
+  let result: Single<(seleccted: String?, pinned: [String])>
 
   // MARK: Binding
 
@@ -131,7 +131,7 @@ class LanguagesModel: LanguagesModelType {
 
     // Complete
 
-    selectedLanguage = selectTap
+    result = selectTap
       .withLatestFrom(selected)
       .map { $0?.1 }
       .do(onNext: {
@@ -139,6 +139,7 @@ class LanguagesModel: LanguagesModelType {
           service.add(selectedLanguage: language)
         }
       })
+      .map { (selected: $0, pinned: service.pinned) }
       .take(1)
       .asSingle()
   }

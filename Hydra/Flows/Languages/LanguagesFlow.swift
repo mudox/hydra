@@ -11,19 +11,19 @@ import MudoxKit
 private let jack = Jack().set(format: .short)
 
 protocol LanguagesFlowType {
-  var selectedLanguage: Single<String?> { get }
+  var run: Single<(selected: String?, pinned: [String])> { get }
 }
 
 class LanguagesFlow: Flow, LanguagesFlowType {
 
   /// Returns nil on cancellation
-  var selectedLanguage: Single<String?> {
+  var run: Single<(selected: String?, pinned: [String])> {
     return .create { single in
       let model = LanguagesModel(service: LanguagesService())
-      let sub = model.selectedLanguage
-        .subscribe(onSuccess: { language in
+      let sub = model.result
+        .subscribe(onSuccess: { result in
           self.stage.viewController.dismiss(animated: true) {
-            single(.success(language))
+            single(.success(result))
           }
         })
 

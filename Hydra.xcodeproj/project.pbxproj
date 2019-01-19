@@ -17,6 +17,7 @@
 		F40C90CD21F0E18400C85F27 /* Realms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90CC21F0E18400C85F27 /* Realms.swift */; };
 		F40C90D021F1642500C85F27 /* Environs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90CF21F1642500C85F27 /* Environs.swift */; };
 		F40C90D221F1889900C85F27 /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D121F1889900C85F27 /* Files.swift */; };
+		F40C90D521F281A900C85F27 /* LanguagesBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D421F281A900C85F27 /* LanguagesBarModel.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
 		F41C5F2721E73BBF0011DBEC /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2621E73BBF0011DBEC /* UI.swift */; };
 		F41C5F2A21E79B7D0011DBEC /* TrendRepositories.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */; };
@@ -126,6 +127,7 @@
 		F40C90CC21F0E18400C85F27 /* Realms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realms.swift; sourceTree = "<group>"; };
 		F40C90CF21F1642500C85F27 /* Environs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environs.swift; sourceTree = "<group>"; };
 		F40C90D121F1889900C85F27 /* Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
+		F40C90D421F281A900C85F27 /* LanguagesBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesBarModel.swift; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F41C5F2621E73BBF0011DBEC /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendRepositories.json; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				F4349CE421A873D000628D8D /* TrendPageControl.swift */,
 				F451AC7521B0356800C101D1 /* LanguagesBar.swift */,
 				F4F6097621E665EC000E06A3 /* Unused */,
+				F40C90D421F281A900C85F27 /* LanguagesBarModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -957,6 +960,7 @@
 				F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */,
 				F40C90D221F1889900C85F27 /* Files.swift in Sources */,
 				F43032F621B3A53A00BE40DF /* LanguagesService.swift in Sources */,
+				F40C90D521F281A900C85F27 /* LanguagesBarModel.swift in Sources */,
 				F426C44621C6A68D00CAA764 /* LanguagesFlow.swift in Sources */,
 				F40C90D021F1642500C85F27 /* Environs.swift in Sources */,
 				F41C5F2721E73BBF0011DBEC /* UI.swift in Sources */,
