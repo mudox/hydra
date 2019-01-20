@@ -55,13 +55,15 @@ class HydraFlow: AppFlow {
         CredentialService().reset()
 
       default:
-        jack.func().warn("Unrecognized reset mode token: \(mode)")
+        jack.func().warn("Unrecognized reset token: \(mode)")
       }
     }
 
     override func run(inDebugMode mode: String) {
-
       switch mode {
+
+      case "unittest":
+        setupUnitTestStage()
 
       case "earlgrey":
         setupEarlGreyStage()
@@ -71,9 +73,6 @@ class HydraFlow: AppFlow {
 
       case "languages":
         _ = tryLanguagesFlow
-          .subscribe(onSuccess: {
-            jack.func().info("Selected \($0 ?? "nothing")")
-          })
 
       case "release":
         _ = welcomeIfNeeded
@@ -97,7 +96,7 @@ class HydraFlow: AppFlow {
 
   private var welcomeIfNeeded: Completable {
     _ = FirstLaunchChecker.shared.check()
-    jack.sub("welcomeIfNeeded").warn("not implemented yet")
+    jack.sub("welcomeIfNeeded").warn("Not implemented yet")
 
     return .empty()
   }
@@ -132,83 +131,18 @@ class HydraFlow: AppFlow {
   }
 
   private func runExploreFlow(in tabBarController: UITabBarController) -> Completable {
-    jack.func().warn("Explore flow has not been implemented yet")
+    jack.func().warn("Not been implemented yet")
     return .never()
   }
 
   private func runSearchFlow(in tabBarController: UITabBarController) -> Completable {
-    jack.func().warn("Search flow has not been implemented yet")
+    jack.func().warn("Not been implemented yet")
     return .never()
   }
 
   private func runUserFlow(in tabBarController: UITabBarController) -> Completable {
-    jack.func().warn("User flow has not been implemented yet")
+    jack.func().warn("Not been implemented yet")
     return .never()
   }
 
-  // MARK: - Development
-
-  #if DEBUG
-    private func stageController(title: String = "Stage") -> UIViewController {
-      let vc = UIViewController()
-      vc.view.backgroundColor = .white
-      vc.view.aid = .stageView
-
-      let label = UILabel().then {
-        $0.text = title
-        $0.font = .systemFont(ofSize: 30)
-        $0.textAlignment = .center
-        $0.textColor = .darkGray
-      }
-
-      vc.view.addSubview(label)
-      label.snp.makeConstraints { make in
-        make.center.equalToSuperview()
-      }
-
-      return vc
-    }
-
-    private func setupEarlGreyStage() {
-      let vc = stageController(title: "EarlGrey Test")
-      stage.window.rootViewController = vc
-    }
-
-    private var tryLoginFlow: Completable {
-      return .create { [unowned self] completable in
-        let stageVC = self.stageController(title: "Try LoginFlow")
-        self.stage.window.rootViewController = stageVC
-
-        let sub = LoginFlow(
-          on: .viewController(stageVC),
-          credentialService: CredentialService()
-        )
-        .loginIfNeeded.subscribe(onCompleted: {
-          jack.func().info("Login flow completed")
-        })
-
-        return Disposables.create([sub])
-      }
-    }
-
-    private var tryLanguagesFlow: Single<LanguagesFlowResult> {
-      return .create { single in
-        let stageVC = self.stageController(title: "Try LanguagesFlow")
-        self.stage.window.rootViewController = stageVC
-
-        let sub = LanguagesFlow(on: .viewController(stageVC))
-          .run
-          .subscribe(onSuccess: { result in
-            jack.func().info("""
-            LanguagesFlow completed with:
-            - Selected language: \(result.selected ?? "<nil>")
-            - Pinned languages: \(result.pinned)
-            """)
-          })
-
-        return Disposables.create([sub])
-      }
-    }
-
-  #endif
 }
