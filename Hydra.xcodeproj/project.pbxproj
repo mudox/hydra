@@ -17,7 +17,9 @@
 		F40C90CD21F0E18400C85F27 /* Realms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90CC21F0E18400C85F27 /* Realms.swift */; };
 		F40C90D021F1642500C85F27 /* Environs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90CF21F1642500C85F27 /* Environs.swift */; };
 		F40C90D221F1889900C85F27 /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D121F1889900C85F27 /* Files.swift */; };
-		F40C90D521F281A900C85F27 /* LanguagesBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D421F281A900C85F27 /* LanguagesBarModel.swift */; };
+		F40C90D721F4E42000C85F27 /* RxJackDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D621F4E42000C85F27 /* RxJackDebug.swift */; };
+		F40C90D921F4EF4B00C85F27 /* TrendModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D821F4EF4B00C85F27 /* TrendModelSpec.swift */; };
+		F40C90DB21F4F53D00C85F27 /* HydraFlow+Dev.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90DA21F4F53D00C85F27 /* HydraFlow+Dev.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
 		F41C5F2721E73BBF0011DBEC /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2621E73BBF0011DBEC /* UI.swift */; };
 		F41C5F2A21E79B7D0011DBEC /* TrendRepositories.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */; };
@@ -127,7 +129,9 @@
 		F40C90CC21F0E18400C85F27 /* Realms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realms.swift; sourceTree = "<group>"; };
 		F40C90CF21F1642500C85F27 /* Environs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environs.swift; sourceTree = "<group>"; };
 		F40C90D121F1889900C85F27 /* Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
-		F40C90D421F281A900C85F27 /* LanguagesBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesBarModel.swift; sourceTree = "<group>"; };
+		F40C90D621F4E42000C85F27 /* RxJackDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxJackDebug.swift; sourceTree = "<group>"; };
+		F40C90D821F4EF4B00C85F27 /* TrendModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendModelSpec.swift; sourceTree = "<group>"; };
+		F40C90DA21F4F53D00C85F27 /* HydraFlow+Dev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HydraFlow+Dev.swift"; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F41C5F2621E73BBF0011DBEC /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendRepositories.json; sourceTree = "<group>"; };
@@ -304,6 +308,7 @@
 				F40C90CF21F1642500C85F27 /* Environs.swift */,
 				F40C90CE21F163FA00C85F27 /* Services */,
 				F40C90D321F18ACC00C85F27 /* Util */,
+				F40C90D621F4E42000C85F27 /* RxJackDebug.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -325,7 +330,6 @@
 				F4349CE421A873D000628D8D /* TrendPageControl.swift */,
 				F451AC7521B0356800C101D1 /* LanguagesBar.swift */,
 				F4F6097621E665EC000E06A3 /* Unused */,
-				F40C90D421F281A900C85F27 /* LanguagesBarModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -348,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				F4F338132170BD4100DC9638 /* HydraFlow.swift */,
+				F40C90DA21F4F53D00C85F27 /* HydraFlow+Dev.swift */,
 				F46C6887215A43400090B4AF /* Login */,
 				F43032F421B3A50100BE40DF /* Languages */,
 				F456A01B218C956E00047369 /* Trend */,
@@ -407,6 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */,
+				F40C90D821F4EF4B00C85F27 /* TrendModelSpec.swift */,
 				F4B4BA4C21D52FC300879B18 /* Info.plist */,
 			);
 			path = Test;
@@ -484,6 +490,7 @@
 				F4B4BA2A21D5189F00879B18 /* Sources */,
 				F4B4BA2B21D5189F00879B18 /* Frameworks */,
 				F4B4BA2C21D5189F00879B18 /* Resources */,
+				173826E681830E8753C1D99D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -643,6 +650,38 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		173826E681830E8753C1D99D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-UITest/Pods-UITest-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxNimble/RxNimble.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxNimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UITest/Pods-UITest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		1E788F973CE4282CC47A03D8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -933,6 +972,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40C90D921F4EF4B00C85F27 /* TrendModelSpec.swift in Sources */,
 				F4B4BA5721D5300300879B18 /* DefaultsSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -960,13 +1000,14 @@
 				F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */,
 				F40C90D221F1889900C85F27 /* Files.swift in Sources */,
 				F43032F621B3A53A00BE40DF /* LanguagesService.swift in Sources */,
-				F40C90D521F281A900C85F27 /* LanguagesBarModel.swift in Sources */,
 				F426C44621C6A68D00CAA764 /* LanguagesFlow.swift in Sources */,
 				F40C90D021F1642500C85F27 /* Environs.swift in Sources */,
 				F41C5F2721E73BBF0011DBEC /* UI.swift in Sources */,
+				F40C90D721F4E42000C85F27 /* RxJackDebug.swift in Sources */,
 				F49B6E4721D89C8900E0CF2B /* AID.swift in Sources */,
 				F45C49532167E65200BC0576 /* CredentialService.swift in Sources */,
 				F448420221DCF68A00951C3D /* TrendDeveloperCell.swift in Sources */,
+				F40C90DB21F4F53D00C85F27 /* HydraFlow+Dev.swift in Sources */,
 				F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */,
 				F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */,
 				F438CE4C21DA037D00A6EF34 /* Trend.swift in Sources */,
