@@ -75,6 +75,9 @@ PODS:
     - Alamofire (~> 4.5)
     - RxSwift (~> 4)
   - RxAtomic (4.4.0)
+  - RxBlocking (4.4.0):
+    - RxAtomic (~> 4.4)
+    - RxSwift (~> 4.0)
   - RxCocoa (4.4.0):
     - RxSwift (~> 4.0)
   - RxDataSources (3.1.0):
@@ -87,6 +90,14 @@ PODS:
   - RxKeyboard (0.9.0):
     - RxCocoa (>= 4.3.1)
     - RxSwift (>= 4.3.1)
+  - RxNimble (4.4.0):
+    - RxNimble/RxBlocking (= 4.4.0)
+  - RxNimble/Core (4.4.0):
+    - Nimble (~> 7.0)
+    - RxSwift (~> 4.2)
+  - RxNimble/RxBlocking (4.4.0):
+    - RxBlocking
+    - RxNimble/Core
   - RxOptional (3.6.2):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
@@ -108,6 +119,9 @@ PODS:
   - RxSwiftExt/RxCocoa (3.4.0):
     - RxCocoa (~> 4.0)
     - RxSwiftExt/Core
+  - RxTest (4.4.0):
+    - RxAtomic (~> 4.4)
+    - RxSwift (~> 4.0)
   - SkeletonView (1.4.1)
   - SnapKit (4.2.0)
   - SSZipArchive (2.1.4)
@@ -143,15 +157,18 @@ DEPENDENCIES:
   - NVActivityIndicatorView
   - Quick
   - RealmSwift
+  - RxBlocking
   - RxCocoa
   - RxDataSources
   - RxGesture
   - RxKeyboard
+  - RxNimble
   - RxOptional
   - RxRealm
   - RxRealmDataSources
   - RxSwift
   - RxSwiftExt
+  - RxTest
   - SkeletonView
   - SnapKit
   - SwiftHEXColors
@@ -187,15 +204,18 @@ SPEC REPOS:
     - Result
     - RxAlamofire
     - RxAtomic
+    - RxBlocking
     - RxCocoa
     - RxDataSources
     - RxGesture
     - RxKeyboard
+    - RxNimble
     - RxOptional
     - RxRealm
     - RxRealmDataSources
     - RxSwift
     - RxSwiftExt
+    - RxTest
     - SkeletonView
     - SnapKit
     - SSZipArchive
@@ -243,15 +263,18 @@ SPEC CHECKSUMS:
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
+  RxBlocking: 138ad53217434444d6eeeb4fb406a45431d92e31
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
   RxGesture: 7f6dfb45dbde06e618c24442d38493e3144f2c95
   RxKeyboard: 4f782303f499f41577b41c96c6a9a5d7acd51a47
+  RxNimble: ba6caf0195c37fd50dd4b967624b66ff580d781a
   RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
   RxRealm: 5379eddd74f8d617ca7681d1f8d144af25b432b0
   RxRealmDataSources: 89b61c0d3edf7769da2a6bf4dcf317bc713394db
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
+  RxTest: 19d03286bdc0a3aaea5d61d4cde31fdf4bb8a5ba
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
@@ -265,6 +288,6 @@ SPEC CHECKSUMS:
   Valet: 4af0382d4a94db5c7861504f751884f653437d24
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 940c48fbcf5d4f7324a1f1a5d55c66cfd00352d2
+PODFILE CHECKSUM: 94116a546e9fb952af617be9016584db29feb65a
 
 COCOAPODS: 1.5.3

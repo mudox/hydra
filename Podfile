@@ -178,6 +178,7 @@ target 'Hydra' do
   target 'UITest' do
     inherit! :search_paths
 
+    rxtest_pods
   end
 end
 
