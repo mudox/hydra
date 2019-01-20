@@ -38,8 +38,9 @@ protocol TrendModelOutput {
   var barItems: Driver<[String]> { get }
 }
 
-protocol TrendModelType: TrendModelInput, TrendModelOutput {
-  init(service: TrendServiceType)
+protocol TrendModelType: TrendModelInput, TrendModelOutput
+{
+  init()
 }
 
 extension TrendModelType {

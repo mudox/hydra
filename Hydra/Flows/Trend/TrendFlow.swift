@@ -15,7 +15,7 @@ class TrendFlow: Flow, TrendFlowType {
 
   var run: Completable {
     return .create { _ in // never complete
-      let model = TrendModel(service: TrendService())
+      let model = TrendModel()
       let vc = TrendController(model: model)
 
       let nav = UINavigationController(rootViewController: vc)
