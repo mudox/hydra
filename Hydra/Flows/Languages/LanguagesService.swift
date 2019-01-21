@@ -15,25 +15,11 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-private extension String {
-  static let allLanguagesCacheKey = "allGitHubLanguagesCacheKey"
+protocol LanguagesServiceType {
+  var pinned: [String] { get }
 }
 
-private enum PrimaryKeys {
-  static let pinned = "pinned"
-  static let history = "history"
-}
-
-class LanguageList: Object {
-  @objc dynamic var name = ""
-  let list = List<String>()
-
-  override static func primaryKey() -> String? {
-    return "name"
-  }
-}
-
-class LanguagesService {
+class LanguagesService: LanguagesServiceType {
 
   // MARK: Access Realm
 
@@ -62,9 +48,7 @@ class LanguagesService {
 
   func set(languages: [String], forKey key: String) {
     do {
-      guard let realm = Realms.user else {
-        return
-      }
+      guard let realm = Realms.user else { return }
 
       try realm.write {
         let newList = LanguageList(value: [key, languages])
@@ -72,9 +56,9 @@ class LanguagesService {
       }
     } catch {
       jack.func().error("""
-        Failed to write new pinned language list into user Realm.
-        Error: \(error)
-        """, format: [])
+      Failed to write new pinned language list into user Realm.
+      Error: \(error)
+      """, format: [])
     }
   }
 
@@ -161,7 +145,7 @@ class LanguagesService {
       ])
     }
     set {
-
+      set(languages: newValue, forKey: PrimaryKeys.pinned)
     }
   }
 
@@ -240,4 +224,24 @@ class LanguagesService {
       }
   }
 
+}
+
+// MARK: - Private Helpers
+
+private extension String {
+  static let allLanguagesCacheKey = "allGitHubLanguagesCacheKey"
+}
+
+class LanguageList: Object {
+  @objc dynamic var name = ""
+  let list = List<String>()
+
+  override static func primaryKey() -> String? {
+    return "name"
+  }
+}
+
+private enum PrimaryKeys {
+  static let pinned = "pinned"
+  static let history = "history"
 }
