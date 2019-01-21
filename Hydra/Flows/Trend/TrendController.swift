@@ -91,30 +91,34 @@ class TrendController: ViewController {
   func drivesModel() {
     let input = model.input
 
-    languageBar.selected
-      .drive(input.language)
+    languageBar.selection
+      .drive(input.barSelection)
       .disposed(by: bag)
 
-    languageBar.moreButton.rx.tap.asDriver()
-      .flatMapFirst { [weak self] () -> Driver<String?> in
+    languageBar.moreButton.rx.tap
+      .flatMapFirst { [weak self] () -> Driver<LanguagesFlowResult> in
         guard let self = self else { return .empty() }
         let flow = LanguagesFlow(on: .viewController(self))
-        return flow.selectedLanguage
-          .asDriver(onErrorFailWithLabel: "LanguagesFlow.selectedLanguage", or: .complete)
+        return flow.run.asDriver(onErrorFailWithLabel: "LanguagesFlow.run", or: .complete)
       }
-      .drive(input.moreLanguage)
+      .bind(to: input.languagesFlowResult)
       .disposed(by: bag)
   }
 
   func modelDrives() {
     let output = model.output
 
-    output.barItems
+    output.barState
+      .map { $0.items }
       .drive(languageBar.items)
       .disposed(by: bag)
 
-    output.trend
-      .map { $0.sections }
+    output.barState
+      .map { $0.index }
+      .drive(languageBar.index)
+      .disposed(by: bag)
+
+    output.collectionViewData
       .drive(tableView.rx.items(dataSource: dataSource))
       .disposed(by: bag)
   }
