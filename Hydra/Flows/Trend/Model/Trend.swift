@@ -14,10 +14,14 @@ struct Trend {
 
   typealias Section = SectionModel<String, Context>
 
+  let language: String
+
   let repositories: [Context]
   let deveopers: [Context]
 
-  init(of language: String) {
+  init(ofLanguage language: String) {
+    self.language = language
+
     repositories = [
       Context(category: .repository, language: language, period: .pastDay),
       Context(category: .repository, language: language, period: .pastWeek),
