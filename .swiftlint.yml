@@ -76,6 +76,7 @@ identifier_name:
 file_name:
   excluded:
     - AsSharedSequence.swift
+    - RxJackDebug.swift
     - UI.swift
     - LanguageCell.swift
     - LanguagesHeaderView.swift
