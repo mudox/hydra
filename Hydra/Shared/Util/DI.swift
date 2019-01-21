@@ -21,5 +21,9 @@ private func makeContainer() -> Container {
     }
   }
 
+  container.register(LanguagesServiceType.self) { _ in
+    return LanguagesService()
+  }
+
   return container
 }

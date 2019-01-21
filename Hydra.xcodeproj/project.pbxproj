@@ -20,6 +20,7 @@
 		F40C90D721F4E42000C85F27 /* RxJackDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D621F4E42000C85F27 /* RxJackDebug.swift */; };
 		F40C90D921F4EF4B00C85F27 /* TrendModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90D821F4EF4B00C85F27 /* TrendModelSpec.swift */; };
 		F40C90DB21F4F53D00C85F27 /* HydraFlow+Dev.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90DA21F4F53D00C85F27 /* HydraFlow+Dev.swift */; };
+		F40C90DD21F5CC9800C85F27 /* EnvironsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90DC21F5CC9700C85F27 /* EnvironsSpec.swift */; };
 		F413E31E216DEA110024B7F3 /* LoginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F413E31D216DEA110024B7F3 /* LoginFlow.swift */; };
 		F41C5F2721E73BBF0011DBEC /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2621E73BBF0011DBEC /* UI.swift */; };
 		F41C5F2A21E79B7D0011DBEC /* TrendRepositories.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */; };
@@ -132,6 +133,7 @@
 		F40C90D621F4E42000C85F27 /* RxJackDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxJackDebug.swift; sourceTree = "<group>"; };
 		F40C90D821F4EF4B00C85F27 /* TrendModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendModelSpec.swift; sourceTree = "<group>"; };
 		F40C90DA21F4F53D00C85F27 /* HydraFlow+Dev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HydraFlow+Dev.swift"; sourceTree = "<group>"; };
+		F40C90DC21F5CC9700C85F27 /* EnvironsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironsSpec.swift; sourceTree = "<group>"; };
 		F413E31D216DEA110024B7F3 /* LoginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlow.swift; sourceTree = "<group>"; };
 		F41C5F2621E73BBF0011DBEC /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendRepositories.json; sourceTree = "<group>"; };
@@ -413,6 +415,7 @@
 			children = (
 				F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */,
 				F40C90D821F4EF4B00C85F27 /* TrendModelSpec.swift */,
+				F40C90DC21F5CC9700C85F27 /* EnvironsSpec.swift */,
 				F4B4BA4C21D52FC300879B18 /* Info.plist */,
 			);
 			path = Test;
@@ -490,7 +493,6 @@
 				F4B4BA2A21D5189F00879B18 /* Sources */,
 				F4B4BA2B21D5189F00879B18 /* Frameworks */,
 				F4B4BA2C21D5189F00879B18 /* Resources */,
-				173826E681830E8753C1D99D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -650,38 +652,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		173826E681830E8753C1D99D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-UITest/Pods-UITest-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxNimble/RxNimble.framework",
-				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxNimble.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UITest/Pods-UITest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1E788F973CE4282CC47A03D8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -801,15 +771,25 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Test/Pods-Test-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxNimble/RxNimble.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxNimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -974,6 +954,7 @@
 			files = (
 				F40C90D921F4EF4B00C85F27 /* TrendModelSpec.swift in Sources */,
 				F4B4BA5721D5300300879B18 /* DefaultsSpec.swift in Sources */,
+				F40C90DD21F5CC9800C85F27 /* EnvironsSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
