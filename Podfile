@@ -4,7 +4,7 @@
 def my_pods
   # Travis-CI set `CI` on macOS environment
   if ENV['CI'] == 'true'
-    pod 'JacKit',  :git  => 'https://github.com/mudox/jac-kit.git'
+    pod 'JacKit',                     :git  => 'https://github.com/mudox/jac-kit.git'
     pod 'JacKit',                     :git  => 'https://github.com/mudox/jac-kit.git'
 
     pod 'MudoxKit',                   :git  => 'https://github.com/mudox/mudox-kit.git'
@@ -165,6 +165,7 @@ target 'Hydra' do
     inherit! :search_paths
 
     quick_pods
+    rxtest_pods
   end
 
   target 'EarlGreyTest' do
@@ -177,8 +178,6 @@ target 'Hydra' do
 
   target 'UITest' do
     inherit! :search_paths
-
-    rxtest_pods
   end
 end
 
