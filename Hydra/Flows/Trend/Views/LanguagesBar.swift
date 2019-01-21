@@ -18,10 +18,16 @@ class LanguagesBar: UIView {
   }
 
   init() {
+    selection = Driver.combineLatest(
+      items.asDriver().skip(1),
+      index.asDriver().skip(1)
+    ) { ($1, $0[$1]) }
+    .jack("selection")
+
     super.init(frame: .zero)
 
     setupView()
-    setupModel()
+    setupBinding()
   }
 
   // MARK: - Subviews
@@ -111,7 +117,59 @@ class LanguagesBar: UIView {
     underline.superview?.layoutIfNeeded()
   }
 
-  func highlight(_ cell: LanguagesBar.Cell) {
+  // MARK: - Binding
+
+  let index = BehaviorRelay<Int>(value: 0)
+
+  let items = BehaviorRelay<[String]>(value: ["<Should Be Skipped>"])
+
+  let selection: Driver<(index: Int, item: String)>
+
+  private let bag = DisposeBag()
+
+  func setupBinding() {
+
+    // Drive collection view items
+
+    items.asDriver().skip(1)
+      .drive(collectionView.rx.items)(setupCell)
+      .disposed(by: bag)
+
+    // Selection drives cell highlighting
+
+    collectionView.rx.itemSelected
+      .map { $0.item }
+      .bind(to: index)
+      .disposed(by: bag)
+
+    index.asDriver().skip(1)
+      .drive(onNext: { [weak self] index in
+        guard let self = self else { return }
+        // Avoid to be run at the same run loop of the items reload
+        DispatchQueue.main.async {
+          self.selectItem(at: index)
+        }
+      })
+      .disposed(by: bag)
+  }
+
+  func selectItem(at index: Int) {
+    let indexPath = IndexPath(item: index, section: 0)
+
+    guard let cell = self.collectionView.cellForItem(at: indexPath) as? Cell else {
+      jack.func().warn("Failed to get cell collection view")
+      return
+    }
+
+    // Select item
+
+    collectionView.selectItem(
+      at: indexPath, animated: true,
+      scrollPosition: .centeredHorizontally
+    )
+
+    // Update underline
+
     if underline == nil {
       setupUnderline(cell: cell)
       updateUnderlineLayout(to: cell)
@@ -128,53 +186,11 @@ class LanguagesBar: UIView {
     )
   }
 
-  // MARK: - View Model
-
-  private let bag = DisposeBag()
-
-  private let indexPathRelay = BehaviorRelay<IndexPath>(value: .init(item: 0, section: 0))
-
-  // MARK: Input
-
-  let items = BehaviorRelay<[String]>(value: [])
-
-  // MARK: Output
-
-  var selected: Driver<String>!
-
-  func setupModel() {
-
-    let indexPathDriver = indexPathRelay.asDriver().skip(1)
-    let itemsDriver = self.items.asDriver().skip(1)
-
-    selected = indexPathDriver.withLatestFrom(itemsDriver) { $1[$0.item] }
-
-    bag.insert(
-      collectionView.rx.itemSelected.bind(to: indexPathRelay),
-      itemsDriver.mapTo(IndexPath(item: 0, section: 0)).drive(indexPathRelay),
-      itemsDriver.drive(collectionView.rx.items)(setupCell)
-    )
-
-    // Selected index path drives underline view's layout
-    indexPathDriver
-      .drive(onNext: { [weak self] indexPath in
-        DispatchQueue.main.async { // In case the cell is not shown in current run loop
-          guard let self = self else { return }
-          guard let cell = self.collectionView.cellForItem(at: indexPath) as? LanguagesBar.Cell else {
-            jack.func().warn("`self.collectionView.cellForItem(at: \(indexPath)) as? LanguageBar.Cell` returned nil")
-            return
-          }
-          self.highlight(cell)
-        }
-      })
-      .disposed(by: bag)
-  }
-
 }
 
-let setupCell = {
-  (view: UICollectionView, index: Int, language: String) -> UICollectionViewCell in
+// MARK: - Helpers
 
+private func setupCell(view: UICollectionView, index: Int, language: String) -> UICollectionViewCell {
   let indexPath = IndexPath(item: index, section: 0)
   let cell = view.dequeueReusableCell(
     withReuseIdentifier: LanguagesBar.Cell.identifier, for: indexPath

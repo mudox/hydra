@@ -38,6 +38,8 @@ public struct Environs {
     strings[key] = string
   }
 
+  // MARK: - Tokens
+
   /// If present, the source string value is first splitted by whitespace into
   /// tokens, each of which is then lowercased.
   ///
@@ -58,6 +60,8 @@ public struct Environs {
   public static func set(tokens list: [String], forKey key: String) {
     tokens[key] = list.map { $0.lowercased() }
   }
+
+  // MARK: - Reset
 
   public static func reset() {
     bools.removeAll()
