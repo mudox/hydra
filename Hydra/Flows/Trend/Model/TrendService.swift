@@ -14,10 +14,6 @@ protocol TrendServiceType {
   func developers(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]>
 }
 
-private func composeKey(category: Trending.Category, language: String, period: Trending.Period) -> String {
-  return "\(period.rawValue)-\(language.lowercased())-\(category)"
-}
-
 class TrendService: TrendServiceType {
 
   // MARK: Repositories
@@ -80,7 +76,7 @@ class TrendService: TrendServiceType {
   {
     return Observable.catchError([
       repositoriesFromCache(of: language, for: period).asObservable(),
-      repositoriesFromNetwork(of: language, for: period).asObservable()
+      repositoriesFromNetwork(of: language, for: period).asObservable(),
     ]).asSingle()
   }
 
@@ -144,35 +140,41 @@ class TrendService: TrendServiceType {
   {
     return Observable.catchError([
       developersFromCache(of: language, for: period).asObservable(),
-      developersFromNetwork(of: language, for: period).asObservable()
+      developersFromNetwork(of: language, for: period).asObservable(),
     ]).asSingle()
   }
 
-  // MARK: Record Stub Data
+  #if DEBUG
 
-  func recordStubData() {
-    // swiftlint:disable force_try
-    var key = composeKey(category: .repository, language: "all", period: .pastDay)
-    let repositories = try! Caches.trend!.object(forKey: key)
+    // MARK: Record Stub Data
 
-    key = composeKey(category: .developer, language: "all", period: .pastDay)
-    let developers = try! Caches.trend!.transformCodable(ofType: [Trending.Developer].self).object(forKey: key)
+    func recordStubData() {
+      // swiftlint:disable force_try
+      var key = composeKey(category: .repository, language: "all", period: .pastDay)
+      let repositories = try! Caches.trend!.object(forKey: key)
 
-    let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    let repoFile = docDir.appendingPathComponent("repo.json")
-    let devsFile = docDir.appendingPathComponent("dev.json")
+      key = composeKey(category: .developer, language: "all", period: .pastDay)
+      let developers = try! Caches.trend!.transformCodable(ofType: [Trending.Developer].self).object(forKey: key)
 
-    let reposData = try! JSONEncoder().encode(repositories)
-    let devsData = try! JSONEncoder().encode(developers)
+      let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+      let repoFile = docDir.appendingPathComponent("repo.json")
+      let devsFile = docDir.appendingPathComponent("dev.json")
 
-    try! reposData.write(to: repoFile)
-    try! devsData.write(to: devsFile)
+      let reposData = try! JSONEncoder().encode(repositories)
+      let devsData = try! JSONEncoder().encode(developers)
 
-    jack.info("Write stub data under: \(docDir)")
-    // swiftlint:enable all
-  }
+      try! reposData.write(to: repoFile)
+      try! devsData.write(to: devsFile)
+
+      jack.info("Write stub data under: \(docDir)")
+      // swiftlint:enable all
+    }
+
+  #endif
 
 }
+
+// MARK: - Stub Service
 
 // swiftlint:disable force_try
 class TrendServiceStub: TrendServiceType {
@@ -208,3 +210,9 @@ class TrendServiceStub: TrendServiceType {
 }
 
 // swiftlint:enable all
+
+// MARK: - Helpers
+
+private func composeKey(category: Trending.Category, language: String, period: Trending.Period) -> String {
+  return "\(period.rawValue)-\(language.lowercased())-\(category)"
+}
