@@ -14,28 +14,13 @@ private let jack = Jack().set(format: .short)
 // MARK: Interface
 
 protocol TrendModelInput {
-
-  /// Result from presentation of `LanguagesController`
-  ///
-  /// Flow:
-  /// 1. User tap the 'More ...' button on `LanguagesBar`.
-  /// 1. Present `LanguagesController`.
-  /// 1. User (searchs and) selects a language item.
-  /// 1. `LanguageController` is dismissed with the result.
-  var moreLanguage: BehaviorRelay<String?> { get }
-
-  /// Selected language item from language bar. Trending contents
-  /// of this language will be loaded.
-  var language: BehaviorRelay<String> { get }
+  var barSelection: BehaviorRelay<(index: Int, item: String)> { get }
+  var languagesFlowResult: BehaviorRelay<LanguagesFlowResult> { get }
 }
 
 protocol TrendModelOutput {
-
-  /// Drives the outer vertical collection view.
-  var trend: Driver<Trend> { get }
-
-  /// Drives `LanguagesBar.items`.
-  var barItems: Driver<[String]> { get }
+  var barState: Driver<(items: [String], index: Int)> { get }
+  var collectionViewData: Driver<[Trend.Section]> { get }
 }
 
 protocol TrendModelType: TrendModelInput, TrendModelOutput
@@ -54,46 +39,67 @@ class TrendModel: ViewModel, TrendModelType {
 
   // MARK: Input
 
-  let moreLanguage = BehaviorRelay<String?>(value: nil)
-  let language = BehaviorRelay<String>(value: "all")
+  let barSelection = BehaviorRelay<(index: Int, item: String)>(
+    value: (0, "<Skip This Item>")
+  )
+
+  let languagesFlowResult = BehaviorRelay<LanguagesFlowResult>(
+    value: .init(selected: nil, pinned: ["<Skip This Item>"])
+  )
 
   // MARK: Output
 
-  let trend: Driver<Trend>
+  // swiftlint:disable:next identifier_name
+  let _barState = BehaviorRelay<(items: [String], index: Int)>(
+    value: (["Skip This Item"], 0)
+  )
+  let barState: Driver<(items: [String], index: Int)>
 
-  private let _barItems = BehaviorRelay<[String]>(value: [])
-  let barItems: Driver<[String]>
+  let collectionViewData: Driver<[Trend.Section]>
 
   // MARK: Binding
 
-  required init(service: TrendServiceType) {
-    barItems = _barItems.asDriver()
+  required override init() {
+    barState = _barState.asDriver().jack("barState")
 
-    trend = language
-      .asDriver()
-      .map(Trend.init)
+    collectionViewData = barSelection.asDriver()
+      .map { Trend(ofLanguage: $0.item).sections }
 
     super.init()
 
-    moreLanguage.asDriver()
-      .map { selected -> [String] in
-        let pinned = LanguagesService().pinned
-        return items(selected: selected, pinned: pinned)
+    // Initial bar state
+    let pinned = di.resolve(LanguagesServiceType.self)!.pinned
+    var items = ["All", "Unknown"]
+    items.insert(contentsOf: pinned, at: 1)
+    let initialBarState = (items: items, index: 0)
+
+    languagesFlowResult
+      .asDriver()
+      .withLatestFrom(barSelection.asDriver().skip(1)) { ($0, $1.item) }
+      .map { result, oldItem -> ([String], Int) in
+        var items = ["All", "Unknown"]
+        items.insert(contentsOf: result.pinned, at: 1)
+
+        if let selected = result.selected {
+          if let index = items.firstIndex(of: selected) {
+            return (items, index)
+          } else {
+            items.insert(selected, at: 1)
+            return (items, 1)
+          }
+        } else {
+          if let index = items.firstIndex(of: oldItem) {
+            return (items, index)
+          } else {
+            items.insert(oldItem, at: 1)
+            return (items, 1)
+          }
+        }
       }
-      .drive(_barItems)
+      .startWith(initialBarState)
+      .drive(_barState)
       .disposed(by: bag)
-  }
 
-}
+  } // init
 
-// MARK: - Helpers
-
-private func items(selected: String?, pinned: [String]) -> [String] {
-  var items = ["All", "Unknown"]
-  items.insert(contentsOf: pinned, at: 1)
-
-  if let selected = selected, !pinned.contains(selected) {
-    items.insert(selected, at: 1)
-  }
-  return items
 }
