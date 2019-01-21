@@ -38,6 +38,10 @@ class HydraFlow: AppFlow {
     override func reset(mode: String) {
       switch mode {
 
+      case "environs":
+        jack.func().info("Reset `Envrions`")
+        Environs.reset()
+
       case "defaults":
         jack.func().info("Reset `Defaults`")
         Defaults.removeAll()
