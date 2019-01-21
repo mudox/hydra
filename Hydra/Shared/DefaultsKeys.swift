@@ -1,6 +1,6 @@
 import SwiftyUserDefaults
 
-// MARK: - Common Prefixes
+// MARK: Common Prefixes
 
 private let app: String = Bundle.main.bundleIdentifier!
 

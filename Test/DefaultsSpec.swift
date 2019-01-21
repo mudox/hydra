@@ -17,26 +17,25 @@ extension DefaultsKeys {
 
 class DefaultsSpec: QuickSpec { override func spec() {
 
-  describe("Defaults") {
+  beforeEach {
+    Defaults.remove(.testKey)
+  }
 
-    afterEach {
-      Defaults.remove(.testKey)
-    }
+  /// See https://github.com/radex/SwiftyUserDefaults/issues/162
+  it("optional string defaults to nil") {
+    // Initially be nil
+    expect(Defaults[.testKey]).to(beNil())
+    
+    Defaults[.testKey] = "hello world"
+    expect(Defaults[.testKey]) == "hello world"
 
-    /// See https://github.com/radex/SwiftyUserDefaults/issues/162
-    it("optional string defaults to nil") {
-      Defaults[.testKey] = "hello world"
-      expect(Defaults[.testKey]) == "hello world"
+    Defaults[.testKey] = nil
+    expect(Defaults[.testKey]).to(beNil())
+  }
 
-      Defaults[.testKey] = nil
-      expect(Defaults[.testKey]).to(beNil())
-    }
-
-    it("all value become nil after remove all") {
-      Defaults.removeAll()
-      expect(Defaults[.accessToken]).to(beNil())
-    }
-
+  it("all value become nil after remove all") {
+    Defaults.removeAll()
+    expect(Defaults[.testKey]).to(beNil())
   }
 
 } }
