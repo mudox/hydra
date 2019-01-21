@@ -10,11 +10,12 @@ import SnapKit
 import JacKit
 import MudoxKit
 
-private let jack = Jack().set(format: .short)
+#if DEBUG
 
-extension HydraFlow {
+  private let jack = Jack().set(format: .short)
 
-  #if DEBUG
+  extension HydraFlow {
+
     func stageController(title: String = "Stage") -> UIViewController {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
@@ -83,5 +84,6 @@ extension HydraFlow {
       }
     }
 
-  #endif
-}
+  }
+
+#endif
