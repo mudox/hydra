@@ -22,7 +22,7 @@ class DefaultsSpec: QuickSpec { override func spec() {
   }
 
   /// See https://github.com/radex/SwiftyUserDefaults/issues/162
-  it("optional string defaults to nil") {
+  it("optional defaults to nil") {
     // Initially be nil
     expect(Defaults[.testKey]).to(beNil())
     
@@ -33,7 +33,7 @@ class DefaultsSpec: QuickSpec { override func spec() {
     expect(Defaults[.testKey]).to(beNil())
   }
 
-  it("all value become nil after remove all") {
+  it("removing all") {
     Defaults.removeAll()
     expect(Defaults[.testKey]).to(beNil())
   }

@@ -55,6 +55,22 @@ class TrendModelSpec: QuickSpec { override func spec() {
     let language = first[0].items[0].language
     expect(language) == "All"
   }
+
+  it("react to langauges flow result") {
+    let pinned = ["Swift"]
+
+    var result: LanguagesFlowResult
+    result = .init(selected: "Python", pinned: pinned)
+    input.languagesFlowResult.accept(result)
+    expect(output.barState.value.items) == ["All", "Python", "Swift", "Unknown"]
+    expect(output.barState.value.index) == 1
+
+    input.barSelection.accept((1, "Python"))
+    // nil `selected` does not change bar index
+    result = .init(selected: nil, pinned: pinned)
+    input.languagesFlowResult.accept(result)
+    expect(output.barState.value.items) == ["All", "Python", "Swift", "Unknown"]
+    expect(output.barState.value.index) == 1
   }
 
 } }
