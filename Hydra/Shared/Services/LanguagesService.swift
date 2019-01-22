@@ -17,6 +17,7 @@ private let jack = Jack().set(format: .short)
 
 protocol LanguagesServiceType {
   var pinned: [String] { get }
+  var all: Single<[GitHub.Language]> { get }
 }
 
 class LanguagesService: LanguagesServiceType {
