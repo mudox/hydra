@@ -22,7 +22,7 @@ class LanguagesBar: UIView {
       items.asDriver().skip(1),
       index.asDriver().skip(1)
     ) { ($1, $0[$1]) }
-    .jack("selection")
+    .jack("LanguagesBar.selection")
 
     super.init(frame: .zero)
 

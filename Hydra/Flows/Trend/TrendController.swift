@@ -108,17 +108,17 @@ class TrendController: ViewController {
   func modelDrives() {
     let output = model.output
 
-    output.barState
+    output.barState.asDriver()
       .map { $0.items }
       .drive(languageBar.items)
       .disposed(by: bag)
 
-    output.barState
+    output.barState.asDriver()
       .map { $0.index }
       .drive(languageBar.index)
       .disposed(by: bag)
 
-    output.collectionViewData
+    output.collectionViewData.asDriver()
       .drive(tableView.rx.items(dataSource: dataSource))
       .disposed(by: bag)
   }

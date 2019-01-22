@@ -76,7 +76,7 @@ class TrendService: TrendServiceType {
   {
     return Observable.catchError([
       repositoriesFromCache(of: language, for: period).asObservable(),
-      repositoriesFromNetwork(of: language, for: period).asObservable(),
+      repositoriesFromNetwork(of: language, for: period).asObservable()
     ]).asSingle()
   }
 
@@ -140,7 +140,7 @@ class TrendService: TrendServiceType {
   {
     return Observable.catchError([
       developersFromCache(of: language, for: period).asObservable(),
-      developersFromNetwork(of: language, for: period).asObservable(),
+      developersFromNetwork(of: language, for: period).asObservable()
     ]).asSingle()
   }
 
