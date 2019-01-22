@@ -1,5 +1,7 @@
 import Swinject
 
+import GitHub
+
 import JacKit
 
 private let jack = Jack().set(format: .short)
@@ -10,8 +12,14 @@ let di = makeContainer()
 private func makeContainer() -> Container {
   let container = Container()
 
-  // MARK: Trend Flow
+  registerTrendServiceType(to: container)
+  registerLanguagesServiceType(to: container)
+  registerCredentialServiceType(to: container)
 
+  return container
+}
+
+private func registerTrendServiceType(to container: Container) {
   container.register(TrendServiceType.self) { _ in
     if Environs.stubTrendService {
       jack.verbose("🐡 Stub `TrendServiceType`", format: .bare)
@@ -20,10 +28,21 @@ private func makeContainer() -> Container {
       return TrendService()
     }
   }
+}
 
+private func registerLanguagesServiceType(to container: Container) {
   container.register(LanguagesServiceType.self) { _ in
     return LanguagesService()
   }
+}
 
-  return container
+private func registerCredentialServiceType(to container: Container) {
+  container.register(CredentialServiceType.self) { _ in
+    if Environs.stubCredentialService {
+      jack.verbose("🐡 Stub `CredentialServiceType`", format: .bare)
+      return CredentialServiceStub()
+    } else {
+      return CredentialService()
+    }
+  }
 }
