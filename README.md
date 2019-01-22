@@ -47,7 +47,7 @@ Simply put, flow + view model + view controller + view.
 - [x] [RxSwiftExt] as extension library for [RxSwift].
 - [x] [RxDataSources] + [RxRealmDataSources] to drive table views and collection views.
 - [x] [Action] to bridge between background transactions and UI states.
-- [ ] [RxGesture] to install and use gesture recognizers reactively.
+- [x] [RxGesture] to install and use gesture recognizers reactively.
 - [ ] [RxTheme] to implement theme switching.
 
 ### Network
@@ -59,18 +59,22 @@ Simply put, flow + view model + view controller + view.
 ### Data Model
 
 - [x] [SwiftyUserDefaults] to access UserDefaults type-safely.
-- [ ] [Realm] + [RxRealm] +  to construct local data model layer.
+- [x] [Realm] + [RxRealm] to construct local data model layer.
+- [x] [Valet] to store user password and app authorization token into Keychain.
 
 ### UI
 
-- [x] [Kingfisher] + [RxKingfisher] to manage images.
+- [x] [Kingfisher] + [RxKingfisher] to manage images loading.
+- [ ] [Texture] to optimize essential UI components.
+- [ ] [Hero] to provide vivid transitions between view controllers.
 
 ### Testing
 
+- [x] [Swinject] to inject dependency stubs.
+- [x] [OHHTTPStubs] to stub network requests.
 - [x] [Quick] + [Nimble] + [RxNimble] to write test cases.
 - [x] [RxTest] + [RxBlocking] to test RxSwift observables.
-- [x] [OHHTTPStubs] to stub network requests.
-- [ ] [Swinject] to inverse dependencies.
+- [x] [EarlGray] to automate in-process UI testing.
 
 ### Code quality
 
@@ -144,3 +148,6 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [fastlane]: https://fastlane.tools
 [Kingfisher]: https://github.com/onevcat/Kingfisher
 [RxKingfisher]: https://github.com/RxSwiftCommunity/RxKingfisher
+[Texture]: https://github.com/TextureGroup/Texture
+[Hero]: https://github.com/HeroTransitions/Hero
+[Valet]: https://github.com/square/Valet
