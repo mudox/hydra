@@ -377,11 +377,14 @@ class TrendRepositoryCell: TrendCardCell {
   }
 
   func show(repository: Trending.Repository, rank: Int) {
-    show(rank: rank, color: repository.language?.color ?? .light)
+    let color = repository.language?.color ?? .light
+
+    show(rank: rank, color: color)
 
     // Stars corner
     starsLabel.text = repository.starsCount.description
-    starsIcon.tintColor = .dark
+//    starsIcon.tintColor = .dark
+    starsIcon.tintColor = color
 
     // Gained stars corner
     if let count = repository.gainedStarsCount {
@@ -389,7 +392,8 @@ class TrendRepositoryCell: TrendCardCell {
       gainedStarsIcon.isHidden = false
 
       gainedStarsLabel.text = count.description
-      gainedStarsIcon.tintColor = .dark
+//      gainedStarsIcon.tintColor = .dark
+      gainedStarsIcon.tintColor = color
     } else {
       gainedStarsLabel.isHidden = true
       gainedStarsIcon.isHidden = true
@@ -397,6 +401,7 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Language corner
     if let language = repository.language {
+      languageLabel.isHidden = false
       languageLabel.text = language.name
 
       if let color = language.color {
@@ -405,13 +410,17 @@ class TrendRepositoryCell: TrendCardCell {
       } else {
         languageBadge.isHidden = true
       }
+    } else {
+      languageLabel.isHidden = true
+      languageBadge.isHidden = true
     }
 
     // Forks corner
     if let count = repository.forksCount {
       forksLabel.isHidden = false
       forksLabel.text = count.description
-      forksIcon.tintColor = .dark
+//      forksIcon.tintColor = .dark
+      forksIcon.tintColor = color
     } else {
       forksLabel.isHidden = true
     }
