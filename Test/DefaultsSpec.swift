@@ -7,7 +7,7 @@ import JacKit
 
 import SwiftyUserDefaults
 
-private let jack = Jack("Test.Defaults")
+private let jack = Jack().set(format: .short)
 
 @testable import Hydra
 
@@ -33,7 +33,7 @@ class DefaultsSpec: QuickSpec { override func spec() {
     expect(Defaults[.testKey]).to(beNil())
   }
 
-  it("removing all") {
+  it("remove all") {
     Defaults.removeAll()
     expect(Defaults[.testKey]).to(beNil())
   }
