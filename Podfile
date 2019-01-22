@@ -161,7 +161,7 @@ target 'Hydra' do
 
   networking_pods
 
-  target 'Test' do
+  target 'UnitTest' do
     inherit! :search_paths
 
     quick_pods
