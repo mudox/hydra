@@ -39,23 +39,24 @@ class HydraFlow: AppFlow {
       switch mode {
 
       case "environs":
-        jack.func().info("Reset `Envrions`")
+        jack.func().info("Reset environment overrides")
         Environs.reset()
 
       case "defaults":
-        jack.func().info("Reset `Defaults`")
+        jack.func().info("Reset user defaults")
         Defaults.removeAll()
 
-      case "cache":
-        jack.func().info("Reset `Cache`")
+      case "caches":
+        jack.func().info("Reset caches")
         Caches.reset()
 
       case "realm":
-        jack.func().info("Reset `Realm` data")
+        jack.func().info("Reset Realm data")
         Realms.reset()
 
       case "credentials":
-        jack.func().info("Reset `CredentialService`")
+        jack.func().info("Reset credentials")
+        Defaults.remove(.username)
         CredentialService().reset()
 
       default:
