@@ -78,10 +78,16 @@ extension Environs {
     set { bools[stubTrendServiceKey] = newValue }
   }
 
-  private static let stubLanguagesServiceKey = "STUB_TREND_SERVICE"
+  private static let stubLanguagesServiceKey = "STUB_LANGUAGESSERVICE_SERVICE"
   static var stubLanguagesService: Bool {
     get { return boolean(forKey: stubLanguagesServiceKey) }
     set { bools[stubLanguagesServiceKey] = newValue }
+  }
+
+  private static let stubCredentialServiceKey = "STUB_CREDENTIAL_SERVICE"
+  static var stubCredentialService: Bool {
+    get { return boolean(forKey: stubCredentialServiceKey) }
+    set { bools[stubCredentialServiceKey] = newValue }
   }
 
 }
