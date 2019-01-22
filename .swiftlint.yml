@@ -85,4 +85,8 @@ file_name:
     - LoginTextField.swift
     - NotificationNames.swift
 
+file_length:
+  warning: 500
+  error: 1200
+
 severity: error
