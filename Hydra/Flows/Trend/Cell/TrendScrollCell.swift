@@ -18,9 +18,6 @@ class TrendScrollCell: UITableViewCell {
 
   static let id = "\(type(of: self))"
 
-  let pageControlBag = DisposeBag()
-  var dataSourceBag = DisposeBag()
-
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -38,7 +35,7 @@ class TrendScrollCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
-  // MARK: - View
+  // MARK: - Subviews
 
   let label = UILabel()
 
@@ -46,7 +43,11 @@ class TrendScrollCell: UITableViewCell {
 
   var collectionView: UICollectionView!
 
+  // MARK: - Metrics
+
   static let height: CGFloat = 230
+
+  // MARK: - Setup View
 
   func setupLabel() {
     label.do {
@@ -107,6 +108,11 @@ class TrendScrollCell: UITableViewCell {
       make.height.equalTo(TrendCardCell.size.height)
     }
   }
+
+  // MARK: - Binding
+
+  let pageControlBag = DisposeBag()
+  var dataSourceBag = DisposeBag()
 
   func setupBindings() {
     // Collection view scrolling drives page control
