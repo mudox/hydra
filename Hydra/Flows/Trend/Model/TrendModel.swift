@@ -21,6 +21,7 @@ protocol TrendModelInput {
 protocol TrendModelOutput {
   var barState: BehaviorRelay<(items: [String], index: Int)> { get }
   var collectionViewData: BehaviorRelay<[Trend.Section]> { get }
+  static var color: BehaviorRelay<UIColor> { get }
 }
 
 protocol TrendModelType: TrendModelInput, TrendModelOutput
@@ -40,19 +41,19 @@ class TrendModel: ViewModel, TrendModelType {
   // MARK: Input
 
   let barSelection: BehaviorRelay<(index: Int, item: String)>
-
   let languagesFlowResult: BehaviorRelay<LanguagesFlowResult>
 
   // MARK: Output
 
-  // swiftlint:disable:next identifier_name
   let barState: BehaviorRelay<(items: [String], index: Int)>
   let collectionViewData: BehaviorRelay<[Trend.Section]>
+
+  static let color = BehaviorRelay<UIColor>(value: .brand)
 
   // MARK: Binding
 
   required override init() {
-    barSelection = .init(value: (0, "<SKIP>"))
+    barSelection = .init(value: (index: 0, item: "<SKIP>"))
     languagesFlowResult = .init(value: .init(selected: nil, pinned: ["<SKIP>"]))
 
     barState = .init(value: initialBarState)
@@ -60,13 +61,45 @@ class TrendModel: ViewModel, TrendModelType {
 
     super.init()
 
+    barSelectionDrivesCollectionViewData()
+    barSelectionDrivesColor()
+
+    languagesFlowResultDrivesBarState()
+  }
+
+  func barSelectionDrivesCollectionViewData() {
     barSelection
       .map { Trend(ofLanguage: $0.item).sections }
       .bind(to: collectionViewData)
       .disposed(by: bag)
+  }
 
-    // Initial bar state
+  func barSelectionDrivesColor() {
+    let languagesList = di.resolve(LanguagesServiceType.self)!.all
+    barSelection.skip(1)
+      .withLatestFrom(languagesList) {
+        selection, all -> UIColor in
+        let name = selection.item
+        for language in all where language.name == name {
+          return language.color ?? .brand
+        }
 
+        switch name {
+        case "All":
+          return .brand
+        case "Unknown":
+          return .darkGray
+        default:
+          jack.failure("Unexpected language name: \(name)")
+          return .brand
+        }
+      }
+      .jack("color")
+      .bind(to: TrendModel.color)
+      .disposed(by: bag)
+  }
+
+  func languagesFlowResultDrivesBarState() {
     languagesFlowResult
       .withLatestFrom(barSelection.skip(1)) { ($0, $1.item) }
       .map { result, oldItem -> ([String], Int) in
@@ -91,8 +124,7 @@ class TrendModel: ViewModel, TrendModelType {
       }
       .bind(to: barState)
       .disposed(by: bag)
-
-  } // init
+  }
 
 }
 
