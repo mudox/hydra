@@ -1,5 +1,6 @@
 import RealmSwift
 
+import GitHub
 import JacKit
 import MudoxKit
 
@@ -35,7 +36,8 @@ enum Realms {
 
   /// Local `Realm` instance for current user
   static var user: Realm? {
-    guard let username = CredentialService().user?.name else {
+    let srv = di.resolve(CredentialServiceType.self)!
+    guard let username = srv.user?.name else {
       jack.func().failure("Need non-nil username from `CredentialService`, return nil")
       return nil
     }
