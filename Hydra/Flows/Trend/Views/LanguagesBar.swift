@@ -22,7 +22,7 @@ class LanguagesBar: UIView {
       items.asDriver().skip(1),
       index.asDriver().skip(1)
     ) { ($1, $0[$1]) }
-    .jack("LanguagesBar.selection")
+      .jack("LanguagesBar.selection")
 
     super.init(frame: .zero)
 
@@ -149,6 +149,12 @@ class LanguagesBar: UIView {
         DispatchQueue.main.async {
           self.selectItem(at: index)
         }
+      })
+      .disposed(by: bag)
+
+    TrendModel.color.asDriver()
+      .drive(onNext: { [weak self] in
+        self?.underline?.backgroundColor = $0
       })
       .disposed(by: bag)
   }
