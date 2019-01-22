@@ -9,12 +9,12 @@ private let jack = Jack().set(format: .short)
 
 class CredentialService: GitHub.CredentialServiceType {
 
-  var app: (key: String, secret: String)? = (
+  let app = (
     key: "46cfca605f029f4fdb3e",
     secret: "fba5480ff4d87ce83daf3b452da1585ddb5f5857"
   )
 
-  let userValet = SecureEnclaveValet.valet(
+  private let userValet = SecureEnclaveValet.valet(
     with: Identifier(nonEmpty: "HydraAccountIsGitHubAccount")!,
     accessControl: .userPresence
   )
@@ -52,7 +52,7 @@ class CredentialService: GitHub.CredentialServiceType {
     }
   }
 
-  let tokenValet = Valet.valet(
+  private let tokenValet = Valet.valet(
     with: Identifier(nonEmpty: "HydraAppGitHubToken")!,
     accessibility: .whenUnlockedThisDeviceOnly
   )
@@ -91,3 +91,23 @@ class CredentialService: GitHub.CredentialServiceType {
   #endif
 
 }
+
+#if DEBUG
+
+  class CredentialServiceStub: CredentialServiceType {
+
+    let app = (
+      key: "46cfca605f029f4fdb3e",
+      secret: "fba5480ff4d87ce83daf3b452da1585ddb5f5857"
+    )
+
+    var user: (name: String, password: String)? = (
+      name: "cement_ce@163.com",
+      password: "zheshi1geceshihao"
+    )
+
+    var token: String? = "56500841c0f2ae21d06495ba12474bad6a448545"
+
+  }
+
+#endif
