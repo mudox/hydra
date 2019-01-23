@@ -185,7 +185,7 @@ class TrendDeveloperCell: TrendCardCell {
   }
 
   func show(developer: Trending.Developer, rank: Int) {
-    show(rank: rank, color: .brand)
+    show(rank: rank, color: TrendModel.color.value)
 
     centerStackView.isHidden = false
     skeleton.hideSkeleton()

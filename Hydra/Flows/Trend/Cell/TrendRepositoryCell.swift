@@ -383,7 +383,6 @@ class TrendRepositoryCell: TrendCardCell {
 
     // Stars corner
     starsLabel.text = repository.starsCount.description
-//    starsIcon.tintColor = .dark
     starsIcon.tintColor = color
 
     // Gained stars corner
@@ -392,7 +391,6 @@ class TrendRepositoryCell: TrendCardCell {
       gainedStarsIcon.isHidden = false
 
       gainedStarsLabel.text = count.description
-//      gainedStarsIcon.tintColor = .dark
       gainedStarsIcon.tintColor = color
     } else {
       gainedStarsLabel.isHidden = true
@@ -419,7 +417,6 @@ class TrendRepositoryCell: TrendCardCell {
     if let count = repository.forksCount {
       forksLabel.isHidden = false
       forksLabel.text = count.description
-//      forksIcon.tintColor = .dark
       forksIcon.tintColor = color
     } else {
       forksLabel.isHidden = true
