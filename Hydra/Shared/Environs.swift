@@ -7,7 +7,6 @@ import JacKit
 private let jack = Jack().set(format: .short)
 
 extension Environs {
-
   private static let stubTrendServiceKey = "STUB_TREND_SERVICE"
   static var stubTrendService: Bool {
     get { return boolean(forKey: stubTrendServiceKey) }
@@ -25,5 +24,4 @@ extension Environs {
     get { return boolean(forKey: stubCredentialServiceKey) }
     set { set(boolean: newValue, forKey: stubCredentialServiceKey) }
   }
-
 }

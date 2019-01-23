@@ -4,6 +4,7 @@ import RxCocoa
 import RxDataSources
 import RxOptional
 import RxSwift
+import RxSwiftExt
 
 import SwiftyUserDefaults
 
@@ -14,24 +15,26 @@ private let jack = Jack().set(format: .short)
 
 // MARK: Interface
 
+typealias LanguageSelection = (indexPath: IndexPath, language: String)
+
 protocol LanguagesModelInput {
   var selectTap: PublishRelay<Void> { get }
   var command: PublishRelay<LanguagesModel.Command> { get }
 
   var searchText: BehaviorRelay<String> { get }
-  var itemTap: BehaviorRelay<(IndexPath, String)?> { get }
+  var itemTap: BehaviorRelay<LanguageSelection?> { get }
 }
 
 protocol LanguagesModelOutput {
-  var selected: Driver<(IndexPath, String)?> { get }
+  var selection: BehaviorRelay<LanguageSelection?> { get }
 
-  var selectButtonTitle: Driver<String> { get }
+  var selectButtonTitle: BehaviorRelay<String> { get }
 
-  var pinButtonEnabled: Driver<Bool> { get }
-  var pinButtonTitle: Driver<String> { get }
+  var pinButtonEnabled: BehaviorRelay<Bool> { get }
+  var pinButtonTitle: BehaviorRelay<String> { get }
 
-  var state: Driver<LanguagesModel.SearchState> { get }
-  var collectionViewData: Driver<[LanguagesModel.Section]> { get }
+  var state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>> { get }
+  var collectionViewData: BehaviorRelay<[LanguagesModel.Section]> { get }
 
   var result: Single<LanguagesFlowResult> { get }
 }
@@ -47,37 +50,66 @@ extension LanguagesModelType {
 
 // MARK: - View Model
 
-class LanguagesModel: LanguagesModelType {
+class LanguagesModel: ViewModel, LanguagesModelType {
   // MARK: Input
 
-  let selectTap = PublishRelay<Void>()
-  let command = PublishRelay<Command>()
+  let selectTap: PublishRelay<Void>
+  let command: PublishRelay<Command>
 
-  let searchText = BehaviorRelay<String>(value: "")
-  let itemTap = BehaviorRelay<(IndexPath, String)?>(value: nil)
+  let searchText: BehaviorRelay<String>
+  let itemTap: BehaviorRelay<LanguageSelection?>
 
   // MARK: Output
 
-  let selected: Driver<(IndexPath, String)?>
+  let selection: BehaviorRelay<LanguageSelection?>
 
-  let selectButtonTitle: Driver<String>
+  let selectButtonTitle: BehaviorRelay<String>
 
-  let pinButtonEnabled: Driver<Bool>
-  let pinButtonTitle: Driver<String>
+  let pinButtonEnabled: BehaviorRelay<Bool>
+  let pinButtonTitle: BehaviorRelay<String>
 
-  let state: Driver<LanguagesModel.SearchState>
-  let collectionViewData: Driver<[LanguagesModel.Section]>
+  let state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>>
+  let collectionViewData: BehaviorRelay<[LanguagesModel.Section]>
 
+  let _result: BehaviorRelay<LanguagesFlowResult>
   let result: Single<LanguagesFlowResult>
 
   // MARK: Binding
 
-  var disposeBag = DisposeBag()
+  let service: LanguagesService
 
   required init(service: LanguagesService) {
+    self.service = service
 
-    let commandTrigger = command.asObservable()
-      .do(onNext: {
+    // Inputs
+    selectTap = .init()
+    command = .init()
+
+    searchText = .init(value: "<SKIP>")
+    itemTap = .init(value: nil)
+
+    // Outputs
+    selection = .init(value: (.init(item: 0, section: 0), "<SKIP>"))
+
+    selectButtonTitle = .init(value: "<SKIP>")
+
+    pinButtonEnabled = .init(value: false)
+    pinButtonTitle = .init(value: "<SKIP>")
+
+    state = .init(value: .loading)
+    collectionViewData = .init(value: [])
+
+    _result = .init(value: .init(selected: "<SKIP>", pinned: []))
+    result = _result.take(1).asSingle()
+
+    super.init()
+
+    cleanThis()
+  }
+
+  func cleanThis() {
+    let commandTick = command.asObservable()
+      .do(onNext: { [service] in
         switch $0 {
         case let .pin(language):
           service.add(pinnedLanguage: language)
@@ -88,62 +120,68 @@ class LanguagesModel: LanguagesModelType {
         }
       })
       .mapTo(())
-      .startWith(())
+      .startWith(()) // Triggers intial loading
 
-    state = Observable.combineLatest(searchText, commandTrigger)
-      .flatMap { text, _ in service.search(text: text) }
-      .map { LanguagesModel.SearchState.success($0) }
-      .startWith(LanguagesModel.SearchState.searching)
-      .asDriver { error in
-        jack.func().sub("states").sub("asDriver").warn("Received error: \(error)")
-        return .just(LanguagesModel.SearchState.error(error))
-      }
+    Observable.combineLatest(searchText, commandTick)
+      .flatMap { [service] text, _ in service.search(text: text) }
+      .asLoadingStateDriver()
+      .drive(state)
+      .disposed(by: bag)
 
-    collectionViewData = state
-      .flatMap { state -> Driver<[LanguagesModel.Section]> in
-        if let data = state.collectionViewData {
-          return .just(data)
+    state
+      .filterMap { state in
+        if let data = state.value {
+          return .map(data)
         } else {
-          return .empty()
+          return .ignore
         }
       }
+      .bind(to: collectionViewData)
+      .disposed(by: bag)
 
-    // Selection -> Buttons
-
-    let tapSelection = itemTap.asDriver()
-      .scan(nil) { prev, this -> (IndexPath, String)? in
-        if prev?.0 != this?.0 {
+    let tapSelection = itemTap
+      .scan(nil) { prev, this -> LanguageSelection? in
+        if prev?.indexPath != this?.indexPath {
           return this
         } else {
           return nil
         }
       }
       .startWith(nil)
+    let resetSelection: Observable<LanguageSelection?> = collectionViewData.mapTo(nil)
+    let effectiveSelection = Observable.merge(tapSelection, resetSelection)
 
-    let resetSelection: Driver<(IndexPath, String)?> = collectionViewData.mapTo(nil)
+    effectiveSelection
+      .map { $0 != nil }
+      .bind(to: pinButtonEnabled)
+      .disposed(by: bag)
 
-    selected = Driver.merge(tapSelection, resetSelection)
+    effectiveSelection
+      .map { $0?.0.section == 1 ? "Unpin" : "Pin" }
+      .bind(to: pinButtonTitle)
+      .disposed(by: bag)
 
-    pinButtonEnabled = selected.map { $0 != nil }
-
-    pinButtonTitle = selected.map { $0?.0.section == 1 ? "Unpin" : "Pin" }
-    selectButtonTitle = selected.map { $0 != nil ? "Select" : "Back" }
+    effectiveSelection
+      .map { $0 != nil ? "Select" : "Back" }
+      .bind(to: selectButtonTitle)
+      .disposed(by: bag)
 
     // Complete
 
-    result = selectTap
-      .withLatestFrom(selected)
-      .map { $0?.1 }
-      .do(onNext: {
-        if let language = $0 {
+    selectTap
+      .withLatestFrom(effectiveSelection)
+      .map { $0?.language }
+      .do(onNext: { [service] language in
+        // Side effect: update history
+        if let language = language {
           service.add(selectedLanguage: language)
         }
       })
-      .map {
-        LanguagesFlowResult(selected: $0, pinned: service.pinned)
+      .map { [service] language -> LanguagesFlowResult in
+        LanguagesFlowResult(selected: language, pinned: service.pinned)
       }
-      .take(1)
-      .asSingle()
+      .bind(to: _result)
+      .disposed(by: bag)
   }
 
 }
