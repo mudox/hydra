@@ -94,7 +94,6 @@ class TrendModel: ViewModel, TrendModelType {
           return .brand
         }
       }
-      .jack("color")
       .bind(to: TrendModel.color)
       .disposed(by: bag)
   }

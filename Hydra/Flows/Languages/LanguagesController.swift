@@ -63,14 +63,26 @@ class LanguagesController: UICollectionViewController {
       $0.rightBarButtonItem = pinButton
     }
 
+    let normal: [NSAttributedString.Key: Any] = [
+      .foregroundColor: UIColor.brand,
+      .font: UIFont.text
+    ]
+
+    let disabled: [NSAttributedString.Key: Any] = [
+      .foregroundColor: UIColor.clear // hide the UIButtonItem
+    ]
+
     selectButton.do {
       $0.title = "Select"
       $0.tintColor = .brand
+      $0.setTitleTextAttributes(normal, for: .normal)
     }
 
     pinButton.do {
       $0.title = "Pin"
       $0.tintColor = .brand
+      $0.setTitleTextAttributes(normal, for: .normal)
+      $0.setTitleTextAttributes(disabled, for: .disabled)
     }
 
   }
