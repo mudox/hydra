@@ -113,10 +113,13 @@ class LanguagesModel: ViewModel, LanguagesModelType {
 
     super.init()
 
-    cleanThis()
+    setupLoadingState()
+    setupSelection()
+    setupButtonStates()
+    setupCompletion()
   }
 
-  func cleanThis() {
+  func setupLoadingState() {
     let commandTick = command.asObservable()
       .do(onNext: { [service] in
         switch $0 {
@@ -147,8 +150,10 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       }
       .bind(to: collectionViewData)
       .disposed(by: bag)
+  }
 
-    let tapSelection = itemTap
+  func setupSelection() {
+    let tapSelection = itemTap.skip(1)
       .scan(nil) { prev, this -> LanguageSelection? in
         if prev?.indexPath != this?.indexPath {
           return this
@@ -156,29 +161,36 @@ class LanguagesModel: ViewModel, LanguagesModelType {
           return nil
         }
       }
-      .startWith(nil)
-    let resetSelection: Observable<LanguageSelection?> = collectionViewData.mapTo(nil)
-    let effectiveSelection = Observable.merge(tapSelection, resetSelection)
 
-    effectiveSelection
+    let resetSelection: Observable<LanguageSelection?>
+      = collectionViewData.mapTo(nil)
+
+    Observable
+      .merge(tapSelection, resetSelection)
+      .bind(to: selection)
+      .disposed(by: bag)
+  }
+
+  func setupButtonStates() {
+    selection
       .map { $0 != nil }
       .bind(to: pinButtonEnabled)
       .disposed(by: bag)
 
-    effectiveSelection
+    selection
       .map { $0?.0.section == 1 ? "Unpin" : "Pin" }
       .bind(to: pinButtonTitle)
       .disposed(by: bag)
 
-    effectiveSelection
+    selection
       .map { $0 != nil ? "Select" : "Back" }
       .bind(to: selectButtonTitle)
       .disposed(by: bag)
+  }
 
-    // Complete
-
+  func setupCompletion() {
     selectTap
-      .withLatestFrom(effectiveSelection)
+      .withLatestFrom(selection)
       .map { $0?.language }
       .do(onNext: { [service] language in
         // Side effect: update history
