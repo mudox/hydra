@@ -16,8 +16,18 @@ import MudoxKit
 private let jack = Jack().set(format: .short)
 
 protocol LanguagesServiceType {
-  var pinned: [String] { get }
+  // Full list
   var all: Single<[GitHub.Language]> { get }
+
+  // Pinned list
+  var pinned: [String] { get }
+  func add(pinnedLanguage language: String)
+  func movePinnedLanguage(from src: Int, to dest: Int)
+  func remove(pinnedLanguage language: String)
+
+  // History list
+  var history: [String] { get }
+  func add(selectedLanguage language: String)
 }
 
 class LanguagesService: LanguagesServiceType {
@@ -105,7 +115,7 @@ class LanguagesService: LanguagesServiceType {
   var all: Single<[GitHub.Language]> {
     return Observable.catchError([
       allFromCache.asObservable(),
-      allFromRepository.asObservable()
+      allFromRepository.asObservable(),
     ]).asSingle()
   }
 
@@ -142,7 +152,7 @@ class LanguagesService: LanguagesServiceType {
     get {
       return getLanguages(forKey: PrimaryKeys.pinned, defaultList: [
         "Swift", "Objective-C", "Python", "JavaScript",
-        "Ruby", "Go", "Rust", "VimScript"
+        "Ruby", "Go", "Rust", "VimScript",
       ])
     }
     set {
@@ -220,7 +230,7 @@ class LanguagesService: LanguagesServiceType {
         return [
           .init(title: "History", items: history),
           .init(title: "Pinned", items: pinned),
-          .init(title: "Languages", items: other)
+          .init(title: "Languages", items: other),
         ]
       }
   }
