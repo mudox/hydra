@@ -1,4 +1,17 @@
 {
-  "workbench.statusBar.feedback.visible": false,
-  "workbench.activityBar.visible": false
+  "swift.targets": [
+    {
+      "name": "Hydra",
+      "path": "Hydra",
+      "sources": [
+        "**/*.swift"
+      ],
+      "compilerArguments": [
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk",
+        "-target",
+        "arm64-apple-ios11.0"
+      ]
+    },
+  ]
 }
