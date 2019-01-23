@@ -62,19 +62,14 @@ enum LoadingState<Value> {
 
 }
 
-extension LoadingState {
-
-}
-
 extension ObservableConvertibleType {
 
   func asLoadingStateDriver() -> Driver<LoadingState<E>> {
-    return asObservable()
+    return self
+      .asObservable()
       .map(LoadingState.value)
       .startWith(.loading)
-      .asDriver {
-        .just(LoadingState.error($0))
-      }
+      .asDriver { .just(.error($0)) }
   }
 
 }
