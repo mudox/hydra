@@ -10,6 +10,24 @@
 Hydra is an unofficial iOS client app for GitHub. I use it to keep practicing
 various technologies I learned in community.
 
+- [Hydra](#hydra)
+  - [Project Targets](#project-targets)
+  - [Technologies](#technologies)
+    - [Requirements](#requirements)
+    - [Designing](#designing)
+    - [Architecture](#architecture)
+    - [FRP](#frp)
+    - [Network](#network)
+    - [Data Model](#data-model)
+    - [UI](#ui)
+    - [Testing](#testing)
+    - [Code quality](#code-quality)
+    - [CI](#ci)
+    - [My Own Libraries](#my-own-libraries)
+    - [Other](#other)
+  - [Author](#author)
+  - [License](#license)
+
 ## Project Targets
 
 - [x] Practice UI/UX designing tool ([Sketch.app] etc.)
