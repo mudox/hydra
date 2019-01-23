@@ -1,5 +1,7 @@
 import UIKit
 
+import Then
+
 import RxCocoa
 import RxDataSources
 import RxOptional
@@ -7,7 +9,8 @@ import RxSwift
 import RxSwiftExt
 
 import SnapKit
-import Then
+
+import MudoxKit
 
 import JacKit
 
@@ -76,12 +79,14 @@ class LanguagesController: UICollectionViewController {
       $0.title = "Select"
       $0.tintColor = .brand
       $0.setTitleTextAttributes(normal, for: .normal)
+      $0.setTitleTextAttributes(normal, for: .highlighted)
     }
 
     pinButton.do {
       $0.title = "Pin"
       $0.tintColor = .brand
       $0.setTitleTextAttributes(normal, for: .normal)
+      $0.setTitleTextAttributes(normal, for: .highlighted)
       $0.setTitleTextAttributes(disabled, for: .disabled)
     }
 
@@ -121,7 +126,6 @@ class LanguagesController: UICollectionViewController {
   let model: LanguagesModel
 
   func setupModel() {
-    // view -> model
     let input = model.input
 
     disposeBag.insert(
@@ -132,13 +136,14 @@ class LanguagesController: UICollectionViewController {
     let indexPathSelected = collectionView.rx.itemSelected
     let languageSelected = collectionView.rx.modelSelected(String.self)
     Observable.zip(indexPathSelected, languageSelected)
+      .map { LanguageSelection(indexPath: $0, language: $1) }
       .bind(to: input.itemTap)
       .disposed(by: disposeBag)
 
     let pinCommand = pinButton.rx.tap
-      .withLatestFrom(model.output.selected)
-      .flatMap { [weak self] selected -> Observable<LanguagesModel.Command> in
-        guard let selected = selected else { return .empty() }
+      .withLatestFrom(model.output.selection)
+      .flatMap { [weak self] selection -> Observable<LanguagesModel.Command> in
+        guard let selected = selection else { return .empty() }
         guard let self = self else { return .empty() }
 
         let language = selected.1
@@ -158,8 +163,6 @@ class LanguagesController: UICollectionViewController {
       pinCommand.bind(to: input.command)
     )
 
-    // model -> view
-
     driveButtons()
     driveCollectionView()
   }
@@ -168,9 +171,9 @@ class LanguagesController: UICollectionViewController {
     let output = model.output
 
     disposeBag.insert(
-      output.selectButtonTitle.drive(selectButton.rx.title),
-      output.pinButtonEnabled.drive(pinButton.rx.isEnabled),
-      output.pinButtonTitle.drive(pinButton.rx.title)
+      output.selectButtonTitle.asDriver().drive(selectButton.rx.title),
+      output.pinButtonEnabled.asDriver().drive(pinButton.rx.isEnabled),
+      output.pinButtonTitle.asDriver().drive(pinButton.rx.title)
     )
   }
 
@@ -216,17 +219,18 @@ class LanguagesController: UICollectionViewController {
     collectionView.dataSource = nil
     let width = UIScreen.main.bounds.width
 
-    output.collectionViewData
+    output.collectionViewData.asDriver()
       .do(onNext: { [weak self] sections in
-        guard let self = self else { return }
-        self.flowLayout.layout(for: sections, width: width)
+        self?.flowLayout.layout(for: sections, width: width)
       })
       .drive(collectionView.rx.items(dataSource: dataSource))
       .disposed(by: disposeBag)
 
-    output.selected
-      .drive(onNext: { [weak self] selected in
-        self?.collectionView.selectItem(at: selected?.0, animated: true, scrollPosition: [])
+    output.selection.asDriver()
+      .drive(onNext: { [weak self] selection in
+        self?.collectionView.selectItem(
+          at: selection?.indexPath, animated: true, scrollPosition: []
+        )
       })
       .disposed(by: disposeBag)
   }
