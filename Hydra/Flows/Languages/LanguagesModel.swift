@@ -158,21 +158,6 @@ extension LanguagesModel {
     case movePinnedLanguage(from: Int, to: Int) // swiftlint:disable:this identifier_name
   }
 
-  enum SearchState {
-
-    case searching
-    case success([LanguagesModel.Section])
-    case error(Swift.Error)
-
-    var collectionViewData: [LanguagesModel.Section]? {
-      if case let LanguagesModel.SearchState.success(sections) = self {
-        return sections
-      } else {
-        return nil
-      }
-    }
-  }
-
   struct Section: SectionModelType {
 
     let title: String
