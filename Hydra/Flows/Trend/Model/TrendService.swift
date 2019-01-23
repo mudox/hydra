@@ -176,40 +176,44 @@ class TrendService: TrendServiceType {
 
 // MARK: - Stub Service
 
-// swiftlint:disable force_try
-class TrendServiceStub: TrendServiceType {
+#if DEBUG
 
-  func repositories(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]> {
-    switch period {
-    case .pastDay:
-      let jsonFile = Bundle.main.url(forResource: "TrendRepositories", withExtension: "json")!
-      let data = try! Data(contentsOf: jsonFile)
-      let list = try! JSONDecoder().decode([Trending.Repository].self, from: data)
-      return .just(list)
-    case .pastWeek:
-      return .never() // Loading forever
-    case .pastMonth:
-      return .error(Trending.Error.isDissecting)
+  // swiftlint:disable force_try
+  class TrendServiceStub: TrendServiceType {
+
+    func repositories(of language: String, for period: Trending.Period) -> Single<[Trending.Repository]> {
+      switch period {
+      case .pastDay:
+        let jsonFile = Bundle.main.url(forResource: "TrendRepositories", withExtension: "json")!
+        let data = try! Data(contentsOf: jsonFile)
+        let list = try! JSONDecoder().decode([Trending.Repository].self, from: data)
+        return .just(list)
+      case .pastWeek:
+        return .never() // Loading forever
+      case .pastMonth:
+        return .error(Trending.Error.isDissecting)
+      }
     }
+
+    func developers(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]> {
+      switch period {
+      case .pastDay:
+        let jsonFile = Bundle.main.url(forResource: "TrendDevelopers", withExtension: "json")!
+        let data = try! Data(contentsOf: jsonFile)
+        let list = try! JSONDecoder().decode([Trending.Developer].self, from: data)
+        return .just(list)
+      case .pastWeek:
+        return .never() // Loading forever
+      case .pastMonth:
+        return .error(Trending.Error.isDissecting)
+      }
+    }
+
   }
 
-  func developers(of language: String, for period: Trending.Period) -> Single<[Trending.Developer]> {
-    switch period {
-    case .pastDay:
-      let jsonFile = Bundle.main.url(forResource: "TrendDevelopers", withExtension: "json")!
-      let data = try! Data(contentsOf: jsonFile)
-      let list = try! JSONDecoder().decode([Trending.Developer].self, from: data)
-      return .just(list)
-    case .pastWeek:
-      return .never() // Loading forever
-    case .pastMonth:
-      return .error(Trending.Error.isDissecting)
-    }
-  }
+  // swiftlint:enable all
 
-}
-
-// swiftlint:enable all
+#endif
 
 // MARK: - Helpers
 
