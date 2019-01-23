@@ -39,8 +39,13 @@ protocol LanguagesModelOutput {
   var result: Single<LanguagesFlowResult> { get }
 }
 
-protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {
-  init(service: LanguagesService)
+protocol LanguagesModelDependencies {
+  var service: LanguagesServiceType { get }
+}
+
+protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput, LanguagesModelDependencies
+{
+  init()
 }
 
 extension LanguagesModelType {
@@ -51,6 +56,10 @@ extension LanguagesModelType {
 // MARK: - View Model
 
 class LanguagesModel: ViewModel, LanguagesModelType {
+  // MARK: - Dependencies
+
+  let service: LanguagesServiceType
+
   // MARK: Input
 
   let selectTap: PublishRelay<Void>
@@ -71,15 +80,15 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   let state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>>
   let collectionViewData: BehaviorRelay<[LanguagesModel.Section]>
 
+  // swiftlint:disable:next identifier_name
   let _result: BehaviorRelay<LanguagesFlowResult>
   let result: Single<LanguagesFlowResult>
 
   // MARK: Binding
 
-  let service: LanguagesService
-
-  required init(service: LanguagesService) {
-    self.service = service
+  required override init() {
+    // Dependencies
+    service = di.resolve(LanguagesServiceType.self)!
 
     // Inputs
     selectTap = .init()

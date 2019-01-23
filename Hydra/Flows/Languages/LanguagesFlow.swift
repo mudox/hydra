@@ -24,7 +24,7 @@ class LanguagesFlow: Flow, LanguagesFlowType {
   /// Returns nil on cancellation
   var run: Single<LanguagesFlowResult> {
     return .create { single in
-      let model = LanguagesModel(service: LanguagesService())
+      let model = LanguagesModel()
       let sub = model.result
         .subscribe(onSuccess: { result in
           self.stage.viewController.dismiss(animated: true) {
