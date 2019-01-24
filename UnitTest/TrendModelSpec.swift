@@ -13,24 +13,11 @@ import RxSwift
 import GitHub
 import MudoxKit
 
-import Yams
+@testable import Hydra
 
 import JacKit
 
 private let jack = Jack().set(format: .short)
-
-@testable import Hydra
-
-private class ServiceStub: LanguagesServiceType {
-
-  let pinned = ["Pinned"]
-
-  let all = Single<[GitHub.Language]>
-    .just([
-      GitHub.Language(name: "Select", colorString: "#333"),
-      GitHub.Language(name: "Pinned", colorString: "#222"),
-    ])
-}
 
 class TrendModelSpec: QuickSpec { override func spec() {
 
@@ -39,9 +26,10 @@ class TrendModelSpec: QuickSpec { override func spec() {
   var output: TrendModelOutput!
 
   beforeEach {
-    di.register(LanguagesServiceType.self) { _ in
-      ServiceStub()
-    }
+    di.autoregister(
+      LanguagesServiceType.self,
+      initializer: LanguagesServiceStub.init
+    )
 
     model = TrendModel()
     input = model.input
