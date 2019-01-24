@@ -28,11 +28,7 @@ protocol LoginServiceType {
 
 struct LoginService: LoginServiceType {
 
-  let githubService: GitHub.Service
-
-  init(githubService: GitHub.Service) {
-    self.githubService = githubService
-  }
+  let github = di.resolve(GitHub.Service.self)!
 
   func validate(username: String) -> Bool {
     return !username.isEmpty
@@ -47,13 +43,13 @@ struct LoginService: LoginServiceType {
   }
 
   var isLoggedIn: Bool {
-    return githubService.credentials.isAuthorized
+    return github.credentials.isAuthorized
   }
 
   func login(username: String, password: String) -> Single<GitHub.Service.AuthorizeResponse> {
-    githubService.credentials.user = (name: username, password: password)
+    github.credentials.user = (name: username, password: password)
     let scope: GitHub.AuthScope = [.user, .repository, .organization, .notification, .gist]
-    return githubService.authorize(scope: scope)
+    return github.authorize(scope: scope)
   }
 
 }
