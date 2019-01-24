@@ -88,7 +88,7 @@ Simply put, flow + view model + view controller + view.
 
 ### Testing
 
-- [x] [Swinject] to inject dependency stubs.
+- [x] [Swinject] + [SwinjectAutoregistration] to inject dependencies.
 - [x] [OHHTTPStubs] to stub network requests.
 - [x] [Quick] + [Nimble] + [RxNimble] to write test cases.
 - [x] [RxTest] + [RxBlocking] to test RxSwift observables.
@@ -161,6 +161,7 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [SwiftLint]: https://github.com/realm/SwiftLint
 [SwiftyUserDefaults]: https://github.com/radex/SwiftyUserDefaults
 [Swinject]: https://github.com/Swinject/Swinject
+[SwinjectAutoregistration]: https://github.com/Swinject/SwinjectAutoregistration
 [Travis CI]: https://travis-ci.com
 [codecov.io]: https://codecov.io
 [fastlane]: https://fastlane.tools
