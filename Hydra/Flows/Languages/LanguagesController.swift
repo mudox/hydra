@@ -23,13 +23,6 @@ class LanguagesController: CollectionController {
     super.init(collectionViewLayout: flowLayout)
   }
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    setupView()
-    setupModel()
-  }
-
   // MARK: - View
 
   let flowLayout: LanguagesFlowLayout
