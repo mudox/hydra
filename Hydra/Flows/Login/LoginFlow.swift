@@ -30,7 +30,7 @@ class LoginFlow: Flow, LoginFlowType {
       let model = LoginModel()
 
       let sub = model.complete
-        .subscribe(onSuccess: { _ in
+        .subscribe(onCompleted: {
           self.stage.viewController.dismiss(animated: true) {
             completable(.completed)
           }

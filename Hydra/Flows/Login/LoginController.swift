@@ -228,6 +228,7 @@ class LoginController: ViewController {
     // model <- view
 
     let input = model.input
+
     bag.insert(
       backButton.rx.tap.bind(to: input.backTap),
       username.textField.rx.text.orEmpty.bind(to: input.username),
@@ -238,9 +239,10 @@ class LoginController: ViewController {
     // model -> view
 
     let output = model.output
+
     bag.insert(
-      output.loginButtonEnabled.drive(login.button.rx.isEnabled),
-      output.hud.emit(to: view.mbp.hud)
+      output.loginButtonEnabled.asDriver().drive(login.button.rx.isEnabled),
+      output.hud.asSignal().emit(to: view.mbp.hud)
     )
   }
 

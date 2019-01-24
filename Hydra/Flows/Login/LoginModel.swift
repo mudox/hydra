@@ -27,9 +27,9 @@ protocol LoginModelInput {
 }
 
 protocol LoginModelOutput {
-  var hud: Signal<MBPCommand> { get }
-  var loginButtonEnabled: Driver<Bool> { get }
-  var complete: Single<Void> { get }
+  var hud: PublishRelay<MBPCommand> { get }
+  var loginButtonEnabled: BehaviorRelay<Bool> { get }
+  var complete: Completable { get }
 }
 
 protocol LoginModelType: LoginModelInput, LoginModelOutput {}
@@ -48,37 +48,39 @@ class LoginModel: ViewModel, LoginModelType {
 
   // MARK: - Input
 
-  let backTap = PublishRelay<Void>()
-  let username = BehaviorRelay<String>(value: "")
-  let password = BehaviorRelay<String>(value: "")
-  let loginTap = PublishRelay<Void>()
+  let backTap: PublishRelay<Void>
+  let username: BehaviorRelay<String>
+  let password: BehaviorRelay<String>
+  let loginTap: PublishRelay<Void>
 
   // MARK: - Output
 
-  private let _hud: PublishRelay<MBPCommand>
-  let hud: Signal<MBPCommand>
+  let hud: PublishRelay<MBPCommand>
+  let loginButtonEnabled: BehaviorRelay<Bool>
 
-  private var _complete: PublishRelay<Void>
-  let complete: Single<Void>
-
-  private var _loginButtonEnabled: BehaviorRelay<Bool>
-  let loginButtonEnabled: Driver<Bool>
+  private let _complete: PublishRelay<Void>
+  let complete: Completable
 
   // MARK: - Life cycle
 
-  override required init() {
-    _hud = PublishRelay<MBPCommand>()
-    hud = _hud.asSignal()
+  required override init() {
+    // Inputs
+    backTap = .init()
+    username = .init(value: "")
+    password = .init(value: "")
+    loginTap = .init()
 
-    _complete = PublishRelay<Void>()
-    complete = _complete.take(1).asSingle()
+    // Outputs
+    hud = .init()
+    loginButtonEnabled = .init(value: false)
 
-    _loginButtonEnabled = BehaviorRelay<Bool>(value: false)
-    loginButtonEnabled = _loginButtonEnabled.asDriver()
+    _complete = .init()
+    complete = Observable
+      .merge(backTap.asObservable(), _complete.asObservable())
+      .take(1)
+      .ignoreElements()
 
     super.init()
-
-    backTap.bind(to: _complete).disposed(by: bag)
 
     setupAction()
     setupHUD()
@@ -102,7 +104,7 @@ class LoginModel: ViewModel, LoginModelType {
       .bind(to: action.inputs)
       .disposed(by: bag)
 
-    action.enabled.bind(to: _loginButtonEnabled)
+    action.enabled.bind(to: loginButtonEnabled)
       .disposed(by: bag)
   }
 
@@ -138,8 +140,9 @@ class LoginModel: ViewModel, LoginModelType {
         }
       }
 
-    Observable.merge(begin, success, error)
-      .bind(to: _hud)
+    Observable
+      .merge(begin, success, error)
+      .bind(to: hud)
       .disposed(by: bag)
   }
 

@@ -73,8 +73,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   let state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>>
   let collectionViewData: BehaviorRelay<[LanguagesModel.Section]>
 
-  // swiftlint:disable:next identifier_name
-  let _result: BehaviorRelay<LanguagesFlowResult>
+  private let _result: BehaviorRelay<LanguagesFlowResult>
   let result: Single<LanguagesFlowResult>
 
   // MARK: Binding
