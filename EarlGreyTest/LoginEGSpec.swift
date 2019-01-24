@@ -11,15 +11,15 @@ import MBProgressHUD
 
 import EarlGrey
 
-class LoginSpec: QuickSpec {
-  
+class LoginEGSpec: QuickSpec {
+
   override func setUp() {
     continueAfterFailure = false
   }
-  
+
   func runLoginFlow() {
     let vc = window.rootViewController!
-    let flow = LoginFlow(on: .viewController(vc), credentialService: CredentialService())
+    let flow = LoginFlow(on: .viewController(vc))
     _ = flow.loginIfNeeded.subscribe()
   }
 
