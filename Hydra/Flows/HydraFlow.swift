@@ -107,7 +107,7 @@ class HydraFlow: AppFlow {
   }
 
   private var loginIfNeeded: Completable {
-    let flow = LoginFlow(on: stage, credentialService: CredentialService())
+    let flow = LoginFlow(on: stage)
     return flow.loginIfNeeded
   }
 

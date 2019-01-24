@@ -51,10 +51,7 @@ import MudoxKit
         let stageVC = self.stageController(title: "Try LoginFlow")
         self.stage.window.rootViewController = stageVC
 
-        let sub = LoginFlow(
-          on: .viewController(stageVC),
-          credentialService: CredentialService()
-        )
+        let sub = LoginFlow(on: .viewController(stageVC))
         .loginIfNeeded.subscribe(onCompleted: {
           jack.func().info("Login flow completed")
         })

@@ -15,9 +15,8 @@ import MudoxKit
 
 import Yams
 
-@testable import Hydra
-
 import JacKit
+
 private let jack = Jack().set(format: .short)
 
 @testable import Hydra
