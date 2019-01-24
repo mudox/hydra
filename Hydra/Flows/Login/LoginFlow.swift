@@ -17,29 +17,17 @@ protocol LoginFlowType {
 
 class LoginFlow: Flow, LoginFlowType {
 
-  private let credentialService: GitHub.CredentialServiceType
-
-  init(
-    on stage: Flow.Stage,
-    credentialService: GitHub.CredentialServiceType
-  ) {
-    self.credentialService = credentialService
-    super.init(on: stage)
-  }
-
-  // MARK: - LoginFlowType
+  private let credential = di.resolve(CredentialServiceType.self)!
 
   var loginIfNeeded: Completable {
     return .create { completable in
-      guard !self.credentialService.isAuthorized else {
+      guard !self.credential.isAuthorized else {
         jack.func().info("Already logged in, complete")
         completable(.completed)
         return Disposables.create()
       }
 
-      let github = GitHub.Service(credentialService: CredentialService())
-      let login = LoginService(githubService: github)
-      let model = LoginModel(service: login)
+      let model = LoginModel()
 
       let sub = model.complete
         .subscribe(onSuccess: { _ in
@@ -48,7 +36,7 @@ class LoginFlow: Flow, LoginFlowType {
           }
         })
 
-      let vc = LoginController(model: model)
+      let vc = LoginController()
 
       self.stage.viewController.present(vc, animated: true)
 
