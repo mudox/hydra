@@ -25,6 +25,8 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   var input: LanguagesModelInput!
   var output: LanguagesModelOutput!
 
+  let oneSecond = Observable<Int>.timer(1, scheduler: MainScheduler.instance)
+
   beforeEach {
     di.autoregister(
       LanguagesServiceType.self,
@@ -38,13 +40,21 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
 
   // MARK: Initial bar state
 
-  it("initial bar state") {
-    let seq = output.state
+  fit("initial bar state") {
+    let states = try! output.state
       .asObservable()
-      .take(1)
+      .takeUntil(oneSecond)
+      .toBlocking()
+      .toArray()
 
-//    expect(seq.map { $0.items }).first == ["All", "Pinned", "Unknown"]
-//    expect(seq.map { $0.index }).first == 0
+    expect(states.count) == 1
+    
+    switch states.first! {
+    case .error:
+      assertionFailure()
+    case .loading, .value:
+      break
+    }
   }
 
 } }
