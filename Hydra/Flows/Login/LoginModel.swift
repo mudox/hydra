@@ -33,7 +33,7 @@ protocol LoginModelOutput {
 }
 
 protocol LoginModelType: LoginModelInput, LoginModelOutput {
-  init(service: LoginServiceType)
+  init()
 }
 
 extension LoginModelType {
@@ -46,7 +46,7 @@ extension LoginModelType {
 class LoginModel: ViewModel, LoginModelType {
 
   private var action: LoginAction!
-  private let service: LoginServiceType
+  private let service = di.resolve(LoginServiceType.self)!
 
   // MARK: - Input
 
@@ -68,9 +68,7 @@ class LoginModel: ViewModel, LoginModelType {
 
   // MARK: - Life cycle
 
-  required init(service: LoginServiceType) {
-    self.service = service
-
+  override required init() {
     _hud = PublishRelay<MBPCommand>()
     hud = _hud.asSignal()
 
