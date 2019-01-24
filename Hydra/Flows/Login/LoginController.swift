@@ -17,11 +17,6 @@ private let jack = Jack().set(format: .short)
 
 class LoginController: ViewController {
 
-  init(model: LoginModelType) {
-    self.model = model
-    super.init()
-  }
-
   // MARK: - Subviews
 
   let scrollView = UIScrollView()
@@ -175,7 +170,7 @@ class LoginController: ViewController {
     }
   }
 
-  // MARK: - Keyboard
+  // MARK: Keyboard
 
   func tapToDismissKeyboard() {
     let backgroundTap = view.rx
@@ -201,7 +196,6 @@ class LoginController: ViewController {
 
     RxKeyboard.instance.willShowVisibleHeight
       .drive(onNext: { [weak self] height in
-//        jack.func().debug("willShowVisibleHeight: \(height)")
         guard self?.scrollView.contentOffset.y == 0 else { return }
         let newY = height + margin
         let inset = max(0, newY - y)
@@ -210,7 +204,7 @@ class LoginController: ViewController {
       .disposed(by: bag)
 
     RxKeyboard.instance.visibleHeight
-      .debounce(0) // skip immediate hide before show event in the same run loop
+      .debounce(0) // ⭐️ Skip immediate hide before show event in the same run loop
       .drive(onNext: { [weak self] height in
         if height == 0 {
           UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
@@ -227,7 +221,7 @@ class LoginController: ViewController {
 
   // MARK: - Model
 
-  let model: LoginModelType
+  let model = LoginModel()
 
   override func setupModel() {
 
