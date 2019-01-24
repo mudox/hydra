@@ -24,10 +24,7 @@ protocol TrendModelOutput {
   static var color: BehaviorRelay<UIColor> { get }
 }
 
-protocol TrendModelType: TrendModelInput, TrendModelOutput
-{
-  init()
-}
+protocol TrendModelType: TrendModelInput, TrendModelOutput {}
 
 extension TrendModelType {
   var input: TrendModelInput { return self }

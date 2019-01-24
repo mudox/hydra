@@ -32,9 +32,7 @@ protocol LoginModelOutput {
   var complete: Single<Void> { get }
 }
 
-protocol LoginModelType: LoginModelInput, LoginModelOutput {
-  init()
-}
+protocol LoginModelType: LoginModelInput, LoginModelOutput {}
 
 extension LoginModelType {
   var input: LoginModelInput { return self }

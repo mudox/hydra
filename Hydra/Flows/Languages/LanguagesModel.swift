@@ -39,14 +39,7 @@ protocol LanguagesModelOutput {
   var result: Single<LanguagesFlowResult> { get }
 }
 
-protocol LanguagesModelDependencies {
-  var service: LanguagesServiceType { get }
-}
-
-protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput, LanguagesModelDependencies
-{
-  init()
-}
+protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {}
 
 extension LanguagesModelType {
   var input: LanguagesModelInput { return self }
@@ -127,7 +120,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
           service.add(pinnedLanguage: language)
         case let .unpin(language):
           service.remove(pinnedLanguage: language)
-        case let .movePinnedLanguage(from: src, to: dest):
+        case let .movePinned(from: src, to: dest):
           service.movePinnedLanguage(from: src, to: dest)
         }
       })
@@ -214,7 +207,7 @@ extension LanguagesModel {
   enum Command {
     case pin(String)
     case unpin(String)
-    case movePinnedLanguage(from: Int, to: Int) // swiftlint:disable:this identifier_name
+    case movePinned(from: Int, to: Int) // swiftlint:disable:this identifier_name
   }
 
   struct Section: SectionModelType {
