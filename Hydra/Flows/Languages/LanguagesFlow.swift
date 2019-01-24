@@ -24,15 +24,14 @@ class LanguagesFlow: Flow, LanguagesFlowType {
   /// Returns nil on cancellation
   var run: Single<LanguagesFlowResult> {
     return .create { single in
-      let model = LanguagesModel()
-      let sub = model.result
+      let vc = LanguagesController()
+      let sub = vc.model.result
         .subscribe(onSuccess: { result in
           self.stage.viewController.dismiss(animated: true) {
             single(.success(result))
           }
         })
 
-      let vc = LanguagesController(model: model)
       let nav = UINavigationController(rootViewController: vc)
       self.stage.viewController.present(nav, animated: true)
 

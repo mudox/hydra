@@ -16,23 +16,11 @@ import JacKit
 
 private let jack = Jack().set(format: .short)
 
-// MARK: - Constants
+class LanguagesController: CollectionController {
 
-private let cellID = "LanguagesController.Cell.id"
-private let headerViewID = "LanguagesController.HeaderView.id"
-
-class LanguagesController: UICollectionViewController {
-
-  init(model: LanguagesModel) {
-    self.model = model
-
+  init() {
     flowLayout = LanguagesFlowLayout()
     super.init(collectionViewLayout: flowLayout)
-  }
-
-  @available(*, unavailable, message: "has not been implemented")
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
   }
 
   override func viewDidLoad() {
@@ -51,7 +39,7 @@ class LanguagesController: UICollectionViewController {
 
   let searchController = UISearchController(searchResultsController: nil)
 
-  func setupView() {
+  override func setupView() {
     view.backgroundColor = .bgLight
 
     setupNavigationBar()
@@ -122,13 +110,12 @@ class LanguagesController: UICollectionViewController {
 
   // MARK: - Model
 
-  var disposeBag = DisposeBag()
-  let model: LanguagesModel
+  let model = di.resolve(LanguagesModelType.self)!
 
-  func setupModel() {
+  override func setupModel() {
     let input = model.input
 
-    disposeBag.insert(
+    bag.insert(
       selectButton.rx.tap.bind(to: input.selectTap),
       searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText)
     )
@@ -138,7 +125,7 @@ class LanguagesController: UICollectionViewController {
     Observable.zip(indexPathSelected, languageSelected)
       .map { LanguageSelection(indexPath: $0, language: $1) }
       .bind(to: input.itemTap)
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
 
     let pinCommand = pinButton.rx.tap
       .withLatestFrom(model.output.selection)
@@ -159,7 +146,7 @@ class LanguagesController: UICollectionViewController {
         }
       }
 
-    disposeBag.insert(
+    bag.insert(
       pinCommand.bind(to: input.command)
     )
 
@@ -170,7 +157,7 @@ class LanguagesController: UICollectionViewController {
   func driveButtons() {
     let output = model.output
 
-    disposeBag.insert(
+    bag.insert(
       output.selectButtonTitle.asDriver().drive(selectButton.rx.title),
       output.pinButtonEnabled.asDriver().drive(pinButton.rx.isEnabled),
       output.pinButtonTitle.asDriver().drive(pinButton.rx.title)
@@ -224,7 +211,7 @@ class LanguagesController: UICollectionViewController {
         self?.flowLayout.layout(for: sections, width: width)
       })
       .drive(collectionView.rx.items(dataSource: dataSource))
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
 
     output.selection.asDriver()
       .drive(onNext: { [weak self] selection in
@@ -232,7 +219,12 @@ class LanguagesController: UICollectionViewController {
           at: selection?.indexPath, animated: true, scrollPosition: []
         )
       })
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
   }
 
 }
+
+// MARK: - Helpers
+
+private let cellID = "LanguagesController.Cell.id"
+private let headerViewID = "LanguagesController.HeaderView.id"

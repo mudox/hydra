@@ -27,16 +27,14 @@ class LoginFlow: Flow, LoginFlowType {
         return Disposables.create()
       }
 
-      let model = LoginModel()
+      let vc = LoginController()
 
-      let sub = model.complete
+      let sub = vc.model.complete
         .subscribe(onCompleted: {
           self.stage.viewController.dismiss(animated: true) {
             completable(.completed)
           }
         })
-
-      let vc = LoginController()
 
       self.stage.viewController.present(vc, animated: true)
 

@@ -48,15 +48,15 @@ import MudoxKit
 
     var tryLoginFlow: Completable {
       return .create { [unowned self] completable in
-        let stageVC = self.stageController(title: "Try LoginFlow")
-        self.stage.window.rootViewController = stageVC
+        let vc = self.stageController(title: "Try LoginFlow")
+        self.stage.window.rootViewController = vc
 
-        let sub = LoginFlow(on: .viewController(stageVC))
-        .loginIfNeeded.subscribe(onCompleted: {
-          jack.func().info("Login flow completed")
-        })
+        let sub = LoginFlow(on: .viewController(vc))
+          .loginIfNeeded.subscribe(onCompleted: {
+            jack.func().info("Login flow completed")
+            completable(.completed)
+          })
 
-        completable(.completed)
         return Disposables.create([sub])
       }
     }
@@ -74,9 +74,9 @@ import MudoxKit
             - Selected language: \(result.selected ?? "<nil>")
             - Pinned languages: \(result.pinned)
             """)
+            completable(.completed)
           })
 
-        completable(.completed)
         return Disposables.create([sub])
       }
     }
