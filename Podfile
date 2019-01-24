@@ -162,6 +162,7 @@ target 'Hydra' do
   networking_pods
 
   target 'UnitTest' do
+    use_frameworks!
     inherit! :search_paths
 
     quick_pods
@@ -179,6 +180,7 @@ target 'Hydra' do
   target 'UITest' do
     inherit! :search_paths
   end
+
 end
 
 # }}}
