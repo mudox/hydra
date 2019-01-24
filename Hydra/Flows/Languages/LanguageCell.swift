@@ -5,21 +5,13 @@ import RxSwift
 
 import SnapKit
 
+import MudoxKit
+
 extension LanguagesController {
 
-  class Cell: UICollectionViewCell {
+  class Cell: CollectionCell {
 
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-      fatalError("do not use it")
-    }
-
-    override init(frame: CGRect) {
-      super.init(frame: .zero)
-      setupView()
-    }
-
-    // MARK: - Metric
+    // MARK: Metric
 
     static let cellHeight: CGFloat = 24
 
@@ -41,15 +33,13 @@ extension LanguagesController {
       return .init(width: width + cellHeight, height: cellHeight)
     }
 
-    // MARK: - Subviews
+    // MARK: - Setup View
 
     let label = UILabel()
 
-    // MARK: - Setup
-
     static let labelFont = UIFont.text
 
-    func setupView() {
+    override func setupView() {
       backgroundColor = .bgDark
 
       layer.do {
@@ -73,9 +63,7 @@ extension LanguagesController {
       }
     }
 
-    // MARK: - Model
-
-    var disposeBag = DisposeBag()
+    // MARK: - Show
 
     override var isSelected: Bool {
       didSet {

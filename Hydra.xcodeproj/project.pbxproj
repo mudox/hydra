@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		14F0F0E833ECED25AAAE2F22 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E5B89095619159D3A6E01 /* EarlGrey.swift */; };
 		5F4CEB0926C4976A90DA1A38 /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = E87907CADAF1DFD6C914B734 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7EF66B4496B160B6A4384CD8 /* Pods_UnitTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 470EE5A4F0EC78494248CBAB /* Pods_UnitTest.framework */; };
 		AA2B8661613F6E0E8C5CF7C6 /* Pods_Hydra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */; };
+		CBC94941AC883594FC36FFB9 /* Pods_UITest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD81EDD118DD7E804B7E6B2C /* Pods_UITest.framework */; };
+		DBBAC0CB220AFAC72503C882 /* Pods_EarlGreyTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8727424CD08F967DCE5B5E1F /* Pods_EarlGreyTest.framework */; };
 		E1D7F644AF66111405E0CDB8 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E87907CADAF1DFD6C914B734 /* EarlGrey.framework */; };
 		F40C90CD21F0E18400C85F27 /* Realms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90CC21F0E18400C85F27 /* Realms.swift */; };
 		F40C90D021F1642500C85F27 /* Environs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C90CF21F1642500C85F27 /* Environs.swift */; };
@@ -109,9 +112,11 @@
 /* Begin PBXFileReference section */
 		16E95ADEDA8A27DB69E43DCD /* Pods-UnitTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-UnitTest/Pods-UnitTest.release.xcconfig"; sourceTree = "<group>"; };
 		1F986ECF09FE0C3E48766E42 /* Pods-EarlGreyTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyTest/Pods-EarlGreyTest.release.xcconfig"; sourceTree = "<group>"; };
+		470EE5A4F0EC78494248CBAB /* Pods_UnitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UnitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C3B650F627130785B8D43D /* Pods-UITest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UITest.release.xcconfig"; path = "Pods/Target Support Files/Pods-UITest/Pods-UITest.release.xcconfig"; sourceTree = "<group>"; };
 		5B0330F6E48FA8390071FF17 /* Pods-Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.release.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.release.xcconfig"; sourceTree = "<group>"; };
 		7510A0B108220EA2B7D6B564 /* Pods-EarlGreyTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyTest/Pods-EarlGreyTest.debug.xcconfig"; sourceTree = "<group>"; };
+		8727424CD08F967DCE5B5E1F /* Pods_EarlGreyTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EarlGreyTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD4C648593770D3C203E283 /* Pods-HydraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HydraTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HydraTests/Pods-HydraTests.release.xcconfig"; sourceTree = "<group>"; };
 		B4C5EA115A9075873FB9B26B /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
 		C2081F6829FC040FF6336CA3 /* Pods-UITest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UITest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UITest/Pods-UITest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -184,6 +189,7 @@
 		F69CA3E18AF8728A014F2C02 /* Pods-UnitTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UnitTest/Pods-UnitTest.debug.xcconfig"; sourceTree = "<group>"; };
 		FA8E5B89095619159D3A6E01 /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 		FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hydra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD81EDD118DD7E804B7E6B2C /* Pods_UITest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UITest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBC94941AC883594FC36FFB9 /* Pods_UITest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1D7F644AF66111405E0CDB8 /* EarlGrey.framework in Frameworks */,
+				DBBAC0CB220AFAC72503C882 /* Pods_EarlGreyTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EF66B4496B160B6A4384CD8 /* Pods_UnitTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +234,9 @@
 			children = (
 				FD26004032B11EE6DDB34B06 /* Pods_Hydra.framework */,
 				E87907CADAF1DFD6C914B734 /* EarlGrey.framework */,
+				8727424CD08F967DCE5B5E1F /* Pods_EarlGreyTest.framework */,
+				FD81EDD118DD7E804B7E6B2C /* Pods_UITest.framework */,
+				470EE5A4F0EC78494248CBAB /* Pods_UnitTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
