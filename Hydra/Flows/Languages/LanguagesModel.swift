@@ -117,11 +117,11 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       .do(onNext: { [service] in
         switch $0 {
         case let .pin(language):
-          service.add(pinnedLanguage: language)
+          service.addPinned(language)
         case let .unpin(language):
-          service.remove(pinnedLanguage: language)
+          service.removePinned(language)
         case let .movePinned(from: src, to: dest):
-          service.movePinnedLanguage(from: src, to: dest)
+          service.movePinned(from: src, to: dest)
         }
       })
       .mapTo(())
@@ -188,7 +188,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       .do(onNext: { [service] language in
         // Side effect: update history
         if let language = language {
-          service.add(selectedLanguage: language)
+          service.addSelected(language)
         }
       })
       .map { [service] language -> LanguagesFlowResult in

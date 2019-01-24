@@ -37,6 +37,9 @@
 		F438CE4E21DA0B9600A6EF34 /* TrendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438CE4D21DA0B9600A6EF34 /* TrendService.swift */; };
 		F4395EE721D620CE00BEAD9F /* LoginSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4395EE621D620CE00BEAD9F /* LoginSpec.swift */; };
 		F43B36F021F772E60076F561 /* languages.yml in Resources */ = {isa = PBXBuildFile; fileRef = F43B36EF21F772E60076F561 /* languages.yml */; };
+		F43B370021F91D480076F561 /* LanguagesModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B36FF21F91D470076F561 /* LanguagesModelSpec.swift */; };
+		F43B370B21FA09DE0076F561 /* LanguagesServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */; };
+		F43B370C21FA0FD20076F561 /* LanguagesServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */; };
 		F44841FE21DCE09C00951C3D /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463A2AC21AE0BBE0067432B /* LoadingState.swift */; };
 		F44841FF21DCF68A00951C3D /* TrendBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */; };
 		F448420021DCF68A00951C3D /* ContributorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6221A730BD0045E74B /* ContributorsView.swift */; };
@@ -151,6 +154,8 @@
 		F438CE4D21DA0B9600A6EF34 /* TrendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendService.swift; sourceTree = "<group>"; };
 		F4395EE621D620CE00BEAD9F /* LoginSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSpec.swift; sourceTree = "<group>"; };
 		F43B36EF21F772E60076F561 /* languages.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.yml; sourceTree = "<group>"; };
+		F43B36FF21F91D470076F561 /* LanguagesModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModelSpec.swift; sourceTree = "<group>"; };
+		F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguagesServiceStub.swift; sourceTree = "<group>"; };
 		F43F584621A5E42D00416A45 /* TabSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwitch.swift; sourceTree = "<group>"; };
 		F43F584821A6273100416A45 /* TrendRepositoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRepositoryCell.swift; sourceTree = "<group>"; };
 		F451AC7521B0356800C101D1 /* LanguagesBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesBar.swift; sourceTree = "<group>"; };
@@ -405,14 +410,16 @@
 			path = UITest;
 			sourceTree = "<group>";
 		};
-		F4B4BA4A21D52FC300879B18 /* Test */ = {
+		F4B4BA4A21D52FC300879B18 /* UnitTest */ = {
 			isa = PBXGroup;
 			children = (
+				F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */,
 				F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */,
 				F40C90D821F4EF4B00C85F27 /* TrendModelSpec.swift */,
+				F43B36FF21F91D470076F561 /* LanguagesModelSpec.swift */,
 				F4B4BA4C21D52FC300879B18 /* Info.plist */,
 			);
-			path = Test;
+			path = UnitTest;
 			sourceTree = "<group>";
 		};
 		F4B4BA4D21D52FC300879B18 /* EarlGreyTest */ = {
@@ -448,7 +455,7 @@
 				F4F85F2E213F05A400EFF085 /* Hydra */,
 				F4B4BA4D21D52FC300879B18 /* EarlGreyTest */,
 				F4B4BA4721D52FC300879B18 /* UITest */,
-				F4B4BA4A21D52FC300879B18 /* Test */,
+				F4B4BA4A21D52FC300879B18 /* UnitTest */,
 				F4F85F2D213F05A400EFF085 /* Products */,
 				E2B77D9209FABFB707DAFEA3 /* Pods */,
 				C1BA29E2CBD48CEBD0D4188F /* Frameworks */,
@@ -523,8 +530,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4F338202171035700DC9638 /* Build configuration list for PBXNativeTarget "UnitTest" */;
 			buildPhases = (
-				90201CD1B9C91885100DE1D1 /* [CP] Check Pods Manifest.lock */,
 				F4F338152171035700DC9638 /* Sources */,
+				90201CD1B9C91885100DE1D1 /* [CP] Check Pods Manifest.lock */,
 				F4F338162171035700DC9638 /* Frameworks */,
 				F4F338172171035700DC9638 /* Resources */,
 				F1FC7AB9D6F0DDB4B1AE290B /* [CP] Embed Pods Frameworks */,
@@ -931,6 +938,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4B4BA5621D52FD400879B18 /* LoginTests.swift in Sources */,
+				F43B370B21FA09DE0076F561 /* LanguagesServiceStub.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -947,8 +955,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43B370C21FA0FD20076F561 /* LanguagesServiceStub.swift in Sources */,
 				F40C90D921F4EF4B00C85F27 /* TrendModelSpec.swift in Sources */,
 				F4B4BA5721D5300300879B18 /* DefaultsSpec.swift in Sources */,
+				F43B370021F91D480076F561 /* LanguagesModelSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1133,7 +1143,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
-				INFOPLIST_FILE = Test/Info.plist;
+				INFOPLIST_FILE = UnitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1157,7 +1167,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YSQ5ZCLFSD;
-				INFOPLIST_FILE = Test/Info.plist;
+				INFOPLIST_FILE = UnitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

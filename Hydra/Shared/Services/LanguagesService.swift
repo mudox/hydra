@@ -25,19 +25,20 @@ protocol LanguagesServiceType {
 
   var pinned: [String] { get }
 
-  func add(pinnedLanguage language: String)
+  func addPinned(_ language: String)
 
-  func movePinnedLanguage(from src: Int, to dest: Int)
+  func movePinned(from src: Int, to dest: Int)
 
-  func remove(pinnedLanguage language: String)
+  func removePinned(_ language: String)
 
   // MARK: History
 
   var history: [String] { get }
 
-  func add(selectedLanguage language: String)
+  func addSelected(_ language: String)
 
   // MARK: Search
+
   func search(text: String) -> Single<[LanguagesModel.Section]>
 }
 
@@ -141,7 +142,7 @@ class LanguagesService: LanguagesServiceType {
     }
   }
 
-  func add(selectedLanguage language: String) {
+  func addSelected(_ language: String) {
     // If already exists, move to queue tail
     if let index = history.firstIndex(of: language) {
       history.remove(at: index)
@@ -171,7 +172,7 @@ class LanguagesService: LanguagesServiceType {
     }
   }
 
-  func add(pinnedLanguage language: String) {
+  func addPinned(_ language: String) {
     // If already exists, do nothing
     if pinned.contains(language) {
       return
@@ -185,7 +186,7 @@ class LanguagesService: LanguagesServiceType {
     pinned.append(language)
   }
 
-  func remove(pinnedLanguage language: String) {
+  func removePinned(_ language: String) {
     if let index = pinned.firstIndex(of: language) {
       pinned.remove(at: index)
     } else {
@@ -193,7 +194,7 @@ class LanguagesService: LanguagesServiceType {
     }
   }
 
-  func movePinnedLanguage(from src: Int, to dest: Int) {
+  func movePinned(from src: Int, to dest: Int) {
     let range = pinned.indices
     guard range.contains(src) && range.contains(dest) else {
       jack.func().error("Invalid index: <\(src)>, <\(dest)>, available range: \(range)")

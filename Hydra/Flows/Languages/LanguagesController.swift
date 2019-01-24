@@ -202,7 +202,7 @@ class LanguagesController: UICollectionViewController {
       },
       moveItem: { [weak self]
         _, srcIndexPath, destIndexPath in
-        let cmd = LanguagesModel.Command.movePinnedLanguage(from: srcIndexPath.item, to: destIndexPath.item)
+        let cmd = LanguagesModel.Command.movePinned(from: srcIndexPath.item, to: destIndexPath.item)
         self?.model.input.command.accept(cmd)
       },
       canMoveItemAtIndexPath: {
