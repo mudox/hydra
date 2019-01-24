@@ -19,6 +19,7 @@ let di = Container().then {
   registerCredentialServiceType(to: $0)
   registerTrendServiceType(to: $0)
   registerLanguagesServiceType(to: $0)
+  registerLanguagesModelType(to: $0)
 }
 
 private func registerCredentialServiceType(to container: Container) {
@@ -69,5 +70,12 @@ private func registerLanguagesServiceType(to container: Container) {
   container.autoregister(
     LanguagesServiceType.self,
     initializer: LanguagesService.init
+  )
+}
+
+private func registerLanguagesModelType(to container: Container) {
+  container.autoregister(
+    LanguagesModelType.self,
+    initializer: LanguagesModel.init
   )
 }
