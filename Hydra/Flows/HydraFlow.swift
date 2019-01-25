@@ -35,8 +35,8 @@ class HydraFlow: AppFlow {
 
   #if DEBUG
 
-    override func reset(mode: String) {
-      switch mode {
+    override func reset(_ target: String) {
+      switch target {
 
       case "environs":
         jack.func().info("Reset environment overrides")
@@ -60,7 +60,7 @@ class HydraFlow: AppFlow {
         CredentialService().reset()
 
       default:
-        jack.func().warn("Unrecognized reset token: \(mode)")
+        jack.func().warn("Unrecognized reset token: \(target)")
       }
     }
 
