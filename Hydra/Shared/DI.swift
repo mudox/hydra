@@ -24,7 +24,7 @@ let di = Container().then {
 
 private func registerCredentialServiceType(to container: Container) {
   if Environs.stubCredentialService {
-    jack.verbose("🐡 CredentialServiceType", format: .bare)
+    logStub("CredentialServiceType")
     container.autoregister(
       CredentialServiceType.self,
       initializer: CredentialServiceStub.init
@@ -53,7 +53,7 @@ private func registerLoginServiceType(to container: Container) {
 
 private func registerTrendServiceType(to container: Container) {
   if Environs.stubTrendService {
-    jack.verbose("🐡 TrendServiceType", format: .bare)
+    logStub("TrendService")
     container.autoregister(
       TrendServiceType.self,
       initializer: TrendServiceStub.init
@@ -78,4 +78,8 @@ private func registerLanguagesModelType(to container: Container) {
     LanguagesModelType.self,
     initializer: LanguagesModel.init
   )
+}
+
+private func logStub(_ name: String) {
+ jack.verbose("🐡 \(name)", format: .bare)
 }
