@@ -1,16 +1,17 @@
 import Swinject
 import SwinjectAutoregistration
 
-import GitHub
-import MudoxKit
-
 import Then
 
+import GitHub
 import JacKit
+import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
 extension Container: Then {}
+
+// MARK: - The Singleton Container
 
 // swiftlint:disable:next identifier_name
 let di = Container().then {
@@ -21,6 +22,8 @@ let di = Container().then {
   registerLanguagesServiceType(to: $0)
   registerLanguagesModelType(to: $0)
 }
+
+// MARK: - Shared
 
 private func registerCredentialServiceType(to container: Container) {
   if Environs.stubCredentialService {
@@ -44,12 +47,16 @@ private func registerGitHubService(to container: Container) {
   )
 }
 
+// MARK: - Login
+
 private func registerLoginServiceType(to container: Container) {
   container.autoregister(
     LoginServiceType.self,
     initializer: LoginService.init
   )
 }
+
+// MARK: - Trend
 
 private func registerTrendServiceType(to container: Container) {
   if Environs.stubTrendService {
@@ -66,6 +73,8 @@ private func registerTrendServiceType(to container: Container) {
   }
 }
 
+// MARK: - Languages
+
 private func registerLanguagesServiceType(to container: Container) {
   container.autoregister(
     LanguagesServiceType.self,
@@ -80,6 +89,8 @@ private func registerLanguagesModelType(to container: Container) {
   )
 }
 
+// MARK: - Helper
+
 private func logStub(_ name: String) {
- jack.verbose("🐡 \(name)", format: .bare)
+  jack.verbose("🐡 \(name)", format: .bare)
 }
