@@ -36,6 +36,13 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     input = model.input
     output = model.output
   }
+  
+  afterEach {
+    // Supress warning from `ClassInstanceCounting`
+    model = nil
+    input = nil
+    output = nil
+  }
 
   // MARK: Loading States
 

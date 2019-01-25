@@ -37,6 +37,13 @@ class TrendModelSpec: QuickSpec { override func spec() {
 
     input.barSelection.accept((index: 0, item: "All"))
   }
+  
+  afterEach {
+    // Supress warning from `ClassInstanceCounting`
+    model = nil
+    input = nil
+    output = nil
+  }
 
   // MARK: Initial bar state
 
