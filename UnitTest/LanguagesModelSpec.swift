@@ -99,6 +99,16 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     }
     
   }
+  
+  describe("result") {
+    
+    it("does not emit initially") {
+      let elements = output.result.asObservable().elements(in: 1)
+      expect(elements).to(beEmpty())
+    }
+    
+  }
+  
 
 } }
 
