@@ -36,7 +36,7 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     input = model.input
     output = model.output
   }
-  
+
   afterEach {
     // Supress warning from `ClassInstanceCounting`
     model = nil
@@ -47,9 +47,9 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   // MARK: Loading States
 
   describe("loading state") {
-    
+
     it("to be loading or value initially") {
-      let states = output.state.elements(in: 1)
+      let states = output.state.elements(in: 0.01)
       expect(states.count) == 1
 
       switch states.first! {
@@ -59,18 +59,18 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
         break
       }
     }
-    
+
   }
 
   // MARK: Selection
 
   describe("selection") {
-    
+
     it("to be nil initially") {
-      let selections = output.selection.elements(in: 1)
+      let selections = output.selection.elements(in: 0.01)
       expect(selections.first!).to(beNil())
     }
-    
+
   }
 
   // MARK: Pin Button
@@ -78,12 +78,12 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   describe("pin button") {
 
     it("has no title initially") {
-      let pinButtonTitles = output.pinButtonTitle.elements(in: 1)
+      let pinButtonTitles = output.pinButtonTitle.elements(in: 0.01)
       expect(pinButtonTitles) == []
     }
 
     it("disabled intially") {
-      let pinButtonEnablings = output.pinButtonEnabled.elements(in: 1)
+      let pinButtonEnablings = output.pinButtonEnabled.elements(in: 0.01)
       expect(pinButtonEnablings) == [false]
     }
 
@@ -92,23 +92,22 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   // MARK: Select Button
 
   describe("select button") {
-    
+
     it("title to be back initially") {
-      let selectButtonTitles = output.selectButtonTitle.elements(in: 1)
+      let selectButtonTitles = output.selectButtonTitle.elements(in: 0.01)
       expect(selectButtonTitles) == ["Back"]
     }
-    
+
   }
-  
+
   describe("result") {
-    
+
     it("does not emit initially") {
-      let elements = output.result.asObservable().elements(in: 1)
+      let elements = output.result.asObservable().elements(in: 0.01)
       expect(elements).to(beEmpty())
     }
-    
+
   }
-  
 
 } }
 
@@ -122,4 +121,11 @@ extension ObservableType {
       .toArray()
   }
 
+  func elements(ofFirst count: Int) -> [E] {
+    return try! asObservable()
+      .take(count)
+      .toBlocking()
+      .toArray()
+  }
+  
 }
