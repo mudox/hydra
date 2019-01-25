@@ -58,3 +58,15 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   }
 
 } }
+
+extension ObservableType {
+
+  func elements(in interval: RxTimeInterval) -> [E] {
+    let oneSecond = Observable<Int>.timer(interval, scheduler: MainScheduler.instance)
+    return try! asObservable()
+      .takeUntil(oneSecond)
+      .toBlocking()
+      .toArray()
+  }
+
+}
