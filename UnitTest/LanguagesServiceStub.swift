@@ -12,7 +12,7 @@ class LanguagesServiceStub: LanguagesServiceType {
 
   // MARK: - History
 
-  let history = ["FAKE HISTORY ITEM"]
+  let history = ["Select"]
 
   func addSelected(_ language: String) {
     jack.func().warn("Empty stub method")
@@ -36,19 +36,24 @@ class LanguagesServiceStub: LanguagesServiceType {
 
   // MARK: - All
 
-  let all = Single<[GitHub.Language]>
-    .just([
-      GitHub.Language(name: "Select", colorString: "#333"),
-      GitHub.Language(name: "Pinned", colorString: "#222"),
-    ])
+  let all = Single<[GitHub.Language]>.just([
+    GitHub.Language(name: "Select", colorString: "#333"),
+    GitHub.Language(name: "Pinned", colorString: "#222"),
+  ])
 
   // MARK: - Seaerch
 
   func search(text: String) -> Single<[LanguagesModel.Section]> {
     return .just([
-      .init(title: "History", items: ["FAKE HISTORY ITEM"]),
-      .init(title: "Pinned", items: ["FAKE PINNED ITEM"]),
-      .init(title: "Languages", items: ["FAKE LANGUAGES ITEM"]),
+      .init(title: "History", items: [
+        "Select"
+      ]),
+      .init(title: "Pinned", items: [
+        "Pinned"
+      ]),
+      .init(title: "Languages", items: [
+        "Select", "Pinned"
+      ]),
     ])
   }
 
