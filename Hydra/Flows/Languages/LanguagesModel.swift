@@ -31,7 +31,7 @@ protocol LanguagesModelOutput {
   var selectButtonTitle: BehaviorRelay<String> { get }
 
   var pinButtonEnabled: BehaviorRelay<Bool> { get }
-  var pinButtonTitle: BehaviorRelay<String> { get }
+  var pinButtonTitle: PublishRelay<String> { get }
 
   var state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>> { get }
   var collectionViewData: BehaviorRelay<[LanguagesModel.Section]> { get }
@@ -68,12 +68,12 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   let selectButtonTitle: BehaviorRelay<String>
 
   let pinButtonEnabled: BehaviorRelay<Bool>
-  let pinButtonTitle: BehaviorRelay<String>
+  let pinButtonTitle: PublishRelay<String>
 
   let state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>>
   let collectionViewData: BehaviorRelay<[LanguagesModel.Section]>
 
-  private let _result: BehaviorRelay<LanguagesFlowResult>
+  private let _result: PublishRelay<LanguagesFlowResult>
   let result: Single<LanguagesFlowResult>
 
   // MARK: Binding
@@ -92,15 +92,15 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     // Outputs
     selection = .init(value: (.init(item: 0, section: 0), "<SKIP>"))
 
-    selectButtonTitle = .init(value: "<SKIP>")
+    selectButtonTitle = .init(value: "Back")
 
     pinButtonEnabled = .init(value: false)
-    pinButtonTitle = .init(value: "<SKIP>")
+    pinButtonTitle = .init()
 
     state = .init(value: .loading)
     collectionViewData = .init(value: [])
 
-    _result = .init(value: .init(selected: "<SKIP>", pinned: []))
+    _result = .init()
     result = _result.take(1).asSingle()
 
     super.init()

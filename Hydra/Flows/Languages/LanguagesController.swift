@@ -153,7 +153,7 @@ class LanguagesController: CollectionController {
     bag.insert(
       output.selectButtonTitle.asDriver().drive(selectButton.rx.title),
       output.pinButtonEnabled.asDriver().drive(pinButton.rx.isEnabled),
-      output.pinButtonTitle.asDriver().drive(pinButton.rx.title)
+      output.pinButtonTitle.asSignal().emit(to: pinButton.rx.title)
     )
   }
 
