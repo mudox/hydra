@@ -9,7 +9,6 @@ private let jack = Jack().set(format: .short)
 enum Realms {
 
   static func realm(forUser username: String) -> Realm? {
-
     do {
       let supportDir = try The.files.url(
         for: .applicationSupportDirectory, in: .userDomainMask,

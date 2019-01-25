@@ -66,7 +66,7 @@ end
 def data_pods
   pod 'SwiftyUserDefaults', '4.0.0-alpha.1'
   pod 'Cache'
-  pod 'Valet'
+  pod 'Valet' # Keychain
 end
 
 def realm_pods
