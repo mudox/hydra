@@ -12,29 +12,7 @@ private let jack = Jack().set(format: .short)
 
 extension LoginController {
 
-  class TextField: UIView {
-
-    var disposeBag = DisposeBag()
-
-    // MARK: - Init
-
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-      fatalError("do not use it")
-    }
-
-    init() {
-      super.init(frame: .zero)
-
-      snp.makeConstraints { make in
-        make.height.equalTo(tipHeight + gap + textFieldHeight + bottomMargin)
-      }
-
-      setupTextField()
-      setupTipLabel()
-      setupClearButton()
-      setupLine()
-    }
+  class TextField: View {
 
     // MARK: - Subviews
 
@@ -59,7 +37,18 @@ extension LoginController {
     private let tipFont = UIFont.systemFont(ofSize: 12, weight: .thin)
     private let fieldFont = UIFont.systemFont(ofSize: 18)
 
-    // MARK: - Setup
+    // MARK: - Setup View
+
+    override func setupView() {
+      snp.makeConstraints { make in
+        make.height.equalTo(tipHeight + gap + textFieldHeight + bottomMargin)
+      }
+
+      setupTextField()
+      setupTipLabel()
+      setupClearButton()
+      setupLine()
+    }
 
     func setupTextField() {
       textField.do {
@@ -103,7 +92,7 @@ extension LoginController {
             }
           )
         })
-        .disposed(by: disposeBag)
+        .disposed(by: bag)
     }
 
     func reSnapTipLabel(toTop: Bool) {
@@ -134,14 +123,14 @@ extension LoginController {
 
       textField.rx.shouldHideClearButton
         .drive(clearButton.rx.isHidden)
-        .disposed(by: disposeBag)
+        .disposed(by: bag)
 
       clearButton.rx.tap
         .bind { [weak self] in
           self?.textField.text = ""
           self?.clearButton.isHidden = true
         }
-        .disposed(by: disposeBag)
+        .disposed(by: bag)
     }
 
     func setupLine() {
@@ -167,7 +156,7 @@ extension LoginController {
             make.height.equalTo(isEditing ? self.lineHeightHighlighted : self.lineHeight)
           }
         })
-        .disposed(by: disposeBag)
+        .disposed(by: bag)
     }
 
   }
