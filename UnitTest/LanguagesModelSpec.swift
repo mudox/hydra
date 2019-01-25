@@ -9,6 +9,7 @@ import RxTest
 
 import RxCocoa
 import RxSwift
+import RxSwiftExt
 
 import GitHub
 import MudoxKit
@@ -25,8 +26,6 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   var input: LanguagesModelInput!
   var output: LanguagesModelOutput!
 
-  let oneSecond = Observable<Int>.timer(1, scheduler: MainScheduler.instance)
-
   beforeEach {
     di.autoregister(
       LanguagesServiceType.self,
@@ -38,23 +37,60 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     output = model.output
   }
 
-  // MARK: Initial bar state
+  // MARK: Loading States
 
-  fit("initial bar state") {
-    let states = try! output.state
-      .asObservable()
-      .takeUntil(oneSecond)
-      .toBlocking()
-      .toArray()
-
-    expect(states.count) == 1
+  describe("loading state") {
     
-    switch states.first! {
-    case .error:
-      assertionFailure()
-    case .loading, .value:
-      break
+    it("to be loading or value initially") {
+      let states = output.state.elements(in: 1)
+      expect(states.count) == 1
+
+      switch states.first! {
+      case .error:
+        assertionFailure()
+      case .loading, .value:
+        break
+      }
     }
+    
+  }
+
+  // MARK: Selection
+
+  describe("selection") {
+    
+    it("to be nil initially") {
+      let selections = output.selection.elements(in: 1)
+      expect(selections.first!).to(beNil())
+    }
+    
+  }
+
+  // MARK: Pin Button
+
+  describe("pin button") {
+
+    it("has no title initially") {
+      let pinButtonTitles = output.pinButtonTitle.elements(in: 1)
+      expect(pinButtonTitles) == []
+    }
+
+    it("disabled intially") {
+      let pinButtonEnablings = output.pinButtonEnabled.elements(in: 1)
+      expect(pinButtonEnablings) == [false]
+    }
+
+  }
+
+  // MARK: Select Button
+
+  describe("select button") {
+    
+    it("title to be back initially") {
+      let selectButtonTitles = output.selectButtonTitle.elements(in: 1)
+      expect(selectButtonTitles) == ["Back"]
+    }
+    
   }
 
 } }
