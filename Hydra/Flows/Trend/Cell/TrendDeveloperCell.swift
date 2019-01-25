@@ -210,12 +210,12 @@ class TrendDeveloperCell: TrendCardCell {
 
   // MARK: - Image Task
 
-  var avatarImageTask = RetrieveImageTask.empty
+  var avatarImageTask: DownloadTask?
 
   override func prepareForReuse() {
     super.prepareForReuse()
 
-    avatarImageTask.cancel()
+    avatarImageTask?.cancel()
     avatarView.image = nil
   }
 
