@@ -39,7 +39,6 @@
 		F43B370021F91D480076F561 /* LanguagesModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B36FF21F91D470076F561 /* LanguagesModelSpec.swift */; };
 		F43B370B21FA09DE0076F561 /* LanguagesServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */; };
 		F43B370C21FA0FD20076F561 /* LanguagesServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */; };
-		F44841FE21DCE09C00951C3D /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463A2AC21AE0BBE0067432B /* LoadingState.swift */; };
 		F44841FF21DCF68A00951C3D /* TrendBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */; };
 		F448420021DCF68A00951C3D /* ContributorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C6221A730BD0045E74B /* ContributorsView.swift */; };
 		F448420121DCF68A00951C3D /* TrendCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C238421AC95D4006FA060 /* TrendCardCell.swift */; };
@@ -157,7 +156,6 @@
 		F456A01D218C956E00047369 /* TrendFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendFlow.swift; sourceTree = "<group>"; };
 		F456A01E218C956E00047369 /* TrendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendController.swift; sourceTree = "<group>"; };
 		F45C49522167E65200BC0576 /* CredentialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialService.swift; sourceTree = "<group>"; };
-		F463A2AC21AE0BBE0067432B /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		F463A2AE21AF188A0067432B /* RetryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryButton.swift; sourceTree = "<group>"; };
 		F46C6888215A43400090B4AF /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		F46C6889215A43400090B4AF /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 		F43032F221B2DC2600BE40DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F463A2AC21AE0BBE0067432B /* LoadingState.swift */,
 				F438CE4721D9FF8500A6EF34 /* TrendModel.swift */,
 				F438CE4D21DA0B9600A6EF34 /* TrendService.swift */,
 				F438CE4B21DA037D00A6EF34 /* Trend.swift */,
@@ -1000,7 +997,6 @@
 				F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */,
 				F4B4BA2521D290E700879B18 /* LanguagesHeaderView.swift in Sources */,
 				F438CE4821D9FF8500A6EF34 /* TrendModel.swift in Sources */,
-				F44841FE21DCE09C00951C3D /* LoadingState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

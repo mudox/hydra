@@ -10,6 +10,7 @@ import Kingfisher
 
 import GitHub
 import JacKit
+import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
