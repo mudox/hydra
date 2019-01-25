@@ -67,12 +67,10 @@ import MudoxKit
         self.stage.window.rootViewController = stageVC
 
         let sub = LanguagesFlow(on: .viewController(stageVC))
-          .run
-          .subscribe(onSuccess: { result in
+          .selectedLanguage
+          .subscribe(onSuccess: { language in
             jack.func().info("""
-            LanguagesFlow completed with:
-            - Selected language: \(result.selected ?? "<nil>")
-            - Pinned languages: \(result.pinned)
+            LanguagesFlow completed with selected language: \(language ?? "<nil>")
             """)
             completable(.completed)
           })

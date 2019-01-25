@@ -36,7 +36,7 @@ protocol LanguagesModelOutput {
   var state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>> { get }
   var collectionViewData: BehaviorRelay<[LanguagesModel.Section]> { get }
 
-  var result: Single<LanguagesFlowResult> { get }
+  var result: Single<String?> { get }
 }
 
 protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {}
@@ -73,8 +73,8 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   let state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>>
   let collectionViewData: BehaviorRelay<[LanguagesModel.Section]>
 
-  private let _result: PublishRelay<LanguagesFlowResult>
-  let result: Single<LanguagesFlowResult>
+  private let _result: PublishRelay<String?>
+  let result: Single<String?>
 
   // MARK: Binding
 
@@ -200,9 +200,6 @@ class LanguagesModel: ViewModel, LanguagesModelType {
           service.addSelected(language)
         }
       })
-      .map { [service] language -> LanguagesFlowResult in
-        LanguagesFlowResult(selected: language, pinned: service.pinned)
-      }
       .bind(to: _result)
       .disposed(by: bag)
   }

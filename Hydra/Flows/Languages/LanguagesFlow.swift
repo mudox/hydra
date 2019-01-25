@@ -10,19 +10,14 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-struct LanguagesFlowResult {
-  let selected: String?
-  let pinned: [String]
-}
-
 protocol LanguagesFlowType {
-  var run: Single<LanguagesFlowResult> { get }
+  var selectedLanguage: Single<String?> { get }
 }
 
 class LanguagesFlow: Flow, LanguagesFlowType {
 
   /// Returns nil on cancellation
-  var run: Single<LanguagesFlowResult> {
+  var selectedLanguage: Single<String?> {
     return .create { single in
       let vc = LanguagesController()
       let sub = vc.model.result

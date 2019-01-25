@@ -96,12 +96,12 @@ class TrendController: ViewController {
       .disposed(by: bag)
 
     languageBar.moreButton.rx.tap
-      .flatMapFirst { [weak self] () -> Driver<LanguagesFlowResult> in
+      .flatMapFirst { [weak self] () -> Driver<String?> in
         guard let self = self else { return .empty() }
         let flow = LanguagesFlow(on: .viewController(self))
-        return flow.run.asDriver(onErrorFailWithLabel: "LanguagesFlow.run", or: .complete)
+        return flow.selectedLanguage.asDriver(onErrorFailWithLabel: "LanguagesFlow.run", or: .complete)
       }
-      .bind(to: input.languagesFlowResult)
+      .bind(to: input.moreLanguage)
       .disposed(by: bag)
   }
 

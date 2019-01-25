@@ -15,7 +15,7 @@ private let jack = Jack().set(format: .short)
 
 protocol TrendModelInput {
   var barSelection: BehaviorRelay<(index: Int, item: String)> { get }
-  var languagesFlowResult: BehaviorRelay<LanguagesFlowResult> { get }
+  var moreLanguage: BehaviorRelay<String?> { get }
 }
 
 protocol TrendModelOutput {
@@ -38,7 +38,7 @@ class TrendModel: ViewModel, TrendModelType {
   // MARK: Input
 
   let barSelection: BehaviorRelay<(index: Int, item: String)>
-  let languagesFlowResult: BehaviorRelay<LanguagesFlowResult>
+  let moreLanguage: BehaviorRelay<String?>
 
   // MARK: Output
 
@@ -50,9 +50,11 @@ class TrendModel: ViewModel, TrendModelType {
   // MARK: Binding
 
   required override init() {
+    // Inputs
     barSelection = .init(value: (index: 0, item: "<SKIP>"))
-    languagesFlowResult = .init(value: .init(selected: nil, pinned: ["<SKIP>"]))
+    moreLanguage = .init(value: "<SKIP>")
 
+    // Outputs
     barState = .init(value: initialBarState)
     collectionViewData = .init(value: Trend(ofLanguage: "All").sections)
 
@@ -61,7 +63,7 @@ class TrendModel: ViewModel, TrendModelType {
     barSelectionDrivesCollectionViewData()
     barSelectionDrivesColor()
 
-    languagesFlowResultDrivesBarState()
+    moreLanguageDrivesBarState()
   }
 
   func barSelectionDrivesCollectionViewData() {
@@ -95,18 +97,19 @@ class TrendModel: ViewModel, TrendModelType {
       .disposed(by: bag)
   }
 
-  func languagesFlowResultDrivesBarState() {
-    languagesFlowResult
+  func moreLanguageDrivesBarState() {
+    moreLanguage
       .withLatestFrom(barSelection.skip(1)) { ($0, $1.item) }
-      .map { result, oldItem -> ([String], Int) in
+      .map { newItem, oldItem -> ([String], Int) in
         var items = ["All", "Unknown"]
-        items.insert(contentsOf: result.pinned, at: 1)
+        let pinned = di.resolve(LanguagesServiceType.self)!.pinned
+        items.insert(contentsOf: pinned, at: 1)
 
-        if let selected = result.selected {
-          if let index = items.firstIndex(of: selected) {
+        if let newItem = newItem {
+          if let index = items.firstIndex(of: newItem) {
             return (items, index)
           } else {
-            items.insert(selected, at: 1)
+            items.insert(newItem, at: 1)
             return (items, 1)
           }
         } else {
