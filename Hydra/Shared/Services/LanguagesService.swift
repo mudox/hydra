@@ -125,10 +125,12 @@ class LanguagesService: LanguagesServiceType {
   }
 
   var all: Single<[GitHub.Language]> {
-    return Observable.catchError([
-      allFromCache.asObservable(),
-      allFromRepository.asObservable()
-    ]).asSingle()
+    return Observable
+      .catchError([
+        allFromCache.asObservable(),
+        allFromRepository.asObservable()
+      ])
+      .asSingle()
   }
 
   // MARK: - History

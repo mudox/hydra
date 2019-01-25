@@ -21,7 +21,7 @@ protocol LanguagesModelInput {
   var selectTap: PublishRelay<Void> { get }
   var command: PublishRelay<LanguagesModel.Command> { get }
 
-  var searchText: BehaviorRelay<String> { get }
+  var searchText: PublishRelay<String> { get }
   var itemTap: BehaviorRelay<LanguageSelection?> { get }
 }
 
@@ -58,7 +58,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   let selectTap: PublishRelay<Void>
   let command: PublishRelay<Command>
 
-  let searchText: BehaviorRelay<String>
+  let searchText: PublishRelay<String>
   let itemTap: BehaviorRelay<LanguageSelection?>
 
   // MARK: Output
@@ -86,7 +86,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     selectTap = .init()
     command = .init()
 
-    searchText = .init(value: "<SKIP>")
+    searchText = .init()
     itemTap = .init(value: nil)
 
     // Outputs
@@ -123,10 +123,20 @@ class LanguagesModel: ViewModel, LanguagesModelType {
           service.movePinned(from: src, to: dest)
         }
       })
+      .filter { cmd in
+        // Moving item do need to trigger a refresh
+        switch cmd {
+        case Command.movePinned:
+          return false
+        default:
+          return true
+        }
+      }
       .mapTo(())
       .startWith(()) // Triggers intial loading
 
-    Observable.combineLatest(searchText, commandTick)
+    Observable
+      .combineLatest(searchText, commandTick)
       .flatMap { [service] text, _ in service.search(text: text) }
       .asLoadingStateDriver()
       .drive(state)
