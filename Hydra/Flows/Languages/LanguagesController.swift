@@ -8,6 +8,7 @@ import RxOptional
 import RxSwift
 import RxSwiftExt
 
+import NVActivityIndicatorView
 import SnapKit
 
 import MudoxKit
@@ -27,8 +28,10 @@ class LanguagesController: CollectionController {
 
   let flowLayout: LanguagesFlowLayout
 
-  let selectButton = UIBarButtonItem()
-  let pinButton = UIBarButtonItem()
+  var loadingView: NVActivityIndicatorView!
+
+  var selectButton: UIBarButtonItem!
+  var pinButton: UIBarButtonItem!
 
   let searchController = UISearchController(searchResultsController: nil)
 
@@ -37,10 +40,14 @@ class LanguagesController: CollectionController {
 
     setupNavigationBar()
     setupSearchBar()
+    setupLoadingView()
     setupCollectionView()
   }
 
   func setupNavigationBar() {
+    selectButton = .init()
+    pinButton = .init()
+
     navigationItem.do {
       $0.title = "Languages"
       $0.leftBarButtonItem = selectButton
@@ -87,6 +94,20 @@ class LanguagesController: CollectionController {
     }
 
     navigationItem.searchController = searchController
+  }
+
+  func setupLoadingView() {
+    loadingView = NVActivityIndicatorView(
+      frame: .zero,
+      type: .orbit,
+      color: .brand
+    )
+
+    view.addSubview(loadingView)
+    loadingView.snp.makeConstraints { make in
+      make.center.equalTo(view.safeAreaLayoutGuide)
+      make.size.equalTo(50)
+    }
   }
 
   func setupCollectionView() {
@@ -144,6 +165,7 @@ class LanguagesController: CollectionController {
     )
 
     driveButtons()
+    driveLoading()
     driveCollectionView()
   }
 
@@ -193,11 +215,26 @@ class LanguagesController: CollectionController {
     )
   }()
 
+  func driveLoading() {
+    let output = model.output
+    output.state
+      .asDriver()
+      .map { $0.isLoading }
+      .drive(onNext: { [weak self] isLoading in
+        if isLoading {
+          self?.loadingView.startAnimating()
+        } else {
+          self?.loadingView.stopAnimating()
+        }
+      })
+      .disposed(by: bag)
+  }
+
   func driveCollectionView() {
     let output = model.output
 
-    collectionView.dataSource = nil
     let width = UIScreen.main.bounds.width
+    collectionView.dataSource = nil
 
     output.collectionViewData.asDriver()
       .do(onNext: { [weak self] sections in
