@@ -37,7 +37,7 @@ class TrendModelSpec: QuickSpec { override func spec() {
 
     input.barSelection.accept((index: 0, item: "All"))
   }
-  
+
   afterEach {
     // Supress warning from `ClassInstanceCounting`
     model = nil
@@ -45,52 +45,53 @@ class TrendModelSpec: QuickSpec { override func spec() {
     output = nil
   }
 
-  // MARK: Initial bar state
+  // MARK: Bar State
 
-  it("initial bar state") {
-    let seq = output.barState
-      .asObservable()
-      .take(1)
+  describe("bar state") {
 
-    expect(seq.map { $0.items }).first == ["All", "Pinned", "Unknown"]
-    expect(seq.map { $0.index }).first == 0
+    it("emit proper initial value") {
+      let states = output.barState.elements(in: 0.01)
+
+      expect(states.count) == 1
+      expect(states.first!.index) == 0
+      expect(states.first!.items) == ["All", "Pinned", "Unknown"]
+    }
+
   }
 
-  // MARK: Initial collection view data
+  // MARK: Collection View Data
 
-  it("initial collection view data") {
-    let seq = output.collectionViewData
-      .asObservable()
-      .take(1)
+  describe("collection view data") {
 
-    let first = try! seq.toBlocking().first()!
-    let language = first[0].items[0].language
-    expect(language) == "All"
+    it("be all initially") {
+      let datas = output.collectionViewData.elements(in: 0.01)
+
+      expect(datas.count) == 1
+      expect(datas[0][0].items[0].language) == "All"
+    }
+
+    it("show and select non-nil more language") {
+      input.moreLanguage.accept("Select")
+      expect(output.barState.value.index) == 1
+      expect(output.barState.value.items) == ["All", "Select", "Pinned", "Unknown"]
+    }
+
+    it("does not change on nil more language") {
+      input.moreLanguage.accept(nil)
+      expect(output.barState.value.items) == ["All", "Pinned", "Unknown"]
+      expect(output.barState.value.index) == 0
+    }
+
   }
 
-  // MARK: Initial color state
+  // MARK: Color
 
-  it("initial color") {
-    expect(TrendModel.color.value) == .brand
-  }
+  describe("color") {
 
-  // MARK: React to languages flow result
+    it("be of brand color initially") {
+      expect(TrendModel.color.value) == .brand
+    }
 
-  it("react to langauges flow result") {
-    let pinned = ["Pinned"]
-
-    var result: LanguagesFlowResult
-    result = .init(selected: "Select", pinned: pinned)
-    input.languagesFlowResult.accept(result)
-    expect(output.barState.value.items) == ["All", "Select", "Pinned", "Unknown"]
-    expect(output.barState.value.index) == 1
-
-    input.barSelection.accept((1, "Select"))
-    // nil `selected` does not change bar index
-    result = .init(selected: nil, pinned: pinned)
-    input.languagesFlowResult.accept(result)
-    expect(output.barState.value.items) == ["All", "Select", "Pinned", "Unknown"]
-    expect(output.barState.value.index) == 1
   }
 
 } }
