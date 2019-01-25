@@ -23,7 +23,7 @@
 		F41C5F2721E73BBF0011DBEC /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2621E73BBF0011DBEC /* UI.swift */; };
 		F41C5F2A21E79B7D0011DBEC /* TrendRepositories.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */; };
 		F41C5F2B21E79B7D0011DBEC /* TrendDevelopers.json in Resources */ = {isa = PBXBuildFile; fileRef = F41C5F2921E79B7D0011DBEC /* TrendDevelopers.json */; };
-		F41C5F2F21E79EA50011DBEC /* DI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2E21E79EA50011DBEC /* DI.swift */; };
+		F41C5F2F21E79EA50011DBEC /* Fx.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F2E21E79EA50011DBEC /* Fx.swift */; };
 		F41C5F3121E7B4F70011DBEC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C5F3021E7B4F70011DBEC /* NotificationNames.swift */; };
 		F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4231FD3217B9D3600B2D748 /* Activity.swift */; };
 		F426C44421C69E8F00CAA764 /* LanguagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44321C69E8F00CAA764 /* LanguagesController.swift */; };
@@ -134,7 +134,7 @@
 		F41C5F2621E73BBF0011DBEC /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		F41C5F2821E79B7D0011DBEC /* TrendRepositories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendRepositories.json; sourceTree = "<group>"; };
 		F41C5F2921E79B7D0011DBEC /* TrendDevelopers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrendDevelopers.json; sourceTree = "<group>"; };
-		F41C5F2E21E79EA50011DBEC /* DI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DI.swift; sourceTree = "<group>"; };
+		F41C5F2E21E79EA50011DBEC /* Fx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fx.swift; sourceTree = "<group>"; };
 		F41C5F3021E7B4F70011DBEC /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		F4231FD3217B9D3600B2D748 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		F426C44321C69E8F00CAA764 /* LanguagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesController.swift; sourceTree = "<group>"; };
@@ -293,7 +293,7 @@
 			children = (
 				F49B6E4621D89C8900E0CF2B /* AID.swift */,
 				F41C5F2621E73BBF0011DBEC /* UI.swift */,
-				F41C5F2E21E79EA50011DBEC /* DI.swift */,
+				F41C5F2E21E79EA50011DBEC /* Fx.swift */,
 				F4231FD3217B9D3600B2D748 /* Activity.swift */,
 				F4B4BA2821D3546300879B18 /* Caches.swift */,
 				F48779472169F1CC00C027A9 /* DefaultsKeys.swift */,
@@ -988,7 +988,7 @@
 				F426C44421C69E8F00CAA764 /* LanguagesController.swift in Sources */,
 				F456A020218C956E00047369 /* TrendFlow.swift in Sources */,
 				F456A021218C956E00047369 /* TrendController.swift in Sources */,
-				F41C5F2F21E79EA50011DBEC /* DI.swift in Sources */,
+				F41C5F2F21E79EA50011DBEC /* Fx.swift in Sources */,
 				F4F338142170BD4100DC9638 /* HydraFlow.swift in Sources */,
 				F448420021DCF68A00951C3D /* ContributorsView.swift in Sources */,
 				F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */,

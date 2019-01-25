@@ -80,7 +80,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
 
   required override init() {
     // Dependencies
-    service = di.resolve(LanguagesServiceType.self)!
+    service = fx.resolve(LanguagesServiceType.self)!
 
     // Inputs
     selectTap = .init()

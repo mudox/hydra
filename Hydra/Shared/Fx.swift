@@ -14,7 +14,7 @@ extension Container: Then {}
 // MARK: - The Singleton Container
 
 // swiftlint:disable:next identifier_name
-let di = Container().then {
+let fx = Container().then {
   registerGitHubService(to: $0)
   registerLoginServiceType(to: $0)
   registerCredentialServiceType(to: $0)

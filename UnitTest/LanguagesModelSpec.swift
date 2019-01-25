@@ -27,7 +27,7 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   var output: LanguagesModelOutput!
 
   beforeEach {
-    di.autoregister(
+    fx.autoregister(
       LanguagesServiceType.self,
       initializer: LanguagesServiceStub.init
     )
