@@ -47,6 +47,7 @@
 		F448420A21DCF71F00951C3D /* TrendScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5C21A66A440045E74B /* TrendScrollCell.swift */; };
 		F448420B21DCF71F00951C3D /* LanguagesBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451AC7521B0356800C101D1 /* LanguagesBar.swift */; };
 		F44FEFA621FBCEE800E7D3AD /* LanguagesServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */; };
+		F44FEFA821FBFF9B00E7D3AD /* Placeholder View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44FEFA721FBFF9B00E7D3AD /* Placeholder View.swift */; };
 		F456A020218C956E00047369 /* TrendFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456A01D218C956E00047369 /* TrendFlow.swift */; };
 		F456A021218C956E00047369 /* TrendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456A01E218C956E00047369 /* TrendController.swift */; };
 		F45C49532167E65200BC0576 /* CredentialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45C49522167E65200BC0576 /* CredentialService.swift */; };
@@ -149,6 +150,7 @@
 		F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguagesServiceStub.swift; sourceTree = "<group>"; };
 		F43F584621A5E42D00416A45 /* TabSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwitch.swift; sourceTree = "<group>"; };
 		F43F584821A6273100416A45 /* TrendRepositoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendRepositoryCell.swift; sourceTree = "<group>"; };
+		F44FEFA721FBFF9B00E7D3AD /* Placeholder View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Placeholder View.swift"; sourceTree = "<group>"; };
 		F451AC7521B0356800C101D1 /* LanguagesBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesBar.swift; sourceTree = "<group>"; };
 		F456A01D218C956E00047369 /* TrendFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendFlow.swift; sourceTree = "<group>"; };
 		F456A01E218C956E00047369 /* TrendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendController.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				F49B6E4621D89C8900E0CF2B /* AID.swift */,
+				F44FEFA721FBFF9B00E7D3AD /* Placeholder View.swift */,
 				F41C5F2621E73BBF0011DBEC /* UI.swift */,
 				F41C5F2E21E79EA50011DBEC /* Fx.swift */,
 				F4231FD3217B9D3600B2D748 /* Activity.swift */,
@@ -954,6 +957,7 @@
 				F4231FD4217B9D3600B2D748 /* Activity.swift in Sources */,
 				F4DC70FB21B58F3A00999BD1 /* LanguagesModel.swift in Sources */,
 				F46C688E215A43400090B4AF /* LoginModel.swift in Sources */,
+				F44FEFA821FBFF9B00E7D3AD /* Placeholder View.swift in Sources */,
 				F46C688D215A43400090B4AF /* LoginController.swift in Sources */,
 				F448420321DCF68A00951C3D /* TrendRepositoryCell.swift in Sources */,
 				F4B4BA2921D3546300879B18 /* Caches.swift in Sources */,
