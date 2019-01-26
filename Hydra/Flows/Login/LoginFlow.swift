@@ -17,7 +17,7 @@ protocol LoginFlowType {
 
 class LoginFlow: Flow, LoginFlowType {
 
-  private let credential = fx.resolve(CredentialServiceType.self)!
+  private let credential: CredentialServiceType = fx()
 
   var loginIfNeeded: Completable {
     return .create { completable in

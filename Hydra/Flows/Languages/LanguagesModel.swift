@@ -51,7 +51,7 @@ extension LanguagesModelType {
 class LanguagesModel: ViewModel, LanguagesModelType {
   // MARK: - Dependencies
 
-  let service: LanguagesServiceType
+  let service: LanguagesServiceType = fx()
 
   // MARK: Input
 
@@ -79,9 +79,6 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   // MARK: Binding
 
   required override init() {
-    // Dependencies
-    service = fx.resolve(LanguagesServiceType.self)!
-
     // Inputs
     selectTap = .init()
     command = .init()

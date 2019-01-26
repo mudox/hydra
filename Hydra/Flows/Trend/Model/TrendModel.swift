@@ -74,7 +74,7 @@ class TrendModel: ViewModel, TrendModelType {
   }
 
   func barSelectionDrivesColor() {
-    let languagesList = fx.resolve(LanguagesServiceType.self)!.all
+    let languagesList = fx(LanguagesServiceType.self).all
     barSelection.skip(1)
       .withLatestFrom(languagesList) {
         selection, all -> UIColor in
@@ -102,7 +102,7 @@ class TrendModel: ViewModel, TrendModelType {
       .withLatestFrom(barSelection.skip(1)) { ($0, $1.item) }
       .map { newItem, oldItem -> ([String], Int) in
         var items = ["All", "Unknown"]
-        let pinned = fx.resolve(LanguagesServiceType.self)!.pinned
+        let pinned = fx(LanguagesServiceType.self).pinned
         items.insert(contentsOf: pinned, at: 1)
 
         if let newItem = newItem {
@@ -130,7 +130,7 @@ class TrendModel: ViewModel, TrendModelType {
 // MARK: - Helpers
 
 private let initialBarState: (items: [String], index: Int) = {
-  let pinned = fx.resolve(LanguagesServiceType.self)!.pinned
+  let pinned = fx(LanguagesServiceType.self).pinned
   var items = ["All", "Unknown"]
   items.insert(contentsOf: pinned, at: 1)
   return (items, 0)

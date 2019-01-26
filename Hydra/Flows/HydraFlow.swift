@@ -65,6 +65,9 @@ class HydraFlow: AppFlow {
     }
 
     override func run(inDebugMode mode: String) {
+
+      initSwinject()
+
       switch mode {
 
       case "unittest":
@@ -74,10 +77,10 @@ class HydraFlow: AppFlow {
         setupEarlGreyStage()
 
       case "login":
-        _ = tryLoginFlow.subscribe()
+        tryLoginFlow()
 
       case "languages":
-        _ = tryLanguagesFlow
+        tryLanguagesFlow()
 
       case "release":
         _ = welcomeIfNeeded

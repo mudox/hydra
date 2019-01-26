@@ -28,7 +28,7 @@ protocol LoginServiceType {
 
 struct LoginService: LoginServiceType {
 
-  let github = fx.resolve(GitHub.Service.self)!
+  let github: GitHub.Service = fx()
 
   func validate(username: String) -> Bool {
     return !username.isEmpty

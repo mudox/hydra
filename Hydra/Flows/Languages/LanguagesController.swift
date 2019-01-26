@@ -124,7 +124,7 @@ class LanguagesController: CollectionController {
 
   // MARK: - Model
 
-  let model = fx.resolve(LanguagesModelType.self)!
+  let model: LanguagesModelType = fx()
 
   override func setupModel() {
     let input = model.input

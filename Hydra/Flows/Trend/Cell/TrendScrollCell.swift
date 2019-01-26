@@ -186,7 +186,7 @@ class TrendScrollCell: UITableViewCell {
     switch context.category {
     case .repository:
       driver.flatMapFirst {
-        fx.resolve(TrendServiceType.self)!
+        fx(TrendServiceType.self)
           .repositories(of: context.language, for: context.period)
           .asLoadingStateDriver()
           .map { state -> [LoadingState<Trending.Repository>] in
@@ -207,7 +207,7 @@ class TrendScrollCell: UITableViewCell {
       .disposed(by: dataSourceBag)
     case .developer:
       driver.flatMapFirst {
-        fx.resolve(TrendServiceType.self)!
+        fx(TrendServiceType.self)
           .developers(of: context.language, for: context.period)
           .asLoadingStateDriver()
           .map { state -> [LoadingState<Trending.Developer>] in

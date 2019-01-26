@@ -13,14 +13,47 @@ extension Container: Then {}
 
 // MARK: - The Singleton Container
 
-// swiftlint:disable:next identifier_name
-let fx = Container().then {
-  registerGitHubService(to: $0)
-  registerLoginServiceType(to: $0)
+private let container = Container().then {
+  // Shared
   registerCredentialServiceType(to: $0)
+  registerGitHubService(to: $0)
+  // Login
+  registerLoginServiceType(to: $0)
+  // Trend
   registerTrendServiceType(to: $0)
+  // Languages
   registerLanguagesServiceType(to: $0)
   registerLanguagesModelType(to: $0)
+}
+
+/// Called at app launch in order to logout all stubbing
+func initSwinject() {
+  _ = container
+}
+
+/// The word `fx` means __Factory__
+///
+/// The return type is inferred by compiler.
+/// ```swift
+/// let service: LoginServiceType = fx()
+/// ```
+///
+/// - Returns: The resolved instance.
+func fx<T>() -> T {
+  return container.resolve(T.self)!
+}
+
+/// The word `fx` means __Factory__
+///
+/// The return type is inferred by compiler.
+/// ```swift
+/// let value = fx(LanguagesServiceType.self).pinned
+/// ```
+///
+/// - Parameter type: The type explicitly provided.
+/// - Returns: The resolved instance.
+func fx<T>(_ type: T.Type) -> T {
+  return container.resolve(T.self)!
 }
 
 // MARK: - Shared
@@ -76,10 +109,18 @@ private func registerTrendServiceType(to container: Container) {
 // MARK: - Languages
 
 private func registerLanguagesServiceType(to container: Container) {
-  container.autoregister(
-    LanguagesServiceType.self,
-    initializer: LanguagesService.init
-  )
+  if Environs.stubLanguagesService != nil {
+    logStub("LanguagesService")
+    container.autoregister(
+      LanguagesServiceType.self,
+      initializer: LanguagesServiceStub.init
+    )
+  } else {
+    container.autoregister(
+      LanguagesServiceType.self,
+      initializer: LanguagesService.init
+    )
+  }
 }
 
 private func registerLanguagesModelType(to container: Container) {
@@ -92,5 +133,5 @@ private func registerLanguagesModelType(to container: Container) {
 // MARK: - Helper
 
 private func logStub(_ name: String) {
-  jack.verbose("🐡 \(name)", format: .bare)
+  jack.verbose("🦋 \(name)", format: .bare)
 }

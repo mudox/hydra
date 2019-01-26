@@ -16,7 +16,7 @@ import MudoxKit
 
   extension HydraFlow {
 
-    func stageController(title: String = "Stage") -> UIViewController {
+    func makeStageController(title: String = "Stage") -> UIViewController {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
       vc.view.aid = .stageView
@@ -37,46 +37,36 @@ import MudoxKit
     }
 
     func setupUnitTestStage() {
-      let vc = stageController(title: "Unit Test")
+      let vc = makeStageController(title: "Unit Test")
       stage.window.rootViewController = vc
     }
 
     func setupEarlGreyStage() {
-      let vc = stageController(title: "EarlGrey Test")
+      let vc = makeStageController(title: "EarlGrey Test")
       stage.window.rootViewController = vc
     }
 
-    var tryLoginFlow: Completable {
-      return .create { [unowned self] completable in
-        let vc = self.stageController(title: "Try LoginFlow")
-        self.stage.window.rootViewController = vc
+    func tryLoginFlow() {
+      let vc = makeStageController(title: "Try LoginFlow")
+      stage.window.rootViewController = vc
 
-        let sub = LoginFlow(on: .viewController(vc))
-          .loginIfNeeded.subscribe(onCompleted: {
-            jack.func().info("Login flow completed")
-            completable(.completed)
-          })
-
-        return Disposables.create([sub])
-      }
+      _ = LoginFlow(on: .viewController(vc))
+        .loginIfNeeded.subscribe(onCompleted: {
+          jack.func().info("Login flow completed")
+        })
     }
 
-    var tryLanguagesFlow: Completable {
-      return .create { completable in
-        let stageVC = self.stageController(title: "Try LanguagesFlow")
-        self.stage.window.rootViewController = stageVC
+    func tryLanguagesFlow() {
+      let stageVC = makeStageController(title: "Try LanguagesFlow")
+      stage.window.rootViewController = stageVC
 
-        let sub = LanguagesFlow(on: .viewController(stageVC))
-          .selectedLanguage
-          .subscribe(onSuccess: { language in
-            jack.func().info("""
-            LanguagesFlow completed with selected language: \(language ?? "<nil>")
-            """)
-            completable(.completed)
-          })
-
-        return Disposables.create([sub])
-      }
+      _ = LanguagesFlow(on: .viewController(stageVC))
+        .selectedLanguage
+        .subscribe(onSuccess: { language in
+          jack.func().info("""
+          LanguagesFlow completed with selected language: \(language ?? "<nil>")
+          """)
+        })
     }
 
   }

@@ -44,7 +44,7 @@ extension LoginModelType {
 class LoginModel: ViewModel, LoginModelType {
 
   private var action: LoginAction!
-  private let service = fx.resolve(LoginServiceType.self)!
+  private let service: LoginServiceType = fx()
 
   // MARK: - Input
 

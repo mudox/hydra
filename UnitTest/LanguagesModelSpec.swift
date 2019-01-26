@@ -23,7 +23,7 @@ private let jack = Jack().set(format: .short)
 class LanguagesModelSpec: QuickSpec { override func spec() {
 
   var model: LanguagesModel!
-  var input: LanguagesModelInput!
+//  var input: LanguagesModelInput!
   var output: LanguagesModelOutput!
 
   beforeEach {
