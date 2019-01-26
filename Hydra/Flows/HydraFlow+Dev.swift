@@ -69,6 +69,33 @@ import MudoxKit
         })
     }
 
+    func tryPlaceholderView() {
+      let stageVC = makeStageController(title: "")
+      stage.window.rootViewController = stageVC
+
+      let view = PlaceholderView()
+
+      stageVC.view.addSubview(view)
+      view.snp.makeConstraints { make in
+        make.center.equalToSuperview()
+      }
+
+      _ = Observable<Int>
+        .timer(0, period: 4, scheduler: MainScheduler.instance)
+        .subscribe(onNext: { tick in
+          switch tick % 3 {
+          case 0:
+            view.showGeneralError()
+          case 1:
+            view.showNetworkError()
+          case 2:
+            view.showEmpty()
+          default:
+            fatalError("Shouled not be here")
+          }
+        })
+    }
+
   }
 
 #endif

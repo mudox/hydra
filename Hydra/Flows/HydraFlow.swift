@@ -82,6 +82,9 @@ class HydraFlow: AppFlow {
       case "languages":
         tryLanguagesFlow()
 
+      case "view":
+        tryPlaceholderView()
+
       case "release":
         _ = welcomeIfNeeded
           .andThen(runMainFlow)
