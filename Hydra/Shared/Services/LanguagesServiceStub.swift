@@ -77,9 +77,10 @@
         return Single.just(results)
           .delay(3, scheduler: MainScheduler.instance)
       case "value":
-        return .just(results)
+        return Single.just(results)
       case "error":
-        return .error(Errors.error("Test fake error"))
+        return Single.error(Errors.error("Test fake error"))
+          .delaySubscription(3, scheduler: MainScheduler.instance)
       default:
         fatalError("Invalid stub option: \(stubOption)")
       }
