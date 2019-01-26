@@ -83,13 +83,15 @@ import MudoxKit
       _ = Observable<Int>
         .timer(0, period: 4, scheduler: MainScheduler.instance)
         .subscribe(onNext: { tick in
-          switch tick % 3 {
+          switch tick % 4 {
           case 0:
             view.showGeneralError()
           case 1:
             view.showNetworkError()
           case 2:
             view.showEmpty()
+          case 3:
+            view.showLoading()
           default:
             fatalError("Shouled not be here")
           }

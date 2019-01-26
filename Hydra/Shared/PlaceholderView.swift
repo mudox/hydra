@@ -3,11 +3,15 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+import NVActivityIndicatorView
+
 import MudoxKit
 
 class PlaceholderView: View {
 
   // MARK: Subviews
+
+  var loadingView: NVActivityIndicatorView!
 
   var imageView: UIImageView!
 
@@ -22,12 +26,27 @@ class PlaceholderView: View {
     clipsToBounds = false
 
     snp.makeConstraints { make in
-      make.size.equalTo(CGSize(width: 240, height: 169))
+      make.size.greaterThanOrEqualTo(CGSize(width: 240, height: 169))
     }
 
+    setupLoadingView()
     setupImageView()
     setupLabel()
     setupRetryButton()
+  }
+
+  func setupLoadingView() {
+    loadingView = NVActivityIndicatorView(
+      frame: .zero,
+      type: .orbit,
+      color: .brand
+    )
+
+    addSubview(loadingView)
+    loadingView.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+      make.size.equalTo(50)
+    }
   }
 
   func setupImageView() {
@@ -93,21 +112,78 @@ class PlaceholderView: View {
     }
   }
 
+  // MARK: - Binding
+
+  static let retry = PublishRelay<Void>()
+
+  override func setupBinding() {
+    retryButton.rx.tap
+      .bind(to: type(of: self).retry)
+      .disposed(by: bag)
+  }
+
+  // MARK: - Show State
+
   func showGeneralError() {
-    imageView.image = #imageLiteral(resourceName: "General Error Placeholder")
-    label.text = "Oops"
-    retryButton.isHidden = false
+    isHidden = false
+
+    loadingView.stopAnimating()
+    imageView.do {
+      $0.isHidden = false
+      $0.image = #imageLiteral(resourceName: "General Error Placeholder")
+    }
+    label.do {
+      $0.isHidden = false
+      $0.text = "Oops"
+    }
+    retryButton.do {
+      $0.isHidden = false
+      $0.isHidden = true
+    }
   }
 
   func showNetworkError() {
-    imageView.image = #imageLiteral(resourceName: "Network Error Placeholder")
-    label.text = "Network Error"
-    retryButton.isHidden = false
+    isHidden = false
+
+    loadingView.stopAnimating()
+    imageView.do {
+      $0.isHidden = false
+      $0.image = #imageLiteral(resourceName: "Network Error Placeholder")
+    }
+    label.do {
+      $0.isHidden = false
+      $0.text = "Network Error"
+    }
+    retryButton.do {
+      $0.isHidden = false
+      $0.isHidden = true
+    }
   }
 
   func showEmpty() {
-    imageView.image = #imageLiteral(resourceName: "Empty Placeholder")
-    label.text = "Empty"
+    isHidden = false
+
+    loadingView.stopAnimating()
+    imageView.do {
+      $0.isHidden = false
+      $0.image = #imageLiteral(resourceName: "Empty Placeholder")
+    }
+    label.do {
+      $0.isHidden = false
+      $0.text = "Empty"
+    }
+    retryButton.do {
+      $0.isHidden = false
+      $0.isHidden = true
+    }
+  }
+
+  func showLoading() {
+    isHidden = false
+
+    loadingView.startAnimating()
+    imageView.isHidden = true
+    label.isHidden = true
     retryButton.isHidden = true
   }
 
