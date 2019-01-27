@@ -44,62 +44,104 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     output = nil
   }
 
-  // MARK: Loading States
+  // MARK: Search States
 
-  fdescribe("loading state") {
+  describe("search state") {
 
-    it("emit only 1 element initially") {
-      let states = output.loadingState.elements(in: 0.01)
+    it("emits once initially") {
+      let states = output.searchState.elements(in: 0.01)
       expect(states.count) == 1
     }
 
   }
 
-  // MARK: Selection
+  // MARK: Internal Selection
 
   describe("selection") {
 
-    fit("eimts a nil initially") {
-      let selections = output.selection.elements(in: 0.01)
+    it("emits nil initially") {
+      let selections = model.selection.elements(in: 0.01)
       expect(selections) == [nil] as [LanguagesModel.Selection?]
     }
 
   }
 
-  // MARK: Pin Button
+  // MARK: Pin Button State
 
-  describe("pin button") {
+  describe("pin button state") {
 
-    it("has no title initially") {
-      let pinButtonTitles = output.pinButtonTitle.elements(in: 0.01)
-      expect(pinButtonTitles) == []
+    it("emits hide initially") {
+      let pinButtonStates = output.pinButtonState.elements(in: 0.01)
+      expect(pinButtonStates.count) == 1
+
+      switch pinButtonStates.first! {
+      case .hide:
+        break
+      case .show:
+        fatalError("Should be `.hide`")
+      }
     }
 
-    it("disabled intially") {
-      let pinButtonEnablings = output.isPinButtonEnabled.elements(in: 0.01)
-      expect(pinButtonEnablings) == [false]
-    }
+    it("emits correct titles when item selected") {
+      expect({
+        let relay = BehaviorRelay<LanguagesModel.PinButtonState>(value: .hide)
+        _ = output.pinButtonState.bind(to: relay)
 
+        let selectPinned = LanguagesModel.Selection(indexPath: .init(item: 0, section: 1), language: "Pinned")
+        model.selection.accept(selectPinned)
+        guard case LanguagesModel.PinButtonState.show("Unpin") = relay.value else {
+          return .failed(reason: "Should be `.show(\"Unpin\") when pinned item is selected")
+        }
+
+        let selectHistory = LanguagesModel.Selection(indexPath: .init(item: 0, section: 0), language: "History")
+        model.selection.accept(selectHistory)
+        guard case LanguagesModel.PinButtonState.show("Pin") = relay.value else {
+          return .failed(reason: "Should be `.show(\"Pin\") when hitory item is selected")
+        }
+
+        let selectOther = LanguagesModel.Selection(indexPath: .init(item: 0, section: 2), language: "Other")
+        model.selection.accept(selectOther)
+        guard case LanguagesModel.PinButtonState.show("Pin") = relay.value else {
+          return .failed(reason: "Should be `.show(\"Pin\") when other item is selected")
+        }
+
+        return .succeeded
+      }).to(succeed())
+    }
   }
 
-  // MARK: Select Button
+  // MARK: Dismiss Button Title
 
-  describe("select button") {
+  describe("dismiss button title") {
 
-    it("title to be back initially") {
-      let selectButtonTitles = output.selectButtonTitle.elements(in: 0.01)
+    it("emits back initial") {
+      let selectButtonTitles = output.dismissButtonTitle.elements(in: 0.01)
       expect(selectButtonTitles) == ["Back"]
     }
 
   }
 
-  describe("result") {
+  // MARK: Dismiss
+
+  describe("dismiss") {
 
     it("does not emit initially") {
-      let elements = output.result.asObservable().elements(in: 0.01)
+      let elements = output.dismiss.asObservable().elements(in: 0.01)
       expect(elements).to(beEmpty())
     }
 
+    it("returns current selection state") {
+      let relay = BehaviorRelay<LanguagesModel.Selection?>(value: nil)
+      _ = model.selection.bind(to: relay)
+
+      input.dismissButtonTap.accept(())
+      expect(relay.value).to(beNil())
+
+      let sel = LanguagesModel.Selection(indexPath: .init(item: 0, section: 0), language: "Swift")
+      model.selection.accept(sel)
+      input.dismissButtonTap.accept(())
+      expect(relay.value) == sel
+    }
   }
 
 } }
@@ -120,5 +162,5 @@ extension ObservableType {
       .toBlocking()
       .toArray()
   }
-  
+
 }
