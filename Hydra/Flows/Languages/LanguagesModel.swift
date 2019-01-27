@@ -255,6 +255,31 @@ extension LanguagesModel {
     let language: String
   }
 
+  enum SearchState {
+    case inProgress
+    case error
+    case empty
+    case data(LanguagesService.SearchResult)
+
+    var isInProgress: Bool {
+      switch self {
+      case .inProgress:
+        return true
+      default:
+        return false
+      }
+    }
+    
+    var sectionModels: [[SectionModel<String, String>]]? {
+      switch self {
+      case let .data(result):
+        return .map(result.toSectionModels())
+      default:
+        return .ignore
+      }
+    }
+  }
+
   enum Command {
     case retry // Triggered by retry button
     case pin(String)
