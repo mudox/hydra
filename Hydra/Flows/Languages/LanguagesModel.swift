@@ -17,25 +17,34 @@ private let jack = Jack().set(format: .short)
 // MARK: Interface
 
 protocol LanguagesModelInput {
-  var selectTap: PublishRelay<Void> { get }
-  var command: PublishRelay<LanguagesModel.Command> { get }
 
-  var searchText: BehaviorRelay<String> { get }
-  var itemTap: BehaviorRelay<LanguagesModel.Selection?> { get }
+  // Done button
+  var doneButtonTap: PublishRelay<Void> { get }
+
+  // Pin button
+  var pinButtonTap: PublishRelay<Void> { get }
+
+  // Search bar
+  var searchText: PublishRelay<String> { get }
+
+  // Content area
+  var itemTap: PublishRelay<LanguagesModel.Selection> { get }
+  var movePinnedItem: PublishRelay<(from: Int, to: Int)> { get }
+  var retryButtonTap: PublishRelay<Void> { get }
 }
 
 protocol LanguagesModelOutput {
-  var selection: BehaviorRelay<LanguagesModel.Selection?> { get }
+  // Done button
+  var doneButtonTitle: BehaviorRelay<String> { get }
 
-  var selectButtonTitle: BehaviorRelay<String> { get }
+  // Pin button
+  var pinButtonState: BehaviorRelay<LanguagesModel.PinButtonState> { get }
 
-  var isPinButtonEnabled: BehaviorRelay<Bool> { get }
-  var pinButtonTitle: PublishRelay<String> { get }
+  // Content area
+  var searchState: BehaviorRelay<LanguagesModel.SearchState> { get }
 
-  var loadingState: BehaviorRelay<LoadingState<LanguagesService.SearchResult>> { get }
-  var collectionViewData: PublishRelay<LanguagesService.SearchResult> { get }
-
-  var result: Single<String?> { get }
+  // Dismiss
+  var dismiss: Single<String?> { get }
 }
 
 protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {}
@@ -48,134 +57,171 @@ extension LanguagesModelType {
 // MARK: - View Model
 
 class LanguagesModel: ViewModel, LanguagesModelType {
-  // MARK: - Dependencies
-
-  let service: LanguagesServiceType = fx()
 
   // MARK: Input
 
-  let selectTap: PublishRelay<Void>
-  let command: PublishRelay<LanguagesModel.Command>
+  // Done button
+  let doneButtonTap = PublishRelay<Void>()
 
-  let searchText: BehaviorRelay<String>
-  let itemTap: BehaviorRelay<LanguagesModel.Selection?>
+  // Pin button
+  let pinButtonTap = PublishRelay<Void>()
+
+  // Search bar
+  let searchText = PublishRelay<String>()
+
+  // Content area
+  let itemTap = PublishRelay<LanguagesModel.Selection>()
+  let movePinnedItem = PublishRelay<(from: Int, to: Int)>()
+  let retryButtonTap = PublishRelay<Void>()
 
   // MARK: Output
 
-  let selection: BehaviorRelay<LanguagesModel.Selection?>
-
-  // Select button
-  let selectButtonTitle: BehaviorRelay<String>
+  // Done button
+  let doneButtonTitle: BehaviorRelay<String>
 
   // Pin button
-  let isPinButtonEnabled: BehaviorRelay<Bool>
-  let pinButtonTitle: PublishRelay<String>
+  let pinButtonState: BehaviorRelay<LanguagesModel.PinButtonState>
 
   // Content area
-  let loadingState: BehaviorRelay<LoadingState<LanguagesService.SearchResult>>
-  let collectionViewData: PublishRelay<LanguagesService.SearchResult>
+  let searchState: BehaviorRelay<LanguagesModel.SearchState>
 
-  // Complete
-  private let _result: PublishRelay<String?>
-  let result: Single<String?>
+  // Dismiss
+  let _dismiss = PublishRelay<String?>()
+  let dismiss: Single<String?>
+
+  // MARK: Internals
+
+  let selection: BehaviorRelay<LanguagesModel.Selection?>
+
+  let command: BehaviorRelay<Command>
+
+  let action: Action<String, LanguagesService.SearchResult>
 
   // MARK: Binding
 
   required override init() {
-    // Inputs
-    selectTap = .init()
-    command = .init()
+    // Ouputs
+    doneButtonTitle = .init(value: "Back")
+    pinButtonState = .init(value: .hide)
+    searchState = .init(value: .inProgress)
+    dismiss = _dismiss.take(1).asSingle()
 
-    searchText = .init(value: "")
-    itemTap = .init(value: nil)
-
-    // Outputs
+    // Internals
     selection = .init(value: nil)
-
-    selectButtonTitle = .init(value: "Back")
-
-    isPinButtonEnabled = .init(value: false)
-    pinButtonTitle = .init()
-
-    loadingState = .init(value: .loading)
-    collectionViewData = .init()
-
-    _result = .init()
-    result = _result.take(1).asSingle()
+    command = .init(value: .retry)
+    action = Action {
+      let service: LanguagesServiceType = fx()
+      return service.search(text: $0).asObservable()
+    }
 
     super.init()
 
-    setupAction()
-
-    setupLoadingState()
-    setupCollectionData()
-    setupButtonStates()
-
-    setupSelection()
-
-    setupCompletion()
+    buttonsTapAndItemMovingDriveCommand()
+    searchTextAndCommandDrivesAction()
+    actionDrivesSearchState()
+    itemTapAndReloadingDriveSelection()
+    selectionDrivesButtons()
+    doneTapAndSelectionDriveDismiss()
   }
 
-  func setupSelection() {
-    let toggleSelection = itemTap.skip(1)
-      .scan(nil) { prev, this -> LanguagesModel.Selection? in
-        if prev?.indexPath != this?.indexPath {
+  func itemTapAndReloadingDriveSelection() {
+    let userTap = itemTap
+      // Unselect if user tap the same item
+      .withLatestFrom(selection) { this, prev -> Selection? in
+        // Special case: (nil, nil) -> nil
+        if prev?.indexPath != this.indexPath {
           return this
         } else {
           return nil
         }
       }
 
-    let resetSelection: Observable<LanguagesModel.Selection?>
-      = collectionViewData.mapTo(nil)
+    let resetWhenLoading = searchState
+      .filter { $0.isInProgress }
+      .mapTo(nil as Selection?)
 
     Observable
-      .merge(toggleSelection, resetSelection)
+      .merge(userTap, resetWhenLoading)
       .bind(to: selection)
       .disposed(by: bag)
   }
 
-  func setupButtonStates() {
+  func selectionDrivesButtons() {
     selection
-      .map { $0 != nil }
-      .bind(to: isPinButtonEnabled)
-      .disposed(by: bag)
-
-    selection
-      .map { $0?.indexPath.section == 1 ? "Unpin" : "Pin" }
-      .bind(to: pinButtonTitle)
+      .map { selection -> PinButtonState in
+        if let selection = selection {
+          if selection.indexPath.section == 1 {
+            return .show("Unpin")
+          } else {
+            return .show("Pin")
+          }
+        } else {
+          return .hide
+        }
+      }
+      .bind(to: pinButtonState)
       .disposed(by: bag)
 
     selection
       .map { $0 != nil ? "Select" : "Back" }
-      .bind(to: selectButtonTitle)
+      .bind(to: doneButtonTitle)
       .disposed(by: bag)
   }
 
-  func setupCompletion() {
-    selectTap
+  func doneTapAndSelectionDriveDismiss() {
+    doneButtonTap
       .withLatestFrom(selection)
       .map { $0?.language }
-      .do(onNext: { [service] language in
-        // Side effect: update history
+      // Side effect: update history
+      .do(onNext: { language in
         if let language = language {
+          let service: LanguagesServiceType = fx()
           service.addSelected(language)
         }
       })
-      .bind(to: _result)
+      .bind(to: _dismiss)
       .disposed(by: bag)
   }
 
-  let action = Action<String, LanguagesService.SearchResult> {
-    let service: LanguagesServiceType = fx()
-    return service.search(text: $0).asObservable()
+  func buttonsTapAndItemMovingDriveCommand() {
+    pinButtonTap
+      .withLatestFrom(selection)
+      .filterMap { selection -> FilterMap<Command> in
+        if let selection = selection {
+          let language = selection.language
+          let section = selection.indexPath.section
+          if section == 1 {
+            return .map(Command.unpin(language))
+          } else {
+            return .map(Command.pin(language))
+          }
+        } else {
+          jack.func().failure(
+            "Internal inconsistency: pin button can be tapped iff `selection` is not nil"
+          )
+          return .ignore
+        }
+      }
+      .bind(to: command)
+      .disposed(by: bag)
+
+    movePinnedItem
+      .map { Command.movePinned(from: $0.from, to: $0.to) }
+      .bind(to: command)
+      .disposed(by: bag)
+
+    retryButtonTap
+      .mapTo(Command.retry)
+      .bind(to: command)
+      .disposed(by: bag)
   }
 
-  func setupAction() {
-    // Handle commands
-    let commandTick = command.asObservable()
-      .do(onNext: { [service] in
-        switch $0 {
+  func searchTextAndCommandDrivesAction() {
+    let reload = command
+      // Update backing data first
+      .do(onNext: { command in
+        let service: LanguagesServiceType = fx()
+        switch command {
         case let .pin(language):
           service.addPinned(language)
         case let .unpin(language):
@@ -186,64 +232,61 @@ class LanguagesModel: ViewModel, LanguagesModelType {
           break
         }
       })
-      .filter { cmd in
-        // Moving item do need to trigger a refresh
+      .filterMap { cmd -> FilterMap<Void> in
+        // Moving item is already updated before
         switch cmd {
         case .movePinned:
-          return false
+          return .ignore
         default:
-          return true
+          return .map(())
         }
       }
-      .mapTo(())
-      .startWith(()) // Triggers intial loading
 
     Observable
-      .combineLatest(searchText, commandTick) { text, _ in text }
-      .jack("triggerAction")
+      .combineLatest(searchText, reload) { text, _ in text }
       .bind(to: action.inputs)
       .disposed(by: bag)
   }
 
-  func setupLoadingState() {
+  func actionDrivesSearchState() {
+    // SearchState.inProgress
     action.executing
-      .filter { $0 == true }
-      .mapTo(LoadingState<LanguagesService.SearchResult>.loading)
-      .bind(to: loadingState)
-      .disposed(by: bag)
-
-    action.errors
-      .filter {
-        // filter out `.notEnabled` error
-        if case ActionError.notEnabled = $0 {
-          return false
-        } else {
-          return true
-        }
-      }
-      .map(LoadingState<LanguagesService.SearchResult>.error)
-      .bind(to: loadingState)
-      .disposed(by: bag)
-
-    action.elements
-      .map(LoadingState<LanguagesService.SearchResult>.value)
-      .observeOn(MainScheduler.instance)
-      .bind(to: loadingState)
-      .disposed(by: bag)
-  }
-
-  func setupCollectionData() {
-    loadingState
-      .filterMap { state in
-        if let data = state.value {
-          return .map(data)
+      .filterMap { isExecuting -> FilterMap<SearchState> in
+        if isExecuting {
+          return .map(SearchState.inProgress)
         } else {
           return .ignore
         }
       }
-      .bind(to: collectionViewData)
+      .bind(to: searchState)
+      .disposed(by: bag)
+
+    // SearchState.error
+    action.errors
+      .filterMap { error -> FilterMap<SearchState> in
+        // filter out `.notEnabled` error
+        if case ActionError.underlyingError = error {
+          return .map(SearchState.error)
+        } else {
+          return .ignore
+        }
+      }
+      .bind(to: searchState)
+      .disposed(by: bag)
+
+    // SearchState.empty or data
+    action.elements
+      .map { result -> SearchState in
+        if result.isEmpty {
+          return SearchState.empty
+        } else {
+          return SearchState.data(result.toSectionModels())
+        }
+      }
+      .bind(to: searchState)
       .disposed(by: bag)
   }
+
 }
 
 // MARK: - Nested Types
