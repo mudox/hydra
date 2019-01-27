@@ -128,7 +128,7 @@ class LanguagesService: LanguagesServiceType {
     return Observable
       .catchError([
         allFromCache.asObservable(),
-        allFromRepository.asObservable()
+        allFromRepository.asObservable(),
       ])
       .asSingle()
   }
@@ -166,7 +166,7 @@ class LanguagesService: LanguagesServiceType {
     get {
       return getLanguages(forKey: PrimaryKeys.pinned, defaultList: [
         "Swift", "Objective-C", "Python", "JavaScript",
-        "Ruby", "Go", "Rust", "VimScript"
+        "Ruby", "Go", "Rust", "VimScript",
       ])
     }
     set {
@@ -272,8 +272,6 @@ private enum PrimaryKeys {
   static let history = "history"
 }
 
-typealias LanguagesSectionModel = SectionModel<String, String>
-
 extension LanguagesService {
 
   struct SearchResult {
@@ -282,11 +280,18 @@ extension LanguagesService {
     let pinned: [String]
     let other: [String]
 
-    func toSectionModels() -> [LanguagesSectionModel] {
+    var isEmpty: Bool {
+      return
+        history.isEmpty
+        && pinned.isEmpty
+        && other.isEmpty
+    }
+
+    func toSectionModels() -> [SectionModel<String, String>] {
       return [
         SectionModel(model: "History", items: history),
         SectionModel(model: "Pinned", items: pinned),
-        SectionModel(model: "Languages", items: other)
+        SectionModel(model: "Languages", items: other),
       ]
     }
   }
