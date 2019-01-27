@@ -154,7 +154,7 @@ class PlaceholderView: View {
     retryButton.isHidden = false
   }
 
-  func showEmpty() {
+  func showEmptyData() {
     isHidden = false
 
     loadingView.stopAnimating()
