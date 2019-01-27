@@ -250,6 +250,11 @@ class LanguagesModel: ViewModel, LanguagesModelType {
 
 extension LanguagesModel {
 
+  enum PinButtonState {
+    case hide
+    case show(String)
+  }
+
   struct Selection: Equatable {
     let indexPath: IndexPath
     let language: String
