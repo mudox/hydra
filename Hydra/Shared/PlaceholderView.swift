@@ -136,10 +136,7 @@ class PlaceholderView: View {
       $0.isHidden = false
       $0.text = "Oops"
     }
-    retryButton.do {
-      $0.isHidden = false
-      $0.isHidden = true
-    }
+    retryButton.isHidden = false
   }
 
   func showNetworkError() {
@@ -154,10 +151,7 @@ class PlaceholderView: View {
       $0.isHidden = false
       $0.text = "Network Error"
     }
-    retryButton.do {
-      $0.isHidden = false
-      $0.isHidden = true
-    }
+    retryButton.isHidden = false
   }
 
   func showEmpty() {
@@ -172,10 +166,7 @@ class PlaceholderView: View {
       $0.isHidden = false
       $0.text = "Empty"
     }
-    retryButton.do {
-      $0.isHidden = false
-      $0.isHidden = true
-    }
+    retryButton.isHidden = false
   }
 
   func showLoading() {
