@@ -278,8 +278,6 @@ extension LanguagesService {
 
   struct SearchResult {
 
-    static let empty = LanguagesService.SearchResult(history: [], pinned: [], other: [])
-
     let history: [String]
     let pinned: [String]
     let other: [String]
