@@ -59,18 +59,12 @@
 
     // MARK: - Seaerch
 
-    func search(text: String) -> Single<[LanguagesModel.Section]> {
-      let results: [LanguagesModel.Section] = [
-        .init(title: "History", items: [
-          "Select"
-        ]),
-        .init(title: "Pinned", items: [
-          "Pinned"
-        ]),
-        .init(title: "Languages", items: [
-          "Select", "Pinned"
-        ])
-      ]
+    func search(text: String) -> Single<LanguagesService.SearchResult> {
+      let results = LanguagesService.SearchResult(
+        history: ["Select"],
+        pinned: ["Pinned"],
+        other: ["Ohther1", "Other2", "Other3"]
+      )
 
       switch stubOption {
       case "loading":

@@ -23,11 +23,11 @@ private let jack = Jack().set(format: .short)
 class LanguagesModelSpec: QuickSpec { override func spec() {
 
   var model: LanguagesModel!
-//  var input: LanguagesModelInput!
+  var input: LanguagesModelInput!
   var output: LanguagesModelOutput!
 
   beforeEach {
-    fx.autoregister(
+    swinject.autoregister(
       LanguagesServiceType.self,
       initializer: LanguagesServiceStub.init
     )
@@ -46,18 +46,11 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
 
   // MARK: Loading States
 
-  describe("loading state") {
+  fdescribe("loading state") {
 
-    it("to be loading or value initially") {
-      let states = output.state.elements(in: 0.01)
+    it("emit only 1 element initially") {
+      let states = output.loadingState.elements(in: 0.01)
       expect(states.count) == 1
-
-      switch states.first! {
-      case .error:
-        assertionFailure()
-      case .loading, .value:
-        break
-      }
     }
 
   }
@@ -66,9 +59,9 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
 
   describe("selection") {
 
-    it("to be nil initially") {
+    fit("eimts a nil initially") {
       let selections = output.selection.elements(in: 0.01)
-      expect(selections.first!).to(beNil())
+      expect(selections) == [nil] as [LanguagesModel.Selection?]
     }
 
   }
@@ -83,7 +76,7 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     }
 
     it("disabled intially") {
-      let pinButtonEnablings = output.pinButtonEnabled.elements(in: 0.01)
+      let pinButtonEnablings = output.isPinButtonEnabled.elements(in: 0.01)
       expect(pinButtonEnablings) == [false]
     }
 
