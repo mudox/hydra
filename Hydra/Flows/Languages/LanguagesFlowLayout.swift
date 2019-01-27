@@ -21,7 +21,7 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   private var cache: LayoutResult?
 
   // swiftlint:disable:next function_body_length
-  func layout(for sections: [LanguagesModel.Section], width: CGFloat) {
+  func layout(_ sections: [LanguagesSectionModel], width: CGFloat) {
 
     // Metrics
     let cellHeight: CGFloat = 24

@@ -281,9 +281,14 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   }
 }
 
-// MARK: - Types
+// MARK: - Nested Types
 
 extension LanguagesModel {
+
+  struct Selection: Equatable {
+    let indexPath: IndexPath
+    let language: String
+  }
 
   enum Command {
     case pin(String)
