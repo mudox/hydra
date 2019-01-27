@@ -39,7 +39,7 @@ protocol LanguagesServiceType {
 
   // MARK: Search
 
-  func search(text: String) -> Single<[LanguagesModel.Section]>
+  func search(text: String) -> Single<LanguagesService.SearchResult>
 }
 
 class LanguagesService: LanguagesServiceType {
@@ -209,10 +209,10 @@ class LanguagesService: LanguagesServiceType {
 
   // MARK: - Search
 
-  func search(text: String) -> Single<[LanguagesModel.Section]> {
+  func search(text: String) -> Single<LanguagesService.SearchResult> {
     return all
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-      .map { all -> [LanguagesModel.Section] in
+      .map { all -> LanguagesService.SearchResult in
 
         let history = self.history.filter {
           if text.isEmpty {
@@ -241,17 +241,18 @@ class LanguagesService: LanguagesServiceType {
             }
           }
           .sorted { $0.lowercased() < $1.lowercased() }
-        return [
-          .init(title: "History", items: history),
-          .init(title: "Pinned", items: pinned),
-          .init(title: "Languages", items: other)
-        ]
+
+        return LanguagesService.SearchResult(
+          history: history,
+          pinned: pinned,
+          other: other
+        )
       }
   }
 
 }
 
-// MARK: - Private Helpers
+// MARK: - Helpers
 
 private extension String {
   static let allLanguagesCacheKey = "allGitHubLanguagesCacheKey"
@@ -269,4 +270,27 @@ class LanguageList: Object {
 private enum PrimaryKeys {
   static let pinned = "pinned"
   static let history = "history"
+}
+
+typealias LanguagesSectionModel = SectionModel<String, String>
+
+extension LanguagesService {
+
+  struct SearchResult {
+
+    static let empty = LanguagesService.SearchResult(history: [], pinned: [], other: [])
+
+    let history: [String]
+    let pinned: [String]
+    let other: [String]
+
+    func toSectionModels() -> [LanguagesSectionModel] {
+      return [
+        SectionModel(model: "History", items: history),
+        SectionModel(model: "Pinned", items: pinned),
+        SectionModel(model: "Languages", items: other)
+      ]
+    }
+  }
+
 }
