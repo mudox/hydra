@@ -1,5 +1,7 @@
 import UIKit
 
+import RxDataSources
+
 import RxSwift
 
 class LanguagesFlowLayout: UICollectionViewLayout {
@@ -21,7 +23,7 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   private var cache: LayoutResult?
 
   // swiftlint:disable:next function_body_length
-  func layout(_ sections: [LanguagesSectionModel], width: CGFloat) {
+  func layout(_ sections: [SectionModel<String, String>], width: CGFloat) {
 
     // Metrics
     let cellHeight: CGFloat = 24

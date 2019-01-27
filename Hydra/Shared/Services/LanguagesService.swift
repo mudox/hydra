@@ -128,7 +128,7 @@ class LanguagesService: LanguagesServiceType {
     return Observable
       .catchError([
         allFromCache.asObservable(),
-        allFromRepository.asObservable(),
+        allFromRepository.asObservable()
       ])
       .asSingle()
   }
@@ -166,7 +166,7 @@ class LanguagesService: LanguagesServiceType {
     get {
       return getLanguages(forKey: PrimaryKeys.pinned, defaultList: [
         "Swift", "Objective-C", "Python", "JavaScript",
-        "Ruby", "Go", "Rust", "VimScript",
+        "Ruby", "Go", "Rust", "VimScript"
       ])
     }
     set {
@@ -291,7 +291,7 @@ extension LanguagesService {
       return [
         SectionModel(model: "History", items: history),
         SectionModel(model: "Pinned", items: pinned),
-        SectionModel(model: "Languages", items: other),
+        SectionModel(model: "Languages", items: other)
       ]
     }
   }

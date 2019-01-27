@@ -20,8 +20,8 @@ class LanguagesFlow: Flow, LanguagesFlowType {
   var selectedLanguage: Single<String?> {
     return .create { single in
       let vc = LanguagesController()
-      let waitLanguagesControllerToDismiss = vc.model.dismiss
-        .subscribe(onSuccess: { language in
+      let waitControllerToDismiss = vc.model.dismiss
+        .subscribe(onNext: { language in
           self.stage.viewController.dismiss(animated: true) {
             single(.success(language))
           }
@@ -30,7 +30,7 @@ class LanguagesFlow: Flow, LanguagesFlowType {
       let nav = UINavigationController(rootViewController: vc)
       self.stage.viewController.present(nav, animated: true)
 
-      return Disposables.create([waitLanguagesControllerToDismiss])
+      return Disposables.create([waitControllerToDismiss])
     }
   }
 

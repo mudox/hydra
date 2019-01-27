@@ -19,7 +19,7 @@ private let jack = Jack().set(format: .short)
 protocol LanguagesModelInput {
 
   // Done button
-  var doneButtonTap: PublishRelay<Void> { get }
+  var dismissButtonTap: PublishRelay<Void> { get }
 
   // Pin button
   var pinButtonTap: PublishRelay<Void> { get }
@@ -35,7 +35,7 @@ protocol LanguagesModelInput {
 
 protocol LanguagesModelOutput {
   // Done button
-  var doneButtonTitle: BehaviorRelay<String> { get }
+  var dismissButtonTitle: BehaviorRelay<String> { get }
 
   // Pin button
   var pinButtonState: BehaviorRelay<LanguagesModel.PinButtonState> { get }
@@ -44,7 +44,7 @@ protocol LanguagesModelOutput {
   var searchState: BehaviorRelay<LanguagesModel.SearchState> { get }
 
   // Dismiss
-  var dismiss: Single<String?> { get }
+  var dismiss: PublishRelay<String?> { get }
 }
 
 protocol LanguagesModelType: LanguagesModelInput, LanguagesModelOutput {}
@@ -61,7 +61,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   // MARK: Input
 
   // Done button
-  let doneButtonTap = PublishRelay<Void>()
+  let dismissButtonTap = PublishRelay<Void>()
 
   // Pin button
   let pinButtonTap = PublishRelay<Void>()
@@ -77,7 +77,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   // MARK: Output
 
   // Done button
-  let doneButtonTitle: BehaviorRelay<String>
+  let dismissButtonTitle: BehaviorRelay<String>
 
   // Pin button
   let pinButtonState: BehaviorRelay<LanguagesModel.PinButtonState>
@@ -86,8 +86,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   let searchState: BehaviorRelay<LanguagesModel.SearchState>
 
   // Dismiss
-  let _dismiss = PublishRelay<String?>()
-  let dismiss: Single<String?>
+  let dismiss = PublishRelay<String?>()
 
   // MARK: Internals
 
@@ -101,10 +100,9 @@ class LanguagesModel: ViewModel, LanguagesModelType {
 
   required override init() {
     // Ouputs
-    doneButtonTitle = .init(value: "Back")
+    dismissButtonTitle = .init(value: "Back")
     pinButtonState = .init(value: .hide)
     searchState = .init(value: .inProgress)
-    dismiss = _dismiss.take(1).asSingle()
 
     // Internals
     selection = .init(value: nil)
@@ -164,12 +162,12 @@ class LanguagesModel: ViewModel, LanguagesModelType {
 
     selection
       .map { $0 != nil ? "Select" : "Back" }
-      .bind(to: doneButtonTitle)
+      .bind(to: dismissButtonTitle)
       .disposed(by: bag)
   }
 
   func doneTapAndSelectionDriveDismiss() {
-    doneButtonTap
+    dismissButtonTap
       .withLatestFrom(selection)
       .map { $0?.language }
       // Side effect: update history
@@ -179,7 +177,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
           service.addSelected(language)
         }
       })
-      .bind(to: _dismiss)
+      .bind(to: dismiss)
       .disposed(by: bag)
   }
 
@@ -280,7 +278,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
         if result.isEmpty {
           return SearchState.empty
         } else {
-          return SearchState.data(result.toSectionModels())
+          return SearchState.data(result)
         }
       }
       .bind(to: searchState)
@@ -317,13 +315,13 @@ extension LanguagesModel {
         return false
       }
     }
-    
-    var sectionModels: [[SectionModel<String, String>]]? {
+
+    var sectionModels: [SectionModel<String, String>]? {
       switch self {
       case let .data(result):
-        return .map(result.toSectionModels())
+        return result.toSectionModels()
       default:
-        return .ignore
+        return nil
       }
     }
   }

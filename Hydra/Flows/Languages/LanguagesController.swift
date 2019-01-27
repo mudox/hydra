@@ -28,7 +28,7 @@ class LanguagesController: CollectionController {
 
   let flowLayout: LanguagesFlowLayout
 
-  var doneButton: UIBarButtonItem!
+  var dismissButton: UIBarButtonItem!
 
   var pinButton: UIBarButtonItem!
 
@@ -46,28 +46,28 @@ class LanguagesController: CollectionController {
   }
 
   func setupNavigationBar() {
-    doneButton = .init()
+    dismissButton = .init()
     pinButton = .init()
 
     navigationItem.do {
       $0.title = "Languages"
-      $0.leftBarButtonItem = doneButton
+      $0.leftBarButtonItem = dismissButton
       $0.rightBarButtonItem = pinButton
     }
 
     let attributes: [NSAttributedString.Key: Any] = [
       .foregroundColor: UIColor.brand,
-      .font: UIFont.text,
+      .font: UIFont.text
     ]
 
-    doneButton.do {
-      $0.setTitleTextAttributes(attibutes, for: .normal)
-      $0.setTitleTextAttributes(attibutes, for: .highlighted)
+    dismissButton.do {
+      $0.setTitleTextAttributes(attributes, for: .normal)
+      $0.setTitleTextAttributes(attributes, for: .highlighted)
     }
 
     pinButton.do {
-      $0.setTitleTextAttributes(attibutes, for: .normal)
-      $0.setTitleTextAttributes(attibutes, for: .highlighted)
+      $0.setTitleTextAttributes(attributes, for: .normal)
+      $0.setTitleTextAttributes(attributes, for: .highlighted)
     }
 
   }
@@ -118,7 +118,7 @@ class LanguagesController: CollectionController {
 
   override func setupModel() {
     // View -> Model
-    
+
     let input = model.input
 
     let selection = Observable.zip(
@@ -129,32 +129,36 @@ class LanguagesController: CollectionController {
 
     bag.insert(
       selection.bind(to: input.itemTap),
-      doneButton.rx.tap.bind(to: input.doneButtonTap),
+      dismissButton.rx.tap.bind(to: input.dismissButtonTap),
       pinButton.rx.tap.bind(to: input.pinButtonTap),
       searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText),
       PlaceholderView.retry.bind(to: input.retryButtonTap)
     )
-    
+
     // Model -> View
-   let output = model.output
-    
+    let output = model.output
+
     output.searchState
-      .filterMap { state -> FilterMap<SectionModel<String, String>> in
-      
-    }
-    
+      .asDriver()
+      .flatMap { state -> Driver<[SectionModel<String, String>]> in
+        if let data = state.sectionModels {
+          return .just(data)
+        } else {
+          return .empty()
+        }
+      }
+      .drive(collectionView.rx.items(dataSource: dataSource))
+      .disposed(by: bag)
+
     bag.insert(
-      output.doneButtonTitle.asDriver().drive(rx.doneButtonTitle),
+      output.dismissButtonTitle.asDriver().drive(rx.dismissButtonTitle),
       output.pinButtonState.asDriver().drive(rx.pinButtonState),
       output.searchState.asDriver().drive(rx.searchState)
     )
-
-    drivePlaceholderView()
-    driveCollectionView()
   }
 
   lazy var dataSource = {
-    RxCollectionViewSectionedReloadDataSource<LanguagesSectionModel>(
+    RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>(
       configureCell: {
         _, collectionView, indexPath, language in
         let cell = collectionView.dequeueReusableCell(
@@ -190,57 +194,14 @@ class LanguagesController: CollectionController {
     )
   }()
 
-  func drivePlaceholderView() {
-    let output = model.output
-    output.loadingState.asDriver()
-      .drive(onNext: { [weak self] state in
-        guard let view = self?.placeholderView else { return }
-        switch state {
-        case .loading:
-          view.showLoading()
-        case let .error(error):
-          jack.func().error("Error loading all languages data: \(error)")
-          view.showGeneralError()
-        case .value:
-          view.isHidden = true
-        }
-      })
-      .disposed(by: bag)
-  }
-
-  func driveCollectionView() {
-    let output = model.output
-
-    let width = UIScreen.main.bounds.width
-    collectionView.dataSource = nil
-
-    output.collectionViewData
-      .asSignal()
-      .asObservable()
-      .map { $0.toSectionModels() }
-      .do(onNext: { [weak self] (sections: [LanguagesSectionModel]) in
-        self?.flowLayout.layout(sections, width: width)
-      })
-      .bind(to: collectionView.rx.items(dataSource: dataSource))
-      .disposed(by: bag)
-
-    output.selection.asDriver()
-      .drive(onNext: { [weak self] selection in
-        self?.collectionView.selectItem(
-          at: selection?.indexPath, animated: true, scrollPosition: []
-        )
-      })
-      .disposed(by: bag)
-  }
-
 }
 
 // MARK: - Binders
 
 extension Reactive where Base: LanguagesController {
 
-  var doneButtonTitle: Binder<String> {
-    return Binder(base.doneButton) { button, title in
+  var dismissButtonTitle: Binder<String> {
+    return Binder(base.dismissButton) { button, title in
       button.title = title
     }
   }
@@ -256,7 +217,7 @@ extension Reactive where Base: LanguagesController {
       }
     }
   }
-  
+
   var searchState: Binder<LanguagesModel.SearchState> {
     return Binder(base) { vc, state in
       switch state {
