@@ -201,6 +201,45 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       .disposed(by: bag)
   }
 
+  let action = Action<String, LanguagesService.SearchResult> {
+    let service: LanguagesServiceType = fx()
+    return service.search(text: $0).asObservable()
+  }
+
+  private func setupAction() {
+    // Handle commands
+    let commandTick = command.asObservable()
+      .do(onNext: { [service] in
+        switch $0 {
+        case let .pin(language):
+          service.addPinned(language)
+        case let .unpin(language):
+          service.removePinned(language)
+        case let .movePinned(from: src, to: dest):
+          service.movePinned(from: src, to: dest)
+        case .retry:
+          break
+        }
+      })
+      .filter { cmd in
+        // Moving item do need to trigger a refresh
+        switch cmd {
+        case .movePinned:
+          return false
+        default:
+          return true
+        }
+      }
+      .mapTo(())
+      .startWith(()) // Triggers intial loading
+
+    Observable
+      .combineLatest(searchText, commandTick) { text, _ in text }
+      .jack("triggerAction")
+      .bind(to: action.inputs)
+      .disposed(by: bag)
+  }
+
 }
 
 // MARK: - Types
