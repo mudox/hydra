@@ -240,6 +240,45 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       .disposed(by: bag)
   }
 
+  private func setupLoadingState() {
+    action.executing
+      .filter { $0 == true }
+      .mapTo(LoadingState<LanguagesService.SearchResult>.loading)
+      .bind(to: loadingState)
+      .disposed(by: bag)
+
+    action.errors
+      .filter {
+        // filter out `.notEnabled` error
+        if case ActionError.notEnabled = $0 {
+          return false
+        } else {
+          return true
+        }
+      }
+      .map(LoadingState<LanguagesService.SearchResult>.error)
+      .bind(to: loadingState)
+      .disposed(by: bag)
+
+    action.elements
+      .map(LoadingState<LanguagesService.SearchResult>.value)
+      .observeOn(MainScheduler.instance)
+      .bind(to: loadingState)
+      .disposed(by: bag)
+  }
+
+  func setupCollectionData() {
+    loadingState
+      .filterMap { state in
+        if let data = state.value {
+          return .map(data)
+        } else {
+          return .ignore
+        }
+      }
+      .bind(to: collectionViewData)
+      .disposed(by: bag)
+  }
 }
 
 // MARK: - Types
