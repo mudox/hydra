@@ -28,7 +28,7 @@ class LanguagesController: CollectionController {
 
   let flowLayout: LanguagesFlowLayout
 
-  var selectButton: UIBarButtonItem!
+  var doneButton: UIBarButtonItem!
 
   var pinButton: UIBarButtonItem!
 
@@ -46,37 +46,28 @@ class LanguagesController: CollectionController {
   }
 
   func setupNavigationBar() {
-    selectButton = .init()
+    doneButton = .init()
     pinButton = .init()
 
     navigationItem.do {
       $0.title = "Languages"
-      $0.leftBarButtonItem = selectButton
+      $0.leftBarButtonItem = doneButton
       $0.rightBarButtonItem = pinButton
     }
 
-    let normal: [NSAttributedString.Key: Any] = [
+    let attributes: [NSAttributedString.Key: Any] = [
       .foregroundColor: UIColor.brand,
-      .font: UIFont.text
+      .font: UIFont.text,
     ]
 
-    let disabled: [NSAttributedString.Key: Any] = [
-      .foregroundColor: UIColor.clear // hide the UIButtonItem
-    ]
-
-    selectButton.do {
-      $0.title = "Select"
-      $0.tintColor = .brand
-      $0.setTitleTextAttributes(normal, for: .normal)
-      $0.setTitleTextAttributes(normal, for: .highlighted)
+    doneButton.do {
+      $0.setTitleTextAttributes(attibutes, for: .normal)
+      $0.setTitleTextAttributes(attibutes, for: .highlighted)
     }
 
     pinButton.do {
-      $0.title = "Pin"
-      $0.tintColor = .brand
-      $0.setTitleTextAttributes(normal, for: .normal)
-      $0.setTitleTextAttributes(normal, for: .highlighted)
-      $0.setTitleTextAttributes(disabled, for: .disabled)
+      $0.setTitleTextAttributes(attibutes, for: .normal)
+      $0.setTitleTextAttributes(attibutes, for: .highlighted)
     }
 
   }
@@ -126,64 +117,40 @@ class LanguagesController: CollectionController {
   let model: LanguagesModelType = fx()
 
   override func setupModel() {
+    // View -> Model
+    
     let input = model.input
 
-    selectButton.rx.tap
-      .bind(to: input.selectTap)
-      .disposed(by: bag)
-
-    searchController.searchBar.rx.text.orEmpty
-      .bind(to: input.searchText)
-      .disposed(by: bag)
-
-    PlaceholderView.retry
-      .mapTo(LanguagesModel.Command.retry)
-      .bind(to: input.command)
-      .disposed(by: bag)
-
-    let indexPathSelected = collectionView.rx.itemSelected
-    let languageSelected = collectionView.rx.modelSelected(String.self)
-    Observable.zip(indexPathSelected, languageSelected)
-      .map { LanguagesModel.Selection(indexPath: $0, language: $1) }
-      .bind(to: input.itemTap)
-      .disposed(by: bag)
-
-    let pinCommand = pinButton.rx.tap
-      .withLatestFrom(model.output.selection)
-      .flatMap { [weak self] selection -> Observable<LanguagesModel.Command> in
-        guard let selected = selection else { return .empty() }
-        guard let self = self else { return .empty() }
-
-        let language = selected.language
-
-        let title = self.selectButton.title ?? "<nil>"
-
-        switch self.pinButton.title {
-        case "Pin": return .just(.pin(language))
-        case "Unpin": return .just(.unpin(language))
-        default:
-          jack.func().error("Unexpected select button title: \(title)")
-          return .empty()
-        }
-      }
-
-    bag.insert(
-      pinCommand.bind(to: input.command)
+    let selection = Observable.zip(
+      collectionView.rx.itemSelected,
+      collectionView.rx.modelSelected(String.self),
+      resultSelector: LanguagesModel.Selection.init
     )
 
-    driveButtons()
+    bag.insert(
+      selection.bind(to: input.itemTap),
+      doneButton.rx.tap.bind(to: input.doneButtonTap),
+      pinButton.rx.tap.bind(to: input.pinButtonTap),
+      searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText),
+      PlaceholderView.retry.bind(to: input.retryButtonTap)
+    )
+    
+    // Model -> View
+   let output = model.output
+    
+    output.searchState
+      .filterMap { state -> FilterMap<SectionModel<String, String>> in
+      
+    }
+    
+    bag.insert(
+      output.doneButtonTitle.asDriver().drive(rx.doneButtonTitle),
+      output.pinButtonState.asDriver().drive(rx.pinButtonState),
+      output.searchState.asDriver().drive(rx.searchState)
+    )
+
     drivePlaceholderView()
     driveCollectionView()
-  }
-
-  func driveButtons() {
-    let output = model.output
-
-    bag.insert(
-      output.selectButtonTitle.asDriver().drive(selectButton.rx.title),
-      output.isPinButtonEnabled.asDriver().drive(pinButton.rx.isEnabled),
-      output.pinButtonTitle.asSignal().emit(to: pinButton.rx.title)
-    )
   }
 
   lazy var dataSource = {
@@ -209,10 +176,11 @@ class LanguagesController: CollectionController {
         view.show(title: title)
         return view
       },
-      moveItem: { [weak self]
-        _, srcIndexPath, destIndexPath in
-        let cmd = LanguagesModel.Command.movePinned(from: srcIndexPath.item, to: destIndexPath.item)
-        self?.model.input.command.accept(cmd)
+      moveItem: { [weak self] _, srcIndexPath, destIndexPath in
+        guard destIndexPath.section == 1 else { return }
+        assert(srcIndexPath.section == 1)
+        self?.model.input.movePinnedItem
+          .accept((from: srcIndexPath.item, to: destIndexPath.item))
       },
       canMoveItemAtIndexPath: {
         _, indexPath in
@@ -263,6 +231,58 @@ class LanguagesController: CollectionController {
         )
       })
       .disposed(by: bag)
+  }
+
+}
+
+// MARK: - Binders
+
+extension Reactive where Base: LanguagesController {
+
+  var doneButtonTitle: Binder<String> {
+    return Binder(base.doneButton) { button, title in
+      button.title = title
+    }
+  }
+
+  var pinButtonState: Binder<LanguagesModel.PinButtonState> {
+    return Binder(base) { vc, state in
+      switch state {
+      case let .show(title):
+        vc.navigationItem.setRightBarButton(vc.pinButton, animated: true)
+        vc.pinButton.title = title
+      case .hide:
+        vc.navigationItem.setRightBarButton(nil, animated: true)
+      }
+    }
+  }
+  
+  var searchState: Binder<LanguagesModel.SearchState> {
+    return Binder(base) { vc, state in
+      switch state {
+      case .inProgress:
+        vc.placeholderView.do {
+          $0.isHidden = false
+          $0.showLoading()
+        }
+        vc.collectionView.isHidden = true
+      case .error:
+        vc.placeholderView.do {
+          $0.isHidden = false
+          $0.showGeneralError()
+        }
+        vc.collectionView.isHidden = true
+      case .empty:
+        vc.placeholderView.do {
+          $0.isHidden = false
+          $0.showEmptyData()
+        }
+        vc.collectionView.isHidden = true
+      case .data:
+        vc.placeholderView.isHidden = true
+        vc.collectionView.isHidden = false
+      }
+    }
   }
 
 }
