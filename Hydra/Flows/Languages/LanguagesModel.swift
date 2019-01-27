@@ -291,20 +291,4 @@ extension LanguagesModel {
     case movePinned(from: Int, to: Int) // swiftlint:disable:this identifier_name
   }
 
-  struct Section: SectionModelType {
-
-    let title: String
-    var items: [String]
-
-    init(original: LanguagesModel.Section, items: [String]) {
-      self = original
-      self.items = items
-    }
-
-    init(title: String, items: [String]) {
-      self.title = title
-      self.items = items
-    }
-
-  }
 }
