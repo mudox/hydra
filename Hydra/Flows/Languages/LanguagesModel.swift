@@ -1,5 +1,6 @@
 import UIKit
 
+import Action
 import RxCocoa
 import RxDataSources
 import RxOptional
@@ -15,26 +16,24 @@ private let jack = Jack().set(format: .short)
 
 // MARK: Interface
 
-typealias LanguageSelection = (indexPath: IndexPath, language: String)
-
 protocol LanguagesModelInput {
   var selectTap: PublishRelay<Void> { get }
   var command: PublishRelay<LanguagesModel.Command> { get }
 
-  var searchText: PublishRelay<String> { get }
-  var itemTap: BehaviorRelay<LanguageSelection?> { get }
+  var searchText: BehaviorRelay<String> { get }
+  var itemTap: BehaviorRelay<LanguagesModel.Selection?> { get }
 }
 
 protocol LanguagesModelOutput {
-  var selection: BehaviorRelay<LanguageSelection?> { get }
+  var selection: BehaviorRelay<LanguagesModel.Selection?> { get }
 
   var selectButtonTitle: BehaviorRelay<String> { get }
 
-  var pinButtonEnabled: BehaviorRelay<Bool> { get }
+  var isPinButtonEnabled: BehaviorRelay<Bool> { get }
   var pinButtonTitle: PublishRelay<String> { get }
 
-  var state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>> { get }
-  var collectionViewData: BehaviorRelay<[LanguagesModel.Section]> { get }
+  var loadingState: BehaviorRelay<LoadingState<LanguagesService.SearchResult>> { get }
+  var collectionViewData: PublishRelay<LanguagesService.SearchResult> { get }
 
   var result: Single<String?> { get }
 }
@@ -56,23 +55,27 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   // MARK: Input
 
   let selectTap: PublishRelay<Void>
-  let command: PublishRelay<Command>
+  let command: PublishRelay<LanguagesModel.Command>
 
-  let searchText: PublishRelay<String>
-  let itemTap: BehaviorRelay<LanguageSelection?>
+  let searchText: BehaviorRelay<String>
+  let itemTap: BehaviorRelay<LanguagesModel.Selection?>
 
   // MARK: Output
 
-  let selection: BehaviorRelay<LanguageSelection?>
+  let selection: BehaviorRelay<LanguagesModel.Selection?>
 
+  // Select button
   let selectButtonTitle: BehaviorRelay<String>
 
-  let pinButtonEnabled: BehaviorRelay<Bool>
+  // Pin button
+  let isPinButtonEnabled: BehaviorRelay<Bool>
   let pinButtonTitle: PublishRelay<String>
 
-  let state: BehaviorRelay<LoadingState<[LanguagesModel.Section]>>
-  let collectionViewData: BehaviorRelay<[LanguagesModel.Section]>
+  // Content area
+  let loadingState: BehaviorRelay<LoadingState<LanguagesService.SearchResult>>
+  let collectionViewData: PublishRelay<LanguagesService.SearchResult>
 
+  // Complete
   private let _result: PublishRelay<String?>
   let result: Single<String?>
 
@@ -83,77 +86,39 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     selectTap = .init()
     command = .init()
 
-    searchText = .init()
+    searchText = .init(value: "")
     itemTap = .init(value: nil)
 
     // Outputs
-    selection = .init(value: (.init(item: 0, section: 0), "<SKIP>"))
+    selection = .init(value: nil)
 
     selectButtonTitle = .init(value: "Back")
 
-    pinButtonEnabled = .init(value: false)
+    isPinButtonEnabled = .init(value: false)
     pinButtonTitle = .init()
 
-    state = .init(value: .loading)
-    collectionViewData = .init(value: [])
+    loadingState = .init(value: .loading)
+    collectionViewData = .init()
 
     _result = .init()
     result = _result.take(1).asSingle()
 
     super.init()
 
+    setupAction()
+
     setupLoadingState()
-    setupSelection()
+    setupCollectionData()
     setupButtonStates()
+
+    setupSelection()
+
     setupCompletion()
   }
 
-  func setupLoadingState() {
-    let commandTick = command.asObservable()
-      .do(onNext: { [service] in
-        switch $0 {
-        case let .pin(language):
-          service.addPinned(language)
-        case let .unpin(language):
-          service.removePinned(language)
-        case let .movePinned(from: src, to: dest):
-          service.movePinned(from: src, to: dest)
-        }
-      })
-      .filter { cmd in
-        // Moving item do need to trigger a refresh
-        switch cmd {
-        case Command.movePinned:
-          return false
-        default:
-          return true
-        }
-      }
-      .mapTo(())
-      .startWith(()) // Triggers intial loading
-
-    Observable
-      .combineLatest(searchText, commandTick)
-      .flatMap { [service] text, _ in service.search(text: text) }
-      .asLoadingStateDriver()
-      .drive(state)
-      .disposed(by: bag)
-
-    state
-      .filterMap { state in
-        if let data = state.value {
-          return .map(data)
-        } else {
-          return .ignore
-        }
-      }
-      .bind(to: collectionViewData)
-      .disposed(by: bag)
-  }
-
   func setupSelection() {
-    let tapSelection = itemTap.skip(1)
-      .scan(nil) { prev, this -> LanguageSelection? in
+    let toggleSelection = itemTap.skip(1)
+      .scan(nil) { prev, this -> LanguagesModel.Selection? in
         if prev?.indexPath != this?.indexPath {
           return this
         } else {
@@ -161,11 +126,11 @@ class LanguagesModel: ViewModel, LanguagesModelType {
         }
       }
 
-    let resetSelection: Observable<LanguageSelection?>
+    let resetSelection: Observable<LanguagesModel.Selection?>
       = collectionViewData.mapTo(nil)
 
     Observable
-      .merge(tapSelection, resetSelection)
+      .merge(toggleSelection, resetSelection)
       .bind(to: selection)
       .disposed(by: bag)
   }
@@ -173,11 +138,11 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   func setupButtonStates() {
     selection
       .map { $0 != nil }
-      .bind(to: pinButtonEnabled)
+      .bind(to: isPinButtonEnabled)
       .disposed(by: bag)
 
     selection
-      .map { $0?.0.section == 1 ? "Unpin" : "Pin" }
+      .map { $0?.indexPath.section == 1 ? "Unpin" : "Pin" }
       .bind(to: pinButtonTitle)
       .disposed(by: bag)
 
@@ -206,7 +171,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     return service.search(text: $0).asObservable()
   }
 
-  private func setupAction() {
+  func setupAction() {
     // Handle commands
     let commandTick = command.asObservable()
       .do(onNext: { [service] in
@@ -240,7 +205,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       .disposed(by: bag)
   }
 
-  private func setupLoadingState() {
+  func setupLoadingState() {
     action.executing
       .filter { $0 == true }
       .mapTo(LoadingState<LanguagesService.SearchResult>.loading)
@@ -291,6 +256,7 @@ extension LanguagesModel {
   }
 
   enum Command {
+    case retry // Triggered by retry button
     case pin(String)
     case unpin(String)
     case movePinned(from: Int, to: Int) // swiftlint:disable:this identifier_name
