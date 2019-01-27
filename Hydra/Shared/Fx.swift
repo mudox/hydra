@@ -13,7 +13,7 @@ extension Container: Then {}
 
 // MARK: - The Singleton Container
 
-private let container = Container().then {
+let swinject = Container().then {
   // Shared
   registerCredentialServiceType(to: $0)
   registerGitHubService(to: $0)
@@ -28,7 +28,7 @@ private let container = Container().then {
 
 /// Called at app launch in order to logout all stubbing
 func initSwinject() {
-  _ = container
+  _ = swinject
 }
 
 /// The word `fx` means __Factory__
@@ -40,7 +40,7 @@ func initSwinject() {
 ///
 /// - Returns: The resolved instance.
 func fx<T>() -> T {
-  return container.resolve(T.self)!
+  return swinject.resolve(T.self)!
 }
 
 /// The word `fx` means __Factory__
@@ -53,7 +53,7 @@ func fx<T>() -> T {
 /// - Parameter type: The type explicitly provided.
 /// - Returns: The resolved instance.
 func fx<T>(_ type: T.Type) -> T {
-  return container.resolve(T.self)!
+  return swinject.resolve(T.self)!
 }
 
 // MARK: - Shared

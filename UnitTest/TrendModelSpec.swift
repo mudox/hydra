@@ -26,7 +26,7 @@ class TrendModelSpec: QuickSpec { override func spec() {
   var output: TrendModelOutput!
 
   beforeEach {
-    fx.autoregister(
+    swinject.autoregister(
       LanguagesServiceType.self,
       initializer: LanguagesServiceStub.init
     )
