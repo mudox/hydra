@@ -10,32 +10,35 @@
 Hydra is an unofficial iOS client app for GitHub. I use it to keep practicing
 various technologies I learned in community.
 
-- [Hydra](#hydra)
-  - [Project Targets](#project-targets)
-  - [Technologies](#technologies)
-    - [Requirements](#requirements)
-    - [Designing](#designing)
-    - [Architecture](#architecture)
-    - [FRP](#frp)
-    - [Network](#network)
-    - [Data Model](#data-model)
-    - [UI](#ui)
-    - [Testing](#testing)
-    - [Code quality](#code-quality)
-    - [CI](#ci)
-    - [My Own Libraries](#my-own-libraries)
-    - [Other](#other)
-  - [Author](#author)
-  - [License](#license)
+- [Project Targets](#project-targets)
+- [Technologies](#technologies)
+  - [Requirements](#requirements)
+  - [Designing](#designing)
+  - [Architecture](#architecture)
+  - [FRP](#frp)
+  - [Network](#network)
+  - [Data Model](#data-model)
+  - [UI](#ui)
+  - [Testing](#testing)
+  - [Code quality](#code-quality)
+  - [CI](#ci)
+  - [My Own Libraries](#my-own-libraries)
+  - [Other](#other)
+- [Author](#author)
+- [License](#license)
 
 ## Project Targets
 
 - [x] Practice UI/UX designing tool ([Sketch.app] etc.)
 - [x] [MVVM] (with [RxSwift]) architecture.
-- [x] Use [FRP] paradigm as much as possible, use it correctly.
-- [x] Stand-alone network abstraction layer ([GitHubKit]) using state-of-art techniques.
+- [x] Use [FRP] paradigm as much as possible, use it correctly and
+      efficiently.
+- [x] Stand-alone network abstraction layer ([GitHubKit]) using state-of-art
+      techniques.
 - [x] Utilize CI automation tools.
-- [x] Experiment IB-less UI developing (i.e. no .xib, .storyboard files, only source code).
+- [x] Experiment IB-less UI developing (i.e. no .xib, .storyboard files, only
+      source code). The key is to draw out design first in dedicated tools (Omini
+      Graffle.app, Sketch.app etc.)
 - [ ] Localization for 🇨🇳 , 🇺🇸.
 - [ ] Unit & UI tested with decent code coverage.
 
@@ -48,9 +51,10 @@ various technologies I learned in community.
 
 ### Designing
 
-- [x] [Graffle.app] to do concept designing.
+- [x] [Graffle.app] to do concept designing, like class hierarchies, reactive
+      data flow of view models, dependencies graphs etc.
 - [x] [Sketch.app] for static scene & artwork design.
-- [ ] [Principle.app] for UI interaction design.
+- [ ] [Principle.app] for dynamic UI design.
 
 ### Architecture
 
@@ -70,6 +74,9 @@ Simply put, flow + view model + view controller + view.
 
 ### Network
 
+The network stack listed from bottom to top:
+
+- [x] [URLSession] Foundation URL loading system.
 - [x] [Alamofire] + [RxAlamofire] for simple request case.
 - [x] [Moya] to construct network abstraction layer.
 - [x] [RxSwift] to provide reactive interface.
@@ -90,9 +97,9 @@ Simply put, flow + view model + view controller + view.
 
 - [x] [Swinject] + [SwinjectAutoregistration] to inject dependencies.
 - [x] [OHHTTPStubs] to stub network requests.
-- [x] [Quick] + [Nimble] + [RxNimble] to write test cases.
-- [x] [RxTest] + [RxBlocking] to test RxSwift observables.
-- [x] [EarlGray] to automate in-process UI testing.
+- [x] [Quick] + [Nimble] + [RxNimble] to as basic unit testing frameworks.
+- [x] [RxTest] + [RxBlocking] to write view model white tests.
+- [x] [EarlGray] to write in-process integration tests.
 
 ### Code quality
 
@@ -110,7 +117,8 @@ Simply put, flow + view model + view controller + view.
 ### My Own Libraries
 
 - [x] [JacKit] for better logging.
-- [x] [GitHubKit] as Swift client of GitHub API.
+- [x] [GitHubKit] as main part of data model layer, which is a Swift client
+      of GitHub APIv3.
 - [x] [MudoxKit] as my own iOS tool belt library.
 - [x] [SocialKit] for social sharing.
 
@@ -170,3 +178,5 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [Texture]: https://github.com/TextureGroup/Texture
 [Hero]: https://github.com/HeroTransitions/Hero
 [Valet]: https://github.com/square/Valet
+[EarlGrey]: https://github.com/google/EarlGrey
+[URLSession]: https://developer.apple.com/documentation/foundation/url_loading_system
