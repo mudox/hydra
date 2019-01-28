@@ -2,11 +2,21 @@ import Foundation
 
 import MudoxKit
 
+import RxCocoa
+import RxSwift
+
 import JacKit
 
 private let jack = Jack().set(format: .short)
 
 extension Environs {
+  
+  private static let stubDelayKey = "STUB_DELAY"
+  static var stubDelay: RxTimeInterval? {
+    get { return string(forKey: stubDelayKey).flatMap(RxTimeInterval.init) }
+    set { set(string: newValue.flatMap(String.init), forKey: stubDelayKey) }
+  }
+  
   private static let stubTrendServiceKey = "STUB_TREND_SERVICE"
   static var stubTrendService: Bool {
     get { return boolean(forKey: stubTrendServiceKey) }
@@ -24,4 +34,5 @@ extension Environs {
     get { return boolean(forKey: stubCredentialServiceKey) }
     set { set(boolean: newValue, forKey: stubCredentialServiceKey) }
   }
+
 }
