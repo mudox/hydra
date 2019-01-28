@@ -42,6 +42,7 @@ protocol LanguagesModelOutput {
 
   // Content area
   var searchState: BehaviorRelay<LanguagesModel.SearchState> { get }
+  var selection: BehaviorRelay<LanguagesModel.Selection?> { get }
 
   // Dismiss
   var dismiss: PublishRelay<String?> { get }
@@ -84,13 +85,12 @@ class LanguagesModel: ViewModel, LanguagesModelType {
 
   // Content area
   let searchState: BehaviorRelay<LanguagesModel.SearchState>
+  let selection: BehaviorRelay<LanguagesModel.Selection?>
 
   // Dismiss
   let dismiss = PublishRelay<String?>()
 
   // MARK: Internals
-
-  let selection: BehaviorRelay<LanguagesModel.Selection?>
 
   let command: BehaviorRelay<Command>
 
