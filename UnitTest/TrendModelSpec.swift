@@ -88,7 +88,7 @@ class TrendModelSpec: QuickSpec { override func spec() {
 
   describe("color") {
 
-    it("be of brand color initially") {
+    it("be brand initially") {
       expect(TrendModel.color.value) == .brand
     }
 

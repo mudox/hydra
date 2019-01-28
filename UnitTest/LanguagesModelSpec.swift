@@ -25,6 +25,11 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
   var model: LanguagesModel!
   var input: LanguagesModelInput!
   var output: LanguagesModelOutput!
+  
+  let selectHistory = LanguagesModel.Selection(indexPath: .init(item: 0, section: 0), language: "History")
+  let selectPinned = LanguagesModel.Selection(indexPath: .init(item: 0, section: 1), language: "Pinned")
+  let selectOther = LanguagesModel.Selection(indexPath: .init(item: 0, section: 2), language: "Other")
+
 
   beforeEach {
     swinject.autoregister(
@@ -52,16 +57,85 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
       let states = output.searchState.elements(in: 0.01)
       expect(states.count) == 1
     }
+    
+    it("start searchoing with inprogress") {
+      let states = output.searchState.elements(in: 0.01)
+      model.command.accept(.retry)
+      
+      expect(states.count) == 1
+      expect(states.first!.isInProgress).to(beTrue())
+    }
+    
+    fit("emit collection view data on success") {
+//      Environs.stubLanguagesService = "value"
+//
+//      let states = output.searchState.elements(in: 4)
+//      model.command.accept(.retry)
+//
+    }
+    
+    fit("test elemetns") {
+      let relay = PublishRelay<Int>()
+      
+      DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
+        jack.func().debug("feed 0")
+        relay.accept(0)
+        jack.func().debug("feed 1")
+        relay.accept(1)
+      }
+      
+      let elements = relay.elements(in: 2)
+      
+      jack.debug("elements: \(elements)")
+    }
 
   }
 
   // MARK: Internal Selection
 
-  describe("selection") {
+  describe("internal selection") {
 
     it("emits nil initially") {
       let selections = model.selection.elements(in: 0.01)
       expect(selections) == [nil] as [LanguagesModel.Selection?]
+    }
+
+  }
+
+  // MARK: Internal Command
+
+  describe("internal command") {
+
+    it("emits retry initially") {
+      expect(model.command.value.isRetry).to(beTrue())
+    }
+
+    it("emits retry when retry button tapped") {
+      input.retryButtonTap.accept(())
+      expect(model.command.value.isRetry).to(beTrue())
+    }
+
+    it("emits movePinned when user move a pinned item") {
+      input.movePinnedItem.accept((from: 0, to: 1))
+      expect(model.command.value.isMovePinned).to(beTrue())
+    }
+    
+    it("pin selected history item") {
+      model.selection.accept(selectHistory)
+      input.pinButtonTap.accept(())
+      expect(model.command.value.isPin).to(beTrue())
+    }
+    
+    it("unpin selected pinned item") {
+      model.selection.accept(selectPinned)
+      input.pinButtonTap.accept(())
+      expect(model.command.value.isUnpin).to(beTrue())
+    }
+
+    it("pin selected other item") {
+      model.selection.accept(selectOther)
+      input.pinButtonTap.accept(())
+      expect(model.command.value.isPin).to(beTrue())
     }
 
   }
@@ -73,41 +147,24 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     it("emits hide initially") {
       let pinButtonStates = output.pinButtonState.elements(in: 0.01)
       expect(pinButtonStates.count) == 1
-
-      switch pinButtonStates.first! {
-      case .hide:
-        break
-      case .show:
-        fatalError("Should be `.hide`")
-      }
+      expect(pinButtonStates.first!.isHide).to(beTrue())
     }
 
-    it("emits correct titles when item selected") {
-      expect({
-        let relay = BehaviorRelay<LanguagesModel.PinButtonState>(value: .hide)
-        _ = output.pinButtonState.bind(to: relay)
-
-        let selectPinned = LanguagesModel.Selection(indexPath: .init(item: 0, section: 1), language: "Pinned")
-        model.selection.accept(selectPinned)
-        guard case LanguagesModel.PinButtonState.show("Unpin") = relay.value else {
-          return .failed(reason: "Should be `.show(\"Unpin\") when pinned item is selected")
-        }
-
-        let selectHistory = LanguagesModel.Selection(indexPath: .init(item: 0, section: 0), language: "History")
+    it("emits Pin when history item is selected") {
         model.selection.accept(selectHistory)
-        guard case LanguagesModel.PinButtonState.show("Pin") = relay.value else {
-          return .failed(reason: "Should be `.show(\"Pin\") when hitory item is selected")
-        }
-
-        let selectOther = LanguagesModel.Selection(indexPath: .init(item: 0, section: 2), language: "Other")
-        model.selection.accept(selectOther)
-        guard case LanguagesModel.PinButtonState.show("Pin") = relay.value else {
-          return .failed(reason: "Should be `.show(\"Pin\") when other item is selected")
-        }
-
-        return .succeeded
-      }).to(succeed())
+        expect(output.pinButtonState.value.title) == "Pin"
     }
+    
+    it("emits Unpin when pinned item is selected") {
+        model.selection.accept(selectPinned)
+      expect(output.pinButtonState.value.title) == "Unpin"
+    }
+    
+    it("emits Pin when other item is selected") {
+        model.selection.accept(selectOther)
+      expect(output.pinButtonState.value.title) == "Pin"
+    }
+    
   }
 
   // MARK: Dismiss Button Title
@@ -149,9 +206,10 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
 extension ObservableType {
 
   func elements(in interval: RxTimeInterval) -> [E] {
-    let oneSecond = Observable<Int>.timer(interval, scheduler: MainScheduler.instance)
+    let oneSecond = Observable<Int>.timer(interval, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
     return try! asObservable()
       .takeUntil(oneSecond)
+      .jack("takeUntil")
       .toBlocking()
       .toArray()
   }
