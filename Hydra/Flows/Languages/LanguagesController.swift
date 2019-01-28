@@ -137,7 +137,9 @@ class LanguagesController: CollectionController {
     // Model -> View
     let output = model.output
 
-    output.searchState
+    collectionView.dataSource = nil
+
+    let data = output.searchState
       .asDriver()
       .flatMap { state -> Driver<[SectionModel<String, String>]> in
         if let data = state.sectionModels {
@@ -153,7 +155,9 @@ class LanguagesController: CollectionController {
     bag.insert(
       output.dismissButtonTitle.asDriver().drive(rx.dismissButtonTitle),
       output.pinButtonState.asDriver().drive(rx.pinButtonState),
-      output.searchState.asDriver().drive(rx.searchState)
+      output.selection.asDriver().drive(rx.selection),
+      output.searchState.asDriver().debounce(0.2).drive(rx.searchState),
+      data.drive(collectionView.rx.items(dataSource: dataSource))
     )
   }
 
@@ -203,6 +207,12 @@ extension Reactive where Base: LanguagesController {
   var dismissButtonTitle: Binder<String> {
     return Binder(base.dismissButton) { button, title in
       button.title = title
+    }
+  }
+
+  var selection: Binder<LanguagesModel.Selection?> {
+    return Binder(base.collectionView) { collectionView, selection in
+      collectionView.selectItem(at: selection?.indexPath, animated: true, scrollPosition: [])
     }
   }
 
