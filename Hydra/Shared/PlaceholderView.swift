@@ -124,22 +124,11 @@ class PlaceholderView: View {
 
   // MARK: - Show State
 
-  func showGeneralError() {
-    isHidden = false
-
-    loadingView.stopAnimating()
-    imageView.do {
-      $0.isHidden = false
-      $0.image = #imageLiteral(resourceName: "General Error Placeholder")
-    }
-    label.do {
-      $0.isHidden = false
-      $0.text = "Oops"
-    }
-    retryButton.isHidden = false
-  }
-
-  func showNetworkError() {
+  func showGeneralError(
+    title: String = "Oops",
+    buttonTitle: String? = "Retry"
+  )
+  {
     isHidden = false
 
     loadingView.stopAnimating()
@@ -149,12 +138,45 @@ class PlaceholderView: View {
     }
     label.do {
       $0.isHidden = false
-      $0.text = "Network Error"
+      $0.text = title
     }
-    retryButton.isHidden = false
+    if let buttonTitle = buttonTitle {
+      retryButton.isHidden = false
+      retryButton.setTitle(buttonTitle, for: .normal)
+    } else {
+      retryButton.isHidden = true
+    }
   }
 
-  func showEmptyData() {
+  func showNetworkError(
+    title: String = "Network Error",
+    buttonTitle: String? = "Retry"
+  )
+  {
+    isHidden = false
+
+    loadingView.stopAnimating()
+    imageView.do {
+      $0.isHidden = false
+      $0.image = #imageLiteral(resourceName: "Network Error Placeholder")
+    }
+    label.do {
+      $0.isHidden = false
+      $0.text = title
+    }
+    if let buttonTitle = buttonTitle {
+      retryButton.isHidden = false
+      retryButton.setTitle(buttonTitle, for: .normal)
+    } else {
+      retryButton.isHidden = true
+    }
+  }
+
+  func showEmptyData(
+    title: String = "Empty",
+    buttonTitle: String? = nil
+  )
+  {
     isHidden = false
 
     loadingView.stopAnimating()
@@ -164,9 +186,14 @@ class PlaceholderView: View {
     }
     label.do {
       $0.isHidden = false
-      $0.text = "Empty"
+      $0.text = title
     }
-    retryButton.isHidden = false
+    if let buttonTitle = buttonTitle {
+      retryButton.isHidden = false
+      retryButton.setTitle(buttonTitle, for: .normal)
+    } else {
+      retryButton.isHidden = true
+    }
   }
 
   func showLoading() {
