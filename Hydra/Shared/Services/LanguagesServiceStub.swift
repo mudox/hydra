@@ -10,11 +10,20 @@
 
   class LanguagesServiceStub: LanguagesServiceType {
 
-    var stubOption = Environs.stubLanguagesService!.lowercased()
+    struct StubError: Swift.Error, Equatable {
+      static func == (_ lhs: StubError, _ rhs: StubError) -> Bool {
+        return true
+      }
+    }
+
+    static let error = StubError()
+
+    let scheduler = ConcurrentDispatchQueueScheduler(qos: .default)
 
     // MARK: - History
 
-    let history = ["Select"]
+    static let fixedHistory = ["History"]
+    var history = fixedHistory
 
     func addSelected(_ language: String) {
       jack.func().warn("Empty stub method")
@@ -22,7 +31,8 @@
 
     // MARK: - Pinned
 
-    let pinned = ["Pinned"]
+    static let fixedPinned = ["Pinned"]
+    var pinned = fixedPinned
 
     func addPinned(_ language: String) {
       jack.func().warn("Empty stub method")
@@ -38,20 +48,26 @@
 
     // MARK: - All
 
+    static let fixedOther = ["Other1", "Other2", "Other3"]
+
+    static let allItems = fixedOther.map {
+      GitHub.Language(name: $0, colorString: "#fff")
+    }
+
     var all: Single<[GitHub.Language]> {
-      let items = [
-        GitHub.Language(name: "Select", colorString: "#333"),
-        GitHub.Language(name: "Pinned", colorString: "#222")
-      ]
+      let stubOption = Environs.stubLanguagesService!.lowercased()
+      let delay = Environs.stubDelay ?? 3
+
+      let items = type(of: self).allItems
 
       switch stubOption {
-      case "loading":
-        return Single.just(items)
-          .delay(3, scheduler: MainScheduler.instance)
       case "value":
-        return .just(items)
+        return Single.just(items)
+          .delay(delay, scheduler: MainScheduler.instance)
       case "error":
-        return .error(Errors.error("Test fake error"))
+        return Single.error(Errors.error("Test fake error"))
+          .delaySubscription(delay, scheduler: scheduler)
+
       default:
         fatalError("Invalid stub option: \(stubOption)")
       }
@@ -59,22 +75,25 @@
 
     // MARK: - Seaerch
 
+    static let searchResult = LanguagesService.SearchResult(
+      history: fixedHistory,
+      pinned: fixedPinned,
+      other: fixedOther
+    )
+
     func search(text: String) -> Single<LanguagesService.SearchResult> {
-      let results = LanguagesService.SearchResult(
-        history: ["Select"],
-        pinned: ["Pinned"],
-        other: ["Ohther1", "Other2", "Other3"]
-      )
+      let stubOption = Environs.stubLanguagesService!.lowercased()
+      let delay = Environs.stubDelay ?? 3
+
+      let result = type(of: self).searchResult
 
       switch stubOption {
-      case "loading":
-        return Single.just(results)
-          .delay(3, scheduler: MainScheduler.instance)
       case "value":
-        return Single.just(results)
+        return Single.just(result)
+          .delay(delay, scheduler: scheduler)
       case "error":
-        return Single.error(Errors.error("Test fake error"))
-          .delaySubscription(3, scheduler: MainScheduler.instance)
+        return Single.error(LanguagesServiceStub.error)
+          .delaySubscription(delay, scheduler: scheduler)
       default:
         fatalError("Invalid stub option: \(stubOption)")
       }

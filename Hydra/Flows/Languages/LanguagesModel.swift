@@ -335,7 +335,7 @@ extension LanguagesModel {
       }
     }
 
-    var sectionModels: [SectionModel<String, String>]? {
+    var sectionModels: [SectionModel<String, String>]! {
       switch self {
       case let .data(result):
         return result.toSectionModels()
