@@ -294,6 +294,24 @@ extension LanguagesModel {
   enum PinButtonState {
     case hide
     case show(String)
+
+    var isHide: Bool {
+      switch self {
+      case .hide:
+        return true
+      default:
+        return false
+      }
+    }
+
+    var title: String? {
+      switch self {
+      case let .show(title):
+        return title
+      default:
+        return nil
+      }
+    }
   }
 
   struct Selection: Equatable {
@@ -327,10 +345,48 @@ extension LanguagesModel {
   }
 
   enum Command {
+
     case retry // Triggered by retry button
     case pin(String)
     case unpin(String)
     case movePinned(from: Int, to: Int) // swiftlint:disable:this identifier_name
+
+    var isRetry: Bool {
+      switch self {
+      case .retry:
+        return true
+      default:
+        return false
+      }
+    }
+
+    var isPin: Bool {
+      switch self {
+      case .pin:
+        return true
+      default:
+        return false
+      }
+    }
+
+    var isUnpin: Bool {
+      switch self {
+      case .unpin:
+        return true
+      default:
+        return false
+      }
+    }
+
+    var isMovePinned: Bool {
+      switch self {
+      case .movePinned:
+        return true
+      default:
+        return false
+      }
+    }
+
   }
 
 }
