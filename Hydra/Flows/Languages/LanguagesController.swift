@@ -147,8 +147,9 @@ class LanguagesController: CollectionController {
           return .empty()
         }
       }
-      .drive(collectionView.rx.items(dataSource: dataSource))
-      .disposed(by: bag)
+      .do(onNext: { [weak self] data in
+        self?.flowLayout.layout(data, width: UIScreen.main.bounds.width)
+      })
 
     bag.insert(
       output.dismissButtonTitle.asDriver().drive(rx.dismissButtonTitle),
