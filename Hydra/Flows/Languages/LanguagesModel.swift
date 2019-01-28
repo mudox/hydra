@@ -135,7 +135,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       }
 
     let resetWhenLoading = searchState
-      .filter { $0.isInProgress }
+      .filter { $0 == .inProgress }
       .mapTo(nil as Selection?)
 
     Observable
@@ -291,27 +291,21 @@ class LanguagesModel: ViewModel, LanguagesModelType {
 
 extension LanguagesModel {
 
-  enum PinButtonState {
+  enum PinButtonState: Equatable {
     case hide
     case show(String)
 
-    var isHide: Bool {
-      switch self {
-      case .hide:
+    static func == (lhs: PinButtonState, rhs: PinButtonState) -> Bool {
+      switch (lhs, rhs) {
+      case (.hide, .hide):
         return true
+      case let (.show(title1), .show(title2)):
+        return title1 == title2
       default:
         return false
       }
     }
 
-    var title: String? {
-      switch self {
-      case let .show(title):
-        return title
-      default:
-        return nil
-      }
-    }
   }
 
   struct Selection: Equatable {
@@ -319,16 +313,23 @@ extension LanguagesModel {
     let language: String
   }
 
-  enum SearchState {
+  enum SearchState: Equatable {
+
     case inProgress
     case error
     case empty
     case data(LanguagesService.SearchResult)
 
-    var isInProgress: Bool {
-      switch self {
-      case .inProgress:
+    static func == (lhs: SearchState, rhs: SearchState) -> Bool {
+      switch (lhs, rhs) {
+      case (.inProgress, .inProgress):
         return true
+      case (.empty, .empty):
+        return true
+      case (.error, .error):
+        return true
+      case let (.data(data1), .data(data2)):
+        return data1 == data2
       default:
         return false
       }
@@ -344,7 +345,7 @@ extension LanguagesModel {
     }
   }
 
-  enum Command {
+  enum Command: Equatable {
 
     case retry // Triggered by retry button
     case pin(String)
@@ -360,28 +361,16 @@ extension LanguagesModel {
       }
     }
 
-    var isPin: Bool {
-      switch self {
-      case .pin:
+    static func == (lhs: Command, rhs: Command) -> Bool {
+      switch (lhs, rhs) {
+      case (.retry, .retry):
         return true
-      default:
-        return false
-      }
-    }
-
-    var isUnpin: Bool {
-      switch self {
-      case .unpin:
-        return true
-      default:
-        return false
-      }
-    }
-
-    var isMovePinned: Bool {
-      switch self {
-      case .movePinned:
-        return true
+      case let (.pin(title1), .pin(title2)):
+        return title1 == title2
+      case let (.unpin(title1), .unpin(title2)):
+        return title1 == title2
+      case let (.movePinned(from: src1, to: dest1), .movePinned(from: src2, to: dest2)):
+        return src1 == src2 && dest1 == dest2
       default:
         return false
       }

@@ -83,9 +83,9 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
         jack.func().debug("feed 1")
         relay.accept(1)
       }
-      
+
       let elements = relay.elements(in: 2)
-      
+
       jack.debug("elements: \(elements)")
     }
 
@@ -117,25 +117,25 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
 
     it("emits movePinned when user move a pinned item") {
       input.movePinnedItem.accept((from: 0, to: 1))
-      expect(model.command.value.isMovePinned).to(beTrue())
+      expect(model.command.value) == .movePinned(from: 0, to: 1)
     }
-    
+
     it("pin selected history item") {
       model.selection.accept(selectHistory)
       input.pinButtonTap.accept(())
-      expect(model.command.value.isPin).to(beTrue())
+      expect(model.command.value) == .pin("History")
     }
-    
+
     it("unpin selected pinned item") {
       model.selection.accept(selectPinned)
       input.pinButtonTap.accept(())
-      expect(model.command.value.isUnpin).to(beTrue())
+      expect(model.command.value) == .unpin("Pinned")
     }
 
     it("pin selected other item") {
       model.selection.accept(selectOther)
       input.pinButtonTap.accept(())
-      expect(model.command.value.isPin).to(beTrue())
+      expect(model.command.value) == .pin("Other")
     }
 
   }
@@ -147,24 +147,24 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
     it("emits hide initially") {
       let pinButtonStates = output.pinButtonState.elements(in: 0.01)
       expect(pinButtonStates.count) == 1
-      expect(pinButtonStates.first!.isHide).to(beTrue())
+      expect(pinButtonStates.first!) == .hide
     }
 
     it("emits Pin when history item is selected") {
-        model.selection.accept(selectHistory)
-        expect(output.pinButtonState.value.title) == "Pin"
+      model.selection.accept(selectHistory)
+      expect(output.pinButtonState.value) == .show("Pin")
     }
-    
+
     it("emits Unpin when pinned item is selected") {
-        model.selection.accept(selectPinned)
-      expect(output.pinButtonState.value.title) == "Unpin"
+      model.selection.accept(selectPinned)
+      expect(output.pinButtonState.value) == .show("Unpin")
     }
-    
+
     it("emits Pin when other item is selected") {
-        model.selection.accept(selectOther)
-      expect(output.pinButtonState.value.title) == "Pin"
+      model.selection.accept(selectOther)
+      expect(output.pinButtonState.value) == .show("Pin")
     }
-    
+
   }
 
   // MARK: Dismiss Button Title

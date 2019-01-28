@@ -274,7 +274,7 @@ private enum PrimaryKeys {
 
 extension LanguagesService {
 
-  struct SearchResult {
+  struct SearchResult: Equatable {
 
     let history: [String]
     let pinned: [String]
@@ -287,6 +287,13 @@ extension LanguagesService {
         && other.isEmpty
     }
 
+    static func == (lhs: SearchResult, rhs: SearchResult) -> Bool {
+      return
+        lhs.history == rhs.history
+        && lhs.pinned == rhs.pinned
+        && lhs.other == rhs.other
+    }
+
     func toSectionModels() -> [SectionModel<String, String>] {
       return [
         SectionModel(model: "History", items: history),
@@ -294,6 +301,6 @@ extension LanguagesService {
         SectionModel(model: "Languages", items: other)
       ]
     }
-  }
 
+  }
 }
