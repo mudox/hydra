@@ -41,8 +41,8 @@ class LanguagesController: CollectionController {
 
     setupNavigationBar()
     setupSearchBar()
-    setupPlaceholderView()
     setupCollectionView()
+    setupPlaceholderView()
   }
 
   func setupNavigationBar() {
@@ -56,8 +56,7 @@ class LanguagesController: CollectionController {
     }
 
     let attributes: [NSAttributedString.Key: Any] = [
-      .foregroundColor: UIColor.brand,
-      .font: UIFont.text
+      .foregroundColor: UIColor.brand
     ]
 
     dismissButton.do {
