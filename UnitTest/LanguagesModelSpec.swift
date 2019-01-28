@@ -206,7 +206,8 @@ class LanguagesModelSpec: QuickSpec { override func spec() {
 extension ObservableType {
 
   func elements(in interval: RxTimeInterval) -> [E] {
-    let oneSecond = Observable<Int>.timer(interval, scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+    let scheduler = ConcurrentDispatchQueueScheduler(qos: .default)
+    let oneSecond = Observable<Int>.timer(interval, scheduler: scheduler)
     return try! asObservable()
       .takeUntil(oneSecond)
       .jack("takeUntil")
