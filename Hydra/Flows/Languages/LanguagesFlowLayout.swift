@@ -4,6 +4,10 @@ import RxDataSources
 
 import RxSwift
 
+import JacKit
+
+private let jack = Jack().set(format: .short)
+
 class LanguagesFlowLayout: UICollectionViewLayout {
 
   let scheduler = SerialDispatchQueueScheduler(qos: .userInteractive)
@@ -22,10 +26,17 @@ class LanguagesFlowLayout: UICollectionViewLayout {
 
   private var cache: LayoutResult?
 
-  // swiftlint:disable:next function_body_length
-  func layout(_ sections: [SectionModel<String, String>], width: CGFloat) {
+  /// Calculate all layout attributes for input `data`, and store them
+  /// in the `cache` property.
+  ///
+  /// - Parameter data: The sectino model array from which to calculate
+  ///   the layouts.
+  func calculateLayouts(data: [SectionModel<String, String>]) {
+    // swiftlint:disable:previous function_body_length
 
     // Metrics
+    let width = UIScreen.main.bounds.width
+
     let cellHeight: CGFloat = 24
 
     let itemGap: CGFloat = 8
@@ -43,7 +54,7 @@ class LanguagesFlowLayout: UICollectionViewLayout {
     var headers = [UICollectionViewLayoutAttributes]()
     var cells = [[UICollectionViewLayoutAttributes]]()
 
-    for (sectionIndex, section) in sections.enumerated() {
+    for (sectionIndex, section) in data.enumerated() {
       let languages = section.items
 
       // Header
@@ -99,6 +110,9 @@ class LanguagesFlowLayout: UICollectionViewLayout {
     cache = LayoutResult(headers: headers, cells: cells, contentSize: contentSize)
   }
 
+//  override func prepare() {
+//  }
+
   // MARK: - UICollectionViewLayout
 
   override var collectionViewContentSize: CGSize {
@@ -122,6 +136,53 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   {
     assert(elementKind == UICollectionView.elementKindSectionHeader)
     return cache?.headers[indexPath.section]
+  }
+
+  // MARK: - Moving Pinned Items
+
+  override func targetIndexPath(
+    forInteractivelyMovingItem previousIndexPath: IndexPath,
+    withPosition position: CGPoint
+  )
+    -> IndexPath
+  {
+    let indexPath = super.targetIndexPath(
+      forInteractivelyMovingItem: previousIndexPath, withPosition: position
+    )
+
+    guard let cache = cache else {
+      return indexPath
+    }
+
+    let minY = cache.headers[1].frame.maxY
+    let maxY = cache.headers[2].frame.minY
+
+    if position.y < minY {
+      return .init(item: 0, section: 1)
+    } else if position.y > maxY {
+      let count = cache.cells[1].count
+      return .init(item: count - 1, section: 1)
+    } else {
+      return indexPath
+    }
+  }
+
+  override func layoutAttributesForInteractivelyMovingItem(
+    at indexPath: IndexPath,
+    withTargetPosition position: CGPoint
+  )
+    -> UICollectionViewLayoutAttributes
+  {
+    guard let cache = cache else {
+      return super.layoutAttributesForInteractivelyMovingItem(
+        at: indexPath, withTargetPosition: position
+      )
+    }
+
+    let attr = cache.cells[indexPath.section][indexPath.item]
+    attr.center = position
+    jack.func().debug("frame: \(attr.frame)")
+    return attr
   }
 
 }
