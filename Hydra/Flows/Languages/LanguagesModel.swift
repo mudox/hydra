@@ -230,15 +230,6 @@ class LanguagesModel: ViewModel, LanguagesModelType {
           break
         }
       })
-      .filterMap { cmd -> FilterMap<Void> in
-        // Moving item is already updated before
-        switch cmd {
-        case .movePinned:
-          return .ignore
-        default:
-          return .map(())
-        }
-      }
 
     Observable
       .combineLatest(searchText, reload) { text, _ in text }
