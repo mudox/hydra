@@ -50,6 +50,8 @@ func element(
   return EarlGrey.selectElement(with: grey_allOf(matchers))
 }
 
+// MARK: - Select Element of Specific Type
+
 func button(withTitle title: String) -> GREYInteraction {
   return element(ofType: UIButton.self, withLabel: title)
 }
@@ -57,3 +59,46 @@ func button(withTitle title: String) -> GREYInteraction {
 func label(shows title: String) -> GREYInteraction {
   return element(ofType: UILabel.self, hasText: title)
 }
+
+// MARK: - Select using custom matcher
+
+var selectedCollectionViewCell: GREYInteraction {
+  let matcher = GREYElementMatcherBlock(
+    matchesBlock: { anyObject -> Bool in
+      if
+        let cell = anyObject as? UICollectionViewCell,
+        cell.isSelected == true
+      {
+        return true
+      } else {
+        return false
+      }
+  },
+    descriptionBlock: { desc in
+      desc.appendText("UICollectionViewCell that is selected")
+  }
+  )
+  
+  return EarlGrey.selectElement(with: matcher)
+}
+
+var selectedTableViewCell: GREYInteraction {
+  let matcher = GREYElementMatcherBlock(
+    matchesBlock: { anyObject -> Bool in
+      if
+        let cell = anyObject as? UITableViewCell,
+        cell.isSelected == true
+      {
+        return true
+      } else {
+        return false
+      }
+  },
+    descriptionBlock: { desc in
+      desc.appendText("UITableViewCell that is selected")
+  }
+  )
+  
+  return EarlGrey.selectElement(with: matcher)
+}
+
