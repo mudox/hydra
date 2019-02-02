@@ -50,11 +50,10 @@ func element(
   return EarlGrey.selectElement(with: grey_allOf(matchers))
 }
 
-
-/// Include uibutton embeded within UIBarButtonItem
-///
-/// - Parameter title: Title of the button.
-/// - Returns: GREYInteraction to act and assert against.
 func button(withTitle title: String) -> GREYInteraction {
-  return EarlGrey.selectElement(with: grey_buttonTitle(title))
+  return element(ofType: UIButton.self, withLabel: title)
+}
+
+func label(shows title: String) -> GREYInteraction {
+  return element(ofType: UILabel.self, hasText: title)
 }
