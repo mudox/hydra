@@ -24,12 +24,12 @@ class LanguagesEGSpec: QuickSpec {
     let pinBarItem = element(withAID: .pinLanguageBarButtonItem)
     let pinButton = button(withTitle: "Pin")
     let unpinButton = button(withTitle: "Unpin")
-    
+
     let backButton = button(withTitle: "Back")
     let selectButton = button(withTitle: "Select")
 
     let searchBar = element(withAID: .languagesSearchBar)
-    
+
     let placeholderView = element(withAID: .placeholderView)
     let collectionView = element(withAID: .languagesCollectionView)
 
@@ -51,12 +51,12 @@ class LanguagesEGSpec: QuickSpec {
       dismissButton.tap()
     }
 
-    it("select item") {
-      // Initially no selection
+    it("navgation bar items initial state") {
       backButton.isVisible()
       pinBarItem.isNotVisible()
+    }
 
-      // Show 'Pin' when a unpinned item is selected
+    it("show pin when a unpinned item is selected") {
       unpinnedCellItem
         .using(
           searchAction: grey_scrollInDirection(.down, 500),
@@ -68,14 +68,23 @@ class LanguagesEGSpec: QuickSpec {
       selectButton.isVisible()
 
       collectionView.scrollTo(.top)
+    }
 
-      // Shows unpin when a pinned item is selected
+    it("shows unpin when a pinned item is selected") {
       swiftCellItem.tap()
-      unpinButton.isVisible()
       selectButton.isVisible()
+      unpinButton.isVisible()
+      selectedCollectionViewCell.isVisible()
+    }
 
-      // Hide when no item is selected
+    it("retap the item clear selection") {
       swiftCellItem.tap()
+      selectButton.isVisible()
+      unpinButton.isVisible()
+
+      // Re-tap
+      swiftCellItem.tap()
+      backButton.isVisible()
       pinBarItem.isNotVisible()
     }
 
@@ -83,7 +92,7 @@ class LanguagesEGSpec: QuickSpec {
       // Scroll to unveal search bar
       collectionView.scrollTo(.top)
       searchBar.isVisible()
-      
+
       // Has match
       searchBar.type(text: "VimScript")
       element(ofType: UILabel.self, hasText: "VimScript", visible: true).isVisible()
