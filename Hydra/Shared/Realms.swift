@@ -35,7 +35,7 @@ enum Realms {
 
   /// Local `Realm` instance for current user
   static var user: Realm? {
-    let service = fx(CredentialServiceType.self)
+    let service: CredentialServiceType = fx()
     guard let username = service.user?.name else {
       jack.func().failure("Need non-nil username from `CredentialService`, return nil")
       return nil

@@ -62,11 +62,15 @@ class LanguagesController: CollectionController {
     ]
 
     dismissButton.do {
+      $0.aid = .dismissLanguagesBarButtonItem
+
       $0.setTitleTextAttributes(attributes, for: .normal)
       $0.setTitleTextAttributes(attributes, for: .highlighted)
     }
 
     pinButton.do {
+      $0.aid = .pinLanguageBarButtonItem
+
       $0.setTitleTextAttributes(attributes, for: .normal)
       $0.setTitleTextAttributes(attributes, for: .highlighted)
     }
@@ -74,14 +78,16 @@ class LanguagesController: CollectionController {
   }
 
   func setupSearchBar() {
-    searchController = .init(searchResultsController: nil)
-
-    searchController.do {
+    // Use search controller here only for embeddig search bar into
+    // navigation bar.
+    searchController = UISearchController(searchResultsController: nil).then {
       $0.obscuresBackgroundDuringPresentation = false
       $0.hidesNavigationBarDuringPresentation = false
     }
 
     searchController.searchBar.do {
+      $0.aid = .languagesSearchBar
+
       $0.tintColor = .brand
       $0.placeholder = ""
 
@@ -103,6 +109,8 @@ class LanguagesController: CollectionController {
 
   func setupCollectionView() {
     collectionView.do {
+      $0.aid = .languagesCollectionView
+
       $0.backgroundColor = .clear
       $0.register(Cell.self, forCellWithReuseIdentifier: cellID)
       $0.register(

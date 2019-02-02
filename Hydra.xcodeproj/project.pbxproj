@@ -58,12 +58,15 @@
 		F4967D5C21CFE43600FAACBD /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4967D5B21CFE43600FAACBD /* LanguageCell.swift */; };
 		F49B6E4721D89C8900E0CF2B /* AID.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B6E4621D89C8900E0CF2B /* AID.swift */; };
 		F4B2AF6C22054B3B005A64BE /* LanguagesEGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2AF6B22054B3B005A64BE /* LanguagesEGSpec.swift */; };
-		F4B2AF6E22054C65005A64BE /* EarlGreyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2AF6D22054C65005A64BE /* EarlGreyHelpers.swift */; };
+		F4B2AF6E22054C65005A64BE /* GREYInteraction+Act.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2AF6D22054C65005A64BE /* GREYInteraction+Act.swift */; };
 		F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */; };
 		F4B4BA2521D290E700879B18 /* LanguagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */; };
 		F4B4BA2921D3546300879B18 /* Caches.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2821D3546300879B18 /* Caches.swift */; };
 		F4B4BA5621D52FD400879B18 /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4821D52FC300879B18 /* LoginTests.swift */; };
 		F4B4BA5721D5300300879B18 /* DefaultsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */; };
+		F4CB1B132205E2A200C2504B /* EarlGreyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB1B122205E2A200C2504B /* EarlGreyHelpers.swift */; };
+		F4CB1B162205E39100C2504B /* GREYInteraction+Assert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB1B152205E39100C2504B /* GREYInteraction+Assert.swift */; };
+		F4CB1B18220617C700C2504B /* EarlGrey+Select.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB1B17220617C700C2504B /* EarlGrey+Select.swift */; };
 		F4DC70FB21B58F3A00999BD1 /* LanguagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */; };
 		F4F338142170BD4100DC9638 /* HydraFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* HydraFlow.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
@@ -168,7 +171,7 @@
 		F49A1C6221A730BD0045E74B /* ContributorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorsView.swift; sourceTree = "<group>"; };
 		F49B6E4621D89C8900E0CF2B /* AID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AID.swift; sourceTree = "<group>"; };
 		F4B2AF6B22054B3B005A64BE /* LanguagesEGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesEGSpec.swift; sourceTree = "<group>"; };
-		F4B2AF6D22054C65005A64BE /* EarlGreyHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyHelpers.swift; sourceTree = "<group>"; };
+		F4B2AF6D22054C65005A64BE /* GREYInteraction+Act.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GREYInteraction+Act.swift"; sourceTree = "<group>"; };
 		F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesFlowLayout.swift; sourceTree = "<group>"; };
 		F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesHeaderView.swift; sourceTree = "<group>"; };
 		F4B4BA2821D3546300879B18 /* Caches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caches.swift; sourceTree = "<group>"; };
@@ -179,6 +182,9 @@
 		F4B4BA4B21D52FC300879B18 /* DefaultsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsSpec.swift; sourceTree = "<group>"; };
 		F4B4BA4C21D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4B4BA4F21D52FC300879B18 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4CB1B122205E2A200C2504B /* EarlGreyHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyHelpers.swift; sourceTree = "<group>"; };
+		F4CB1B152205E39100C2504B /* GREYInteraction+Assert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GREYInteraction+Assert.swift"; sourceTree = "<group>"; };
+		F4CB1B17220617C700C2504B /* EarlGrey+Select.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EarlGrey+Select.swift"; sourceTree = "<group>"; };
 		F4DC70FA21B58F3A00999BD1 /* LanguagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModel.swift; sourceTree = "<group>"; };
 		F4F338132170BD4100DC9638 /* HydraFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydraFlow.swift; sourceTree = "<group>"; };
 		F4F338192171035700DC9638 /* UnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -418,12 +424,23 @@
 			isa = PBXGroup;
 			children = (
 				F4B4BA4F21D52FC300879B18 /* Info.plist */,
-				F4B2AF6D22054C65005A64BE /* EarlGreyHelpers.swift */,
-				F4395EE621D620CE00BEAD9F /* LoginEGSpec.swift */,
 				F4B2AF6B22054B3B005A64BE /* LanguagesEGSpec.swift */,
-				FA8E5B89095619159D3A6E01 /* EarlGrey.swift */,
+				F4395EE621D620CE00BEAD9F /* LoginEGSpec.swift */,
+				F4CB1B142205E32C00C2504B /* Util */,
 			);
 			path = EarlGreyTest;
+			sourceTree = "<group>";
+		};
+		F4CB1B142205E32C00C2504B /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB1B122205E2A200C2504B /* EarlGreyHelpers.swift */,
+				F4CB1B17220617C700C2504B /* EarlGrey+Select.swift */,
+				F4B2AF6D22054C65005A64BE /* GREYInteraction+Act.swift */,
+				F4CB1B152205E39100C2504B /* GREYInteraction+Assert.swift */,
+				FA8E5B89095619159D3A6E01 /* EarlGrey.swift */,
+			);
+			name = Util;
 			sourceTree = "<group>";
 		};
 		F4F6097521E665DA000E06A3 /* Unused */ = {
@@ -938,9 +955,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4CB1B18220617C700C2504B /* EarlGrey+Select.swift in Sources */,
+				F4CB1B132205E2A200C2504B /* EarlGreyHelpers.swift in Sources */,
+				F4CB1B162205E39100C2504B /* GREYInteraction+Assert.swift in Sources */,
 				F4B2AF6C22054B3B005A64BE /* LanguagesEGSpec.swift in Sources */,
 				F4395EE721D620CE00BEAD9F /* LoginEGSpec.swift in Sources */,
-				F4B2AF6E22054C65005A64BE /* EarlGreyHelpers.swift in Sources */,
+				F4B2AF6E22054C65005A64BE /* GREYInteraction+Act.swift in Sources */,
 				14F0F0E833ECED25AAAE2F22 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
