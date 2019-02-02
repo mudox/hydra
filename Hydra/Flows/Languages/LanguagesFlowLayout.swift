@@ -10,19 +10,24 @@ private let jack = Jack().set(format: .short)
 
 class LanguagesFlowLayout: UICollectionViewLayout {
 
-  let scheduler = SerialDispatchQueueScheduler(qos: .userInteractive)
+//  let scheduler = SerialDispatchQueueScheduler(qos: .userInteractive)
 
-  // MARK: - Layout
+  // MARK: - Metrics
 
-  private struct LayoutResult {
-    let headers: [UICollectionViewLayoutAttributes]
-    let cells: [[UICollectionViewLayoutAttributes]]
-    let contentSize: CGSize
+  let width = UIScreen.main.bounds.width
 
-    var all: [UICollectionViewLayoutAttributes] {
-      return headers + cells.flatMap { $0 }
-    }
-  }
+  let cellHeight: CGFloat = 24
+
+  let itemGap: CGFloat = 8
+  let rowGap: CGFloat = 8
+  let sectionGap: CGFloat = 8
+
+  let headerLeftMargin: CGFloat = 16
+  let headerHeight: CGFloat = 24
+
+  let sectionInset = UIEdgeInsets(top: 10, left: 16 + 8, bottom: 10, right: 16)
+
+  // MARK: - Layout & Cache
 
   private var cache: LayoutResult?
 
@@ -32,22 +37,6 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   /// - Parameter data: The sectino model array from which to calculate
   ///   the layouts.
   func calculateLayouts(data: [SectionModel<String, String>]) {
-    // swiftlint:disable:previous function_body_length
-
-    // Metrics
-    let width = UIScreen.main.bounds.width
-
-    let cellHeight: CGFloat = 24
-
-    let itemGap: CGFloat = 8
-    let rowGap: CGFloat = 8
-    let sectionGap: CGFloat = 8
-
-    let headerLeftMargin: CGFloat = 16
-    let headerHeight: CGFloat = 24
-
-    let sectionInset = UIEdgeInsets(top: 10, left: 16 + 8, bottom: 10, right: 16)
-
     var x: CGFloat = 0
     var y: CGFloat = 0
 
@@ -79,7 +68,7 @@ class LanguagesFlowLayout: UICollectionViewLayout {
       y += headerHeight + sectionInset.top
 
       let attrs = languages.enumerated().map {
-        itemIndex, language -> UICollectionViewLayoutAttributes in
+        (itemIndex: Int, language: String) -> UICollectionViewLayoutAttributes in
 
         var frame = CGRect(origin: .init(x: x, y: y), size: LanguagesController.Cell.cellSize(for: language))
         if frame.maxX > width - sectionInset.right {
@@ -110,21 +99,25 @@ class LanguagesFlowLayout: UICollectionViewLayout {
     cache = LayoutResult(headers: headers, cells: cells, contentSize: contentSize)
   }
 
-//  override func prepare() {
-//  }
-
-  // MARK: - UICollectionViewLayout
+  // MARK: - Provide Basic Layout
 
   override var collectionViewContentSize: CGSize {
     return cache?.contentSize ?? .zero
   }
 
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-    let attrs = cache?.all.filter {
-      $0.frame.intersects(rect)
+    guard let cache = cache else { return nil }
+
+    var allCellLayouts: [UICollectionViewLayoutAttributes]
+    if let moveController = pinnedItemMovingController {
+      allCellLayouts = cache.cells[0] + moveController.allPinnedItemLayouts + cache.cells[2]
+    } else {
+      allCellLayouts = cache.all
     }
 
-    return attrs
+    return allCellLayouts.filter {
+      $0.frame.intersects(rect)
+    }
   }
 
   override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -139,6 +132,18 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   }
 
   // MARK: - Moving Pinned Items
+
+  private var pinnedItemMovingController: PinnedItemMovingController?
+
+  func startMovingPinnedItem(at indexPath: IndexPath) {
+    assert(pinnedItemMovingController == nil)
+    pinnedItemMovingController = PinnedItemMovingController(layout: self, for: indexPath.item)
+  }
+
+  func endMovingPinnedItem() {
+    assert(pinnedItemMovingController != nil)
+    pinnedItemMovingController = nil
+  }
 
   override func targetIndexPath(
     forInteractivelyMovingItem previousIndexPath: IndexPath,
@@ -157,14 +162,18 @@ class LanguagesFlowLayout: UICollectionViewLayout {
     let minY = cache.headers[1].frame.maxY
     let maxY = cache.headers[2].frame.minY
 
+    let targetIndexPath: IndexPath
+
     if position.y < minY {
-      return .init(item: 0, section: 1)
+      targetIndexPath = .init(item: 0, section: 1)
     } else if position.y > maxY {
       let count = cache.cells[1].count
-      return .init(item: count - 1, section: 1)
+      targetIndexPath = .init(item: count - 1, section: 1)
     } else {
-      return indexPath
+      targetIndexPath = indexPath
     }
+
+    return targetIndexPath
   }
 
   override func layoutAttributesForInteractivelyMovingItem(
@@ -173,16 +182,89 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   )
     -> UICollectionViewLayoutAttributes
   {
-    guard let cache = cache else {
+    assert(indexPath.section == 1)
+
+    guard cache != nil else {
       return super.layoutAttributesForInteractivelyMovingItem(
         at: indexPath, withTargetPosition: position
       )
     }
 
-    let attr = cache.cells[indexPath.section][indexPath.item]
-    attr.center = position
-    jack.func().debug("frame: \(attr.frame)")
+    pinnedItemMovingController!.hoveringIndex = indexPath.item
+    let attr = pinnedItemMovingController!.layoutAttributesForMovingItem(withPosition: position)
+    assert(attr.indexPath == indexPath)
     return attr
+  }
+
+}
+
+// MARK: - Types
+
+fileprivate extension LanguagesFlowLayout {
+
+  struct LayoutResult {
+
+    let headers: [UICollectionViewLayoutAttributes]
+    let cells: [[UICollectionViewLayoutAttributes]]
+    let contentSize: CGSize
+
+    var all: [UICollectionViewLayoutAttributes] {
+      return headers + cells.flatMap { $0 }
+    }
+
+  }
+
+  class PinnedItemMovingController {
+
+    weak var layout: LanguagesFlowLayout!
+
+    let sourceIndex: Int
+    var hoveringIndex: Int
+
+    init(layout: LanguagesFlowLayout, for index: Int) {
+      self.layout = layout
+
+      sourceIndex = index
+      hoveringIndex = index
+    }
+
+    var allPinnedItemLayouts: [UICollectionViewLayoutAttributes] {
+      var sizes = layout.cache!.cells[1].map { $0.size }
+      sizes.insert(sizes.remove(at: sourceIndex), at: hoveringIndex)
+
+      let origin = layout.cache!.cells[1].first!.frame.origin
+      var x = origin.x
+      var y = origin.y
+
+      let maxX = UIScreen.main.bounds.width - layout.sectionInset.right
+
+      // Re-layout pinned section according hovering index
+      return sizes.enumerated().map {
+        pair -> UICollectionViewLayoutAttributes in
+        let (index, size) = pair
+
+        var frame = CGRect(origin: .init(x: x, y: y), size: size)
+        if frame.maxX > maxX {
+          x = layout.sectionInset.left
+          y += layout.cellHeight + layout.rowGap
+          frame.origin = .init(x: x, y: y)
+        }
+
+        x = frame.maxX + layout.itemGap
+
+        let attr = UICollectionViewLayoutAttributes(forCellWith: .init(item: index, section: 1))
+        attr.frame = frame
+
+        return attr
+      }
+    }
+
+    func layoutAttributesForMovingItem(withPosition position: CGPoint) -> UICollectionViewLayoutAttributes {
+      let attr = allPinnedItemLayouts[hoveringIndex]
+      attr.center = position
+      return attr
+    }
+
   }
 
 }

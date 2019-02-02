@@ -20,13 +20,15 @@ private let jack = Jack().set(format: .short)
 class LanguagesController: CollectionController {
 
   init() {
-    flowLayout = LanguagesFlowLayout()
-    super.init(collectionViewLayout: flowLayout)
+    super.init(collectionViewLayout: LanguagesFlowLayout())
   }
 
   // MARK: - View
 
-  let flowLayout: LanguagesFlowLayout
+  var flowLayout: LanguagesFlowLayout {
+    // swiftlint:disable:next force_cast
+    return collectionView.collectionViewLayout as! LanguagesFlowLayout
+  }
 
   var dismissButton: UIBarButtonItem!
 
@@ -141,16 +143,16 @@ class LanguagesController: CollectionController {
 
     let data = output.searchState
       .asDriver()
-      .flatMap { state -> Driver<[SectionModel<String, String>]> in
+      .flatMap { [weak self] state -> Driver<[SectionModel<String, String>]> in
+        guard let self = self else { return .empty() }
+
         if let data = state.sectionModels {
+          self.flowLayout.calculateLayouts(data: data)
           return .just(data)
         } else {
           return .empty()
         }
       }
-      .do(onNext: { [weak self] data in
-        self?.flowLayout.layout(data, width: UIScreen.main.bounds.width)
-      })
 
     bag.insert(
       output.dismissButtonTitle.asDriver().drive(rx.dismissButtonTitle),
@@ -185,15 +187,18 @@ class LanguagesController: CollectionController {
         return view
       },
       moveItem: { [weak self] _, srcIndexPath, destIndexPath in
-        guard destIndexPath.section == 1 else { return }
-        assert(srcIndexPath.section == 1)
+        guard srcIndexPath.section == 1 && destIndexPath.section == 1 else {
+          jack.func().failure("Pinned item can move within pinned section")
+          return
+        }
+        self?.flowLayout.endMovingPinnedItem()
         self?.model.input.movePinnedItem
           .accept((from: srcIndexPath.item, to: destIndexPath.item))
       },
-      canMoveItemAtIndexPath: {
-        _, indexPath in
+      canMoveItemAtIndexPath: { [weak self] _, indexPath in
         // Can only move items in 'Pinned' section
-        indexPath.section == 1
+        self?.flowLayout.startMovingPinnedItem(at: indexPath)
+        return indexPath.section == 1
       }
     )
   }()
