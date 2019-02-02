@@ -20,9 +20,17 @@ class LanguagesEGSpec: QuickSpec {
   override func spec() {
 
     let dismissButton = element(withAID: .dismissLanguagesBarButtonItem)
+
     let pinBarItem = element(withAID: .pinLanguageBarButtonItem)
     let pinButton = button(withTitle: "Pin")
     let unpinButton = button(withTitle: "Unpin")
+    
+    let backButton = button(withTitle: "Back")
+    let selectButton = button(withTitle: "Select")
+
+    let searchBar = element(withAID: .languagesSearchBar)
+    
+    let placeholderView = element(withAID: .placeholderView)
     let collectionView = element(withAID: .languagesCollectionView)
 
     let swiftCellItem = element(withLabel: "Swift")
@@ -32,17 +40,23 @@ class LanguagesEGSpec: QuickSpec {
       swinject.autoregister(
         CredentialServiceType.self, initializer: CredentialServiceStub.init
       )
-      appFlow.reset("realm")
-      self.runLanguagesFlow()
-    }
-    
-    it("pin button reacts to selection") {
-      waitCollectionViewToAppear()
 
-      // Initally hidden
+      appFlow.reset("realm")
+
+      self.runLanguagesFlow()
+      waitCollectionViewToAppear()
+    }
+
+    afterEach {
+      dismissButton.tap()
+    }
+
+    it("select item") {
+      // Initially no selection
+      backButton.isVisible()
       pinBarItem.isNotVisible()
 
-      // Show pin when a unpinned item is selected
+      // Show 'Pin' when a unpinned item is selected
       unpinnedCellItem
         .using(
           searchAction: grey_scrollInDirection(.down, 500),
@@ -51,18 +65,35 @@ class LanguagesEGSpec: QuickSpec {
         .assert(grey_interactable())
         .tap()
       pinButton.isVisible()
+      selectButton.isVisible()
 
       collectionView.scrollTo(.top)
 
       // Shows unpin when a pinned item is selected
       swiftCellItem.tap()
       unpinButton.isVisible()
+      selectButton.isVisible()
 
       // Hide when no item is selected
       swiftCellItem.tap()
       pinBarItem.isNotVisible()
+    }
 
-      dismissButton.tap()
+    it("search languages") {
+      // Scroll to unveal search bar
+      collectionView.scrollTo(.top)
+      searchBar.isVisible()
+      
+      // Has match
+      searchBar.type(text: "VimScript")
+      element(ofType: UILabel.self, hasText: "VimScript", visible: true).isVisible()
+      pinBarItem.isNotVisible()
+      backButton.isVisible()
+
+      // No match
+      searchBar.clearText().type(text: "sldkjadkjf")
+      collectionView.isNotVisible()
+      placeholderView.isVisible()
     }
 
   }
