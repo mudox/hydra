@@ -13,10 +13,6 @@ import MBProgressHUD
 
 import EarlGrey
 
-func element(_ id: AID) -> GREYInteraction {
-  return EarlGrey.selectElement(with: grey_accessibilityID(id.rawValue))
-}
-
 var appFlow: AppFlowType {
   return (UIApplication.shared.delegate as! AppDelegate).appFlow
 }
