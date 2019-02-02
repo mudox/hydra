@@ -80,7 +80,7 @@ class LoginController: ViewController {
 
   func setupBackButton() {
     backButton.do {
-      $0.aid = .dismissLogin
+      $0.aid = .dismissLoginBarButtonItem
       $0.tintColor = .brand
       $0.setImage(#imageLiteral(resourceName: "Back Arrow"), for: .normal)
     }
@@ -114,19 +114,19 @@ class LoginController: ViewController {
 
   func setupInputFields() {
     username.textField.do {
-      $0.aid = .username
+      $0.aid = .usernameTextField
       $0.clearsOnBeginEditing = true
       $0.keyboardType = .emailAddress
       $0.returnKeyType = .next
       $0.textContentType = .username
     }
     username.do {
-      $0.clearButton.aid = .clearUsername
+      $0.clearButton.aid = .clearUsernameButton
       $0.tipLabel.text = "Username"
     }
 
     password.textField.do {
-      $0.aid = .password
+      $0.aid = .passwordTextField
       $0.clearsOnBeginEditing = true
       $0.keyboardType = .asciiCapable
       $0.returnKeyType = .go
@@ -135,7 +135,7 @@ class LoginController: ViewController {
     }
 
     password.do {
-      $0.clearButton.aid = .clearPassword
+      $0.clearButton.aid = .clearPasswordButton
       $0.tipLabel.text = "Password"
     }
 

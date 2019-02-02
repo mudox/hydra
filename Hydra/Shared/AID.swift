@@ -19,21 +19,24 @@ extension UIAccessibilityIdentification {
 
 enum AID: String {
   case stageView
-
   case hud
 
   // LoginFlow
-  case dismissLogin
+  case dismissLoginBarButtonItem
 
-  case username
-  case clearUsername
+  case usernameTextField
+  case clearUsernameButton
 
-  case password
-  case clearPassword
+  case passwordTextField
+  case clearPasswordButton
 
   case loginButton
 
   // LanguagesFlow
+  case dismissLanguagesBarButtonItem
+  case pinLanguageBarButtonItem
+  case languagesSearchBar
+  case languagesCollectionView
 
   // TrendFlow
 
