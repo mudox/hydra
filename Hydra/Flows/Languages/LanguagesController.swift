@@ -118,8 +118,8 @@ class LanguagesController: CollectionController {
   let model: LanguagesModelType = fx()
 
   override func setupModel() {
-    // View -> Model
 
+    // View -> Model
     let input = model.input
 
     let selection = Observable.zip(
@@ -197,8 +197,13 @@ class LanguagesController: CollectionController {
       },
       canMoveItemAtIndexPath: { [weak self] _, indexPath in
         // Can only move items in 'Pinned' section
-        self?.flowLayout.startMovingPinnedItem(at: indexPath)
-        return indexPath.section == 1
+        if indexPath.section == 1 {
+          self?.model.input.clearSelection.accept(())
+          self?.flowLayout.startMovingPinnedItem(at: indexPath)
+          return true
+        } else {
+          return false
+        }
       }
     )
   }()

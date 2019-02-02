@@ -31,6 +31,7 @@ protocol LanguagesModelInput {
   var itemTap: PublishRelay<LanguagesModel.Selection> { get }
   var movePinnedItem: PublishRelay<(from: Int, to: Int)> { get }
   var retryButtonTap: PublishRelay<Void> { get }
+  var clearSelection: PublishRelay<Void> { get }
 }
 
 protocol LanguagesModelOutput {
@@ -74,6 +75,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
   let itemTap = PublishRelay<LanguagesModel.Selection>()
   let movePinnedItem = PublishRelay<(from: Int, to: Int)>()
   let retryButtonTap = PublishRelay<Void>()
+  let clearSelection = PublishRelay<Void>()
 
   // MARK: Output
 
@@ -117,12 +119,12 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     buttonsTapAndItemMovingDriveCommand()
     searchTextAndCommandDrivesAction()
     actionDrivesSearchState()
-    itemTapAndReloadingDriveSelection()
+    itemTapReloadingMovingDriveSelection()
     selectionDrivesButtons()
     doneTapAndSelectionDriveDismiss()
   }
 
-  func itemTapAndReloadingDriveSelection() {
+  func itemTapReloadingMovingDriveSelection() {
     let userTap = itemTap
       // Unselect if user tap the same item
       .withLatestFrom(selection) { this, prev -> Selection? in
@@ -134,12 +136,15 @@ class LanguagesModel: ViewModel, LanguagesModelType {
         }
       }
 
-    let resetWhenLoading = searchState
+    let resetBeforeReloading = searchState
       .filter { $0 == .inProgress }
       .mapTo(nil as Selection?)
 
+    let resetBeforeMovingPinnedItem = clearSelection
+      .mapTo(nil as Selection?)
+
     Observable
-      .merge(userTap, resetWhenLoading)
+      .merge(userTap, resetBeforeReloading, resetBeforeMovingPinnedItem)
       .bind(to: selection)
       .disposed(by: bag)
   }

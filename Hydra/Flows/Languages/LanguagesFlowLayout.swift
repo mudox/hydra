@@ -136,7 +136,8 @@ class LanguagesFlowLayout: UICollectionViewLayout {
   private var pinnedItemMovingController: PinnedItemMovingController?
 
   func startMovingPinnedItem(at indexPath: IndexPath) {
-    assert(pinnedItemMovingController == nil)
+    // `pinnedItemMovingController` may be non-nil here, because user may long press
+    // the item without move enough distance to trigger moving.
     pinnedItemMovingController = PinnedItemMovingController(layout: self, for: indexPath.item)
   }
 
