@@ -20,6 +20,7 @@ extension UIAccessibilityIdentification {
 enum AID: String {
   case stageView
   case hud
+  case placeholderView
 
   // LoginFlow
   case dismissLoginBarButtonItem

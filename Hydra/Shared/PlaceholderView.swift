@@ -22,6 +22,8 @@ class PlaceholderView: View {
   // MARK: - Setup View
 
   override func setupView() {
+    aid = .placeholderView
+
     backgroundColor = .clear
     clipsToBounds = false
 
