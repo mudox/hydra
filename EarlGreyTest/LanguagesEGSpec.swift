@@ -95,6 +95,25 @@ class LanguagesEGSpec: QuickSpec {
       collectionView.isNotVisible()
       placeholderView.isVisible()
     }
+    
+    it("clear selection before searching") {
+      swiftCellItem.tap()
+      selectedCollectionViewCell.isVisible()
+      
+      collectionView.scrollTo(.top)
+      searchBar.type(text: "Action")
+      
+      // Selection is cleared
+      selectedCollectionViewCell.isNotVisible()
+      pinBarItem.isNotVisible()
+      backButton.isVisible()
+      
+      // Select do not restore even search is cancelled
+      button(withTitle: "Cancel").tap()
+      selectedCollectionViewCell.isNotVisible()
+      pinBarItem.isNotVisible()
+      backButton.isVisible()
+    }
 
   }
 
@@ -111,3 +130,4 @@ private func waitCollectionViewToAppear() {
   let r = cond.wait(withTimeout: 15, pollInterval: 1)
   expect(r) == true
 }
+
