@@ -57,6 +57,8 @@
 		F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48779472169F1CC00C027A9 /* DefaultsKeys.swift */; };
 		F4967D5C21CFE43600FAACBD /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4967D5B21CFE43600FAACBD /* LanguageCell.swift */; };
 		F49B6E4721D89C8900E0CF2B /* AID.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B6E4621D89C8900E0CF2B /* AID.swift */; };
+		F4B2AF6C22054B3B005A64BE /* LanguagesEGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2AF6B22054B3B005A64BE /* LanguagesEGSpec.swift */; };
+		F4B2AF6E22054C65005A64BE /* EarlGreyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2AF6D22054C65005A64BE /* EarlGreyHelpers.swift */; };
 		F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */; };
 		F4B4BA2521D290E700879B18 /* LanguagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */; };
 		F4B4BA2921D3546300879B18 /* Caches.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4BA2821D3546300879B18 /* Caches.swift */; };
@@ -165,6 +167,8 @@
 		F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendBadgeView.swift; sourceTree = "<group>"; };
 		F49A1C6221A730BD0045E74B /* ContributorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorsView.swift; sourceTree = "<group>"; };
 		F49B6E4621D89C8900E0CF2B /* AID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AID.swift; sourceTree = "<group>"; };
+		F4B2AF6B22054B3B005A64BE /* LanguagesEGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesEGSpec.swift; sourceTree = "<group>"; };
+		F4B2AF6D22054C65005A64BE /* EarlGreyHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyHelpers.swift; sourceTree = "<group>"; };
 		F4B4BA2221D134B600879B18 /* LanguagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesFlowLayout.swift; sourceTree = "<group>"; };
 		F4B4BA2421D290E700879B18 /* LanguagesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesHeaderView.swift; sourceTree = "<group>"; };
 		F4B4BA2821D3546300879B18 /* Caches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caches.swift; sourceTree = "<group>"; };
@@ -414,7 +418,9 @@
 			isa = PBXGroup;
 			children = (
 				F4B4BA4F21D52FC300879B18 /* Info.plist */,
+				F4B2AF6D22054C65005A64BE /* EarlGreyHelpers.swift */,
 				F4395EE621D620CE00BEAD9F /* LoginEGSpec.swift */,
+				F4B2AF6B22054B3B005A64BE /* LanguagesEGSpec.swift */,
 				FA8E5B89095619159D3A6E01 /* EarlGrey.swift */,
 			);
 			path = EarlGreyTest;
@@ -932,7 +938,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4B2AF6C22054B3B005A64BE /* LanguagesEGSpec.swift in Sources */,
 				F4395EE721D620CE00BEAD9F /* LoginEGSpec.swift in Sources */,
+				F4B2AF6E22054C65005A64BE /* EarlGreyHelpers.swift in Sources */,
 				14F0F0E833ECED25AAAE2F22 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

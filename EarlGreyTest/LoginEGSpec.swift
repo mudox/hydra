@@ -18,8 +18,7 @@ class LoginEGSpec: QuickSpec {
   }
 
   func runLoginFlow() {
-    let vc = window.rootViewController!
-    let flow = LoginFlow(on: .viewController(vc))
+    let flow = LoginFlow(on: The.controller)
     _ = flow.loginIfNeeded.subscribe()
   }
 
@@ -33,7 +32,7 @@ class LoginEGSpec: QuickSpec {
     let login = element(.loginButton)
 
     beforeEach {
-      appFlow.reset(mode: "credentials")
+      appFlow.reset("credentials")
       self.runLoginFlow()
     }
 
@@ -56,7 +55,6 @@ class LoginEGSpec: QuickSpec {
 
       waitHUDToDismiss()
       waitControllerToDismiss()
-      checkInstanceCounts()
     }
 
     it("login with invalid intputs") {
@@ -68,60 +66,7 @@ class LoginEGSpec: QuickSpec {
       dismiss.perform(grey_tap())
 
       waitControllerToDismiss()
-      checkInstanceCounts()
     }
 
   }
-}
-
-// MARK: - Helpers
-
-func element(_ id: AID) -> GREYInteraction {
-  return EarlGrey.selectElement(with: grey_accessibilityID(id.rawValue))
-}
-
-private var window: UIWindow {
-  return UIApplication.shared.keyWindow!
-}
-
-private var rootViewController: UIViewController {
-  return window.rootViewController!
-}
-
-private var appFlow: AppFlowType {
-  return (UIApplication.shared.delegate as! AppDelegate).appFlow
-}
-
-private func checkInstanceCounts() {
-  let cond = GREYCondition(name: #function) {
-    print("😈 \(#function) ...")
-    return LoginFlow.count == 0
-  }
-
-  let r = cond.wait(withTimeout: 15, pollInterval: 1)
-  expect(r) == true
-}
-
-private func waitHUDToDismiss() {
-  let cond = GREYCondition(name: #function) {
-    print("😈 \(#function) ...")
-    if let view = window.rootViewController?.presentedViewController?.view {
-      return MBProgressHUD(for: view) == nil
-    } else {
-      return true
-    }
-  }
-
-  let r = cond.wait(withTimeout: 15, pollInterval: 1)
-  expect(r) == true
-}
-
-private func waitControllerToDismiss() {
-  let cond = GREYCondition(name: #function) {
-    print("😈 \(#function) ...")
-    return rootViewController.presentedViewController == nil
-  }
-
-  let r = cond.wait(withTimeout: 15, pollInterval: 1)
-  expect(r) == true
 }
