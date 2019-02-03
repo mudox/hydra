@@ -17,16 +17,13 @@ let swinject = Container().then {
   // Shared
   registerCredentialServiceType(to: $0)
   registerGitHubService(to: $0)
-  // Login
-  registerLoginServiceType(to: $0)
-  // Trend
-  registerTrendServiceType(to: $0)
-  // Languages
-  registerLanguagesServiceType(to: $0)
-  registerLanguagesModelType(to: $0)
+  // Flows
+  registerLoginTypes(to: $0)
+  registerTrendTypes(to: $0)
+  registerLanguagesTypes(to: $0)
 }
 
-/// Called at app launch in order to logout all stubbing
+/// Called at app launch to logout all stubbing
 func initSwinject() {
   _ = swinject
 }
@@ -80,18 +77,24 @@ private func registerGitHubService(to container: Container) {
   )
 }
 
-// MARK: - Login
+// MARK: - Flows
 
-private func registerLoginServiceType(to container: Container) {
+private func registerLoginTypes(to container: Container) {
+  // Service
   container.autoregister(
     LoginServiceType.self,
     initializer: LoginService.init
   )
+
+  // Model
+  container.autoregister(
+    LoginModelType.self,
+    initializer: LoginModel.init
+  )
 }
 
-// MARK: - Trend
-
-private func registerTrendServiceType(to container: Container) {
+private func registerTrendTypes(to container: Container) {
+  // Service
   if Environs.stubTrendService {
     logStub("TrendService")
     container.autoregister(
@@ -104,11 +107,16 @@ private func registerTrendServiceType(to container: Container) {
       initializer: TrendService.init
     )
   }
+
+  // Model
+  container.autoregister(
+    TrendModelType.self,
+    initializer: TrendModel.init
+  )
 }
 
-// MARK: - Languages
-
-private func registerLanguagesServiceType(to container: Container) {
+private func registerLanguagesTypes(to container: Container) {
+  // Service
   if Environs.stubLanguagesService != nil {
     logStub("LanguagesService")
     container.autoregister(
@@ -121,9 +129,8 @@ private func registerLanguagesServiceType(to container: Container) {
       initializer: LanguagesService.init
     )
   }
-}
 
-private func registerLanguagesModelType(to container: Container) {
+  // Model
   container.autoregister(
     LanguagesModelType.self,
     initializer: LanguagesModel.init
