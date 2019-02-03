@@ -170,7 +170,7 @@ class LoginController: ViewController {
     }
   }
 
-  // MARK: Keyboard
+  // MARK: - Keyboard
 
   func tapToDismissKeyboard() {
     let backgroundTap = view.rx

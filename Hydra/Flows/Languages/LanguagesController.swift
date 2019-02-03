@@ -20,10 +20,11 @@ private let jack = Jack().set(format: .short)
 class LanguagesController: CollectionController {
 
   init() {
-    super.init(collectionViewLayout: LanguagesFlowLayout())
+    let layout = LanguagesFlowLayout()
+    super.init(collectionViewLayout: layout)
   }
 
-  // MARK: - View
+  // MARK: - Subviews
 
   var flowLayout: LanguagesFlowLayout {
     // swiftlint:disable:next force_cast
@@ -38,6 +39,8 @@ class LanguagesController: CollectionController {
 
   var searchController: UISearchController!
 
+  // MARK: - View
+  
   override func setupView() {
     view.backgroundColor = .bgLight
 
