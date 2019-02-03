@@ -15,11 +15,6 @@ private let jack = Jack().set(format: .short)
 
 class TrendController: ViewController {
 
-  init(model: TrendModelType) {
-    self.model = model
-    super.init()
-  }
-
   // MARK: - View
 
   let languageBar = LanguagesBar()
@@ -81,7 +76,7 @@ class TrendController: ViewController {
 
   // MARK: - Model
 
-  let model: TrendModelType
+  let model: TrendModelType = fx()
 
   override func setupModel() {
     drivesModel()
