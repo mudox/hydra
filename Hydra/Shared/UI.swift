@@ -27,7 +27,10 @@ extension UIColor {
   static let light = #colorLiteral(red: 0.6078431373, green: 0.6078431373, blue: 0.6078431373, alpha: 1)
 
   // Background
+
+  /// Used as root view backgroiund of view controllers
   static let bgDark = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
+  /// Used as card background
   static let bgLight = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 
   // Empty dataset

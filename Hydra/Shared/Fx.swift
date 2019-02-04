@@ -22,6 +22,8 @@ let swinject = Container().then {
   registerTrendTypes(to: $0)
   registerLanguagesTypes(to: $0)
   registerExploreTypes(to: $0)
+  registerSearchTypes(to: $0)
+  registerUserTypes(to: $0)
 }
 
 /// Called at app launch to logout all stubbing
@@ -139,24 +141,26 @@ private func registerLanguagesTypes(to container: Container) {
 }
 
 private func registerExploreTypes(to container: Container) {
-  // Service
-//  if Environs.stubLanguagesService != nil {
-//    logStub("LanguagesService")
-//    container.autoregister(
-//      LanguagesServiceType.self,
-//      initializer: LanguagesServiceStub.init
-//    )
-//  } else {
-//    container.autoregister(
-//      LanguagesServiceType.self,
-//      initializer: LanguagesService.init
-//    )
-//  }
-
   // Model
   container.autoregister(
-    TopicsModelType.self,
-    initializer: TopicsModel.init
+    ExploreModelType.self,
+    initializer: ExploreModel.init
+  )
+}
+
+private func registerSearchTypes(to container: Container) {
+  // Model
+  container.autoregister(
+    SearchModelType.self,
+    initializer: SearchModel.init
+  )
+}
+
+private func registerUserTypes(to container: Container) {
+  // Model
+  container.autoregister(
+    UserModelType.self,
+    initializer: UserModel.init
   )
 }
 

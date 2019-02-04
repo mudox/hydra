@@ -29,14 +29,6 @@ class TrendController: ViewController {
     setupTabBar()
   }
 
-  func setupTabBar() {
-    navigationController?.tabBarItem.do {
-      $0.image = #imageLiteral(resourceName: "Trend")
-      $0.selectedImage = #imageLiteral(resourceName: "Trend Selected.pdf")
-      $0.title = "Trend"
-    }
-  }
-
   func setupNavigationBar() {
     navigationItem.titleView = languageBar
 
