@@ -123,37 +123,36 @@ class HydraFlow: AppFlow {
       UINavigationBar.appearance().tintColor = .brand
       UITabBar.appearance().tintColor = .brand
 
-      let vc = UITabBarController()
-      self.stage.window.rootViewController = vc
+      let tabBarVC = UITabBarController()
+      self.stage.window.rootViewController = tabBarVC
 
-      _ = self.runTrendFlow(in: vc).forever()
-      _ = self.runExploreFlow(in: vc).forever()
-      _ = self.runSearchFlow(in: vc).forever()
-      _ = self.runUserFlow(in: vc).forever()
+      _ = self.runTrendFlow(in: tabBarVC).forever()
+      _ = self.runExploreFlow(in: tabBarVC).forever()
+      _ = self.runSearchFlow(in: tabBarVC).forever()
+      _ = self.runUserFlow(in: tabBarVC).forever()
 
       return Disposables.create()
     }
   }
 
   private func runTrendFlow(in tabBarController: UITabBarController) -> Completable {
-    // Trend
-    let trendFlow = TrendFlow(on: .viewController(tabBarController))
+    let trendFlow = TrendFlow(on: tabBarController)
     return trendFlow.run
   }
 
   private func runExploreFlow(in tabBarController: UITabBarController) -> Completable {
-    jack.func().warn("Not been implemented yet")
-    return .never()
+    let exploreFlow = ExploreFlow(on: tabBarController)
+    return exploreFlow.run
   }
 
   private func runSearchFlow(in tabBarController: UITabBarController) -> Completable {
-    jack.func().warn("Not been implemented yet")
-    return .never()
+    let searchFlow = SearchFlow(on: tabBarController)
+    return searchFlow.run
   }
 
   private func runUserFlow(in tabBarController: UITabBarController) -> Completable {
-    jack.func().warn("Not been implemented yet")
-    return .never()
+    let userFlow = UserFlow(on: tabBarController)
+    return userFlow.run
   }
 
 }

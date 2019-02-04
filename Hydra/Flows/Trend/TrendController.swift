@@ -26,7 +26,6 @@ class TrendController: ViewController {
 
     setupNavigationBar()
     setupTableView()
-    setupTabBar()
   }
 
   func setupNavigationBar() {
