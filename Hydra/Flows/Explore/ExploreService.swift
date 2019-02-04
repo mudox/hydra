@@ -61,7 +61,7 @@ class ExploreService: ExploreServiceType {
   var topics: Single<[GitHub.CuratedTopic]> {
     return Observable.catchError([
       listsFromCache.asObservable(),
-      listsFromNetwork.asObservable(),
+      listsFromNetwork.asObservable()
     ])
       .mapAt(\GitHub.Explore.Lists.topics)
       .asSingle()
@@ -70,7 +70,7 @@ class ExploreService: ExploreServiceType {
   var collections: Single<[GitHub.Collection]> {
     return Observable.catchError([
       listsFromCache.asObservable(),
-      listsFromNetwork.asObservable(),
+      listsFromNetwork.asObservable()
     ])
       .mapAt(\GitHub.Explore.Lists.collections)
       .asSingle()
