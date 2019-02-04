@@ -116,6 +116,8 @@ def ui_pods
   # pod 'IQKeyboardManagerSwift'
   # pod 'SwiftRichString'
 
+  pod 'iCarousel'
+
   pod 'Texture'
   pod 'SnapKit'
 

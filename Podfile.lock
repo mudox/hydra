@@ -20,6 +20,7 @@ PODS:
     - SwiftHEXColors (~> 1.1)
     - Yams
   - Hero (1.4.0)
+  - iCarousel (1.8.3)
   - JacKit (1.0):
     - CocoaLumberjack/Swift (~> 3.3.0)
   - Kanna (4.0.3)
@@ -148,6 +149,7 @@ DEPENDENCIES:
   - EarlGrey
   - GitHubKit (from `/Users/mudox/Develop/Apple/Frameworks/GitHubKit`)
   - Hero
+  - iCarousel
   - JacKit (from `/Users/mudox/Develop/Apple/Frameworks/JacKit`)
   - Kingfisher
   - MudoxKit (from `/Users/mudox/Develop/Apple/Frameworks/MudoxKit`)
@@ -189,6 +191,7 @@ SPEC REPOS:
     - Differentiator
     - EarlGrey
     - Hero
+    - iCarousel
     - Kanna
     - Kingfisher
     - MBProgressHUD
@@ -246,6 +249,7 @@ SPEC CHECKSUMS:
   EarlGrey: 289a16cc7d08a54b962d72881b21e36d5103b549
   GitHubKit: 440fd5d50cf9f6e8c2f01d176e332f6f888babe6
   Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
+  iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
   JacKit: 829f22a30cf6000011c8cc5efd9e47e2d831fae9
   Kanna: 0ebbdd0e7e3308f0aafbd569e79c8cadc5eb877c
   Kingfisher: fcec238063d17404fca89bf0a850583211c4cbf6
@@ -288,6 +292,6 @@ SPEC CHECKSUMS:
   Valet: 4af0382d4a94db5c7861504f751884f653437d24
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: ea5164a9ecc778e042d79ee4526642133712a3f2
+PODFILE CHECKSUM: 8d055368c4dbc1cfabcb16418f9c1ccdbc78e3a6
 
 COCOAPODS: 1.5.3
