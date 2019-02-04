@@ -13,16 +13,28 @@ protocol TrendFlowType {
 
 class TrendFlow: Flow, TrendFlowType {
 
+  var retainSelf: TrendFlow?
+
   var run: Completable {
     return .create { _ in // never complete
       let vc = TrendController()
       let navVC = UINavigationController(rootViewController: vc)
 
+      // Setup tab bar
+      navVC.tabBarItem.do {
+        $0.image = #imageLiteral(resourceName: "Trend")
+        $0.selectedImage = #imageLiteral(resourceName: "Trend Selected.pdf")
+        $0.title = "TREND"
+      }
+
       var vcs = self.stage.tabBarController.viewControllers ?? []
       vcs.append(navVC)
       self.stage.tabBarController.setViewControllers(vcs, animated: true)
 
-      return Disposables.create()
+      self.retainSelf = self
+      return Disposables.create {
+        self.retainSelf = nil
+      }
     }
   }
 

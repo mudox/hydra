@@ -15,21 +15,23 @@ class UserFlow: Flow, UserFlowType {
 
   var run: Completable {
     return .create { _ in // never complete
-      let vc = TopicsController()
+      let vc = UserController()
       let navVC = UINavigationController(rootViewController: vc)
 
       // Setup tab bar
       navVC.tabBarItem.do {
         $0.image = #imageLiteral(resourceName: "User")
         $0.selectedImage = #imageLiteral(resourceName: "User Selected")
-        $0.title = "USER"
+        $0.title = "PROFILE"
       }
 
       var vcs = self.stage.tabBarController.viewControllers ?? []
       vcs.append(navVC)
-      self.stage.tabBarController.setViewControllers(vcs, animated: true)
+      self.stage.tabBarController.setViewControllers(vcs, animated: false)
 
-      return Disposables.create()
+      return Disposables.create {
+        _ = self
+      }
     }
   }
 

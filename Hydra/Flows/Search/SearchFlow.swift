@@ -15,7 +15,7 @@ class SearchFlow: Flow, SearchFlowType {
 
   var run: Completable {
     return .create { _ in // never complete
-      let vc = TopicsController()
+      let vc = SearchController()
       let navVC = UINavigationController(rootViewController: vc)
 
       // Setup tab bar
@@ -27,9 +27,11 @@ class SearchFlow: Flow, SearchFlowType {
 
       var vcs = self.stage.tabBarController.viewControllers ?? []
       vcs.append(navVC)
-      self.stage.tabBarController.setViewControllers(vcs, animated: true)
+      self.stage.tabBarController.setViewControllers(vcs, animated: false)
 
-      return Disposables.create()
+      return Disposables.create {
+        _ = self
+      }
     }
   }
 
