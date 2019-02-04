@@ -15,13 +15,11 @@ class TrendFlow: Flow, TrendFlowType {
 
   var run: Completable {
     return .create { _ in // never complete
-      let model = TrendModel()
-      let vc = TrendController(model: model)
-
-      let nav = UINavigationController(rootViewController: vc)
+      let vc = TrendController()
+      let navVC = UINavigationController(rootViewController: vc)
 
       var vcs = self.stage.tabBarController.viewControllers ?? []
-      vcs.append(nav)
+      vcs.append(navVC)
       self.stage.tabBarController.setViewControllers(vcs, animated: true)
 
       return Disposables.create()

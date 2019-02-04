@@ -244,7 +244,7 @@ class LoginController: ViewController {
       output.loginButtonEnabled.asDriver().drive(login.button.rx.isEnabled),
       output.hud.asSignal().emit(to: view.mbp.hud)
     )
-    
+
   }
 
 }

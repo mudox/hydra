@@ -40,7 +40,7 @@ class LanguagesController: CollectionController {
   var searchController: UISearchController!
 
   // MARK: - View
-  
+
   override func setupView() {
     view.backgroundColor = .bgLight
 
