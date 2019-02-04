@@ -19,7 +19,7 @@ class PlaceholderView: View {
 
   var retryButton: UIButton!
 
-  // MARK: - Setup View
+  // MARK: - View
 
   override func setupView() {
     aid = .placeholderView

@@ -11,7 +11,7 @@ private let jack = Jack().set(format: .short)
 
 extension Container: Then {}
 
-// MARK: - The Singleton Container
+// MARK: The Singleton Container
 
 let swinject = Container().then {
   // Shared
@@ -21,6 +21,7 @@ let swinject = Container().then {
   registerLoginTypes(to: $0)
   registerTrendTypes(to: $0)
   registerLanguagesTypes(to: $0)
+  registerExploreTypes(to: $0)
 }
 
 /// Called at app launch to logout all stubbing
@@ -134,6 +135,28 @@ private func registerLanguagesTypes(to container: Container) {
   container.autoregister(
     LanguagesModelType.self,
     initializer: LanguagesModel.init
+  )
+}
+
+private func registerExploreTypes(to container: Container) {
+  // Service
+//  if Environs.stubLanguagesService != nil {
+//    logStub("LanguagesService")
+//    container.autoregister(
+//      LanguagesServiceType.self,
+//      initializer: LanguagesServiceStub.init
+//    )
+//  } else {
+//    container.autoregister(
+//      LanguagesServiceType.self,
+//      initializer: LanguagesService.init
+//    )
+//  }
+
+  // Model
+  container.autoregister(
+    TopicsModelType.self,
+    initializer: TopicsModel.init
   )
 }
 
