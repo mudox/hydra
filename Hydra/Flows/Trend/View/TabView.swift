@@ -8,7 +8,7 @@ import MudoxKit
 
 import Then
 
-class TabSwitch: UIView {
+class TabView: UIView {
 
   private let buttonWidth = 140
   private let height = 24
