@@ -22,7 +22,7 @@ class ExploreCarousel: iCarousel {
   init() {
     super.init(frame: .zero)
     setupView()
-    setupBindign()
+    setupBinding()
   }
 
   // MARK: - View
@@ -46,10 +46,23 @@ class ExploreCarousel: iCarousel {
 
   private let bag = DisposeBag()
 
-  func setupBindign() {
+  func setupBinding() {
+    reloadDataOnNewItems()
+    setupAutoplay()
+  }
+
+  func reloadDataOnNewItems() {
     items
       .bind(onNext: { [weak self] _ in
         self?.reloadData()
+      })
+      .disposed(by: bag)
+  }
+
+  func setupAutoplay() {
+    Driver<Int>.timer(0, period: 4)
+      .drive(onNext: { [weak self] _ in
+        self?.scroll(byNumberOfItems: 1, duration: 0.5)
       })
       .disposed(by: bag)
   }
