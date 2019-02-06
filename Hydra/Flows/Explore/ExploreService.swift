@@ -10,8 +10,7 @@ import MudoxKit
 private let jack = Jack().set(format: .short).set(level: .debug)
 
 protocol ExploreServiceType {
-  var topics: Single<[GitHub.CuratedTopic]> { get }
-  var collections: Single<[GitHub.Collection]> { get }
+  var lists: Single<GitHub.Explore.Lists> { get }
 }
 
 private let cacheKey = "exploreLists"
@@ -58,23 +57,12 @@ class ExploreService: ExploreServiceType {
       })
   }
 
-  var topics: Single<[GitHub.CuratedTopic]> {
+  var lists: Single<GitHub.Explore.Lists> {
     return Observable
       .catchError([
         listsFromCache.asObservable(),
-        listsFromNetwork.asObservable(),
+        listsFromNetwork.asObservable()
       ])
-      .mapAt(\GitHub.Explore.Lists.topics)
-      .asSingle()
-  }
-
-  var collections: Single<[GitHub.Collection]> {
-    return Observable
-      .catchError([
-        listsFromCache.asObservable(),
-        listsFromNetwork.asObservable(),
-      ])
-      .mapAt(\GitHub.Explore.Lists.collections)
       .asSingle()
   }
 
