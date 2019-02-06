@@ -7,7 +7,7 @@ import NVActivityIndicatorView
 
 import MudoxKit
 
-class PlaceholderView: View {
+class LoadingStatesView: View {
 
   // MARK: Subviews
 
