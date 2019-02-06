@@ -60,7 +60,7 @@ class ExploreCarousel: iCarousel {
   }
 
   func setupAutoplay() {
-    Driver<Int>.timer(0, period: 4)
+    Driver<Int>.timer(4, period: 4)
       .drive(onNext: { [weak self] _ in
         self?.scroll(byNumberOfItems: 1, duration: 0.5)
       })
