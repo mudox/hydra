@@ -34,15 +34,9 @@ class ExploreCarousel: iCarousel {
     delegate = self
   }
 
-  struct Item {
-    let logoLocalURL: URL?
-    let title: String
-    let description: String
-  }
-
   // MARK: - Binding
 
-  let items = BehaviorRelay<[Item]>(value: [])
+  let items = BehaviorRelay<[ExploreModel.Item]>(value: [])
 
   private let bag = DisposeBag()
 

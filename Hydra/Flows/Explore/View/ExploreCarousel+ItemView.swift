@@ -47,7 +47,7 @@ extension ExploreCarousel {
 
     func setupLogoView() {
       logoView = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .center
 
         $0.layer.cornerRadius = 6
         $0.layer.masksToBounds = true
@@ -108,7 +108,7 @@ extension ExploreCarousel {
       }
     }
 
-    func show(item: Item) {
+    func show(item: ExploreModel.Item) {
       showLogo(atLocalURL: item.logoLocalURL)
 
       titleLabel.text = item.title

@@ -40,7 +40,14 @@ class ExploreModel: ViewModel, ExploreModelType {
   // MARK: Binding
 
   required override init() {
+// MARK: - Types
 
+extension ExploreModel {
+
+  struct Item {
+    let logoLocalURL: URL?
+    let title: String
+    let description: String
   }
 
 }
