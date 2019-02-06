@@ -10,7 +10,7 @@ private let jack = Jack().set(format: .short)
 
 extension ExploreController {
 
-  class TopicCell: CollectionCell {
+  class Cell: CollectionCell {
 
     // MARK: Metrics
 
