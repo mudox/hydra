@@ -73,7 +73,7 @@ import MudoxKit
       let stageVC = makeStageController(title: "")
       stage.window.rootViewController = stageVC
 
-      let view = PlaceholderView()
+      let view = LoadingStateView()
 
       stageVC.view.addSubview(view)
       view.snp.makeConstraints { make in

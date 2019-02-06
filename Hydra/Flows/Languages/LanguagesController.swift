@@ -35,7 +35,7 @@ class LanguagesController: CollectionController {
 
   var pinButton: UIBarButtonItem!
 
-  var placeholderView: PlaceholderView!
+  var loadingStateView: LoadingStateView!
 
   var searchController: UISearchController!
 
@@ -101,11 +101,10 @@ class LanguagesController: CollectionController {
   }
 
   func setupPlaceholderView() {
-    placeholderView = PlaceholderView()
-    placeholderView.isHidden = true
+    loadingStateView = LoadingStateView()
 
-    view.addSubview(placeholderView)
-    placeholderView.snp.makeConstraints { make in
+    view.addSubview(loadingStateView)
+    loadingStateView.snp.makeConstraints { make in
       make.center.equalToSuperview()
     }
   }
@@ -144,7 +143,7 @@ class LanguagesController: CollectionController {
       dismissButton.rx.tap.bind(to: input.dismissButtonTap),
       pinButton.rx.tap.bind(to: input.pinButtonTap),
       searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText),
-      PlaceholderView.retry.bind(to: input.retryButtonTap)
+      LoadingStateView.retry.bind(to: input.retryButtonTap)
     )
 
     // Model -> View
@@ -253,25 +252,25 @@ extension Reactive where Base: LanguagesController {
     return Binder(base) { vc, state in
       switch state {
       case .inProgress:
-        vc.placeholderView.do {
+        vc.loadingStateView.do {
           $0.isHidden = false
           $0.showLoading()
         }
         vc.collectionView.isHidden = true
       case .error:
-        vc.placeholderView.do {
+        vc.loadingStateView.do {
           $0.isHidden = false
           $0.showGeneralError()
         }
         vc.collectionView.isHidden = true
       case .empty:
-        vc.placeholderView.do {
+        vc.loadingStateView.do {
           $0.isHidden = false
           $0.showEmptyData()
         }
         vc.collectionView.isHidden = true
       case .data:
-        vc.placeholderView.isHidden = true
+        vc.loadingStateView.isHidden = true
         vc.collectionView.isHidden = false
       }
     }

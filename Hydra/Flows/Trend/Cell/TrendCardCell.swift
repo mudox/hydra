@@ -110,9 +110,9 @@ class TrendCardCell: CollectionCell {
   }
 
   var reloadBag = DisposeBag()
-  
+
   static let reload = PublishRelay<Trend.Context>()
-  
+
   func show(error: Error, context: Trend.Context) {
     // Self
     backgroundColor = .emptyLight

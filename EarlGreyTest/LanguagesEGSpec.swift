@@ -30,7 +30,7 @@ class LanguagesEGSpec: QuickSpec {
 
     let searchBar = element(withAID: .languagesSearchBar)
 
-    let placeholderView = element(withAID: .placeholderView)
+    let loadingStateView = element(withAID: .loadingStateView)
     let collectionView = element(withAID: .languagesCollectionView)
 
     let swiftCellItem = element(withLabel: "Swift")
@@ -102,7 +102,7 @@ class LanguagesEGSpec: QuickSpec {
       // No match
       searchBar.clearText().type(text: "sldkjadkjf")
       collectionView.isNotVisible()
-      placeholderView.isVisible()
+      loadingStateView.isVisible()
     }
     
     it("clear selection before searching") {
