@@ -59,19 +59,21 @@ class ExploreService: ExploreServiceType {
   }
 
   var topics: Single<[GitHub.CuratedTopic]> {
-    return Observable.catchError([
-      listsFromCache.asObservable(),
-      listsFromNetwork.asObservable()
-    ])
+    return Observable
+      .catchError([
+        listsFromCache.asObservable(),
+        listsFromNetwork.asObservable(),
+      ])
       .mapAt(\GitHub.Explore.Lists.topics)
       .asSingle()
   }
 
   var collections: Single<[GitHub.Collection]> {
-    return Observable.catchError([
-      listsFromCache.asObservable(),
-      listsFromNetwork.asObservable()
-    ])
+    return Observable
+      .catchError([
+        listsFromCache.asObservable(),
+        listsFromNetwork.asObservable(),
+      ])
       .mapAt(\GitHub.Explore.Lists.collections)
       .asSingle()
   }
