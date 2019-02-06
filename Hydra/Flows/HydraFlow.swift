@@ -82,6 +82,11 @@ class HydraFlow: AppFlow {
       case "languages":
         tryLanguagesFlow()
 
+      case "explore":
+        let tabBarVC = UITabBarController()
+        self.stage.window.rootViewController = tabBarVC
+        _ = runExploreFlow(in: tabBarVC).forever()
+
       case "view":
         tryPlaceholderView()
 

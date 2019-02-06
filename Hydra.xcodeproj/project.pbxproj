@@ -82,6 +82,8 @@
 		F4DF862E2208285F00A4FE4C /* ExploreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DF862D2208285F00A4FE4C /* ExploreModel.swift */; };
 		F4DF8630220837F800A4FE4C /* ExploreCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DF862F220837F800A4FE4C /* ExploreCarousel.swift */; };
 		F4DF86332208980F00A4FE4C /* ExploreCarousel+ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DF86322208980E00A4FE4C /* ExploreCarousel+ItemView.swift */; };
+		F4DF86352209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DF86342209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift */; };
+		F4DF8637220A430100A4FE4C /* RxApplicationDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DF8636220A430000A4FE4C /* RxApplicationDelegateProxy.swift */; };
 		F4F338142170BD4100DC9638 /* HydraFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F338132170BD4100DC9638 /* HydraFlow.swift */; };
 		F4F85F30213F05A400EFF085 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F85F2F213F05A400EFF085 /* AppDelegate.swift */; };
 		F4F85F37213F05A600EFF085 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4F85F36213F05A600EFF085 /* Assets.xcassets */; };
@@ -215,6 +217,8 @@
 		F4DF862D2208285F00A4FE4C /* ExploreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreModel.swift; sourceTree = "<group>"; };
 		F4DF862F220837F800A4FE4C /* ExploreCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCarousel.swift; sourceTree = "<group>"; };
 		F4DF86322208980E00A4FE4C /* ExploreCarousel+ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreCarousel+ItemView.swift"; sourceTree = "<group>"; };
+		F4DF86342209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxiCarouselDelegateProxy.swift; sourceTree = "<group>"; };
+		F4DF8636220A430000A4FE4C /* RxApplicationDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxApplicationDelegateProxy.swift; sourceTree = "<group>"; };
 		F4F338132170BD4100DC9638 /* HydraFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydraFlow.swift; sourceTree = "<group>"; };
 		F4F338192171035700DC9638 /* UnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F85F2C213F05A400EFF085 /* Hydra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydra.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -340,6 +344,7 @@
 				F41C5F3021E7B4F70011DBEC /* NotificationNames.swift */,
 				F40C90CC21F0E18400C85F27 /* Realms.swift */,
 				F40C90CF21F1642500C85F27 /* Environs.swift */,
+				F4DF8636220A430000A4FE4C /* RxApplicationDelegateProxy.swift */,
 				F40C90CE21F163FA00C85F27 /* Services */,
 			);
 			path = Shared;
@@ -537,8 +542,9 @@
 		F4DF86312208380400A4FE4C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F4DF86322208980E00A4FE4C /* ExploreCarousel+ItemView.swift */,
 				F4DF862F220837F800A4FE4C /* ExploreCarousel.swift */,
+				F4DF86322208980E00A4FE4C /* ExploreCarousel+ItemView.swift */,
+				F4DF86342209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1096,6 +1102,7 @@
 				F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */,
 				F40C90D221F1889900C85F27 /* Files.swift in Sources */,
 				F4DF861A2208205400A4FE4C /* UserFlow.swift in Sources */,
+				F4DF8637220A430100A4FE4C /* RxApplicationDelegateProxy.swift in Sources */,
 				F4DF861D2208205400A4FE4C /* UserController.swift in Sources */,
 				F43032F621B3A53A00BE40DF /* LanguagesService.swift in Sources */,
 				F477FE592206DD440073AAB1 /* ExploreService.swift in Sources */,
@@ -1125,6 +1132,7 @@
 				F448420021DCF68A00951C3D /* ContributorsView.swift in Sources */,
 				F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */,
 				F44841FF21DCF68A00951C3D /* TrendBadgeView.swift in Sources */,
+				F4DF86352209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift in Sources */,
 				F4967D5C21CFE43600FAACBD /* LanguageCell.swift in Sources */,
 				F48779482169F1CC00C027A9 /* DefaultsKeys.swift in Sources */,
 				F44FEFA621FBCEE800E7D3AD /* LanguagesServiceStub.swift in Sources */,
