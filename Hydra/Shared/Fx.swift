@@ -141,6 +141,11 @@ private func registerLanguagesTypes(to container: Container) {
 }
 
 private func registerExploreTypes(to container: Container) {
+  // Service
+  container.autoregister(
+    ExploreServiceType.self,
+    initializer: ExploreService.init
+  )
   // Model
   container.autoregister(
     ExploreModelType.self,
