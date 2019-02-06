@@ -7,7 +7,20 @@ import NVActivityIndicatorView
 
 import MudoxKit
 
-class LoadingStatesView: View {
+/// A view for showing special states like loading, error, no data.
+///
+/// Usage:
+///
+/// ```swift
+/// loadingStateView = LoadingStateView()
+/// loadingStateView.isHidden = true
+///
+/// view.addSubview(loadingStateView)
+/// loadingStateView.snp.makeConstraints { make in
+///   make.center.equalToSuperview()
+/// }
+/// ```
+final class LoadingStateView: View {
 
   // MARK: Subviews
 
@@ -22,7 +35,7 @@ class LoadingStatesView: View {
   // MARK: - View
 
   override func setupView() {
-    aid = .placeholderView
+    aid = .loadingStateView
 
     backgroundColor = .clear
     clipsToBounds = false
@@ -205,6 +218,23 @@ class LoadingStatesView: View {
     imageView.isHidden = true
     label.isHidden = true
     retryButton.isHidden = true
+  }
+
+}
+
+extension Reactive where Base: LoadingStateView {
+
+  func loadingState<T>() -> Binder<LoadingState<T>> {
+    return Binder(base) { view, state in
+      switch state {
+      case .loading:
+        view.showLoading()
+      case .error:
+        view.showGeneralError()
+      case .value:
+        view.isHidden = true
+      }
+    }
   }
 
 }
