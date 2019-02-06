@@ -70,7 +70,7 @@ class LanguagesFlowLayout: UICollectionViewLayout {
       let attrs = languages.enumerated().map {
         (itemIndex: Int, language: String) -> UICollectionViewLayoutAttributes in
 
-        var frame = CGRect(origin: .init(x: x, y: y), size: LanguagesController.Cell.cellSize(for: language))
+        var frame = CGRect(origin: .init(x: x, y: y), size: LanguagesController.Cell.size(for: language))
         if frame.maxX > width - sectionInset.right {
           x = sectionInset.left
           y += cellHeight + rowGap

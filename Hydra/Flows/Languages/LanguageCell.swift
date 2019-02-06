@@ -15,7 +15,7 @@ extension LanguagesController {
 
     static let cellHeight: CGFloat = 24
 
-    static func cellSize(for language: String) -> CGSize {
+    static func size(for language: String) -> CGSize {
       let containingSize = CGSize(width: CGFloat.infinity, height: CGFloat.infinity)
       let options: NSStringDrawingOptions = []
       let attributes: [NSAttributedString.Key: Any]? = [

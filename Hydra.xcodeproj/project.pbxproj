@@ -31,6 +31,8 @@
 		F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44721C9174100CAA764 /* LoginTextField.swift */; };
 		F426C44A21C9174E00CAA764 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44921C9174E00CAA764 /* LoginButton.swift */; };
 		F43032F621B3A53A00BE40DF /* LanguagesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032F521B3A53A00BE40DF /* LanguagesService.swift */; };
+		F432F336220A96D5004F521B /* ExploreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F432F335220A96D5004F521B /* ExploreCell.swift */; };
+		F432F338220ACE41004F521B /* TrendScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F432F337220ACE41004F521B /* TrendScrollCell.swift */; };
 		F438CE4821D9FF8500A6EF34 /* TrendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438CE4721D9FF8500A6EF34 /* TrendModel.swift */; };
 		F438CE4C21DA037D00A6EF34 /* Trend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438CE4B21DA037D00A6EF34 /* Trend.swift */; };
 		F438CE4E21DA0B9600A6EF34 /* TrendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438CE4D21DA0B9600A6EF34 /* TrendService.swift */; };
@@ -44,7 +46,6 @@
 		F448420421DCF71700951C3D /* RetryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463A2AE21AF188A0067432B /* RetryButton.swift */; };
 		F448420821DCF71F00951C3D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F584621A5E42D00416A45 /* TabView.swift */; };
 		F448420921DCF71F00951C3D /* TrendPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4349CE421A873D000628D8D /* TrendPageControl.swift */; };
-		F448420A21DCF71F00951C3D /* TrendScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A1C5C21A66A440045E74B /* TrendScrollCell.swift */; };
 		F448420B21DCF71F00951C3D /* LanguagesBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451AC7521B0356800C101D1 /* LanguagesBar.swift */; };
 		F44FEFA621FBCEE800E7D3AD /* LanguagesServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B370A21FA09DE0076F561 /* LanguagesServiceStub.swift */; };
 		F44FEFA821FBFF9B00E7D3AD /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44FEFA721FBFF9B00E7D3AD /* PlaceholderView.swift */; };
@@ -163,6 +164,8 @@
 		F426C44721C9174100CAA764 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		F426C44921C9174E00CAA764 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		F43032F521B3A53A00BE40DF /* LanguagesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesService.swift; sourceTree = "<group>"; };
+		F432F335220A96D5004F521B /* ExploreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCell.swift; sourceTree = "<group>"; };
+		F432F337220ACE41004F521B /* TrendScrollCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendScrollCell.swift; sourceTree = "<group>"; };
 		F4349CE421A873D000628D8D /* TrendPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendPageControl.swift; sourceTree = "<group>"; };
 		F438CE4721D9FF8500A6EF34 /* TrendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendModel.swift; sourceTree = "<group>"; };
 		F438CE4B21DA037D00A6EF34 /* Trend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trend.swift; sourceTree = "<group>"; };
@@ -185,7 +188,6 @@
 		F477FE5A2207DF7E0073AAB1 /* ExploreFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreFlow.swift; sourceTree = "<group>"; };
 		F48779472169F1CC00C027A9 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
 		F4967D5B21CFE43600FAACBD /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
-		F49A1C5C21A66A440045E74B /* TrendScrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendScrollCell.swift; sourceTree = "<group>"; };
 		F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendBadgeView.swift; sourceTree = "<group>"; };
 		F49A1C6221A730BD0045E74B /* ContributorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorsView.swift; sourceTree = "<group>"; };
 		F49B6E4621D89C8900E0CF2B /* AID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AID.swift; sourceTree = "<group>"; };
@@ -414,7 +416,7 @@
 		F463A2B521AF49A60067432B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				F49A1C5C21A66A440045E74B /* TrendScrollCell.swift */,
+				F432F337220ACE41004F521B /* TrendScrollCell.swift */,
 				F49A1C5E21A6CBA80045E74B /* TrendBadgeView.swift */,
 				F40C238421AC95D4006FA060 /* TrendCardCell.swift */,
 				F40C238221AC6D2C006FA060 /* TrendDeveloperCell.swift */,
@@ -544,6 +546,7 @@
 			children = (
 				F4DF862F220837F800A4FE4C /* ExploreCarousel.swift */,
 				F4DF86322208980E00A4FE4C /* ExploreCarousel+ItemView.swift */,
+				F432F335220A96D5004F521B /* ExploreCell.swift */,
 				F4DF86342209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift */,
 			);
 			path = View;
@@ -1089,6 +1092,7 @@
 				F46C688E215A43400090B4AF /* LoginModel.swift in Sources */,
 				F44FEFA821FBFF9B00E7D3AD /* PlaceholderView.swift in Sources */,
 				F46C688D215A43400090B4AF /* LoginController.swift in Sources */,
+				F432F338220ACE41004F521B /* TrendScrollCell.swift in Sources */,
 				F448420321DCF68A00951C3D /* TrendRepositoryCell.swift in Sources */,
 				F4B4BA2921D3546300879B18 /* Caches.swift in Sources */,
 				F448420821DCF71F00951C3D /* TabView.swift in Sources */,
@@ -1097,7 +1101,6 @@
 				F477FE5B2207DF7E0073AAB1 /* ExploreFlow.swift in Sources */,
 				F448420121DCF68A00951C3D /* TrendCardCell.swift in Sources */,
 				F40C90CD21F0E18400C85F27 /* Realms.swift in Sources */,
-				F448420A21DCF71F00951C3D /* TrendScrollCell.swift in Sources */,
 				F46C6891215A43400090B4AF /* LoginService.swift in Sources */,
 				F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */,
 				F40C90D221F1889900C85F27 /* Files.swift in Sources */,
@@ -1131,6 +1134,7 @@
 				F4F338142170BD4100DC9638 /* HydraFlow.swift in Sources */,
 				F448420021DCF68A00951C3D /* ContributorsView.swift in Sources */,
 				F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */,
+				F432F336220A96D5004F521B /* ExploreCell.swift in Sources */,
 				F44841FF21DCF68A00951C3D /* TrendBadgeView.swift in Sources */,
 				F4DF86352209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift in Sources */,
 				F4967D5C21CFE43600FAACBD /* LanguageCell.swift in Sources */,
