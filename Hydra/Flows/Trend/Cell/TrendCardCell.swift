@@ -7,21 +7,22 @@ import SnapKit
 
 import GitHub
 import JacKit
+import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-class TrendCardCell: UICollectionViewCell {
+class TrendCardCell: CollectionCell {
 
   let badge = BadgeView()
 
-  @available(*, unavailable, message: "init(coder:) has not been implemented")
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+  // MARK: - View
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  private var errorLabel: UILabel!
+  private var errorStackView: UIStackView! // Currently only contain `errorLabel`
 
+  static let size = CGSize(width: 270, height: 170)
+
+  override func setupView() {
     tintColor = .dark
     backgroundColor = .white
 
@@ -32,13 +33,6 @@ class TrendCardCell: UICollectionViewCell {
 
     setupBadge()
   }
-
-  // MARK: - View
-
-  private var errorLabel: UILabel!
-  private var errorStackView: UIStackView! // Currently only contain `errorLabel`
-
-  static let size = CGSize(width: 270, height: 170)
 
   func setupLayer() {
     layer.do {
@@ -115,8 +109,10 @@ class TrendCardCell: UICollectionViewCell {
     badge.showLoading()
   }
 
-  var retryBag = DisposeBag()
-
+  var reloadBag = DisposeBag()
+  
+  static let reload = PublishRelay<Trend.Context>()
+  
   func show(error: Error, context: Trend.Context) {
     // Self
     backgroundColor = .emptyLight
@@ -135,16 +131,11 @@ class TrendCardCell: UICollectionViewCell {
     // Badge
     badge.showError()
 
-    retryBag = DisposeBag()
+    reloadBag = DisposeBag()
     badge.retryButton.rx.tap
-      .subscribe(onNext: { _ in
-        NotificationCenter.default.post(
-          name: .retryLoadingTrend,
-          object: nil,
-          userInfo: ["context": context]
-        )
-      })
-      .disposed(by: retryBag)
+      .mapTo(context)
+      .bind(to: TrendCardCell.reload)
+      .disposed(by: reloadBag)
   }
 
 }

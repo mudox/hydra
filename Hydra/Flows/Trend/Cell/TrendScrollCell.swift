@@ -160,22 +160,11 @@ class TrendScrollCell: UITableViewCell {
   }
 
   func refreshDriver(for context: Trend.Context) -> Driver<Void> {
-    return NotificationCenter.default
-      .rx.notification(.retryLoadingTrend)
-      .filter { notify in
-        if let cellContext = notify.userInfo?["context"] as? Trend.Context {
-          return cellContext == context
-        } else {
-          jack.warn("Can not extract context info from `notification.object`, skip this notification")
-          return false
-        }
-      }
+    return TrendCardCell.reload
+      .filter { $0 == context }
       .mapTo(())
       .startWith(())
-      .asDriver { error in
-        jack.failure("Unexpected error: \(error)")
-        return .empty()
-      }
+      .asDriver(onErrorFailWithLabel: "TrendCardCell.reload", or: .complete)
   }
 
   func driveCollectionView(with context: Trend.Context) {
