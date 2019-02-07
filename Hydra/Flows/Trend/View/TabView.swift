@@ -117,27 +117,6 @@ class TabView: View {
       })
       .disposed(by: bag)
 
-    // Selection drives underline's move with spring animation
-    selectedIndex
-      .bind(onNext: { [weak self] newIndex in
-        guard let self = self else { return }
-        UIView.animate(
-          withDuration: 0.25,
-          delay: 0,
-          usingSpringWithDamping: 0.5,
-          initialSpringVelocity: 2,
-          options: [],
-          animations: { [weak self] in
-            guard let self = self else { return }
-            self.underline.snp.updateConstraints { make in
-              make.centerX.equalTo((self.buttonWidth / 2) + (self.gap + self.buttonWidth) * newIndex)
-            }
-            self.layoutIfNeeded()
-          }
-        )
-      })
-      .disposed(by: bag)
-
     scrollOffset
       .bind(onNext: { [weak self] offset in
         guard let self = self else { return }
