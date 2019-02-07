@@ -5,7 +5,10 @@ import RxSwift
 
 import NVActivityIndicatorView
 
+import JacKit
 import MudoxKit
+
+private let jack = Jack().set(format: .short)
 
 /// A view for showing special states like loading, error, no data.
 ///
@@ -220,20 +223,27 @@ final class LoadingStateView: View {
     retryButton.isHidden = true
   }
 
+  func show<T>(_ state: LoadingState<T>) {
+    switch state {
+    case .loading:
+      showLoading()
+    case .error:
+      showGeneralError()
+    case let .value(value):
+      if let value = value as? Emptiable, value.isEmpty {
+        showEmpty()
+      } else {
+        isHidden = true
+      }
+    }
+  }
 }
 
 extension Reactive where Base: LoadingStateView {
 
-  func loadingState<T>() -> Binder<LoadingState<T>> {
+  func showLoadingState<T>() -> Binder<LoadingState<T>> {
     return Binder(base) { view, state in
-      switch state {
-      case .loading:
-        view.showLoading()
-      case .error:
-        view.showGeneralError()
-      case .value:
-        view.isHidden = true
-      }
+      view.show(state)
     }
   }
 
