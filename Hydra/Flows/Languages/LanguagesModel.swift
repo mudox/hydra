@@ -104,7 +104,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     // Ouputs
     dismissButtonTitle = .init(value: "Back")
     pinButtonState = .init(value: .hide)
-    searchState = .init(value: .inProgress)
+    searchState = .init(value: .loading)
 
     // Internals
     selection = .init(value: nil)
@@ -137,7 +137,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       }
 
     let resetBeforeReloading = searchState
-      .filter { $0 == .inProgress }
+      .filter { $0.isLoading }
       .mapTo(nil as Selection?)
 
     let resetBeforeMovingPinnedItem = clearSelection
@@ -247,7 +247,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     action.executing
       .filterMap { isExecuting -> FilterMap<SearchState> in
         if isExecuting {
-          return .map(SearchState.inProgress)
+          return .map(SearchState.loading)
         } else {
           return .ignore
         }
@@ -260,7 +260,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       .filterMap { error -> FilterMap<SearchState> in
         // filter out `.notEnabled` error
         if case ActionError.underlyingError = error {
-          return .map(SearchState.error)
+          return .map(SearchState.error(error))
         } else {
           return .ignore
         }
@@ -268,22 +268,15 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       .bind(to: searchState)
       .disposed(by: bag)
 
-    // SearchState.empty or data
     action.elements
-      .map { result -> SearchState in
-        if result.isEmpty {
-          return SearchState.empty
-        } else {
-          return SearchState.data(result)
-        }
-      }
+      .map(SearchState.value)
       .bind(to: searchState)
       .disposed(by: bag)
   }
 
 }
 
-// MARK: - Nested Types
+// MARK: - Types
 
 extension LanguagesModel {
 
@@ -307,38 +300,6 @@ extension LanguagesModel {
   struct Selection: Equatable {
     let indexPath: IndexPath
     let language: String
-  }
-
-  enum SearchState: Equatable {
-
-    case inProgress
-    case error
-    case empty
-    case data(LanguagesService.SearchResult)
-
-    static func == (lhs: SearchState, rhs: SearchState) -> Bool {
-      switch (lhs, rhs) {
-      case (.inProgress, .inProgress):
-        return true
-      case (.empty, .empty):
-        return true
-      case (.error, .error):
-        return true
-      case let (.data(data1), .data(data2)):
-        return data1 == data2
-      default:
-        return false
-      }
-    }
-
-    var sectionModels: [SectionModel<String, String>]! {
-      switch self {
-      case let .data(result):
-        return result.toSectionModels()
-      default:
-        return nil
-      }
-    }
   }
 
   enum Command: Equatable {
@@ -372,6 +333,27 @@ extension LanguagesModel {
       }
     }
 
+  }
+
+}
+
+// MARK: SearchState
+
+extension LanguagesModel {
+  
+  typealias SearchState = LoadingState<LanguagesService.SearchResult>
+  
+}
+
+extension LoadingState where Value == LanguagesService.SearchResult {
+
+  var sectionModels: [SectionModel<String, String>]? {
+    switch self {
+    case let .value(result):
+      return result.toSectionModels()
+    default:
+      return nil
+    }
   }
 
 }

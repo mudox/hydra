@@ -11,9 +11,8 @@ import RxSwiftExt
 import NVActivityIndicatorView
 import SnapKit
 
-import MudoxKit
-
 import JacKit
+import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
@@ -164,11 +163,14 @@ class LanguagesController: CollectionController {
         }
       }
 
+    let searchState = output.searchState.asDriver().debounce(0.3)
+
     bag.insert(
       output.dismissButtonTitle.asDriver().drive(rx.dismissButtonTitle),
       output.pinButtonState.asDriver().drive(rx.pinButtonState),
       output.selection.asDriver().drive(rx.selection),
-      output.searchState.asDriver().debounce(0.2).drive(rx.searchState),
+      searchState.drive(loadingStateView.rx.showLoadingState()),
+      searchState.drive(collectionView.rx.hideWhenNoData()),
       data.drive(collectionView.rx.items(dataSource: dataSource))
     )
   }
@@ -248,37 +250,29 @@ extension Reactive where Base: LanguagesController {
     }
   }
 
-  var searchState: Binder<LanguagesModel.SearchState> {
-    return Binder(base) { vc, state in
-      switch state {
-      case .inProgress:
-        vc.loadingStateView.do {
-          $0.isHidden = false
-          $0.showLoading()
-        }
-        vc.collectionView.isHidden = true
-      case .error:
-        vc.loadingStateView.do {
-          $0.isHidden = false
-          $0.showGeneralError()
-        }
-        vc.collectionView.isHidden = true
-      case .empty:
-        vc.loadingStateView.do {
-          $0.isHidden = false
-          $0.showEmptyData()
-        }
-        vc.collectionView.isHidden = true
-      case .data:
-        vc.loadingStateView.isHidden = true
-        vc.collectionView.isHidden = false
-      }
-    }
-  }
-
 }
 
 // MARK: - Helpers
 
 private let cellID = "LanguagesController.Cell.id"
 private let headerViewID = "LanguagesController.HeaderView.id"
+
+extension Reactive where Base: UIView {
+
+  func hideWhenNoData<T>() -> Binder<LoadingState<T>> {
+    return Binder(base) { view, state in
+      switch state {
+
+      case let .value(value):
+        if let value = value as? Emptiable, value.isEmpty {
+          view.isHidden = true
+        } else {
+          view.isHidden = false
+        }
+      default:
+        view.isHidden = true
+      }
+    }
+  }
+
+}
