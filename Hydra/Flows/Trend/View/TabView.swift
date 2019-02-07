@@ -8,7 +8,7 @@ import MudoxKit
 
 import Then
 
-class TabView: UIView {
+class TabView: View {
 
   private let buttonWidth = 140
   private let height = 24
@@ -28,18 +28,10 @@ class TabView: UIView {
 
   init(titles: [String]) {
     self.titles = titles
-    super.init(frame: .zero)
-
-    setupView()
-    setupBinding()
+    super.init()
   }
 
-  @available(*, unavailable, message: "has not been implemented")
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init?(coder:) has not been implemented")
-  }
-
-  func setupView() {
+  override func setupView() {
     // Buttons
     buttons = []
     titles.enumerated().forEach { index, _ in
@@ -91,7 +83,7 @@ class TabView: UIView {
     }
   }
 
-  func setupBinding() {
+  override func setupBinding() {
     // Button taps drive selecection relay
     buttons.enumerated().forEach { index, button in
       button.rx.tap
