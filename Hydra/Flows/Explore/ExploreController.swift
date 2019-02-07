@@ -136,6 +136,7 @@ class ExploreController: ViewController {
     driveLoadingStateView()
     driveCarousel()
     tabViewDrivesScrollView()
+    scrollViewDrivesTabView()
     driveCollectionViews()
   }
 
@@ -187,6 +188,7 @@ class ExploreController: ViewController {
 
   func tabViewDrivesScrollView() {
     tabView.selectedIndex
+      .asDriver()
       .drive(onNext: { [weak self] index in
         assert((0 ..< 2).contains(index))
         let offset = CGPoint(x: CGFloat(index) * UIScreen.main.bounds.width, y: 0)
@@ -195,10 +197,29 @@ class ExploreController: ViewController {
       .disposed(by: bag)
   }
 
-  func scrollViewDriveTabView() {
+  func scrollViewDrivesTabView() {
     scrollView.rx.contentOffset
       .map { offset in
         offset.x / UIScreen.main.bounds.width
       }
+      .bind(to: tabView.scrollOffset)
+      .disposed(by: bag)
+
+    let endDraggingWithoutDecelerating = scrollView.rx.didEndDragging
+      .asDriver()
+      .filter { $0 == false }
+      .mapTo(())
+
+    let endDecelerating = scrollView.rx.didEndDecelerating.asDriver()
+
+    Driver
+      .merge(endDraggingWithoutDecelerating, endDecelerating)
+      .flatMap { [weak self] () -> Driver<Int> in
+        guard let self = self else { return .empty() }
+        let pageIndex = Int(self.scrollView.contentOffset.x / Info.screenWidth)
+        return .just(pageIndex)
+      }
+      .drive(tabView.selectedIndex)
+      .disposed(by: bag)
   }
 }

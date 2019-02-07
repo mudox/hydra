@@ -340,9 +340,9 @@ extension LanguagesModel {
 // MARK: SearchState
 
 extension LanguagesModel {
-  
+
   typealias SearchState = LoadingState<LanguagesService.SearchResult>
-  
+
 }
 
 extension LoadingState where Value == LanguagesService.SearchResult {
