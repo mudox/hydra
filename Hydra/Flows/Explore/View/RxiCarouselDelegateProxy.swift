@@ -52,40 +52,47 @@ extension Reactive where Base: iCarousel {
     )
   }
 
-  var willBeginScrollAnimation: Observable<Void> {
-    return delegate
+  var willBeginScrollAnimation: ControlEvent<Void> {
+    let source = delegate
       .methodInvoked(#selector(iCarouselDelegate.carouselWillBeginScrollingAnimation(_:)))
       .mapTo(())
+    return ControlEvent(events: source)
   }
 
-  var didEndScrollAnimation: Observable<Void> {
-    return delegate
+  var didEndScrollAnimation: ControlEvent<Void> {
+    let source = delegate
       .methodInvoked(#selector(iCarouselDelegate.carouselDidEndScrollingAnimation(_:)))
       .mapTo(())
+    return ControlEvent(events: source)
+
   }
 
-  var willBeginDragging: Observable<Void> {
-    return delegate
+  var willBeginDragging: ControlEvent<Void> {
+    let source = delegate
       .methodInvoked(#selector(iCarouselDelegate.carouselWillBeginDragging(_:)))
       .mapTo(())
+    return ControlEvent(events: source)
   }
 
-  var didEndDraggingWillDecelerate: Observable<Bool> {
-    return delegate
+  var didEndDraggingWillDecelerate: ControlEvent<Bool> {
+    let source = delegate
       .methodInvoked(#selector(iCarouselDelegate.carouselDidEndDragging(_:willDecelerate:)))
       .map { try cast($0[0], to: Bool.self) }
+    return ControlEvent(events: source)
   }
 
-  var willBeginDecelerating: Observable<Void> {
-    return delegate
+  var willBeginDecelerating: ControlEvent<Void> {
+    let source = delegate
       .methodInvoked(#selector(iCarouselDelegate.carouselWillBeginDecelerating(_:)))
       .mapTo(())
+    return ControlEvent(events: source)
   }
 
-  var didEndDecelearting: Observable<Void> {
-    return delegate
+  var didEndDecelerating: ControlEvent<Void> {
+    let source = delegate
       .methodInvoked(#selector(iCarouselDelegate.carouselDidEndDecelerating(_:)))
       .mapTo(())
+    return ControlEvent(events: source)
   }
 
 }
