@@ -89,7 +89,7 @@ import MudoxKit
           case 1:
             view.showNetworkError()
           case 2:
-            view.showEmptyData()
+            view.showEmpty()
           case 3:
             view.showLoading()
           default:

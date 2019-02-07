@@ -4,6 +4,7 @@ import RxCocoa
 import RxSwift
 import RxSwiftExt
 
+import GitHub
 import MudoxKit
 
 import JacKit
@@ -17,6 +18,7 @@ protocol ExploreModelInput {
 }
 
 protocol ExploreModelOutput {
+  var loadingState: BehaviorRelay<ExploreModel.LoadingState> { get }
   var carouselItems: BehaviorRelay<[ExploreModel.Item]> { get }
   var topicItems: BehaviorRelay<[ExploreModel.Item]> { get }
   var collectionItems: BehaviorRelay<[ExploreModel.Item]> { get }
@@ -41,60 +43,73 @@ class ExploreModel: ViewModel, ExploreModelType {
 
   // MARK: Output
 
-  let carouselItems: BehaviorRelay<[Item]>
-  let topicItems: BehaviorRelay<[Item]>
-  let collectionItems: BehaviorRelay<[Item]>
+  let loadingState: BehaviorRelay<LoadingState>
+  let carouselItems: BehaviorRelay<[ExploreModel.Item]>
+  let topicItems: BehaviorRelay<[ExploreModel.Item]>
+  let collectionItems: BehaviorRelay<[ExploreModel.Item]>
 
   // MARK: Binding
 
   required override init() {
+    loadingState = .init(value: .loading)
     carouselItems = .init(value: [])
     topicItems = .init(value: [])
     collectionItems = .init(value: [])
 
     super.init()
 
-    // Fake
-    service.topics
-      .map { topics in
-        topics[0 ..< 6].map { topic -> Item in
-          return .init(
+    service.lists
+      .asLoadingStateDriver()
+      .drive(loadingState)
+      .disposed(by: bag)
+
+    let lists = loadingState
+      .filterMap { state -> FilterMap<GitHub.Explore.Lists> in
+        if case let LoadingState.value(lists) = state {
+          return .map(lists)
+        } else {
+          return .ignore
+        }
+      }
+
+    // Fake carousel items
+    lists
+      .map { lists in
+        lists.topics[0 ..< 6].map { topic -> Item in
+          Item(
             logoLocalURL: topic.logoLocalURL,
             title: topic.displayName,
-            description: topic.summary
+            summary: topic.summary
           )
         }
       }
-      .asObservable()
       .bind(to: carouselItems)
       .disposed(by: bag)
 
-    service.topics
-      .asLoadingStateDriver()
-      .map { topics -> [Item] in
-        topics.map { topic -> Item in
+    lists
+      .map { lists -> [Item] in
+        lists.topics.map { topic -> Item in
           Item(
             logoLocalURL: topic.logoLocalURL,
             title: topic.displayName,
-            description: topic.summary
+            summary: topic.summary
           )
         }
       }
-      .drive(topicItems)
+      .bind(to: topicItems)
       .disposed(by: bag)
 
-    service.collections
-      .asLoadingStateDriver()
-      .map { collections -> [Item] in
-        collections.map { collection -> Item in
+    lists
+      .map { lists -> [Item] in
+        lists.collections.map { collection -> Item in
           Item(
             logoLocalURL: collection.logoLocalURL,
             title: collection.displayName,
-            description: collection.description
+            summary: collection.description
           )
         }
       }
-      .drive(collectionItems)
+      .bind(to: collectionItems)
       .disposed(by: bag)
   }
 
@@ -104,10 +119,12 @@ class ExploreModel: ViewModel, ExploreModelType {
 
 extension ExploreModel {
 
+  typealias LoadingState = MudoxKit.LoadingState<GitHub.Explore.Lists>
+
   struct Item {
     let logoLocalURL: URL?
     let title: String
-    let description: String
+    let summary: String
   }
 
 }

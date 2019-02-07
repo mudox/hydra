@@ -112,7 +112,7 @@ extension ExploreCarousel {
       showLogo(atLocalURL: item.logoLocalURL)
 
       titleLabel.text = item.title
-      descriptionLabel.text = item.description
+      descriptionLabel.text = item.summary
     }
 
     func showLogo(atLocalURL url: URL?) {

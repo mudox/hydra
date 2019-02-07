@@ -133,25 +133,40 @@ class ExploreController: ViewController {
   let model: ExploreModelType = fx()
 
   override func setupModel() {
+    driveLoadingStateView()
+    driveCarousel()
+    tabViewDrivesScrollView()
+    driveCollectionViews()
+  }
+
+  func driveLoadingStateView() {
     let output = model.output
 
-    let state = output.loadingState
+    let loadingState = output.loadingState
       .asDriver()
 
-    let hideContentViews = state
+    let hideContentViews = loadingState
       .map { $0.value == nil }
 
     bag.insert([
-      state.drive(loadingStateView.rx.loadingState()),
+      loadingState.drive(loadingStateView.rx.showLoadingState()),
       hideContentViews.drive(carousel.rx.isHidden),
       hideContentViews.drive(tabView.rx.isHidden),
       hideContentViews.drive(topicsView.rx.isHidden)
     ])
+  }
+
+  func driveCarousel() {
+    let output = model.output
 
     output.carouselItems
       .asDriver()
       .drive(carousel.items)
       .disposed(by: bag)
+  }
+
+  func driveCollectionViews() {
+    let output = model.output
 
     output.topicItems
       .asDriver()
@@ -170,10 +185,20 @@ class ExploreController: ViewController {
       .disposed(by: bag)
   }
 
-}
+  func tabViewDrivesScrollView() {
+    tabView.selectedIndex
+      .drive(onNext: { [weak self] index in
+        assert((0 ..< 2).contains(index))
+        let offset = CGPoint(x: CGFloat(index) * UIScreen.main.bounds.width, y: 0)
+        self?.scrollView.setContentOffset(offset, animated: true)
+      })
+      .disposed(by: bag)
+  }
 
-// MARK: - Binders
-
-extension Reactive where Base: ExploreController {
-
+  func scrollViewDriveTabView() {
+    scrollView.rx.contentOffset
+      .map { offset in
+        offset.x / UIScreen.main.bounds.width
+      }
+  }
 }
