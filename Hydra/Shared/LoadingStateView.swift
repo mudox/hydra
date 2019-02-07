@@ -187,7 +187,7 @@ final class LoadingStateView: View {
     }
   }
 
-  func showEmptyData(
+  func showEmpty(
     title: String = "Empty",
     buttonTitle: String? = nil
   )
