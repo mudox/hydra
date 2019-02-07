@@ -4,27 +4,41 @@ import RxCocoa
 import RxSwift
 import RxSwiftExt
 
+import JacKit
 import MudoxKit
 
 import Then
 
+private let jack = Jack().set(format: .short)
+
+/// Tab strip showing 2 ~ 4 title buttons
+///
+/// It uses stack view to layout titles equally, hence can not
+/// scroll titles.
+///
+/// ```swift
+/// tabView = TabView(titles: ["Topics", "Collections"])
+/// view.addSubview(tabView)
+/// tabView.snp.makeConstraints { make in
+///   make.top.equalTo(carousel.snp.bottom).offset(12)
+///   make.centerX.equalToSuperview()
+/// }
+/// ```
 class TabView: View {
+
+  // MARK: Constants
 
   private let buttonWidth = 140
   private let height = 24
   private let gap = 10
 
-  private var disposeBag = DisposeBag()
+  // MARK: - Subviews
 
   private let titles: [String]
   private var buttons: [UIButton]!
   private var underline: UIView!
 
-  private let selectedButtonIndexRelay = BehaviorRelay(value: 0)
-
-  var selectedIndex: Driver<Int> {
-    return selectedButtonIndexRelay.asDriver()
-  }
+  let selectedIndex = BehaviorRelay(value: 0)
 
   init(titles: [String]) {
     self.titles = titles
@@ -33,11 +47,10 @@ class TabView: View {
 
   override func setupView() {
     // Buttons
-    buttons = []
-    titles.enumerated().forEach { index, _ in
+    buttons = titles.enumerated().map { index, _ in
       let button = makeButton(title: titles[index])
       button.isSelected = (index == 0)
-      buttons.append(button)
+      return button
     }
 
     // Stack View
@@ -83,27 +96,29 @@ class TabView: View {
     }
   }
 
+  let scrollOffset = BehaviorRelay<CGFloat>(value: 0)
+
   override func setupBinding() {
     // Button taps drive selecection relay
     buttons.enumerated().forEach { index, button in
       button.rx.tap
-        .map { _ in index }
-        .bind(to: selectedButtonIndexRelay)
-        .disposed(by: disposeBag)
+        .mapTo(index)
+        .bind(to: selectedIndex)
+        .disposed(by: bag)
     }
 
     // Selection change buttons appearance
-    selectedButtonIndexRelay
+    selectedIndex
       .pairwise()
       .bind(onNext: { [weak self] old, new in
         guard let self = self else { return }
         self.buttons[old].isSelected = false
         self.buttons[new].isSelected = true
       })
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
 
     // Selection drives underline's move with spring animation
-    selectedButtonIndexRelay
+    selectedIndex
       .bind(onNext: { [weak self] newIndex in
         guard let self = self else { return }
         UIView.animate(
@@ -121,7 +136,17 @@ class TabView: View {
           }
         )
       })
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
+
+    scrollOffset
+      .bind(onNext: { [weak self] offset in
+        guard let self = self else { return }
+        self.underline.snp.updateConstraints { make in
+          let x = CGFloat(self.buttonWidth / 2) + CGFloat(self.buttonWidth + self.gap) * offset
+          make.centerX.equalTo(x)
+        }
+      })
+      .disposed(by: bag)
   }
 
   override func layoutSubviews() {
