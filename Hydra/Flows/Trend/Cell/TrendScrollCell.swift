@@ -178,16 +178,7 @@ class TrendScrollCell: UITableViewCell {
         fx(TrendServiceType.self)
           .repositories(of: context.language, for: context.period)
           .asLoadingStateDriver()
-          .map { state -> [LoadingState<Trending.Repository>] in
-            switch state {
-            case .loading:
-              return .init(repeating: .loading, count: 3)
-            case let .value(repos):
-              return repos.map(LoadingState.value)
-            case let .error(error):
-              return .init(repeating: .error(error), count: 3)
-            }
-          }
+          .flatMap(cellStates)
       }
       .drive(collectionView.rx.items(cellIdentifier: TrendRepositoryCell.id, cellType: TrendRepositoryCell.self)) {
         row, state, cell in
@@ -199,16 +190,7 @@ class TrendScrollCell: UITableViewCell {
         fx(TrendServiceType.self)
           .developers(of: context.language, for: context.period)
           .asLoadingStateDriver()
-          .map { state -> [LoadingState<Trending.Developer>] in
-            switch state {
-            case .loading:
-              return .init(repeating: .loading, count: 3)
-            case let .value(repos):
-              return repos.map(LoadingState.value)
-            case let .error(error):
-              return .init(repeating: .error(error), count: 3)
-            }
-          }
+          .flatMap(cellStates)
       }
       .drive(collectionView.rx.items(cellIdentifier: TrendDeveloperCell.id, cellType: TrendDeveloperCell.self)) {
         row, state, cell in
@@ -216,5 +198,19 @@ class TrendScrollCell: UITableViewCell {
       }
       .disposed(by: dataSourceBag)
     }
+  }
+}
+
+private func cellStates<T>(from state: LoadingState<[T]>) -> Driver<[LoadingState<T>]> {
+  switch state {
+  case .begin:
+    return .just(.init(repeating: .begin(phase: nil), count: 3))
+  case let .value(value):
+    return .just(value.map(LoadingState.value))
+  case let .error(error):
+    return .just(.init(repeating: .error(error), count: 3))
+  default:
+    jack.failure("Unexpected case \(state)")
+    return .empty()
   }
 }
