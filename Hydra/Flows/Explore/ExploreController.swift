@@ -90,8 +90,10 @@ class ExploreController: ViewController {
       make.bottom.equalToSuperview()
     }
 
+    // Collection view
     topicsView = makeCollectionView()
     collectionsView = makeCollectionView()
+
     let views: [UIView] = [topicsView, collectionsView]
     let stackView = UIStackView(arrangedSubviews: views).then {
       $0.axis = .horizontal
@@ -133,6 +135,13 @@ class ExploreController: ViewController {
   let model: ExploreModelType = fx()
 
   override func setupModel() {
+    tabView.selectedIndex
+      .map { index -> ExploreModel.Category in
+        return index == 0 ? .topics : .collections
+      }
+      .bind(to: model.input.currentCategory)
+      .disposed(by: bag)
+
     driveLoadingStateView()
     driveCarousel()
     tabViewDrivesScrollView()
@@ -160,7 +169,7 @@ class ExploreController: ViewController {
   func driveCarousel() {
     let output = model.output
 
-    output.carouselItems
+    output.featuredItems
       .asDriver()
       .drive(carousel.items)
       .disposed(by: bag)

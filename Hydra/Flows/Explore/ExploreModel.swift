@@ -14,12 +14,14 @@ private let jack = Jack().set(format: .short)
 // MARK: Interface
 
 protocol ExploreModelInput {
-
+  var currentCategory: BehaviorRelay<ExploreModel.Category> { get }
 }
 
 protocol ExploreModelOutput {
   var loadingState: BehaviorRelay<ExploreModel.LoadingState> { get }
-  var carouselItems: BehaviorRelay<[ExploreModel.Item]> { get }
+
+  var featuredItems: BehaviorRelay<[ExploreModel.Item]> { get }
+
   var topicItems: BehaviorRelay<[ExploreModel.Item]> { get }
   var collectionItems: BehaviorRelay<[ExploreModel.Item]> { get }
 }
@@ -41,18 +43,22 @@ class ExploreModel: ViewModel, ExploreModelType {
 
   // MARK: Input
 
+  let currentCategory: BehaviorRelay<Category>
+
   // MARK: Output
 
   let loadingState: BehaviorRelay<LoadingState>
-  let carouselItems: BehaviorRelay<[ExploreModel.Item]>
+  let featuredItems: BehaviorRelay<[ExploreModel.Item]>
   let topicItems: BehaviorRelay<[ExploreModel.Item]>
   let collectionItems: BehaviorRelay<[ExploreModel.Item]>
 
   // MARK: Binding
 
   required override init() {
+    currentCategory = .init(value: .topics)
+
     loadingState = .init(value: .loading)
-    carouselItems = .init(value: [])
+    featuredItems = .init(value: [])
     topicItems = .init(value: [])
     collectionItems = .init(value: [])
 
@@ -73,41 +79,31 @@ class ExploreModel: ViewModel, ExploreModelType {
       }
 
     // Fake carousel items
-    lists
-      .map { lists in
-        lists.topics[0 ..< 6].map { topic -> Item in
-          Item(
-            logoLocalURL: topic.logoLocalURL,
-            title: topic.displayName,
-            summary: topic.summary
-          )
+    currentCategory
+      .flatMap { [weak self] category -> Single<[Item]> in
+        guard let self = self else { return .just([]) }
+        switch category {
+        case .topics:
+          return self.service.featuredTopics
+            .map { $0.map(Item.init) }
+        case .collections:
+          return self.service.featuredCollections
+            .map { $0.map(Item.init) }
         }
       }
-      .bind(to: carouselItems)
+      .bind(to: featuredItems)
       .disposed(by: bag)
 
     lists
       .map { lists -> [Item] in
-        lists.topics.map { topic -> Item in
-          Item(
-            logoLocalURL: topic.logoLocalURL,
-            title: topic.displayName,
-            summary: topic.summary
-          )
-        }
+        lists.topics.map(Item.init)
       }
       .bind(to: topicItems)
       .disposed(by: bag)
 
     lists
       .map { lists -> [Item] in
-        lists.collections.map { collection -> Item in
-          Item(
-            logoLocalURL: collection.logoLocalURL,
-            title: collection.displayName,
-            summary: collection.description
-          )
-        }
+        lists.collections.map(Item.init)
       }
       .bind(to: collectionItems)
       .disposed(by: bag)
@@ -125,6 +121,22 @@ extension ExploreModel {
     let logoLocalURL: URL?
     let title: String
     let summary: String
+
+    init(from topic: GitHub.CuratedTopic) {
+      logoLocalURL = topic.logoLocalURL
+      title = topic.displayName
+      summary = topic.summary
+    }
+
+    init(from collection: GitHub.Collection) {
+      logoLocalURL = collection.logoLocalURL
+      title = collection.displayName
+      summary = collection.description
+    }
   }
 
+  enum Category {
+    case topics
+    case collections
+  }
 }
