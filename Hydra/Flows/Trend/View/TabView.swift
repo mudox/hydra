@@ -38,7 +38,7 @@ class TabView: View {
   private var buttons: [UIButton]!
   private var underline: UIView!
 
-  let selectedIndex = BehaviorRelay(value: 0)
+  // MARK: - View
 
   init(titles: [String]) {
     self.titles = titles
@@ -96,7 +96,10 @@ class TabView: View {
     }
   }
 
+  // MARK: - Model
+
   let scrollOffset = BehaviorRelay<CGFloat>(value: 0)
+  let selectedIndex = BehaviorRelay(value: 0)
 
   override func setupBinding() {
     // Button taps drive selecection relay
@@ -126,27 +129,6 @@ class TabView: View {
         }
       })
       .disposed(by: bag)
-  }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-
-    let gap: CGFloat = 10
-    let viewWidth = bounds.width
-
-    let count = CGFloat(buttons.count)
-    let width = (viewWidth - gap * (count - 1)) / count
-
-    buttons.enumerated().forEach { index, button in
-      let idx = CGFloat(index)
-
-      button.frame = CGRect(
-        x: idx * width + idx * gap,
-        y: 0,
-        width: width,
-        height: bounds.height
-      )
-    }
   }
 
 }
