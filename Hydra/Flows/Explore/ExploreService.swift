@@ -11,6 +11,9 @@ private let jack = Jack().set(format: .short).set(level: .debug)
 
 protocol ExploreServiceType {
   var lists: Single<GitHub.Explore.Lists> { get }
+
+  var featuredTopics: Single<[GitHub.CuratedTopic]> { get }
+  var featuredCollections: Single<[GitHub.Collection]> { get }
 }
 
 private let cacheKey = "exploreLists"
@@ -66,4 +69,24 @@ class ExploreService: ExploreServiceType {
       .asSingle()
   }
 
+  // MARK: - Featured Items
+
+  var featuredTopics: Single<[GitHub.CuratedTopic]> {
+    return lists
+      .map { lists -> [GitHub.CuratedTopic] in
+        let shuffled = lists.topics.shuffled()
+        return Array(shuffled.prefix(featuredItemsCount))
+      }
+  }
+
+  var featuredCollections: Single<[GitHub.Collection]> {
+    return lists
+      .map { lists -> [GitHub.Collection] in
+        let shuffled = lists.collections.shuffled()
+        return Array(shuffled.prefix(featuredItemsCount))
+      }
+  }
+
 }
+
+private let featuredItemsCount = 8
