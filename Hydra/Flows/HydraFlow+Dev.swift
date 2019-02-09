@@ -69,32 +69,31 @@ import MudoxKit
         })
     }
 
-    func tryPlaceholderView() {
+    func tryLoadingStateView() {
       let stageVC = makeStageController(title: "")
       stage.window.rootViewController = stageVC
 
-      let view = LoadingStateView()
-
-      stageVC.view.addSubview(view)
-      view.snp.makeConstraints { make in
-        make.center.equalToSuperview()
+      let views = [LoadingStateView(), LoadingStateView(), LoadingStateView(), LoadingStateView()]
+      let stackView = UIStackView(arrangedSubviews: views).then {
+        $0.axis = .vertical
+        $0.distribution = .fillEqually
+        $0.alignment = .center
       }
 
+      stageVC.view.addSubview(stackView)
+      stackView.snp.makeConstraints { make in
+        make.edges.equalToSuperview()
+      }
+
+      views[0].showLoading(phase: "Testing LoadingStateView")
+      views[1].showEmpty(title: "Found no match")
+      views[2].showError(title: "Network is not available", buttonTitle: "Retry")
+
       _ = Observable<Int>
-        .timer(0, period: 4, scheduler: MainScheduler.instance)
+        .timer(0, period: 0.1, scheduler: MainScheduler.instance)
         .subscribe(onNext: { tick in
-          switch tick % 4 {
-          case 0:
-            view.showGeneralError()
-          case 1:
-            view.showNetworkError()
-          case 2:
-            view.showEmpty()
-          case 3:
-            view.showLoading()
-          default:
-            fatalError("Shouled not be here")
-          }
+          let progress = Double(tick % 101) / 100
+          views[3].showProgress(phase: "Downloading", progress: progress)
         })
     }
 

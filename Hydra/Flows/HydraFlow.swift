@@ -93,7 +93,7 @@ class HydraFlow: AppFlow {
         _ = runExploreFlow(in: tabBarVC).forever()
 
       case "view":
-        tryPlaceholderView()
+        tryLoadingStateView()
 
       case "release":
         _ = welcomeIfNeeded
