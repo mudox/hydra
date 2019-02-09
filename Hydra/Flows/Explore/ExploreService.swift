@@ -10,7 +10,10 @@ import MudoxKit
 private let jack = Jack().set(format: .short).set(level: .debug)
 
 protocol ExploreServiceType {
-  var lists: Single<GitHub.Explore.Lists> { get }
+  var loadLists: Observable<GitHub.Explore.ListsLoadingState> { get }
+
+  var topics: Single<[GitHub.CuratedTopic]> { get }
+  var collections: Single<[GitHub.Collection]> { get }
 
   var featuredTopics: Single<[GitHub.CuratedTopic]> { get }
   var featuredCollections: Single<[GitHub.Collection]> { get }
@@ -22,7 +25,7 @@ class ExploreService: ExploreServiceType {
 
   // MARK: Full List
 
-  private var listsFromCache: Single<GitHub.Explore.Lists> {
+  private var listsFromCache: Single<GitHub.Explore.ListsLoadingState> {
     return .create { single in
       guard let cache = Caches.explore else {
         single(.error(Errors.error("`Caches.explore` returned nil")))
@@ -31,7 +34,7 @@ class ExploreService: ExploreServiceType {
 
       do {
         let lists = try cache.object(forKey: cacheKey)
-        single(.success(lists))
+        single(.success(.success(lists)))
       } catch {
         jack.func().verbose("Error fetching explore lists from cache:\n\(error)")
         single(.error(error))
@@ -41,48 +44,74 @@ class ExploreService: ExploreServiceType {
     }
   }
 
-  private var listsFromNetwork: Single<GitHub.Explore.Lists> {
+  private var listsFromNetwork: Observable<GitHub.Explore.ListsLoadingState> {
     return GitHub.Explore.lists
       .observeOn(ConcurrentDispatchQueueScheduler(qos: .default))
-      .do(onSuccess: { lists in
-        let log = jack.func().sub("do(onSuccess:)")
+      .do(onNext: { state in
+        let log = jack.func().sub("do(onNext:)")
 
-        do {
-          guard let cache = Caches.explore else {
-            log.error("`Caches.explore` is nil, explore lists is not cached")
-            return
+        switch state {
+        case let .success(lists):
+          do {
+            guard let cache = Caches.explore else {
+              log.error("`Caches.explore` is nil, explore lists is not cached")
+              return
+            }
+
+            try cache.setObject(lists, forKey: cacheKey)
+          } catch {
+            log.warn("Error caching trending developers data: \(error)")
           }
-
-          try cache.setObject(lists, forKey: cacheKey)
-        } catch {
-          log.warn("Error caching trending developers data: \(error)")
+        default:
+          break
         }
       })
   }
 
-  var lists: Single<GitHub.Explore.Lists> {
+  var loadLists: Observable<GitHub.Explore.ListsLoadingState> {
     return Observable
       .catchError([
         listsFromCache.asObservable(),
-        listsFromNetwork.asObservable()
+        listsFromNetwork
       ])
+  }
+
+  private var lists: Single<GitHub.Explore.Lists> {
+    return loadLists
+      .flatMap { state -> Observable<GitHub.Explore.Lists> in
+        if let lists = state.value {
+          return .just(lists)
+        } else {
+          return .empty()
+        }
+      }
       .asSingle()
+  }
+
+  // MARK: - Topics & Collections
+
+  var topics: Single<[GitHub.CuratedTopic]> {
+    return lists.map { $0.topics }
+  }
+
+  var collections: Single<[GitHub.Collection]> {
+    return lists.map { $0.collections }
   }
 
   // MARK: - Featured Items
 
   var featuredTopics: Single<[GitHub.CuratedTopic]> {
-    return lists
-      .map { lists -> [GitHub.CuratedTopic] in
-        let shuffled = lists.topics.shuffled()
+    return topics
+      .map { topics in
+        let shuffled = topics.shuffled()
         return Array(shuffled.prefix(featuredItemsCount))
       }
   }
 
   var featuredCollections: Single<[GitHub.Collection]> {
-    return lists
-      .map { lists -> [GitHub.Collection] in
-        let shuffled = lists.collections.shuffled()
+    return collections
+      .map { collections in
+        let shuffled = collections.shuffled()
         return Array(shuffled.prefix(featuredItemsCount))
       }
   }
