@@ -64,13 +64,15 @@ class ExploreModel: ViewModel, ExploreModelType {
 
     super.init()
 
-    service.loadLists
+    let states = service.loadLists
       .map(LoadingState.init)
+      .startWith(.begin(phase: "Load from cache"))
       .asDriver { return .just(.error($0)) }
-      .drive(loadingState)
-      .disposed(by: bag)
+      .jack("loading state")
 
-    let lists = loadingState
+    states.drive(loadingState).disposed(by: bag)
+
+    let exploreLists = loadingState
       .filterMap { state -> FilterMap<GitHub.Explore.Lists> in
         if case let LoadingState.value(lists) = state {
           return .map(lists)
@@ -79,33 +81,30 @@ class ExploreModel: ViewModel, ExploreModelType {
         }
       }
 
-    // Fake carousel items
+    let count = 8
+    let topics = exploreLists.map { $0.topics.map(Item.init) }
+    let collections = exploreLists.map { $0.collections.map(Item.init) }
+    let featuredTopics = topics.map { Array($0.shuffled().prefix(count)) }
+    let featuredCollections = collections.map { Array($0.shuffled().prefix(count)) }
+
     currentCategory
-      .flatMap { [weak self] category -> Single<[Item]> in
-        guard let self = self else { return .just([]) }
+      .distinctUntilChanged()
+      .flatMap { category -> Observable<[Item]> in
         switch category {
         case .topics:
-          return self.service.featuredTopics
-            .map { $0.map(Item.init) }
+          return featuredTopics
         case .collections:
-          return self.service.featuredCollections
-            .map { $0.map(Item.init) }
+          return featuredCollections
         }
       }
       .bind(to: featuredItems)
       .disposed(by: bag)
 
-    lists
-      .map { lists -> [Item] in
-        lists.topics.map(Item.init)
-      }
+    topics
       .bind(to: topicItems)
       .disposed(by: bag)
 
-    lists
-      .map { lists -> [Item] in
-        lists.collections.map(Item.init)
-      }
+    collections
       .bind(to: collectionItems)
       .disposed(by: bag)
   }
@@ -146,12 +145,12 @@ extension LoadingState where Value == GitHub.Explore.Lists {
 
   init(from state: GitHub.Explore.ListsLoadingState) {
     switch state {
-    case let .downloading(completed: progress):
+    case let .downloading(progress: progress):
       self = .progress(phase: "Downloading", completed: progress)
     case .unarchiving:
       self = .begin(phase: "Unarchiving")
     case .parsing:
-      self = .begin(phase: "Pasring")
+      self = .begin(phase: "Parsing")
     case let .success(lists):
       self = .value(lists)
     }
