@@ -1,8 +1,7 @@
-import UIKit
-
 import Kingfisher
 import SnapKit
 import Then
+import UIKit
 
 import JacKit
 import MudoxKit
@@ -31,8 +30,11 @@ extension ExploreController {
 
       layer.cornerRadius = 6
 
+      let margin: CGFloat = 8
+
       contentView.snp.makeConstraints { make in
-        make.width.equalTo(The.screen.bounds.width - 8 * 2)
+        make.edges.equalToSuperview()
+        make.width.equalTo(The.screen.bounds.width - margin * 2)
       }
 
       setupLogoView()

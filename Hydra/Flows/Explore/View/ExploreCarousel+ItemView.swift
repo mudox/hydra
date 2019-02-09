@@ -116,7 +116,7 @@ extension ExploreCarousel {
     }
 
     var imageTask: DownloadTask?
-    
+
     func showLogo(atLocalURL url: URL?) {
       let placeholderImage = #imageLiteral(resourceName: "Explore Carousel Logo Placeholder.pdf")
       if let url = url {

@@ -70,7 +70,7 @@ class ExploreController: ViewController {
 
     view.addSubview(tabView)
     tabView.snp.makeConstraints { make in
-      make.top.equalTo(carousel.snp.bottom).offset(12)
+      make.top.equalTo(carousel.snp.bottom).offset(8)
       make.centerX.equalToSuperview()
     }
   }
@@ -86,7 +86,7 @@ class ExploreController: ViewController {
     view.addSubview(scrollView)
     scrollView.snp.makeConstraints { make in
       make.leading.trailing.equalToSuperview()
-      make.top.equalTo(tabView.snp.bottom).offset(10)
+      make.top.equalTo(tabView.snp.bottom).offset(12)
       make.bottom.equalToSuperview()
     }
 
@@ -113,7 +113,6 @@ class ExploreController: ViewController {
     let layout = UICollectionViewFlowLayout().then {
       $0.scrollDirection = .vertical
       $0.minimumLineSpacing = 8
-      $0.itemSize = TrendCardCell.size
 
       $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
     }
