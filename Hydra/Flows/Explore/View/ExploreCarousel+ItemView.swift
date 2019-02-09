@@ -115,6 +115,8 @@ extension ExploreCarousel {
       descriptionLabel.text = item.summary
     }
 
+    var imageTask: DownloadTask?
+    
     func showLogo(atLocalURL url: URL?) {
       let placeholderImage = #imageLiteral(resourceName: "Explore Carousel Logo Placeholder.pdf")
       if let url = url {
@@ -129,7 +131,8 @@ extension ExploreCarousel {
           .cacheOriginalImage
         ]
 
-        logoView.kf.setImage(with: provider, placeholder: placeholderImage, options: options) {
+        imageTask?.cancel()
+        imageTask = logoView.kf.setImage(with: provider, placeholder: placeholderImage, options: options) {
           result in
           switch result {
           case .success:
