@@ -16,7 +16,6 @@ private let jack = Jack().set(format: .short)
 ///
 /// ```swift
 /// loadingStateView = LoadingStateView()
-/// loadingStateView.isHidden = true
 ///
 /// view.addSubview(loadingStateView)
 /// loadingStateView.snp.makeConstraints { make in
@@ -27,61 +26,83 @@ final class LoadingStateView: View {
 
   // MARK: Subviews
 
-  var loadingView: NVActivityIndicatorView!
+  // Loading stack view
+  var loadingIndicator: NVActivityIndicatorView!
+  var loadingLabel: UILabel!
+  var loadingStackView: UIStackView!
 
+  // Result stack view
   var imageView: UIImageView!
-
   var label: UILabel!
-
   var retryButton: UIButton!
+  var resultStackView: UIStackView!
 
   // MARK: - View
 
   override func setupView() {
     aid = .loadingStateView
 
+    isHidden = true
+
     backgroundColor = .clear
     clipsToBounds = false
 
     snp.makeConstraints { make in
-      make.size.greaterThanOrEqualTo(CGSize(width: 240, height: 169))
+      make.size.greaterThanOrEqualTo(CGSize(width: 240, height: 120))
+        .priority(UILayoutPriority.defaultLow)
     }
 
-    setupLoadingView()
-    setupImageView()
-    setupLabel()
-    setupRetryButton()
+    setupLoadingStackView()
+    setupResultStackView()
   }
 
-  func setupLoadingView() {
-    loadingView = NVActivityIndicatorView(
+  func setupLoadingStackView() {
+    loadingIndicator = NVActivityIndicatorView(
       frame: .zero,
-      type: .orbit,
+      type: .ballScaleMultiple,
       color: .brand
     )
 
-    addSubview(loadingView)
-    loadingView.snp.makeConstraints { make in
-      make.center.equalToSuperview()
-      make.size.equalTo(50)
+    loadingIndicator.snp.makeConstraints { make in
+      make.size.equalTo(40)
+    }
+
+    loadingLabel = UILabel().then {
+      $0.text = ""
+      $0.textColor = .emptyDark
+      $0.font = .systemFont(ofSize: 12)
+      $0.textAlignment = .center
+
+      // Auto shrink
+      $0.numberOfLines = 1
+      $0.lineBreakMode = .byTruncatingTail
+
+      $0.adjustsFontSizeToFitWidth = true
+      $0.minimumScaleFactor = 0.8
+      $0.allowsDefaultTighteningForTruncation = true
+    }
+
+    let views: [UIView] = [loadingIndicator, loadingLabel]
+    loadingStackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 10
+    }
+
+    addSubview(loadingStackView)
+    loadingStackView.snp.makeConstraints { make in
+      make.centerY.equalToSuperview()
+      make.leading.trailing.equalToSuperview()
     }
   }
 
-  func setupImageView() {
+  func setupResultStackView() {
     imageView = UIImageView().then {
       $0.contentMode = .scaleAspectFit
-
       $0.layer.masksToBounds = false
     }
 
-    addSubview(imageView)
-    imageView.snp.makeConstraints { make in
-      make.top.equalToSuperview()
-      make.centerX.equalToSuperview()
-    }
-  }
-
-  func setupLabel() {
     label = UILabel().then {
       $0.text = ""
       $0.textColor = .emptyDark
@@ -97,14 +118,6 @@ final class LoadingStateView: View {
       $0.allowsDefaultTighteningForTruncation = true
     }
 
-    addSubview(label)
-    label.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.top.equalTo(imageView.snp.bottom).offset(20)
-    }
-  }
-
-  func setupRetryButton() {
     retryButton = UIButton(type: .custom).then {
       $0.setTitle("Retry", for: .normal)
       $0.titleLabel?.font = .text
@@ -122,42 +135,77 @@ final class LoadingStateView: View {
       $0.layer.borderColor = UIColor.emptyDark.cgColor
     }
 
-    addSubview(retryButton)
     retryButton.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.top.equalTo(label.snp.bottom).offset(20)
       make.size.equalTo(CGSize(width: 60, height: 17))
     }
-  }
 
-  // MARK: - Binding
+    let views: [UIView] = [imageView, label, retryButton]
+    resultStackView = UIStackView(arrangedSubviews: views).then {
+      $0.axis = .vertical
+      $0.distribution = .fill
+      $0.alignment = .center
+      $0.spacing = 10
+    }
 
-  static let retry = PublishRelay<Void>()
-
-  override func setupBinding() {
-    retryButton.rx.tap
-      .bind(to: type(of: self).retry)
-      .disposed(by: bag)
+    addSubview(resultStackView)
+    resultStackView.snp.makeConstraints { make in
+      make.centerY.equalToSuperview()
+      make.leading.trailing.equalToSuperview()
+    }
   }
 
   // MARK: - Show State
 
-  func showGeneralError(
+  private enum Mode {
+    case showingLoading
+    case showingResult
+    case hidden
+  }
+
+  private func set(mode: Mode) {
+    switch mode {
+    case .showingLoading:
+      isHidden = false
+      showLoadingInterface(true)
+      resultStackView.isHidden = true
+    case .showingResult:
+      isHidden = false
+      showLoadingInterface(false)
+      resultStackView.isHidden = false
+    case .hidden:
+      isHidden = true
+      showLoadingInterface(false)
+      resultStackView.isHidden = true
+    }
+  }
+
+  private func showLoadingInterface(_ show: Bool) {
+    if show {
+      loadingStackView.isHidden = false
+      loadingIndicator.startAnimating()
+    } else {
+      loadingStackView.isHidden = true
+      loadingIndicator.stopAnimating()
+    }
+  }
+
+  func showError(
     title: String = "Oops",
-    buttonTitle: String? = "Retry"
+    buttonTitle: String? = nil
   )
   {
-    isHidden = false
+    set(mode: .showingResult)
 
-    loadingView.stopAnimating()
     imageView.do {
       $0.isHidden = false
       $0.image = #imageLiteral(resourceName: "Network Error Placeholder")
     }
+
     label.do {
       $0.isHidden = false
       $0.text = title
     }
+
     if let buttonTitle = buttonTitle {
       retryButton.isHidden = false
       retryButton.setTitle(buttonTitle, for: .normal)
@@ -171,17 +219,18 @@ final class LoadingStateView: View {
     buttonTitle: String? = "Retry"
   )
   {
-    isHidden = false
+    set(mode: .showingResult)
 
-    loadingView.stopAnimating()
     imageView.do {
       $0.isHidden = false
       $0.image = #imageLiteral(resourceName: "Network Error Placeholder")
     }
+
     label.do {
       $0.isHidden = false
       $0.text = title
     }
+
     if let buttonTitle = buttonTitle {
       retryButton.isHidden = false
       retryButton.setTitle(buttonTitle, for: .normal)
@@ -195,17 +244,18 @@ final class LoadingStateView: View {
     buttonTitle: String? = nil
   )
   {
-    isHidden = false
+    set(mode: .showingResult)
 
-    loadingView.stopAnimating()
     imageView.do {
       $0.isHidden = false
       $0.image = #imageLiteral(resourceName: "Empty Placeholder")
     }
+
     label.do {
       $0.isHidden = false
       $0.text = title
     }
+
     if let buttonTitle = buttonTitle {
       retryButton.isHidden = false
       retryButton.setTitle(buttonTitle, for: .normal)
@@ -214,21 +264,36 @@ final class LoadingStateView: View {
     }
   }
 
-  func showLoading() {
-    isHidden = false
+  func showLoading(phase: String? = nil) {
+    set(mode: .showingLoading)
+    loadingLabel.isHidden = true
 
-    loadingView.startAnimating()
-    imageView.isHidden = true
-    label.isHidden = true
-    retryButton.isHidden = true
+    if let phase = phase {
+      loadingLabel.isHidden = false
+      loadingLabel.text = phase
+    } else {
+      loadingLabel.isHidden = true
+    }
+  }
+
+  func showProgress(phase: String?, progress: Double) {
+    set(mode: .showingLoading)
+
+    loadingLabel.do {
+      $0.isHidden = false
+      let percent = String(format: "%02.0f%%", progress * 100)
+      $0.text = "\(phase ?? "Proceeding") \(percent)"
+    }
   }
 
   func show<T>(_ state: LoadingState<T>) {
     switch state {
-    case .loading:
-      showLoading()
+    case let .begin(phase: phase):
+      showLoading(phase: phase)
+    case let .progress(phase: phase, completed: progress):
+      showProgress(phase: phase, progress: progress)
     case .error:
-      showGeneralError()
+      showError()
     case let .value(value):
       if let value = value as? Emptiable, value.isEmpty {
         showEmpty()
