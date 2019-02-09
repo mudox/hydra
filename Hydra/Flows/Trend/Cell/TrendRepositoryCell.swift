@@ -320,8 +320,10 @@ class TrendRepositoryCell: TrendCardCell {
 
   func show(state: LoadingState<Trending.Repository>, context: Trend.Context, at index: Int) {
     switch state {
-    case .loading:
+    case .begin:
       showLoading()
+    case .progress:
+      jack.failure("Do not expect `.progress` case")
     case let .value(repo):
       show(repository: repo, rank: index + 1)
     case let .error(error):

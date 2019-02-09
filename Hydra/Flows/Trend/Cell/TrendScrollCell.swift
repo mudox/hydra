@@ -205,12 +205,12 @@ private func cellStates<T>(from state: LoadingState<[T]>) -> Driver<[LoadingStat
   switch state {
   case .begin:
     return .just(.init(repeating: .begin(phase: nil), count: 3))
+  case .progress:
+    jack.failure("Do not expect `.progress` case")
+    return .empty()
   case let .value(value):
     return .just(value.map(LoadingState.value))
   case let .error(error):
     return .just(.init(repeating: .error(error), count: 3))
-  default:
-    jack.failure("Unexpected case \(state)")
-    return .empty()
   }
 }

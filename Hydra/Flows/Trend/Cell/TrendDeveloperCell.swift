@@ -164,8 +164,10 @@ class TrendDeveloperCell: TrendCardCell {
 
   func show(state: LoadingState<Trending.Developer>, context: Trend.Context, at index: Int) {
     switch state {
-    case .loading:
+    case .begin:
       showLoading()
+    case .progress:
+      jack.failure("Do not expect `.progress` case")
     case let .value(developer):
       show(developer: developer, rank: index + 1)
     case let .error(error):
