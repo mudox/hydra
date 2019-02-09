@@ -77,7 +77,7 @@ file_name:
   excluded:
     - Fx.swift
     - UI.swift
-    - ExploreCell.swift
+    - ExploreController+Cell.swift
     - LanguageCell.swift
     - LanguagesHeaderView.swift
     - TrendBadgeView.swift
