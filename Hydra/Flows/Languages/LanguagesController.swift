@@ -142,7 +142,7 @@ class LanguagesController: CollectionController {
       dismissButton.rx.tap.bind(to: input.dismissButtonTap),
       pinButton.rx.tap.bind(to: input.pinButtonTap),
       searchController.searchBar.rx.text.orEmpty.bind(to: input.searchText),
-      LoadingStateView.retry.bind(to: input.retryButtonTap)
+      loadingStateView.retryButton.rx.tap.bind(to: input.retryButtonTap)
     )
 
     // Model -> View

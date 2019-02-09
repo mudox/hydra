@@ -104,7 +104,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     // Ouputs
     dismissButtonTitle = .init(value: "Back")
     pinButtonState = .init(value: .hide)
-    searchState = .init(value: .loading)
+    searchState = .init(value: .begin(phase: nil))
 
     // Internals
     selection = .init(value: nil)
@@ -137,7 +137,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
       }
 
     let resetBeforeReloading = searchState
-      .filter { $0.isLoading }
+      .filter { $0.isInProgress }
       .mapTo(nil as Selection?)
 
     let resetBeforeMovingPinnedItem = clearSelection
@@ -247,7 +247,7 @@ class LanguagesModel: ViewModel, LanguagesModelType {
     action.executing
       .filterMap { isExecuting -> FilterMap<SearchState> in
         if isExecuting {
-          return .map(SearchState.loading)
+          return .map(SearchState.begin(phase: nil))
         } else {
           return .ignore
         }
