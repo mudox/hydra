@@ -68,7 +68,6 @@ class ExploreModel: ViewModel, ExploreModelType {
       .map(LoadingState.init)
       .startWith(.begin(phase: "Load from cache"))
       .asDriver { return .just(.error($0)) }
-      .jack("loading state")
 
     states.drive(loadingState).disposed(by: bag)
 

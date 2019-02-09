@@ -281,8 +281,20 @@ final class LoadingStateView: View {
 
     loadingLabel.do {
       $0.isHidden = false
-      let percent = String(format: "%02.0f%%", progress * 100)
-      $0.text = "\(phase ?? "Proceeding") \(percent)"
+
+      let percentInteger = Int(progress * 100)
+      switch (phase, percentInteger) {
+      case (nil, 0):
+        $0.text = "Loading"
+      case let (title?, 0):
+        $0.text = title
+      case (nil, _):
+        let text = String(format: "%d%%", percentInteger)
+        $0.text = "Loading \(text)"
+      case let (title?, _):
+        let text = String(format: "%d%%", percentInteger)
+        $0.text = "\(title) \(text)"
+      }
     }
   }
 
