@@ -57,15 +57,16 @@ class ExploreModel: ViewModel, ExploreModelType {
   required override init() {
     currentCategory = .init(value: .topics)
 
-    loadingState = .init(value: .loading)
+    loadingState = .init(value: .begin(phase: nil))
     featuredItems = .init(value: [])
     topicItems = .init(value: [])
     collectionItems = .init(value: [])
 
     super.init()
 
-    service.lists
-      .asLoadingStateDriver()
+    service.loadLists
+      .map(LoadingState.init)
+      .asDriver { return .just(.error($0)) }
       .drive(loadingState)
       .disposed(by: bag)
 
@@ -139,4 +140,21 @@ extension ExploreModel {
     case topics
     case collections
   }
+}
+
+extension LoadingState where Value == GitHub.Explore.Lists {
+
+  init(from state: GitHub.Explore.ListsLoadingState) {
+    switch state {
+    case let .downloading(completed: progress):
+      self = .progress(phase: "Downloading", completed: progress)
+    case .unarchiving:
+      self = .begin(phase: "Unarchiving")
+    case .parsing:
+      self = .begin(phase: "Pasring")
+    case let .success(lists):
+      self = .value(lists)
+    }
+  }
+
 }

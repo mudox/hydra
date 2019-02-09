@@ -152,17 +152,14 @@ class ExploreController: ViewController {
   func driveLoadingStateView() {
     let output = model.output
 
-    let loadingState = output.loadingState
+    let state = output.loadingState
       .asDriver()
 
-    let hideContentViews = loadingState
-      .map { $0.value == nil }
-
     bag.insert([
-      loadingState.drive(loadingStateView.rx.showLoadingState()),
-      hideContentViews.drive(carousel.rx.isHidden),
-      hideContentViews.drive(tabView.rx.isHidden),
-      hideContentViews.drive(topicsView.rx.isHidden)
+      state.drive(loadingStateView.rx.showLoadingState()),
+      state.drive(carousel.rx.hideWhenNoData()),
+      state.drive(tabView.rx.hideWhenNoData()),
+      state.drive(scrollView.rx.hideWhenNoData())
     ])
   }
 

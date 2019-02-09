@@ -30,7 +30,7 @@
 		F426C44821C9174100CAA764 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44721C9174100CAA764 /* LoginTextField.swift */; };
 		F426C44A21C9174E00CAA764 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F426C44921C9174E00CAA764 /* LoginButton.swift */; };
 		F43032F621B3A53A00BE40DF /* LanguagesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43032F521B3A53A00BE40DF /* LanguagesService.swift */; };
-		F432F336220A96D5004F521B /* ExploreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F432F335220A96D5004F521B /* ExploreCell.swift */; };
+		F432F336220A96D5004F521B /* ExploreController+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F432F335220A96D5004F521B /* ExploreController+Cell.swift */; };
 		F432F338220ACE41004F521B /* TrendScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F432F337220ACE41004F521B /* TrendScrollCell.swift */; };
 		F438CE4821D9FF8500A6EF34 /* TrendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438CE4721D9FF8500A6EF34 /* TrendModel.swift */; };
 		F438CE4C21DA037D00A6EF34 /* Trend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438CE4B21DA037D00A6EF34 /* Trend.swift */; };
@@ -162,7 +162,7 @@
 		F426C44721C9174100CAA764 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		F426C44921C9174E00CAA764 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		F43032F521B3A53A00BE40DF /* LanguagesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesService.swift; sourceTree = "<group>"; };
-		F432F335220A96D5004F521B /* ExploreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCell.swift; sourceTree = "<group>"; };
+		F432F335220A96D5004F521B /* ExploreController+Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExploreController+Cell.swift"; sourceTree = "<group>"; };
 		F432F337220ACE41004F521B /* TrendScrollCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendScrollCell.swift; sourceTree = "<group>"; };
 		F4349CE421A873D000628D8D /* TrendPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendPageControl.swift; sourceTree = "<group>"; };
 		F438CE4721D9FF8500A6EF34 /* TrendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendModel.swift; sourceTree = "<group>"; };
@@ -541,9 +541,9 @@
 		F4DF86312208380400A4FE4C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F432F335220A96D5004F521B /* ExploreCell.swift */,
 				F4DF862F220837F800A4FE4C /* ExploreCarousel.swift */,
 				F4DF86322208980E00A4FE4C /* ExploreCarousel+ItemView.swift */,
+				F432F335220A96D5004F521B /* ExploreController+Cell.swift */,
 				F4DF86342209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift */,
 			);
 			path = View;
@@ -1130,7 +1130,7 @@
 				F4F338142170BD4100DC9638 /* HydraFlow.swift in Sources */,
 				F448420021DCF68A00951C3D /* ContributorsView.swift in Sources */,
 				F4B4BA2321D134B600879B18 /* LanguagesFlowLayout.swift in Sources */,
-				F432F336220A96D5004F521B /* ExploreCell.swift in Sources */,
+				F432F336220A96D5004F521B /* ExploreController+Cell.swift in Sources */,
 				F44841FF21DCF68A00951C3D /* TrendBadgeView.swift in Sources */,
 				F4DF86352209C2D100A4FE4C /* RxiCarouselDelegateProxy.swift in Sources */,
 				F4967D5C21CFE43600FAACBD /* LanguageCell.swift in Sources */,
