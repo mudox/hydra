@@ -84,7 +84,7 @@ extension ExploreController {
       descriptionLabel = UILabel().then {
         $0.textColor = .light
         $0.font = .text
-        $0.textAlignment = .justified
+        $0.textAlignment = .left
 
         // Auto shrink
         $0.numberOfLines = 3
