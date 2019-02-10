@@ -114,7 +114,7 @@ class ExploreController: ViewController {
       $0.scrollDirection = .vertical
       $0.minimumLineSpacing = 8
 
-      $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+      $0.estimatedItemSize = CGSize(width: 370, height: 150)
     }
 
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {

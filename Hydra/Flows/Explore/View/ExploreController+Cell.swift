@@ -27,14 +27,15 @@ extension ExploreController {
 
     override func setupView() {
       backgroundColor = .bgLight
-
       layer.cornerRadius = 6
 
-      let margin: CGFloat = 8
-
-      contentView.snp.makeConstraints { make in
-        make.edges.equalToSuperview()
-        make.width.equalTo(The.screen.bounds.width - margin * 2)
+//      snp.makeConstraints { make in
+//        make.width.equalTo(Info.screenWidth - 16)
+//        make.edges.equalToSuperview()
+//      }
+//
+      snp.makeConstraints { make in
+        make.width.equalTo(Info.screenWidth - 16)
       }
 
       setupLogoView()
@@ -52,7 +53,7 @@ extension ExploreController {
         $0.tintColor = .emptyDark
       }
 
-      contentView.addSubview(logoView)
+      addSubview(logoView)
       logoView.snp.makeConstraints { make in
         make.size.equalTo(logoSize)
         make.leading.equalToSuperview().inset(insets)
@@ -66,16 +67,11 @@ extension ExploreController {
         $0.font = .title
         $0.textAlignment = .left
 
-        // Auto shrink
         $0.numberOfLines = 1
         $0.lineBreakMode = .byTruncatingTail
-
-        $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.7
-        $0.allowsDefaultTighteningForTruncation = true
       }
 
-      contentView.addSubview(titleLabel)
+      addSubview(titleLabel)
       titleLabel.snp.makeConstraints { make in
         make.top.trailing.equalToSuperview().inset(insets)
         make.leading.equalTo(logoView.snp.trailing).offset(logoRightGap)
@@ -88,16 +84,11 @@ extension ExploreController {
         $0.font = .text
         $0.textAlignment = .left
 
-        // Auto shrink
         $0.numberOfLines = 3
         $0.lineBreakMode = .byTruncatingTail
-
-        $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.7
-        $0.allowsDefaultTighteningForTruncation = true
       }
 
-      contentView.addSubview(descriptionLabel)
+      addSubview(descriptionLabel)
       descriptionLabel.snp.makeConstraints { make in
         make.top.equalTo(titleLabel.snp.bottom).offset(titleBottomGap)
         make.leading.trailing.equalTo(titleLabel)

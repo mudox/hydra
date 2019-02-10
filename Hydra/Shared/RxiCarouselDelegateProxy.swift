@@ -1,4 +1,3 @@
-import Then
 import UIKit
 
 import RxCocoa
@@ -9,7 +8,6 @@ import JacKit
 import MudoxKit
 
 import iCarousel
-import SnapKit
 
 private let jack = Jack().set(format: .short)
 
