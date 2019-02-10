@@ -118,7 +118,7 @@ def ui_pods
 
   pod 'iCarousel'
 
-  pod 'Texture'
+  # pod 'Texture'
   pod 'SnapKit'
 
   pod 'NVActivityIndicatorView'

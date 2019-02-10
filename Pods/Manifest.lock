@@ -48,21 +48,6 @@ PODS:
   - NVActivityIndicatorView (4.6.1):
     - NVActivityIndicatorView/Presenter (= 4.6.1)
   - NVActivityIndicatorView/Presenter (4.6.1)
-  - PINCache (3.0.1-beta.6):
-    - PINCache/Arc-exception-safe (= 3.0.1-beta.6)
-    - PINCache/Core (= 3.0.1-beta.6)
-  - PINCache/Arc-exception-safe (3.0.1-beta.6):
-    - PINCache/Core
-  - PINCache/Core (3.0.1-beta.6):
-    - PINOperation (~> 1.1.0)
-  - PINOperation (1.1.1)
-  - PINRemoteImage/Core (3.0.0-beta.13):
-    - PINOperation
-  - PINRemoteImage/iOS (3.0.0-beta.13):
-    - PINRemoteImage/Core
-  - PINRemoteImage/PINCache (3.0.0-beta.13):
-    - PINCache (= 3.0.1-beta.6)
-    - PINRemoteImage/Core
   - Quick (1.3.2)
   - Realm (3.13.1):
     - Realm/Headers (= 3.13.1)
@@ -132,13 +117,6 @@ PODS:
   - Swinject (2.5.0)
   - SwinjectAutoregistration (2.5.1):
     - Swinject (~> 2.5)
-  - Texture (2.7):
-    - Texture/PINRemoteImage (= 2.7)
-  - Texture/Core (2.7)
-  - Texture/PINRemoteImage (2.7):
-    - PINRemoteImage/iOS (= 3.0.0-beta.13)
-    - PINRemoteImage/PINCache
-    - Texture/Core
   - Then (2.4.0)
   - Valet (3.2.3)
   - Yams (1.0.1)
@@ -178,7 +156,6 @@ DEPENDENCIES:
   - SwiftyUserDefaults (= 4.0.0-alpha.1)
   - Swinject
   - SwinjectAutoregistration
-  - Texture
   - Then
   - Valet
 
@@ -198,9 +175,6 @@ SPEC REPOS:
     - Moya
     - Nimble
     - NVActivityIndicatorView
-    - PINCache
-    - PINOperation
-    - PINRemoteImage
     - Quick
     - Realm
     - RealmSwift
@@ -227,7 +201,6 @@ SPEC REPOS:
     - SwiftyUserDefaults
     - Swinject
     - SwinjectAutoregistration
-    - Texture
     - Then
     - Valet
     - Yams
@@ -258,9 +231,6 @@ SPEC CHECKSUMS:
   MudoxKit: 9919bb4d292fc6cbb93cb0983d283159cb1f6015
   Nimble: 5e94a8cacb355943c6c87198035dc4adbb0f10e4
   NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
-  PINCache: d195fdba255283f7e9900a55e3cced377f431f9b
-  PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
-  PINRemoteImage: d6d51c5d2adda55f1ce30c96e850b6c4ebd2856a
   Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
   RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
@@ -287,11 +257,10 @@ SPEC CHECKSUMS:
   SwiftyUserDefaults: cebe0ff9472f52699772a514b6f7155861d8069b
   Swinject: 82cdb851f63f91bba974e3eca1d69780f2f7677e
   SwinjectAutoregistration: f72bf894cbd2ee4a9153e00fa5208e93fb44d283
-  Texture: 9d7e38965cf22ccd7cd9c249dd78b3f14e70ab6c
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
   Valet: 4af0382d4a94db5c7861504f751884f653437d24
   Yams: 572f625a8b719b73e0b57fd313c680f3e2161fe9
 
-PODFILE CHECKSUM: 8d055368c4dbc1cfabcb16418f9c1ccdbc78e3a6
+PODFILE CHECKSUM: 254b5dd3e2a6cdc65762c29b82912bc79deae9e4
 
 COCOAPODS: 1.6.0
