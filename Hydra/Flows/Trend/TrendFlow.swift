@@ -11,7 +11,7 @@ protocol TrendFlowType {
   var run: Completable { get }
 }
 
-class TrendFlow: Flow, TrendFlowType {
+class TrendFlow: TabBarChildFlow, TrendFlowType {
 
   var run: Completable {
     return .create { _ in // never complete

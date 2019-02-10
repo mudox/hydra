@@ -83,14 +83,14 @@ class HydraFlow: AppFlow {
         tryLanguagesFlow()
 
       case "trend":
-        let tabBarVC = UITabBarController()
-        self.stage.window.rootViewController = tabBarVC
-        _ = runTrendFlow(in: tabBarVC).forever()
+        let tabBarVC = makeStageController(title: "TrendFlow")
+        stage.window.rootViewController = tabBarVC
+        _ = TrendFlow(in: tabBarVC).run.forever()
 
       case "explore":
-        let tabBarVC = UITabBarController()
-        self.stage.window.rootViewController = tabBarVC
-        _ = runExploreFlow(in: tabBarVC).forever()
+        let tabBarVC = makeStageController(title: "ExploreFlow")
+        stage.window.rootViewController = tabBarVC
+        _ = ExploreFlow(in: tabBarVC).run.forever()
 
       case "view":
         tryLoadingStateView()
@@ -129,40 +129,19 @@ class HydraFlow: AppFlow {
 
   private var runMainFlow: Completable {
     return .create { _ in
-
       UINavigationBar.appearance().tintColor = .brand
       UITabBar.appearance().tintColor = .brand
 
       let tabBarVC = UITabBarController()
       self.stage.window.rootViewController = tabBarVC
 
-      _ = self.runTrendFlow(in: tabBarVC).forever()
-      _ = self.runExploreFlow(in: tabBarVC).forever()
-      _ = self.runSearchFlow(in: tabBarVC).forever()
-      _ = self.runUserFlow(in: tabBarVC).forever()
+      _ = TrendFlow(in: tabBarVC).run.forever()
+      _ = ExploreFlow(in: tabBarVC).run.forever()
+      _ = SearchFlow(in: tabBarVC).run.forever()
+      _ = ProfileFlow(in: tabBarVC).run.forever()
 
       return Disposables.create()
     }
-  }
-
-  private func runTrendFlow(in tabBarController: UITabBarController) -> Completable {
-    let trendFlow = TrendFlow(on: tabBarController)
-    return trendFlow.run
-  }
-
-  private func runExploreFlow(in tabBarController: UITabBarController) -> Completable {
-    let exploreFlow = ExploreFlow(on: tabBarController)
-    return exploreFlow.run
-  }
-
-  private func runSearchFlow(in tabBarController: UITabBarController) -> Completable {
-    let searchFlow = SearchFlow(on: tabBarController)
-    return searchFlow.run
-  }
-
-  private func runUserFlow(in tabBarController: UITabBarController) -> Completable {
-    let userFlow = UserFlow(on: tabBarController)
-    return userFlow.run
   }
 
 }

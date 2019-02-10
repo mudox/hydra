@@ -11,7 +11,7 @@ protocol ExploreFlowType {
   var run: Completable { get }
 }
 
-class ExploreFlow: Flow, ExploreFlowType {
+class ExploreFlow: TabBarChildFlow, ExploreFlowType {
 
   var run: Completable {
     return .create { _ in // never complete

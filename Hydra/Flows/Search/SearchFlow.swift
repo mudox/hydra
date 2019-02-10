@@ -11,7 +11,7 @@ protocol SearchFlowType {
   var run: Completable { get }
 }
 
-class SearchFlow: Flow, SearchFlowType {
+class SearchFlow: TabBarChildFlow, SearchFlowType {
 
   var run: Completable {
     return .create { _ in // never complete
