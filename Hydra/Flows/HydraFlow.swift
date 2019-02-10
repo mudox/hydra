@@ -69,6 +69,9 @@ class HydraFlow: AppFlow {
 
       initSwinject()
 
+      UINavigationBar.appearance().tintColor = .brand
+      UITabBar.appearance().tintColor = .brand
+
       switch mode {
 
       case "unittest":
