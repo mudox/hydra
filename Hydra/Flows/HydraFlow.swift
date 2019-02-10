@@ -17,6 +17,7 @@ private let jack = Jack().set(format: .short)
 
 extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType == Swift.Never {
 
+  @discardableResult
   func forever() -> Disposable {
     let log = jack.func()
     return subscribe(
@@ -85,18 +86,18 @@ class HydraFlow: AppFlow {
       case "trend":
         let tabBarVC = makeStageController(title: "TrendFlow")
         stage.window.rootViewController = tabBarVC
-        _ = TrendFlow(in: tabBarVC).run.forever()
+        TrendFlow(in: tabBarVC).run.forever()
 
       case "explore":
         let tabBarVC = makeStageController(title: "ExploreFlow")
         stage.window.rootViewController = tabBarVC
-        _ = ExploreFlow(in: tabBarVC).run.forever()
+        ExploreFlow(in: tabBarVC).run.forever()
 
       case "view":
         tryLoadingStateView()
 
       case "release":
-        _ = welcomeIfNeeded
+        welcomeIfNeeded
           .andThen(runMainFlow)
           .forever()
 
@@ -108,7 +109,7 @@ class HydraFlow: AppFlow {
   #endif
 
   override func runInReleaseMode() {
-    _ = welcomeIfNeeded
+    welcomeIfNeeded
       .andThen(runMainFlow)
       .forever()
   }
@@ -135,10 +136,10 @@ class HydraFlow: AppFlow {
       let tabBarVC = UITabBarController()
       self.stage.window.rootViewController = tabBarVC
 
-      _ = TrendFlow(in: tabBarVC).run.forever()
-      _ = ExploreFlow(in: tabBarVC).run.forever()
-      _ = SearchFlow(in: tabBarVC).run.forever()
-      _ = ProfileFlow(in: tabBarVC).run.forever()
+      TrendFlow(in: tabBarVC).run.forever()
+      ExploreFlow(in: tabBarVC).run.forever()
+      SearchFlow(in: tabBarVC).run.forever()
+      ProfileFlow(in: tabBarVC).run.forever()
 
       return Disposables.create()
     }

@@ -46,8 +46,8 @@ import MudoxKit
     }
 
     func setupEarlGreyStage() {
-      let vc = makeStageController(title: "EarlGrey Test")
-      stage.window.rootViewController = vc
+      let tabBarVC = makeStageController(title: "EarlGrey Test")
+      stage.window.rootViewController = tabBarVC
     }
 
     func tryLoginFlow() {
