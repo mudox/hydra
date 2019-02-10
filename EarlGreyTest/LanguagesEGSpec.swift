@@ -13,7 +13,7 @@ import EarlGrey
 class LanguagesEGSpec: QuickSpec {
 
   func runLanguagesFlow() {
-    let flow = LanguagesFlow(on: The.controller)
+    let flow = LanguagesFlow(on: The.rootController)
     _ = flow.selectedLanguage.subscribe()
   }
 
@@ -131,7 +131,7 @@ class LanguagesEGSpec: QuickSpec {
 private func waitCollectionViewToAppear() {
   let cond = GREYCondition(name: #function) {
     print("😈 \(#function) ...")
-    let navVC = The.controller.presentedViewController as! UINavigationController
+    let navVC = The.rootController.presentedViewController as! UINavigationController
     let langVC = navVC.topViewController as! LanguagesController
     return langVC.collectionView.isHidden == false
   }

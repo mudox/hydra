@@ -18,7 +18,7 @@ class LoginEGSpec: QuickSpec {
   }
 
   func runLoginFlow() {
-    let flow = LoginFlow(on: The.controller)
+    let flow = LoginFlow(on: The.rootController)
     _ = flow.loginIfNeeded.subscribe()
   }
 

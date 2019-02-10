@@ -11,11 +11,6 @@ import GitHub
 import EarlGrey
 
 class ExploreEGSpec: QuickSpec {
-  
-  func runTheFlow() {
-    let flow = ExploreFlow(on: The.controller)
-    _ = flow.run.subscribe()
-  }
 
   override func spec() {
 
@@ -37,14 +32,7 @@ class ExploreEGSpec: QuickSpec {
     let unpinnedCellItem = element(withLabel: "D")
 
     beforeEach {
-      swinject.autoregister(
-        CredentialServiceType.self, initializer: CredentialServiceStub.init
-      )
-
-      appFlow.reset("realm")
-
-      self.runTheFlow()
-      waitCollectionViewToAppear()
+      ExploreFlow(in: The.rootTabBarController).run.forever()
     }
 
     afterEach {
@@ -131,7 +119,7 @@ class ExploreEGSpec: QuickSpec {
 private func waitCollectionViewToAppear() {
   let cond = GREYCondition(name: #function) {
     print("😈 \(#function) ...")
-    let navVC = The.controller.presentedViewController as! UINavigationController
+    let navVC = The.rootController.presentedViewController as! UINavigationController
     let langVC = navVC.topViewController as! LanguagesController
     return langVC.collectionView.isHidden == false
   }

@@ -33,7 +33,7 @@ var appFlow: AppFlowType {
 func waitHUDToDismiss() {
   let cond = GREYCondition(name: #function) {
     print("😈 \(#function) ...")
-    if let view = The.controller.presentedViewController?.view {
+    if let view = The.rootController.presentedViewController?.view {
       return MBProgressHUD(for: view) == nil
     } else {
       return true
@@ -47,7 +47,7 @@ func waitHUDToDismiss() {
 func waitControllerToDismiss() {
   let cond = GREYCondition(name: #function) {
     print("😈 \(#function) ...")
-    return The.controller.presentedViewController == nil
+    return The.rootController.presentedViewController == nil
   }
 
   let r = cond.wait(withTimeout: 15, pollInterval: 1)
