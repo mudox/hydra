@@ -7,23 +7,19 @@ import RxSwiftExt
 import SnapKit
 
 import JacKit
+import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-class LanguagesBar: UIView {
+class LanguagesBar: View {
 
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("do not use it")
-  }
-
-  init() {
+  override init() {
     selection = Driver.combineLatest(
       items.asDriver().skip(1),
       index.asDriver().skip(1)
     ) { ($1, $0[$1]) }
 
-    super.init(frame: .zero)
+    super.init()
 
     setupView()
     setupBinding()
@@ -37,14 +33,14 @@ class LanguagesBar: UIView {
 
   private var underline: UIView!
 
-  // MARK: - Metrics
+  // MARK: - Constants
 
   private static let height: CGFloat = 24
   private static let underLineHeight: CGFloat = 2
 
-  // MARK: - Setup View
+  // MARK: - View
 
-  func setupView() {
+  override func setupView() {
     snp.makeConstraints { make in
       make.height.equalTo(LanguagesBar.height)
       make.width.greaterThanOrEqualTo(200)
@@ -71,6 +67,8 @@ class LanguagesBar: UIView {
         LanguagesBar.Cell.self,
         forCellWithReuseIdentifier: LanguagesBar.Cell.identifier
       )
+
+      $0.aid = .languagesBarCollectionView
     }
 
     addSubview(collectionView)
@@ -84,6 +82,8 @@ class LanguagesBar: UIView {
       $0.setTitle("More", for: .normal)
       $0.setTitleColor(.brand, for: .normal)
       $0.titleLabel?.font = .text
+
+      $0.aid = .languagesBarMoreButton
     }
 
     addSubview(moreButton)
@@ -124,9 +124,7 @@ class LanguagesBar: UIView {
 
   let selection: Driver<(index: Int, item: String)>
 
-  private let bag = DisposeBag()
-
-  func setupBinding() {
+  override func setupBinding() {
 
     // Drive collection view items
 
