@@ -16,14 +16,14 @@ import MudoxKit
 
   extension HydraFlow {
 
-    func makeStageController(title: String = "Stage") -> UIViewController {
+    func makeStageController(title: String = "Stage") -> UITabBarController {
       let vc = UIViewController()
       vc.view.backgroundColor = .white
       vc.view.aid = .stageView
 
       let label = UILabel().then {
         $0.text = title
-        $0.font = .systemFont(ofSize: 30)
+        $0.font = .systemFont(ofSize: 26)
         $0.textAlignment = .center
         $0.textColor = .darkGray
       }
@@ -33,7 +33,11 @@ import MudoxKit
         make.center.equalToSuperview()
       }
 
-      return vc
+      let tabBarVC = UITabBarController().then {
+        $0.viewControllers = [vc]
+      }
+
+      return tabBarVC
     }
 
     func setupUnitTestStage() {
@@ -47,17 +51,17 @@ import MudoxKit
     }
 
     func tryLoginFlow() {
-      let vc = makeStageController(title: "Try LoginFlow")
-      stage.window.rootViewController = vc
+      let stageVC = makeStageController(title: "LoginFlow")
+      stage.window.rootViewController = stageVC
 
-      _ = LoginFlow(on: .viewController(vc))
+      _ = LoginFlow(on: .viewController(stageVC))
         .loginIfNeeded.subscribe(onCompleted: {
           jack.func().info("Login flow completed")
         })
     }
 
     func tryLanguagesFlow() {
-      let stageVC = makeStageController(title: "Try LanguagesFlow")
+      let stageVC = makeStageController(title: "LanguagesFlow")
       stage.window.rootViewController = stageVC
 
       _ = LanguagesFlow(on: .viewController(stageVC))
