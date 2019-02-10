@@ -19,8 +19,8 @@ protocol TrendModelInput {
 }
 
 protocol TrendModelOutput {
-  var barState: BehaviorRelay<(items: [String], index: Int)> { get }
-  var collectionViewData: BehaviorRelay<[Trend.Section]> { get }
+  var languagesBar: BehaviorRelay<(items: [String], index: Int)> { get }
+  var tableViewSections: BehaviorRelay<[Trend.Section]> { get }
   static var color: BehaviorRelay<UIColor> { get }
 }
 
@@ -42,8 +42,8 @@ class TrendModel: ViewModel, TrendModelType {
 
   // MARK: Output
 
-  let barState: BehaviorRelay<(items: [String], index: Int)>
-  let collectionViewData: BehaviorRelay<[Trend.Section]>
+  let languagesBar: BehaviorRelay<(items: [String], index: Int)>
+  let tableViewSections: BehaviorRelay<[Trend.Section]>
 
   static let color = BehaviorRelay<UIColor>(value: .brand)
 
@@ -55,8 +55,8 @@ class TrendModel: ViewModel, TrendModelType {
     moreLanguage = .init(value: "<SKIP>")
 
     // Outputs
-    barState = .init(value: initialBarState)
-    collectionViewData = .init(value: Trend(ofLanguage: "All").sections)
+    languagesBar = .init(value: initialBarState)
+    tableViewSections = .init(value: Trend(ofLanguage: "All").sections)
 
     super.init()
 
@@ -69,7 +69,7 @@ class TrendModel: ViewModel, TrendModelType {
   func barSelectionDrivesCollectionViewData() {
     barSelection
       .map { Trend(ofLanguage: $0.item).sections }
-      .bind(to: collectionViewData)
+      .bind(to: tableViewSections)
       .disposed(by: bag)
   }
 
@@ -121,7 +121,7 @@ class TrendModel: ViewModel, TrendModelType {
           }
         }
       }
-      .bind(to: barState)
+      .bind(to: languagesBar)
       .disposed(by: bag)
   }
 
