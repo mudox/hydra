@@ -310,7 +310,7 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		F413E32C216E68260024B7F3 /* App */ = {
+		F413E32C216E68260024B7F3 /* Project */ = {
 			isa = PBXGroup;
 			children = (
 				F4F85F2F213F05A400EFF085 /* AppDelegate.swift */,
@@ -318,7 +318,7 @@
 				F4F85F38213F05A600EFF085 /* LaunchScreen.storyboard */,
 				F4F85F3B213F05A600EFF085 /* Info.plist */,
 			);
-			name = App;
+			name = Project;
 			sourceTree = "<group>";
 		};
 		F41C5F2C21E79B8E0011DBEC /* Stubs */ = {
@@ -587,7 +587,7 @@
 			children = (
 				F43032F121B2377500BE40DF /* Shared */,
 				F456A01A218C952A00047369 /* Flows */,
-				F413E32C216E68260024B7F3 /* App */,
+				F413E32C216E68260024B7F3 /* Project */,
 			);
 			path = Hydra;
 			sourceTree = "<group>";

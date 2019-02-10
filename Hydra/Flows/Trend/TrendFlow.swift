@@ -13,8 +13,6 @@ protocol TrendFlowType {
 
 class TrendFlow: Flow, TrendFlowType {
 
-  var retainSelf: TrendFlow?
-
   var run: Completable {
     return .create { _ in // never complete
       let vc = TrendController()
@@ -31,9 +29,8 @@ class TrendFlow: Flow, TrendFlowType {
       vcs.append(navVC)
       self.stage.tabBarController.setViewControllers(vcs, animated: true)
 
-      self.retainSelf = self
       return Disposables.create {
-        self.retainSelf = nil
+        _ = self // retain the flow instance
       }
     }
   }
