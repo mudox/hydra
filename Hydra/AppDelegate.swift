@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   )
     -> Bool
   {
-
     window = UIWindow(frame: UIScreen.main.bounds)
     window!.makeKeyAndVisible()
 

@@ -1,8 +1,7 @@
-import UIKit
-
 import RxCocoa
 import RxDataSources
 import RxSwift
+import UIKit
 
 import SnapKit
 
@@ -15,11 +14,13 @@ private let jack = Jack().set(format: .short)
 
 class TrendController: ViewController {
 
+  // MARK: Subviews
+
+  var languagesBar: LanguagesBar!
+
+  var tableView: UITableView!
+
   // MARK: - View
-
-  let languageBar = LanguagesBar()
-
-  let tableView = UITableView()
 
   override func setupView() {
     view.backgroundColor = .bgDark
@@ -29,18 +30,23 @@ class TrendController: ViewController {
   }
 
   func setupNavigationBar() {
-    navigationItem.titleView = languageBar
+    languagesBar = LanguagesBar()
+    navigationItem.titleView = languagesBar
 
-    languageBar.snp.makeConstraints { make in
+    languagesBar.snp.makeConstraints { make in
       make.leading.trailing.equalToSuperview().inset(10)
     }
 
+    // Hide shadow under bottom border
     navigationController?.navigationBar.shadowImage = UIImage()
   }
 
   let sectionHeaderHeight: CGFloat = 40
 
   func setupTableView() {
+    tableView = UITableView()
+    tableView.aid = .trendTableView
+
     tableView.do {
       $0.backgroundColor = .clear
 
@@ -48,9 +54,11 @@ class TrendController: ViewController {
 
       $0.allowsSelection = false
 
+      // Hide all decorating lines
       $0.separatorStyle = .none
       $0.tableFooterView = UIView()
 
+      // Hide all scroll indicators
       $0.showsHorizontalScrollIndicator = false
       $0.showsVerticalScrollIndicator = false
 
@@ -77,15 +85,18 @@ class TrendController: ViewController {
   func drivesModel() {
     let input = model.input
 
-    languageBar.selection
+    languagesBar.selection
       .drive(input.barSelection)
       .disposed(by: bag)
 
-    languageBar.moreButton.rx.tap
+    languagesBar.moreButton.rx.tap
       .flatMapFirst { [weak self] () -> Driver<String?> in
         guard let self = self else { return .empty() }
-        let flow = LanguagesFlow(on: .viewController(self))
-        return flow.selectedLanguage.asDriver(onErrorFailWithLabel: "LanguagesFlow.run", or: .complete)
+        let flow = LanguagesFlow(on: self)
+        return flow.selectedLanguage.asDriver(
+          onErrorFailWithLabel: "LanguagesFlow.selectedLanguage",
+          or: .complete
+        )
       }
       .bind(to: input.moreLanguage)
       .disposed(by: bag)
@@ -94,17 +105,17 @@ class TrendController: ViewController {
   func modelDrives() {
     let output = model.output
 
-    output.barState.asDriver()
+    output.languagesBar.asDriver()
       .map { $0.items }
-      .drive(languageBar.items)
+      .drive(languagesBar.items)
       .disposed(by: bag)
 
-    output.barState.asDriver()
+    output.languagesBar.asDriver()
       .map { $0.index }
-      .drive(languageBar.index)
+      .drive(languagesBar.index)
       .disposed(by: bag)
 
-    output.collectionViewData.asDriver()
+    output.tableViewSections.asDriver()
       .drive(tableView.rx.items(dataSource: dataSource))
       .disposed(by: bag)
   }
