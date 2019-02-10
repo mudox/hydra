@@ -43,7 +43,7 @@ enum AID: String {
 
   // ExploreFlow
 
-  // UserFlow
+  // ProfileFlow
 
   // RepositoryFlow
 

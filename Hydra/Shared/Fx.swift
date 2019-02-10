@@ -23,7 +23,7 @@ let swinject = Container().then {
   registerLanguagesTypes(to: $0)
   registerExploreTypes(to: $0)
   registerSearchTypes(to: $0)
-  registerUserTypes(to: $0)
+  registerProfileTypes(to: $0)
 }
 
 /// Called at app launch to logout all stubbing
@@ -161,11 +161,11 @@ private func registerSearchTypes(to container: Container) {
   )
 }
 
-private func registerUserTypes(to container: Container) {
+private func registerProfileTypes(to container: Container) {
   // Model
   container.autoregister(
-    UserModelType.self,
-    initializer: UserModel.init
+    ProfileModelType.self,
+    initializer: ProfileModel.init
   )
 }
 
