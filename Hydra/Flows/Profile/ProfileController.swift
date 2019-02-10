@@ -8,7 +8,7 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-class UserController: ViewController {
+class ProfileController: ViewController {
 
   // MARK: - Subviews
 
@@ -26,7 +26,7 @@ class UserController: ViewController {
 
   // MARK: - Model
 
-  let model: UserModelType = fx()
+  let model: ProfileModelType = fx()
 
   override func setupModel() {
 
@@ -36,6 +36,6 @@ class UserController: ViewController {
 
 // MARK: - Binders
 
-extension Reactive where Base: UserController {
+extension Reactive where Base: ProfileController {
 
 }

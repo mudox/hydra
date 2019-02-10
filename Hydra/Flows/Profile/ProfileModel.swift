@@ -12,24 +12,24 @@ private let jack = Jack().set(format: .short)
 
 // MARK: Interface
 
-protocol UserModelInput {
+protocol ProfileModelInput {
 
 }
 
-protocol UserModelOutput {
+protocol ProfileModelOutput {
 
 }
 
-protocol UserModelType: UserModelInput, UserModelOutput {}
+protocol ProfileModelType: ProfileModelInput, ProfileModelOutput {}
 
-extension UserModelType {
-  var input: UserModelInput { return self }
-  var output: UserModelOutput { return self }
+extension ProfileModelType {
+  var input: ProfileModelInput { return self }
+  var output: ProfileModelOutput { return self }
 }
 
 // MARK: - View Model
 
-class UserModel: ViewModel, UserModelType {
+class ProfileModel: ViewModel, ProfileModelType {
 
   // MARK: Types
 

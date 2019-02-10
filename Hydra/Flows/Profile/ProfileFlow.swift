@@ -7,15 +7,15 @@ import MudoxKit
 
 import GitHub
 
-protocol UserFlowType {
+protocol ProfileFlowType {
   var run: Completable { get }
 }
 
-class UserFlow: Flow, UserFlowType {
+class ProfileFlow: TabBarChildFlow, ProfileFlowType {
 
   var run: Completable {
     return .create { _ in // never complete
-      let vc = UserController()
+      let vc = ProfileController()
       let navVC = UINavigationController(rootViewController: vc)
 
       // Setup tab bar

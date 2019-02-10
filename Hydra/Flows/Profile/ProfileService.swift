@@ -7,10 +7,10 @@ import MudoxKit
 
 private let jack = Jack().set(format: .short).set(level: .debug)
 
-protocol UserServiceType {
+protocol ProfileServiceType {
 
 }
 
-class UserService: UserServiceType {
+class ProfileService: ProfileServiceType {
 
 }
