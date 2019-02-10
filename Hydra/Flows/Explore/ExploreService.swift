@@ -19,8 +19,6 @@ class ExploreService: ExploreServiceType {
 
   private var listsFromCache: Single<GitHub.Explore.ListsLoadingState> {
     return .create { single in
-      jack.func().debug("Called")
-
       guard let cache = Caches.explore else {
         single(.error(Errors.error("`Caches.explore` returned nil")))
         return Disposables.create()

@@ -84,7 +84,7 @@ extension ExploreController {
         $0.font = .text
         $0.textAlignment = .left
 
-        $0.numberOfLines = 3
+        $0.numberOfLines = 4
         $0.lineBreakMode = .byTruncatingTail
       }
 

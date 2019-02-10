@@ -67,7 +67,10 @@ class ExploreModel: ViewModel, ExploreModelType {
     let states = service.loadLists
       .map(LoadingState.init)
       .startWith(.begin(phase: "Load from cache"))
-      .asDriver { return .just(.error($0)) }
+      .asDriver { error in
+        jack.func().sub("states.asDriver").error(dump(of: error))
+        return .just(.error(error))
+      }
 
     states.drive(loadingState).disposed(by: bag)
 
