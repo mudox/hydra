@@ -71,7 +71,7 @@ extension ExploreCarousel {
         $0.lineBreakMode = .byTruncatingTail
 
         $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.7
+        $0.minimumScaleFactor = 0.8
         $0.allowsDefaultTighteningForTruncation = true
       }
     }
@@ -85,10 +85,6 @@ extension ExploreCarousel {
         // Auto shrink
         $0.numberOfLines = 3
         $0.lineBreakMode = .byTruncatingTail
-
-        $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.7
-        $0.allowsDefaultTighteningForTruncation = true
       }
     }
 
