@@ -50,7 +50,7 @@ class TrendModelSpec: QuickSpec { override func spec() {
   describe("bar state") {
 
     it("emit proper initial value") {
-      let states = output.barState.elements(in: 0.01)
+      let states = output.languagesBar.elements(in: 0.01)
 
       expect(states.count) == 1
       expect(states.first!.index) == 0
@@ -64,7 +64,7 @@ class TrendModelSpec: QuickSpec { override func spec() {
   describe("collection view data") {
 
     it("be all initially") {
-      let datas = output.collectionViewData.elements(in: 0.01)
+      let datas = output.tableViewSections.elements(in: 0.01)
 
       expect(datas.count) == 1
       expect(datas[0][0].items[0].language) == "All"
@@ -72,14 +72,14 @@ class TrendModelSpec: QuickSpec { override func spec() {
 
     it("show and select non-nil more language") {
       input.moreLanguage.accept("Select")
-      expect(output.barState.value.index) == 1
-      expect(output.barState.value.items) == ["All", "Select", "Pinned", "Unknown"]
+      expect(output.languagesBar.value.index) == 1
+      expect(output.languagesBar.value.items) == ["All", "Select", "Pinned", "Unknown"]
     }
 
     it("does not change on nil more language") {
       input.moreLanguage.accept(nil)
-      expect(output.barState.value.items) == ["All", "Pinned", "Unknown"]
-      expect(output.barState.value.index) == 0
+      expect(output.languagesBar.value.items) == ["All", "Pinned", "Unknown"]
+      expect(output.languagesBar.value.index) == 0
     }
 
   }

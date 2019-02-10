@@ -53,6 +53,7 @@
 		F456A020218C956E00047369 /* TrendFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456A01D218C956E00047369 /* TrendFlow.swift */; };
 		F456A021218C956E00047369 /* TrendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456A01E218C956E00047369 /* TrendController.swift */; };
 		F45C49532167E65200BC0576 /* CredentialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45C49522167E65200BC0576 /* CredentialService.swift */; };
+		F45DDE612210E81F00C1EABA /* TrendEGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45DDE602210E81F00C1EABA /* TrendEGSpec.swift */; };
 		F46C688D215A43400090B4AF /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C6888215A43400090B4AF /* LoginController.swift */; };
 		F46C688E215A43400090B4AF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C6889215A43400090B4AF /* LoginModel.swift */; };
 		F46C6891215A43400090B4AF /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46C688C215A43400090B4AF /* LoginService.swift */; };
@@ -181,6 +182,7 @@
 		F456A01D218C956E00047369 /* TrendFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendFlow.swift; sourceTree = "<group>"; };
 		F456A01E218C956E00047369 /* TrendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendController.swift; sourceTree = "<group>"; };
 		F45C49522167E65200BC0576 /* CredentialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialService.swift; sourceTree = "<group>"; };
+		F45DDE602210E81F00C1EABA /* TrendEGSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendEGSpec.swift; sourceTree = "<group>"; };
 		F463A2AE21AF188A0067432B /* RetryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryButton.swift; sourceTree = "<group>"; };
 		F46C6888215A43400090B4AF /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		F46C6889215A43400090B4AF /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 				F4B4BA4F21D52FC300879B18 /* Info.plist */,
 				F4B2AF6B22054B3B005A64BE /* LanguagesEGSpec.swift */,
 				F432314E220FCBEB00B4201A /* ExploreEGSpec.swift */,
+				F45DDE602210E81F00C1EABA /* TrendEGSpec.swift */,
 				F4395EE621D620CE00BEAD9F /* LoginEGSpec.swift */,
 				F4CB1B142205E32C00C2504B /* Util */,
 				68D60ACA2574E2529F22047B /* EarlGrey.swift */,
@@ -1028,6 +1031,7 @@
 			files = (
 				F4CB1B18220617C700C2504B /* EarlGrey+Select.swift in Sources */,
 				F4CB1B132205E2A200C2504B /* EarlGreyHelpers.swift in Sources */,
+				F45DDE612210E81F00C1EABA /* TrendEGSpec.swift in Sources */,
 				F4CB1B162205E39100C2504B /* GREYInteraction+Assert.swift in Sources */,
 				F4B2AF6C22054B3B005A64BE /* LanguagesEGSpec.swift in Sources */,
 				F4395EE721D620CE00BEAD9F /* LoginEGSpec.swift in Sources */,
