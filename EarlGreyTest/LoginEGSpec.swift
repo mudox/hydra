@@ -24,12 +24,12 @@ class LoginEGSpec: QuickSpec {
 
   override func spec() {
 
-    let dismissButton = element(withAID:.dismissLoginBarButtonItem)
-    let usernameField = element(withAID:.usernameTextField)
-    let clearUsernameButton = element(withAID:.clearUsernameButton)
-    let passwordField = element(withAID:.passwordTextField)
-    let clearPasswordButton = element(withAID:.clearPasswordButton)
-    let loginButton = element(withAID:.loginButton)
+    let dismissButton = element(.dismissLoginBarButtonItem)
+    let usernameField = element(.usernameTextField)
+    let clearUsernameButton = element(.clearUsernameButton)
+    let passwordField = element(.passwordTextField)
+    let clearPasswordButton = element(.clearPasswordButton)
+    let loginButton = element(.loginButton)
 
     beforeEach {
       // Make sure the type is not stubbed

@@ -13,7 +13,7 @@ import MBProgressHUD
 
 import EarlGrey
 
-func element(withAID id: AID) -> GREYInteraction {
+func element(_ id: AID) -> GREYInteraction {
   return EarlGrey.selectElement(with: grey_accessibilityID(id.rawValue))
 }
 

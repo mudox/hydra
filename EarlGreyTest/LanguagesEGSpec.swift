@@ -14,19 +14,19 @@ class LanguagesEGSpec: QuickSpec {
 
   override func spec() {
 
-    let dismissButton = element(withAID: .dismissLanguagesBarButtonItem)
+    let dismissButton = element( .dismissLanguagesBarButtonItem)
 
-    let pinBarItem = element(withAID: .pinLanguageBarButtonItem)
+    let pinBarItem = element( .pinLanguageBarButtonItem)
     let pinButton = button(withTitle: "Pin")
     let unpinButton = button(withTitle: "Unpin")
 
     let backButton = button(withTitle: "Back")
     let selectButton = button(withTitle: "Select")
 
-    let searchBar = element(withAID: .languagesSearchBar)
+    let searchBar = element( .languagesSearchBar)
 
-    let loadingStateView = element(withAID: .loadingStateView)
-    let collectionView = element(withAID: .languagesCollectionView)
+    let loadingStateView = element( .loadingStateView)
+    let collectionView = element( .languagesCollectionView)
 
     let swiftCellItem = element(withLabel: "Swift")
     let unpinnedCellItem = element(withLabel: "D")
