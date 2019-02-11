@@ -86,6 +86,8 @@ class TrendController: ViewController {
     let input = model.input
 
     languagesBar.selection
+      .asDriver()
+      .filterNil()
       .drive(input.barSelection)
       .disposed(by: bag)
 

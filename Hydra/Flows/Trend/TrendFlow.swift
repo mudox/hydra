@@ -27,7 +27,7 @@ class TrendFlow: TabBarChildFlow, TrendFlowType {
 
       var vcs = self.stage.tabBarController.viewControllers ?? []
       vcs.append(navVC)
-      self.stage.tabBarController.setViewControllers(vcs, animated: true)
+      self.stage.tabBarController.setViewControllers(vcs, animated: false)
 
       return Disposables.create {
         _ = self // retain the flow instance
