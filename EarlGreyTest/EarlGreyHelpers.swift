@@ -17,19 +17,6 @@ var appFlow: AppFlowType {
   return (UIApplication.shared.delegate as! AppDelegate).appFlow
 }
 
-// func checkInstanceCounts() {
-//  let cond = GREYCondition(name: #function) {
-//    print("😈 \(#function) ...")
-//    return
-//      LoginFlow.count == 0
-//    && LoginController.count == 0
-//    && LoginModel.count == 0
-//  }
-//
-//  let r = cond.wait(withTimeout: 15, pollInterval: 1)
-//  expect(r) == true
-// }
-
 func waitHUDToDismiss() {
   let cond = GREYCondition(name: #function) {
     print("😈 \(#function) ...")
