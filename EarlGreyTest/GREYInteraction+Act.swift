@@ -34,8 +34,23 @@ extension GREYInteraction {
   // MARK: - Scroll
   
   @discardableResult
-  func scrollTo(_ edge: GREYContentEdge) -> Self {
+  func scroll(_ direction: GREYDirection, by amount: CGFloat) -> Self {
+    return perform(grey_scrollInDirection(direction, amount))
+  }
+  
+  @discardableResult
+  func scroll(to edge: GREYContentEdge) -> Self {
     return perform(grey_scrollToContentEdge(edge))
+  }
+  
+  @discardableResult
+  func fastlySwipe(_ direction: GREYDirection) -> Self {
+    return perform(grey_swipeFastInDirection(direction))
+  }
+  
+  @discardableResult
+  func slowlySwipe(_ direction: GREYDirection) -> Self {
+    return perform(grey_swipeSlowInDirection(direction))
   }
   
 }
