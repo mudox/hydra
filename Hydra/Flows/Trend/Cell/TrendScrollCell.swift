@@ -4,37 +4,17 @@ import RxCocoa
 import RxSwift
 import RxSwiftExt
 
-import Swinject
-
 import SnapKit
 
 import GitHub
-import MudoxKit
-
 import JacKit
+import MudoxKit
 
 private let jack = Jack().set(format: .short)
 
-class TrendScrollCell: UITableViewCell {
+class TrendScrollCell: TableCell {
 
   static let id = "\(type(of: self))"
-
-  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-    super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-    backgroundColor = .clear
-
-    setupLabel()
-    setupPageControl()
-    setupCollectionView()
-
-    setupBindings()
-  }
-
-  @available(*, unavailable, message: "init(coder:) has not been implemented")
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
 
   // MARK: - Subviews
 
@@ -44,11 +24,21 @@ class TrendScrollCell: UITableViewCell {
 
   var collectionView: UICollectionView!
 
-  // MARK: - Metrics
+  // MARK: - Constants
 
   static let height: CGFloat = 230
 
   // MARK: - Setup View
+
+  override func setupView() {
+    backgroundColor = .clear
+
+    setupLabel()
+    setupPageControl()
+    setupCollectionView()
+
+    setupBindings()
+  }
 
   func setupLabel() {
     label.do {
@@ -144,6 +134,21 @@ class TrendScrollCell: UITableViewCell {
   // MARK: - Show data
 
   func show(_ context: Trend.Context) {
+    switch (context.period, context.category) {
+    case (.pastDay, .repository):
+      collectionView.aid = .todayRepositoryView
+    case (.pastWeek, .repository):
+      collectionView.aid = .weeklyRepositoryView
+    case (.pastMonth, .repository):
+      collectionView.aid = .monthlyRepositoryView
+    case (.pastDay, .developer):
+      collectionView.aid = .todayDeveloperView
+    case (.pastWeek, .developer):
+      collectionView.aid = .weeklyDeveloperView
+    case (.pastMonth, .developer):
+      collectionView.aid = .monthlyDeveloperView
+    }
+
     updateLabel(with: context)
     driveCollectionView(with: context)
   }
