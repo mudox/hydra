@@ -1,6 +1,7 @@
 import UIKit
 
 import RxCocoa
+import RxOptional
 import RxSwift
 import RxSwiftExt
 
@@ -13,19 +14,7 @@ private let jack = Jack().set(format: .short)
 
 class LanguagesBar: View {
 
-  override init() {
-    selection = Driver.combineLatest(
-      items.asDriver().skip(1),
-      index.asDriver().skip(1)
-    ) { ($1, $0[$1]) }
-
-    super.init()
-
-    setupView()
-    setupBinding()
-  }
-
-  // MARK: - Subviews
+  // MARK: Subviews
 
   private var collectionView: UICollectionView!
 
@@ -118,37 +107,47 @@ class LanguagesBar: View {
 
   // MARK: - Binding
 
-  let index = BehaviorRelay<Int>(value: 0)
+  let index = BehaviorRelay<Int?>(value: nil)
 
-  let items = BehaviorRelay<[String]>(value: ["<Should Be Skipped>"])
+  let items = BehaviorRelay<[String]?>(value: nil)
 
-  let selection: Driver<(index: Int, item: String)>
+  let selection = BehaviorRelay<(index: Int, item: String)?>(value: nil)
 
   override func setupBinding() {
+    Observable.combineLatest(
+      index.filterNil(), items.filterNil(),
+      resultSelector: { (index: $0, item: $1[$0]) }
+    )
+    .bind(to: selection)
+    .disposed(by: bag)
 
-    // Drive collection view items
-
-    items.asDriver().skip(1)
+    // `items` drive collection view
+    items
+      .asDriver()
+      .filterNil()
       .drive(collectionView.rx.items)(setupCell)
       .disposed(by: bag)
 
     // Selection drives cell highlighting
-
     collectionView.rx.itemSelected
       .map { $0.item }
       .bind(to: index)
       .disposed(by: bag)
 
-    index.asDriver().skip(1)
+    // `index` drives collection item selection
+    index
+      .asDriver()
+      .filterNil()
       .drive(onNext: { [weak self] index in
         guard let self = self else { return }
-        // Avoid to be run at the same run loop of the items reload
+        // Avoid being run at the same run loop of the items reload
         DispatchQueue.main.async {
           self.selectItem(at: index)
         }
       })
       .disposed(by: bag)
 
+    // `TrendModel.color` drives color of underline view
     TrendModel.color.asDriver()
       .drive(onNext: { [weak self] in
         self?.underline?.backgroundColor = $0
