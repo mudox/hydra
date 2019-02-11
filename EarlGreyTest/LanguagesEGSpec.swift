@@ -12,11 +12,6 @@ import EarlGrey
 
 class LanguagesEGSpec: QuickSpec {
 
-  func runLanguagesFlow() {
-    let flow = LanguagesFlow(on: The.rootController)
-    _ = flow.selectedLanguage.subscribe()
-  }
-
   override func spec() {
 
     let dismissButton = element(withAID: .dismissLanguagesBarButtonItem)
@@ -43,7 +38,9 @@ class LanguagesEGSpec: QuickSpec {
 
       appFlow.reset("realm")
 
-      self.runLanguagesFlow()
+      _ = LanguagesFlow(on: The.rootController)
+        .selectedLanguage.subscribe()
+
       waitCollectionViewToAppear()
     }
 
@@ -67,7 +64,7 @@ class LanguagesEGSpec: QuickSpec {
       pinButton.isVisible()
       selectButton.isVisible()
 
-      collectionView.scrollTo(.top)
+      collectionView.scroll(to: .top)
     }
 
     it("shows unpin when a pinned item is selected") {
@@ -90,7 +87,7 @@ class LanguagesEGSpec: QuickSpec {
 
     it("search languages") {
       // Scroll to unveal search bar
-      collectionView.scrollTo(.top)
+      collectionView.scroll(to: .top)
       searchBar.isVisible()
 
       // Has match
@@ -104,19 +101,19 @@ class LanguagesEGSpec: QuickSpec {
       collectionView.isNotVisible()
       loadingStateView.isVisible()
     }
-    
+
     it("clear selection before searching") {
       swiftCellItem.tap()
       selectedCollectionViewCell.isVisible()
-      
-      collectionView.scrollTo(.top)
+
+      collectionView.scroll(to: .top)
       searchBar.type(text: "Action")
-      
+
       // Selection is cleared
       selectedCollectionViewCell.isNotVisible()
       pinBarItem.isNotVisible()
       backButton.isVisible()
-      
+
       // Select do not restore even search is cancelled
       button(withTitle: "Cancel").tap()
       selectedCollectionViewCell.isNotVisible()
@@ -139,4 +136,3 @@ private func waitCollectionViewToAppear() {
   let r = cond.wait(withTimeout: 15, pollInterval: 1)
   expect(r) == true
 }
-
