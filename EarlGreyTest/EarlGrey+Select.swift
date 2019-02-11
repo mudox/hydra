@@ -19,6 +19,7 @@ func element(withAID id: AID) -> GREYInteraction {
 
 func element(
   ofType type: AnyClass? = nil,
+  under ancestor: AnyClass? = nil,
   withLabel label: String? = nil,
   hasText text: String? = nil,
   visible: Bool? = nil
@@ -29,6 +30,10 @@ func element(
 
   if let type = type {
     matchers.append(grey_kindOfClass(type))
+  }
+  
+  if let ancestor = ancestor {
+    matchers.append(grey_ancestor(grey_kindOfClass(ancestor)))
   }
 
   if let label = label {
@@ -73,12 +78,12 @@ var selectedCollectionViewCell: GREYInteraction {
       } else {
         return false
       }
-  },
+    },
     descriptionBlock: { desc in
       desc.appendText("UICollectionViewCell that is selected")
-  }
+    }
   )
-  
+
   return EarlGrey.selectElement(with: matcher)
 }
 
@@ -93,12 +98,11 @@ var selectedTableViewCell: GREYInteraction {
       } else {
         return false
       }
-  },
+    },
     descriptionBlock: { desc in
       desc.appendText("UITableViewCell that is selected")
-  }
+    }
   )
-  
+
   return EarlGrey.selectElement(with: matcher)
 }
-
