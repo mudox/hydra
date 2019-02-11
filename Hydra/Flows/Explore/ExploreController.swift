@@ -81,6 +81,8 @@ class ExploreController: ViewController {
 
       $0.showsHorizontalScrollIndicator = false
       $0.showsVerticalScrollIndicator = false
+
+      $0.aid = .exploreContainerScrollView
     }
 
     view.addSubview(scrollView)
@@ -92,7 +94,9 @@ class ExploreController: ViewController {
 
     // Collection view
     topicsView = makeCollectionView()
+    topicsView.aid = .topicsCollectionView
     collectionsView = makeCollectionView()
+    collectionsView.aid = .collectionsCollectionView
 
     let views: [UIView] = [topicsView, collectionsView]
     let stackView = UIStackView(arrangedSubviews: views).then {

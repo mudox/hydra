@@ -40,8 +40,22 @@ enum AID: String {
   case languagesCollectionView
 
   // TrendFlow
+  case languagesBarCollectionView
+  case languagesBarMoreButton
+
+  case trendTableView
+
+  case todayRepositoryView
+  case weeklyRepositoryView
+  case monthlyRepositoryView
+  case todayDeveloperView
+  case weeklyDeveloperView
+  case monthlyDeveloperView
 
   // ExploreFlow
+  case exploreContainerScrollView
+  case topicsCollectionView
+  case collectionsCollectionView
 
   // ProfileFlow
 
