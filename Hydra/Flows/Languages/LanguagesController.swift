@@ -175,50 +175,48 @@ class LanguagesController: CollectionController {
     )
   }
 
-  lazy var dataSource = {
-    RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>(
-      configureCell: {
-        _, collectionView, indexPath, language in
-        let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: cellID,
-          for: indexPath
-        ) as! Cell // swiftlint:disable:this force_cast
-        cell.show(language: language)
-        return cell
-      },
-      configureSupplementaryView: {
-        dataSource, collectionView, kind, indexPath in
-        assert(kind == UICollectionView.elementKindSectionHeader)
-        let view = collectionView.dequeueReusableSupplementaryView(
-          ofKind: UICollectionView.elementKindSectionHeader,
-          withReuseIdentifier: headerViewID,
-          for: indexPath
-        ) as! HeaderView // swiftlint:disable:this force_cast
-        let title = dataSource[indexPath.section].model
-        view.show(title: title)
-        return view
-      },
-      moveItem: { [weak self] _, srcIndexPath, destIndexPath in
-        guard srcIndexPath.section == 1 && destIndexPath.section == 1 else {
-          jack.func().failure("Pinned item can move within pinned section")
-          return
-        }
-        self?.flowLayout.endMovingPinnedItem()
-        self?.model.input.movePinnedItem
-          .accept((from: srcIndexPath.item, to: destIndexPath.item))
-      },
-      canMoveItemAtIndexPath: { [weak self] _, indexPath in
-        // Can only move items in 'Pinned' section
-        if indexPath.section == 1 {
-          self?.model.input.clearSelection.accept(())
-          self?.flowLayout.startMovingPinnedItem(at: indexPath)
-          return true
-        } else {
-          return false
-        }
+  lazy var dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>(
+    configureCell: {
+      _, collectionView, indexPath, language in
+      let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: cellID,
+        for: indexPath
+      ) as! Cell // swiftlint:disable:this force_cast
+      cell.show(language: language)
+      return cell
+    },
+    configureSupplementaryView: {
+      dataSource, collectionView, kind, indexPath in
+      assert(kind == UICollectionView.elementKindSectionHeader)
+      let view = collectionView.dequeueReusableSupplementaryView(
+        ofKind: UICollectionView.elementKindSectionHeader,
+        withReuseIdentifier: headerViewID,
+        for: indexPath
+      ) as! HeaderView // swiftlint:disable:this force_cast
+      let title = dataSource[indexPath.section].model
+      view.show(title: title)
+      return view
+    },
+    moveItem: { [weak self] _, srcIndexPath, destIndexPath in
+      guard srcIndexPath.section == 1 && destIndexPath.section == 1 else {
+        jack.func().failure("Pinned item can move within pinned section")
+        return
       }
-    )
-  }()
+      self?.flowLayout.endMovingPinnedItem()
+      self?.model.input.movePinnedItem
+        .accept((from: srcIndexPath.item, to: destIndexPath.item))
+    },
+    canMoveItemAtIndexPath: { [weak self] _, indexPath in
+      // Can only move items in 'Pinned' section
+      if indexPath.section == 1 {
+        self?.model.input.clearSelection.accept(())
+        self?.flowLayout.startMovingPinnedItem(at: indexPath)
+        return true
+      } else {
+        return false
+      }
+    }
+  )
 
 }
 
