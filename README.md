@@ -91,6 +91,7 @@ The network stack listed from bottom to top:
 
 - [x] [Kingfisher] + [RxKingfisher] to manage images loading.
 - [ ] [Texture] to optimize essential UI components.
+- [ ] [IGListKit] for a better UICollectionView.
 - [ ] [Hero] to provide vivid transitions between view controllers.
 
 ### Testing
@@ -183,3 +184,4 @@ Hydra is available under the MIT license. See the LICENSE file for more info.
 [EarlGrey]: https://github.com/google/EarlGrey
 [URLSession]: https://developer.apple.com/documentation/foundation/url_loading_system
 [Sourcery]: https://github.com/krzysztofzablocki/Sourcery 
+[IGListKit]: https://github.com/Instagram/IGListKit
