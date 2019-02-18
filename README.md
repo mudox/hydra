@@ -10,6 +10,8 @@
 Hydra is an unofficial iOS client app for GitHub. I use it to keep practicing
 various technologies I learned in community.
 
+![Sketch Screenshot](Asset/Sketch&#32;Screenshot.png)
+
 - [Project Targets](#project-targets)
 - [Technologies](#technologies)
   - [Requirements](#requirements)
@@ -53,6 +55,7 @@ various technologies I learned in community.
 
 - [x] [Graffle.app] to do concept designing, like class hierarchies, reactive
       data flow of view models, dependencies graphs etc.
+      ![Example Data Flow Chart](Asset/Languages&#32;Data&#32;Flow.png)
 - [x] [Sketch.app] for static scene & artwork design.
 - [ ] [Principle.app] for dynamic UI design.
 
