@@ -96,6 +96,11 @@ class HydraFlow: AppFlow {
         stage.window.rootViewController = tabBarVC
         ExploreFlow(in: tabBarVC).run.forever()
 
+      case "search":
+        let tabBarVC = makeStageController(title: "SearchFlow")
+        stage.window.rootViewController = tabBarVC
+        SearchFlow(in: tabBarVC).run.forever()
+
       case "view":
         tryLoadingStateView()
 

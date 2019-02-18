@@ -103,7 +103,7 @@ The network stack listed from bottom to top:
 - [x] [OHHTTPStubs] to stub network requests.
 - [x] [Quick] + [Nimble] + [RxNimble] to as basic unit testing frameworks.
 - [x] [RxTest] + [RxBlocking] to write view model white tests.
-- [x] [EarlGray] to write in-process integration tests.
+- [x] [EarlGrey] to write in-process integration tests.
 
 ### Code quality
 
